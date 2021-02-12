@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.php.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/php-project/1">
+            <name>erp_app</name>
+        </data>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>CNIC</word>
+            <word>Det</word>
+            <word>endsection</word>
+            <word>ERP</word>
+            <word>IBAN</word>
+            <word>Instgram</word>
+            <word>Linkedin</word>
+            <word>Lncroporation</word>
+            <word>Mohallah</word>
+            <word>NTN</word>
+            <word>sidemenu</word>
+            <word>Signin</word>
+            <word>STRN</word>
+            <word>subuser</word>
+            <word>th</word>
+            <word>Whatsapp</word>
+        </spellchecker-wordlist>
+    </configuration>
+</project>
