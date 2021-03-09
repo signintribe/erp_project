@@ -4,7 +4,14 @@
 <div  ng-app="OfficeApp" ng-controller="OfficeController" ng-cloak>
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title">Add Registration</h3>
+            <div class="row">
+                <div class="col">
+                    <h3 class="card-title">Add Registration</h3>
+                </div>
+                <div class="col">
+                    <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <label for="select-company" ng-init="all_companies();">Select Company</label>
@@ -22,7 +29,9 @@
                 </div>
                 <div class="col">
                     <label for="start-date">Start Date</label>
-                    <input type="text" id="start-date" class="form-control" placeholder="Start Date" ng-model="office.start_date"/>
+                    <div class="input-group">
+                        <input type="text" id="start-date" class="form-control" datepicker placeholder="Start Date" ng-model="office.start_date"/>
+                    </div>
                 </div>
             </div><br/>
             <div class="row">
@@ -44,12 +53,8 @@
                 <label for="zip-code">Zip Code</label>
                     <input type="text" id="zip-code" class="form-control" placeholder="Zip Code" ng-model="registration.zip_code"/>                    
                 </div>
-            </div><br/>
-        </div>
-    </div><br/>
-
-    <div class="card">
-        <div class="card-body">
+            </div><hr/>
+            <h3 class="card-title">Address Information</h3>
             <div class="row">
                 <div class="col">
                     <label for="postal-address-1">Postal Address Line 1</label>
@@ -89,11 +94,8 @@
                     <label for="zip-code">Zip Code</label>
                     <input type="text" id="zip-code" class="form-control" placeholder="Zip Code" ng-model="office.zip_code"/>                    
                 </div>
-            </div><br>
-        </div>
-    </div><br>
-    <div class="card">
-        <div class="card-body">
+            </div><hr>
+            <h3 class="card-title">Contact Information</h3>
             <div class="row">
                 <div class="col">
                     <label for="phone_number">Phone Number</label>
@@ -120,11 +122,8 @@
                 <div class="col"></div>
                 <div class="col"></div>
                 <div class="col"></div>
-            </div>
-        </div>
-    </div><br>
-    <div class="card">
-        <div class="card-body">
+            </div><hr>
+            <h3 class="card-title">Social Media</h3>
             <div class="row">
                 <div class="col">
                     <label for="website">Website</label>
@@ -162,6 +161,41 @@
             </div>
         </div>
     </div>
+    <br>
+    <div class="card d-print-none">
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Sr#</th>
+                        <th>Company Name</th>
+                        <th>Office Name</th>
+                        <th>Office Type</th>
+                        <th>Start Date</th>
+                        <th>Status</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody ng-init="alloffice()">
+                    <tr ng-repeat="office in alloffice">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="office.company_name"></td>
+                        <td ng-bind="office.office_name"></td>
+                        <td ng-bind="office.office_type"></td>
+                        <td ng-bind="office.start_date"></td>
+                        <td>
+                            <p ng-if="office.office_status == 0" class="text text-danger">Closed</p>
+                            <p ng-if="office.office_status == 1" class="text text-success">Opened</p>
+                        </td>
+                        <td>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteOffice(office.id);">Delete</button>
+                            <button class="btn btn-xs btn-info" ng-click="editOffice(office.id);">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
@@ -169,6 +203,43 @@
         $interpolateProvider.startSymbol('<%');
         $interpolateProvider.endSymbol('%>');
     });
+
+    Company.directive('datepicker', function () {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            compile: function () {
+                return {
+                    pre: function (scope, element, attrs, ngModelCtrl) {
+                        var format, dateObj;
+                        format = (!attrs.dpFormat) ? 'yyyy-mm-dd' : attrs.dpFormat;
+                        if (!attrs.initDate && !attrs.dpFormat) {
+                            // If there is no initDate attribute than we will get todays date as the default
+                            dateObj = new Date();
+//                            scope[attrs.ngModel] = dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
+                        } else if (!attrs.initDate) {
+                            // Otherwise set as the init date
+                            scope[attrs.ngModel] = attrs.initDate;
+                        } else {
+                            // I could put some complex logic that changes the order of the date string I
+                            // create from the dateObj based on the format, but I'll leave that for now
+                            // Or I could switch case and limit the types of formats...
+                        }
+                        // Initialize the date-picker
+                        $(element).datepicker({
+                            format: format
+                        }).on('changeDate', function (ev) {
+                            // To me this looks cleaner than adding $apply(); after everything.
+                            scope.$apply(function () {
+                                ngModelCtrl.$setViewValue(ev.format(format));
+                            });
+                        });
+                    }
+                };
+            }
+        };
+    });
+
     Company.controller('OfficeController', function ($scope, $http) {
         $scope.office = {};
 
@@ -180,10 +251,45 @@
             });
         };
 
-        $scope.allcompany_registrations = function () {
-            $http.get('registration-company').then(function (response) {
+        $scope.editOffice = function (id) {
+            $http.get('office-settings/' + id + '/edit').then(function (response) {
+                $scope.office = response.data;
+                $scope.office.company_id = parseInt($scope.office.company_id);
+                $scope.get_companysocial($scope.office.social_id);
+                $scope.get_companyaddress($scope.office.address_id);
+                $scope.get_companycontact($scope.office.contact_id);
+                $("#ShowPrint").show();
+            });
+        };
+
+        $scope.get_companysocial = function (social_id) {
+            $http.get('getcompanysocial/' + social_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.office, response.data);
+                }
+            });
+        };
+
+        $scope.get_companyaddress = function (address_id) {
+            $http.get('getcompanyaddress/' + address_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.office, response.data);
+                }
+            });
+        };
+
+        $scope.get_companycontact = function (contact_id) {
+            $http.get('getcompanycontact/' + contact_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.office, response.data);
+                }
+            });
+        };
+
+        $scope.alloffice = function () {
+            $http.get('office-settings').then(function (response) {
                 if (response.data.length > 0) {
-                    $scope.allregistration = response.data;
+                    $scope.alloffice = response.data;
                 }
             });
         };

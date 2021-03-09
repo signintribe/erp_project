@@ -505,15 +505,30 @@ DELIMITER ;
 
 DROP PROCEDURE getAlldepartment;
 DELIMITER $$
-CREATE PROCEDURE `getAlldepartment`(in userid int(11))
+CREATE PROCEDURE `getAlldepartment`(in userid int(11), in deptid int(11))
 BEGIN  
-    SELECT company.company_name, department.* FROM (
-        SELECT id, company_name 
-        FROM tblcompanydetails 
-        WHERE user_id = userid
-    ) AS company JOIN (
-      SELECT * FROM tbldepartmens
-    ) AS department ON department.company_id = company.id;
+    IF deptid <> 0 THEN
+      SELECT company.company_name, company.id as company_id, office.office_name, department.* FROM (
+        SELECT * 
+        FROM tbldepartmens WHERE id = deptid
+      ) AS department JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.id = department.office_id JOIN(
+        SELECT id, company_name FROM tblcompanydetails
+      ) AS company ON company.id = office.company_id;
+    ELSE
+      SELECT company.company_name, company.id as company_id, office.office_name, department.* FROM (
+          SELECT id, company_name 
+          FROM tblcompanydetails 
+          WHERE user_id = userid
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT * FROM tbldepartmens
+      ) AS department ON department.office_id = office.id;
+    END IF;
 END$$
 DELIMITER ;
 
@@ -527,6 +542,308 @@ BEGIN
     ) AS company JOIN(
       SELECT * FROM tblcompany_registrations
     ) AS reg ON reg.company_id = company.id;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE sp_getAlloffices;
+DELIMITER $$
+CREATE PROCEDURE `sp_getAlloffices`(in userid int(11))
+BEGIN  
+    SELECT office.*, company.company_name FROM(
+      SELECT id, user_id, company_id, company_name 
+      FROM tblcompanydetails WHERE user_id = userid
+    ) AS company JOIN(
+      SELECT * FROM tblmaintain_offices
+    ) AS office ON office.company_id = company.id;
+END$$
+DELIMITER ;
+
+
+DROP PROCEDURE sp_getAllcompanyCalendar;
+DELIMITER $$
+CREATE PROCEDURE `sp_getAllcompanyCalendar`(in userid int(11),in calendar_id int(11))
+BEGIN  
+    IF calendar_id <> 0 THEN
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, calendar.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM tblcompany_calenders WHERE id = calendar_id
+      ) AS calendar ON calendar.department_id = dept.id;
+    ELSE
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, calendar.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails 
+        WHERE user_id = userid
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM tblcompany_calenders
+      ) AS calendar ON calendar.department_id = dept.id;
+    END IF;
+
+END$$
+DELIMITER ;
+
+DROP PROCEDURE sp_getAllcompanyShift;
+DELIMITER $$
+CREATE PROCEDURE `sp_getAllcompanyShift`(in userid int(11),in shift_id int(11))
+BEGIN  
+    IF shift_id <> 0 THEN
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, shift.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_maintain_shifts WHERE id = shift_id
+      ) AS shift ON shift.department_id = dept.id;
+    ELSE
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, shift.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails 
+        WHERE user_id = userid
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_maintain_shifts
+      ) AS shift ON shift.department_id = dept.id;
+    END IF;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE sp_getAllEmployeeGroup;
+DELIMITER $$
+CREATE PROCEDURE `sp_getAllEmployeeGroup`(in userid int(11),in group_id int(11))
+BEGIN  
+    IF group_id <> 0 THEN
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, empgroup.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_employee_groups WHERE id = group_id
+      ) AS empgroup ON empgroup.department_id = dept.id;
+    ELSE
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, empgroup.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails 
+        WHERE user_id = userid
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_employee_groups
+      ) AS empgroup ON empgroup.department_id = dept.id;
+    END IF;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE sp_getAllEmployeePayscale;
+DELIMITER $$
+CREATE PROCEDURE `sp_getAllEmployeePayscale`(in userid int(11),in payscale_id int(11))
+BEGIN  
+    IF payscale_id <> 0 THEN
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, payscale.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_employee_payscales WHERE id = payscale_id
+      ) AS payscale ON payscale.department_id = dept.id;
+    ELSE
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, payscale.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails 
+        WHERE user_id = userid
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_employee_payscales
+      ) AS payscale ON payscale.department_id = dept.id;
+    END IF;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE sp_getAllEmployeeJDS;
+DELIMITER $$
+CREATE PROCEDURE `sp_getAllEmployeeJDS`(in userid int(11),in jd_id int(11))
+BEGIN  
+    IF jd_id <> 0 THEN
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, jds.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_employee_jds WHERE id = jd_id
+      ) AS jds ON jds.department_id = dept.id;
+    ELSE
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, jds.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails 
+        WHERE user_id = userid
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_employee_jds
+      ) AS jds ON jds.department_id = dept.id;
+    END IF;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE sp_getAllGazzetedHoliday;
+DELIMITER $$
+CREATE PROCEDURE `sp_getAllGazzetedHoliday`(in userid int(11),in holiday_id int(11))
+BEGIN  
+    IF holiday_id <> 0 THEN
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, holidays.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_gazzeted_holidays WHERE id = holiday_id
+      ) AS holidays ON holidays.department_id = dept.id;
+    ELSE
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, holidays.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails 
+        WHERE user_id = userid
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_gazzeted_holidays
+      ) AS holidays ON holidays.department_id = dept.id;
+    END IF;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE sp_getAllYearlyLeaves;
+DELIMITER $$
+CREATE PROCEDURE `sp_getAllYearlyLeaves`(in userid int(11),in leave_id int(11))
+BEGIN  
+    IF leave_id <> 0 THEN
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, leaves.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_maintain_leaves WHERE id = leave_id
+      ) AS leaves ON leaves.department_id = dept.id;
+    ELSE
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, leaves.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails 
+        WHERE user_id = userid
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_maintain_leaves
+      ) AS leaves ON leaves.department_id = dept.id;
+    END IF;
 END$$
 DELIMITER ;
 

@@ -4,7 +4,14 @@
 <div  ng-app="RegistrationApp" ng-controller="RegistrationController" ng-cloak>
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title">Add Registration</h3>
+            <div class="row">
+                <div class="col">
+                    <h3 class="card-title">Add Registration</h3>
+                </div>
+                <div class="col">
+                    <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <label for="select-company" ng-init="all_companies();">Select Company</label>
@@ -81,7 +88,7 @@
             </div>
         </div>
     </div><br/>
-    <div class="card">
+    <div class="card d-print-none">
         <div class="card-body" ng-init="allcompany_registrations()">
             <h3 class="card-title">All Registration</h3>
             <table class="table table-bordered">
@@ -179,6 +186,8 @@
         $scope.editRegistration = function (id) {
             $http.get('registration-company/' + id + '/edit').then(function (response) {
                 $scope.registration = response.data;
+                $scope.registration.company_id = parseInt($scope.registration.company_id);
+                $("#ShowPrint").show();
             });
         };
 

@@ -17,6 +17,18 @@ class tbldepartmen extends Model { /**
  * @var array
  */
 
-    protected $fillable = ['company_id', 'department_name', 'description', 'created_by', 'updated_by'];
+    protected $fillable = [
+        'office_id', 
+        'department_name', 
+        'description',
+        'start_date',
+        'department_scope',
+        'department_status',
+        'address_id',
+        'contact_id',
+        'social_id', 
+        'created_by', 
+        'updated_by'
+    ];
 
 }

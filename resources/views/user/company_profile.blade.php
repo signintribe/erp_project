@@ -4,7 +4,14 @@
 <div ng-app="CompanyApp" ng-controller="CompanyController">
     <div class="card">
         <div class="card-body">
-            <h2 class="card-title">Please Add Your Company Detail</h2>
+            <div class="row">
+                <div class="col">
+                    <h2 class="card-title">Please Add Your Company Detail</h2>
+                </div>
+                <div class="col">
+                    <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
+                </div>
+            </div>
             <div class="row" ng-if="comLogo">
                 <div class="col-lg-2 col-md-2 col-sm-2">
                     <img ng-src="<% comLogo %>" class="img-lg rounded"/><br/><br/>
@@ -58,15 +65,11 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group row">
-                        <div class="col">
-                            <label>Office Timing</label>
-                            <div class="input-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" ng-model="company.office_timing" placeholder="Office Timing">
-                                    <div class="input-group-addon input-group-append"><i class="mdi mdi-clock input-group-text"></i></div>
-                                </div>
-                            </div>
+                    <label>Office Timing</label>
+                    <div class="input-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="company.office_timing" placeholder="Office Timing">
+                            <div class="input-group-addon input-group-append"><i class="mdi mdi-clock input-group-text"></i></div>
                         </div>
                     </div>
                 </div>
@@ -80,6 +83,26 @@
                                     <option value="<?php echo $i ?>"><?php echo $i; ?></option>
                                 <?php } ?>
                             </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label>Email</label>
+                    <div class="input-group">
+                        <div class="input-group">
+                            <input type="email" class="form-control" ng-model="company.email" placeholder="Email">
+                            <div class="input-group-addon input-group-append"><i class="fa fa-envelope input-group-text"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div><br/>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label>Whatsapp</label>
+                    <div class="input-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="company.whatsapp" placeholder="Whatsapp">
+                            <div class="input-group-addon input-group-append"><i class="mdi mdi-whatsapp input-group-text"></i></div>
                         </div>
                     </div>
                 </div>
@@ -144,7 +167,24 @@
                         <input type="text" id="city" class="form-control" ng-model="company.city" placeholder="City"/>
                     </div>
                 </div>
-            </div><hr/>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                        <label for="postal-code">Postal Code</label>
+                        <input type="text" id="postal-code" class="form-control" ng-model="company.postal_code" placeholder="Postal Code"/>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                        <label for="zip-code">Zip Code</label>
+                        <input type="text" id="zip-code" class="form-control" ng-model="company.zip_code" placeholder="Zip Code"/>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3"></div>
+                <div class="col-lg-3 col-md-3 col-sm-3"></div>
+            </div>
+            <hr/>
             <h2 class="card-title">Please Add Your Company Social Media</h2>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
@@ -187,19 +227,28 @@
                     <i class="text-danger" ng-show="!company.linkedin && showError"><small>Please Type Country</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Whatsapp</label>
+                    <label for="instagram">Instagram</label>
                     <div class="input-group">
-                        <input type="text" ng-model="company.whatsapp" class="form-control" placeholder="Whatsapp">
-                        <div class="input-group-addon input-group-append"><i class="fa fa-whatsapp input-group-text"></i></div>
+                        <input type="text" id="instagram" class="form-control" ng-model="company.instagram" placeholder="Instagram"/>
+                        <div class="input-group-addon input-group-append"><i class="fa fa-instagram input-group-text"></i></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="pinterest">Pinterest</label>
+                    <div class="input-group">
+                        <input type="text" id="pinterest" class="form-control" ng-model="company.pinterest" placeholder="Pinterest"/>
+                        <div class="input-group-addon input-group-append"><i class="fa fa-pinterest input-group-text"></i></div>
                     </div>
                 </div>
             </div><br/>
             <button type="submit" id="restrict" class="btn btn-success btn-sm float-right" ng-click="save_companyinfo();">Submit</button>
+            <button type="submit" id="updatebtn" class="btn btn-success btn-sm float-right" ng-click="update_companyinfo();">Submit</button>
         </div>
     </div><br/>
-    <div class="card">
+    <div class="card d-print-none">
         <div class="card-body" ng-init="get_allcompanyinfo();">
             <h3 class="card-title">All Compaines</h3>
+            <small class="text text-danger" ng-bind="deletemessage" ng-if="deletemessage"></small>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -222,7 +271,7 @@
                         <td ng-bind="company.created_at"></td>
                         <td>
                             <button class="btn btn-info btn-xs" ng-click="editCompany(company.id)">Edit</button>
-                            <button class="btn btn-danger btn-xs" ng-model="deleteCompany(company.id)">Delete</button>
+                            <button class="btn btn-danger btn-xs" ng-click="deleteCompany(company.id)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -231,6 +280,7 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="baseurl" value="<?php echo env('APP_URL'); ?>">
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var CompanyProfile = angular.module('CompanyApp', [], function ($interpolateProvider) {
@@ -239,7 +289,7 @@
     });
     CompanyProfile.controller('CompanyController', function ($scope, $http) {
         $scope.company = {};
-
+        $scope.app_url = $('#baseurl').val();
         $scope.get_allcompanyinfo = function () {
             $http.get('getcompanyinfo').then(function (response) {
                 if (response.data.length > 0) {
@@ -248,30 +298,63 @@
             });
         };
 
-        $scope.get_companyinfo = function () {
-            $http.get('getcompanyinfo').then(function (response) {
+        $scope.deleteCompany = function (id) {
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record! ",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('maintain-company/' + id).then(function (response) {
+                    $scope.get_allcompanyinfo();
+                    if(response.data.status === 0){
+                        swal("Delete!", response.data.message, "success");
+                    }else{
+                        swal("Not Delete!", response.data.message, "error");
+                    }
+                });
+            });
+        };
+
+        $scope.editCompany = function (id) {
+            $http.get('maintain-company/' + id + '/edit').then(function (response) {
                 if (response.data) {
                     $scope.company = response.data;
                     $("#companyname").attr('readonly', 'readonly');
                     $("#companyname").attr('disabled', 'disabled');
-                    $scope.comLogo = 'public/company_logs/' + $scope.company.company_logo;
-                    $scope.get_companysocial($scope.company.id);
-                    $scope.get_companyaddress();
-                    $scope.get_companyportfolio($scope.company.id);
+                    $scope.comLogo = $scope.app_url + 'public/company_logs/' + $scope.company.company_logo;
+                    $scope.get_companysocial($scope.company.social_id);
+                    $scope.get_companyaddress($scope.company.address_id);
+                    $scope.get_companycontact($scope.company.contact_id);
+                    $("#restrict").hide();
+                    $("#updatebtn").show();
+                    $("#ShowPrint").show();
                 }
             });
         };
 
-        $scope.get_companysocial = function (company_id) {
-            $http.get('getcompanysocial/' + company_id).then(function (response) {
+        $scope.get_companysocial = function (social_id) {
+            $http.get('getcompanysocial/' + social_id).then(function (response) {
                 if (response.data) {
                     angular.extend($scope.company, response.data);
                 }
             });
         };
 
-        $scope.get_companyaddress = function () {
-            $http.get('getcompanyaddress').then(function (response) {
+        $scope.get_companyaddress = function (address_id) {
+            $http.get('getcompanyaddress/' + address_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.company, response.data);
+                }
+            });
+        };
+
+        $scope.get_companycontact = function (contact_id) {
+            $http.get('getcompanycontact/' + contact_id).then(function (response) {
                 if (response.data) {
                     angular.extend($scope.company, response.data);
                 }
@@ -314,15 +397,42 @@
                 angular.forEach($scope.company, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('SaveCompany', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post('maintain-company', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data,
                         type: "success"
                     });
+                    $scope.get_allcompanyinfo();
                 });
             }
         };
+
+        $scope.update_companyinfo = function () {
+            if (!$scope.company.company_name || !$scope.company.phone_number || !$scope.company.mobile_number || !$scope.company.address_line_1 || !$scope.company.country || !$scope.company.linkedin || !$scope.company.website) {
+                $scope.showError = true;
+                jQuery("input.required").filter(function () {
+                    return !this.value;
+                }).addClass("has-error");
+            } else {
+                var Data = new FormData();
+                angular.forEach($scope.company, function (v, k) {
+                    Data.append(k, v);
+                });
+                //JSON.stringify($scope.company);
+                $http.put('maintain-company/' + $scope.company.id , Data , {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    swal({
+                        title: "Save!",
+                        text: res.data,
+                        type: "success"
+                    });
+                    $scope.get_allcompanyinfo();
+                    /* $("#restrict").show();
+                    $("#updatebtn").hide(); */
+                });
+            }
+        };
+        $("#updatebtn").hide();
     });
 </script>
 @endsection

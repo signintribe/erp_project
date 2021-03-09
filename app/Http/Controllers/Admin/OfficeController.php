@@ -8,7 +8,8 @@ use App\Models\tbladdress;
 use App\Models\tblcontact;
 use App\Models\tblsocialmedias;
 use App\Models\tblmaintain_office;
-
+use DB;
+use Auth;
 class OfficeController extends Controller
 {
      /**
@@ -27,7 +28,7 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        //
+        return DB::select('call sp_getAlloffices('.Auth::user()->id.')');
     }
 
     public function maintain_office(){
@@ -118,7 +119,7 @@ class OfficeController extends Controller
      */
     public function edit($id)
     {
-        //
+        return tblmaintain_office::where('id', $id)->first();
     }
 
     /**
@@ -142,5 +143,9 @@ class OfficeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getoffice($company_id){
+        return tblmaintain_office::where('company_id', $company_id)->get();
     }
 }

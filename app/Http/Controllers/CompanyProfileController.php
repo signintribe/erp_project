@@ -12,8 +12,9 @@ use Illuminate\Http\Request;
 use Auth;
 use App\User;
 use App\Models\VendorModels\tblcompanydetail;
-use App\Models\VendorModels\tblcompanysocial;
-use App\Models\VendorModels\tbladdress;
+use App\Models\tblsocialmedias;
+use App\Models\tbladdress;
+use App\Models\tblcontact;
 
 /**
  * Description of CompanyProfileController
@@ -134,12 +135,15 @@ class CompanyProfileController extends Controller {
         return tblcompanydetail::where('user_id', Auth::user()->id)->get();
     }
 
-    public function getcompanysocial($company_id) {
-        return tblcompanysocial::where('company_id', $company_id)->first();
+    public function getcompanysocial($social_id) {
+        return tblsocialmedias::where('id', $social_id)->first();
     }
 
-    public function getcompanyaddress() {
-        return tbladdress::where('user_id', Auth::user()->id)->first();
+    public function getcompanyaddress($address_id) {
+        return tbladdress::where('id', $address_id)->first();
+    }
+    public function getcompanycontact($contact_id) {
+        return tblcontact::where('id', $contact_id)->first();
     }
 
 }

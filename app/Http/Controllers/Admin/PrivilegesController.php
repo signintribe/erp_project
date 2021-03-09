@@ -12,12 +12,16 @@ use App\Http\Controllers\Controller;
 use Auth;
 class PrivilegesController  extends Controller
 {
-    public function __construct()
-    {
-        
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
     }
     
-     public function savepermission(Request $r) {
+    public function savepermission(Request $r) {
         $permission = new Permission();
         $permission->name = $r->name;
         $permission->created_by = Auth::user()->id;

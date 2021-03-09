@@ -21,9 +21,6 @@ Auth::routes();
  * Supper Admin Routes
  */
 
-Route::get('company-departments', 'Admin\DepartmentsController@index')->name('departments')->middleware('is_admin');
-Route::post('SaveDepartment', 'Admin\DepartmentsController@SaveDepartment')->name('SaveDepartment')->middleware('is_admin');
-Route::get('getdepartments', 'Admin\DepartmentsController@getdepartments')->name('getdepartments')->middleware('is_admin');
 
 
 Route::get('employee-personal-information', 'Admin\UsersController@index')->name('users')->middleware('is_admin');
@@ -165,14 +162,41 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('check_user_approve', 'CompanyProfileController@check_user_approve')->name('checkuserapprove');
   Route::get('check_company/{company_name}', 'CompanyProfileController@check_company')->name('checkuserapprove');
   Route::get('getcompanyinfo', 'CompanyProfileController@getcompanyinfo')->name('getcompanyinfo');
-  Route::get('getcompanysocial/{company_id}', 'CompanyProfileController@getcompanysocial')->name('getcompanysocial');
-  Route::get('getcompanyaddress', 'CompanyProfileController@getcompanyaddress')->name('getcompanyaddress');
+  Route::get('getcompanysocial/{social_id}', 'CompanyProfileController@getcompanysocial')->name('getcompanysocial');
+  Route::get('getcompanyaddress/{address_id}', 'CompanyProfileController@getcompanyaddress')->name('getcompanyaddress');
+  Route::get('getcompanycontact/{contact_id}', 'CompanyProfileController@getcompanycontact')->name('getcompanycontact');
   Route::post('SaveCompany', 'CompanyProfileController@SaveCompany')->name('SaveCompany');
   Route::get('view-company', 'CompanyProfileController@view_company')->name('view-company');
   Route::get('company-registration' , 'Admin\CompanyRegistrationController@view_registration');
   Route::get('maintain-office' , 'Admin\OfficeController@maintain_office');
   Route::resource('registration-company' , 'Admin\CompanyRegistrationController');
   Route::resource('office-settings' , 'Admin\OfficeController');
+  Route::get('getoffice/{company_id}' , 'Admin\OfficeController@getoffice');
+  Route::resource('maintain-company', 'Admin\CompanyProfileController');
+  Route::get('company-departments', 'Admin\DepartmentsController@index')->name('departments')->middleware('is_admin');
+  Route::post('SaveDepartment', 'Admin\DepartmentsController@SaveDepartment')->name('SaveDepartment')->middleware('is_admin');
+  Route::get('getdepartments', 'Admin\DepartmentsController@getdepartments')->name('getdepartments')->middleware('is_admin');
+  Route::get('delete-department/{deptid}', 'Admin\DepartmentsController@delete_department')->name('delete-department')->middleware('is_admin');
+  Route::get('getonedept/{deptid}', 'Admin\DepartmentsController@getonedept')->name('delete-department')->middleware('is_admin');
+  Route::get('company-calander', 'Admin\CompanyCalenderController@company_calander')->name('company_calander')->middleware('is_admin');
+  Route::get('get-calendar/{dept_id}', 'Admin\CompanyCalenderController@get_calendar')->middleware('is_admin');
+  Route::resource('maintain-calender', 'Admin\CompanyCalenderController')->middleware('is_admin');
+  Route::get('get-departments/{office_id}', 'Admin\CompanyCalenderController@get_departments')->middleware('is_admin');
+  Route::get('company-shift', 'Admin\CompanyShiftController@company_shift')->middleware('is_admin');
+  Route::get('get-shift/{dept_id}', 'Admin\CompanyShiftController@get_shift')->middleware('is_admin');
+  Route::resource('maintain-shift', 'Admin\CompanyShiftController');
+  Route::get('employee-group', 'Admin\EmployeeGroupController@employee_group');
+  Route::get('employee-payscale', 'Admin\PayScaleController@employee_payscale');
+  Route::get('employee-jd', 'Admin\EmployeeJDController@employee_jd');
+  Route::get('gazzeted-holiday', 'Admin\GazzetedHolidayController@gazzeted_holiday');
+  Route::get('yearly-leave', 'Admin\YearlyLeaveController@yearly_leave');
+  Route::get('pay-allowance-deduction', 'Admin\PayAllowanceDeductionController@pay_allownce');
+  Route::resource('maintain-allowance-deducation', 'Admin\PayAllowanceDeductionController');
+  Route::resource('maintain-group', 'Admin\EmployeeGroupController');
+  Route::resource('maintain-payscale', 'Admin\PayScaleController');
+  Route::resource('maintain-jds', 'Admin\EmployeeJDController');
+  Route::resource('maintain-holiday', 'Admin\GazzetedHolidayController');
+  Route::resource('maintain-leaves', 'Admin\YearlyLeaveController');
 
 });
 /**
