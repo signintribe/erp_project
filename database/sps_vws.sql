@@ -847,6 +847,47 @@ BEGIN
 END$$
 DELIMITER ;
 
+DROP PROCEDURE sp_getPayAllowance;
+DELIMITER $$
+CREATE PROCEDURE `sp_getPayAllowance`(in userid int(11),in pay_id int(11))
+BEGIN  
+    IF pay_id <> 0 THEN
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, pay.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_maintain_deductions WHERE id = pay_id
+      ) AS pay ON pay.department_id = dept.id;
+    ELSE
+      SELECT 
+      company.company_name, company.id as company_id, 
+      office.office_name, office.id as office_id, 
+      dept.department_name, pay.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails 
+        WHERE user_id = userid
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT * FROM erp_maintain_deductions
+      ) AS pay ON pay.department_id = dept.id;
+    END IF;
+END$$
+DELIMITER ;
+
 
 BEGIN  
        SELECT * from (SELECT id,AccountId,CategoryName as AccountName,AccountDescription,status from tblaccountcategories where id in(

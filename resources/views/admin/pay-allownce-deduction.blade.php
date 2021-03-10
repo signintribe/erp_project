@@ -99,19 +99,19 @@
                         <th>Company Name</th>
                         <th>Office Name</th>
                         <th>Department Name</th>
-                        <th>Leave Type</th>
+                        <th>Allowance</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody ng-init="get_leaves();">
-                    <tr ng-repeat="l in leaves">
+                <tbody ng-init="get_payallowance();">
+                    <tr ng-repeat="p in pays">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="l.company_name"></td>
-                        <td ng-bind="l.office_name"></td>
-                        <td ng-bind="l.department_name"></td>
-                        <td ng-bind="l.leave_type"></td>
+                        <td ng-bind="p.company_name"></td>
+                        <td ng-bind="p.office_name"></td>
+                        <td ng-bind="p.department_name"></td>
+                        <td ng-bind="p.allowance"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(l.company_id); getDepartments(l.office_id); editLeaves(l.id)">Edit</button>
+                            <button class="btn btn-xs btn-info" ng-click="getoffice(p.company_id); getDepartments(p.office_id); getCalendar(p.department_id); getShift(p.department_id); editpayallowance(p.id)">Edit</button>
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </td>
                     </tr>
@@ -177,20 +177,22 @@
             });
         };
 
-        $scope.get_leaves = function(){
-            $http.get('maintain-leaves').then(function (response) {
+        $scope.get_payallowance = function(){
+            $http.get('maintain-allowance-deducation').then(function (response) {
                 if(response.data.length > 0){
-                    $scope.leaves = response.data;
+                    $scope.pays = response.data;
                 }
             });
         }
 
-        $scope.editLeaves = function(id){
-            $http.get('maintain-leaves/'+ id + '/edit').then(function (response) {
-                $scope.yl = response.data[0];
-                $scope.yl.company_id = parseInt($scope.yl.company_id);
-                $scope.yl.office_id = parseInt($scope.yl.office_id);
-                $scope.yl.department_id = parseInt($scope.yl.department_id);
+        $scope.editpayallowance = function(id){
+            $http.get('maintain-allowance-deducation/'+ id + '/edit').then(function (response) {
+                $scope.pld = response.data[0];
+                $scope.pld.company_id = parseInt($scope.pld.company_id);
+                $scope.pld.office_id = parseInt($scope.pld.office_id);
+                $scope.pld.department_id = parseInt($scope.pld.department_id);
+                $scope.pld.calendar_id = parseInt($scope.pld.calendar_id);
+                $scope.pld.shift_id = parseInt($scope.pld.shift_id);
                 $("#ShowPrint").show();
             });
         }

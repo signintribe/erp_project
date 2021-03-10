@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App;
+use Auth;
 use DB;
 use App\Models\erp_maintain_deduction;
 
@@ -26,7 +26,7 @@ class PayAllowanceDeductionController extends Controller
      */
     public function index()
     {
-        //
+        return DB::select('call sp_getPayAllowance('.Auth::user()->id.', 0)');
     }
 
     public function pay_allownce()
@@ -76,7 +76,7 @@ class PayAllowanceDeductionController extends Controller
      */
     public function edit($id)
     {
-        //
+        return DB::select('call sp_getPayAllowance('.Auth::user()->id.', '.$id.')');
     }
 
     /**
