@@ -74,10 +74,32 @@
                                 <i class="text-danger" ng-show="!address.city && showError"><small>Please Type City</small></i>
                             </div>
                         </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <label for="zip_code">Zipp Code</label>
+                                <input type="text" id="zip_code" class="form-control" ng-model="address.zip_code" placeholder="Zip Code"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <label for="postal_code">Postal Code</label>
+                                <input type="text" id="postal_code" class="form-control" ng-model="address.postal_code" placeholder="Postal Code"/>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <button type="button" class="btn btn-md btn-success float-right" ng-click="save_address()">Save</button>
+                        <div class="col-lg-12 col-md-12 col-sm-12" align="right">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="{{url('hr/employee-personal-information')}}" data-toggle="tooltip" data-placement="left" title="Previous" class="btn btn-sm btn-primary">
+                                    <i class="mdi mdi-arrow-left"></i>
+                                </a>
+                                <button type="button" class="btn btn-sm btn-success" ng-click="save_address()" data-toggle="tooltip" data-placement="bottom" title="Save">
+                                    <i class="fa fa-save"></i>
+                                </button>
+                                <a href="{{url('hr/spouse-detail')}}" type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Next">
+                                    <i class="mdi mdi-arrow-right"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -85,6 +107,35 @@
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title">All Address</h3>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Sr#</th>
+                                <th>Employee Name</th>
+                                <th>Street</th>
+                                <th>Sector</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-init="getAddress(0)">
+                            <tr ng-repeat="addr in Addresses">
+                                <td ng-bind="$index+1"></td>
+                                <td ng-bind="addr.first_name"></td>
+                                <td ng-bind="addr.street"></td>
+                                <td ng-bind="addr.sector"></td>
+                                <td ng-bind="addr.city"></td>
+                                <td ng-bind="addr.state"></td>
+                                <td ng-bind="addr.country"></td>
+                                <td>
+                                    <button class="btn btn-xs btn-info" ng-click="editAddress(addr.id)">Edit</button>
+                                    <button class="btn btn-xs btn-danger" ng-click="editAddress(addr.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -101,6 +152,22 @@
                 }
             });
         };
+
+        $scope.getAddress = function (address_id) {
+            $http.get('maintain-employee-address').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.Addresses = response.data;
+                }
+            });
+        };
+
+        $scope.editAddress = function (address_id) {
+            $http.get('maintain-employee-address/' + address_id + '/edit').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.address = response.data[0];
+                }
+            });
+        };
         
         $scope.address = {};
         $scope.save_address = function () {
@@ -111,10 +178,10 @@
                 }).addClass("has-error");
             } else {
                 var Data = new FormData();
-                angular.forEach($scope.user, function (v, k) {
+                angular.forEach($scope.address, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('SaveAddress', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post('maintain-employee-address', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data,

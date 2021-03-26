@@ -57,10 +57,10 @@
             </a>
             <div class="collapse" id="Employee-Center">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a href="{{url('employee-personal-information')}}" class="nav-link">Employee Information </a></li>
-                    <li class="nav-item"> <a href="{{url('employees-addresses')}}" class="nav-link">Employee Address</a></li>
-                    <li class="nav-item"> <a href="{{url('spouse-detail')}}" class="nav-link">Spouse Detail</a></li>
-                    <li class="nav-item"> <a href="{{url('education-detail')}}" class="nav-link">Education Detail</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/employee-personal-information')}}" class="nav-link">Employee Information </a></li>
+                    <li class="nav-item"> <a href="{{url('hr/employees-addresses')}}" class="nav-link">Employee Address</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/spouse-detail')}}" class="nav-link">Spouse Detail</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/education-detail')}}" class="nav-link">Education Detail</a></li>
                     <li class="nav-item"> <a href="{{url('certification-detail')}}" class="nav-link">Certification Detail</a></li>
                     <li class="nav-item"> <a href="{{url('experience-detail')}}" class="nav-link">Experience Detail</a></li>
                     <li class="nav-item"> <a href="{{url('organizational-assignment')}}" class="nav-link">Organizational Assignment</a></li>

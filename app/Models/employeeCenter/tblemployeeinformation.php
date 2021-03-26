@@ -21,6 +21,28 @@ class tblemployeeinformation  extends Model{
     /**
      * @var array
      */
-    protected $fillable = ['employee_id', 'contact_id', 'first_name', 'middle_name', 'last_name', 'father_name', 'religion', 'sect', 'next_of_kin', 'dob', 'nationality', 'marital_status', 'domicile', 'proficiency_languages', 'gender', 'cnic', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'employee_id', 
+        'contact_id',
+        'social_id',
+        'user_id',
+        'address_id',
+        'first_name', 
+        'middle_name', 
+        'last_name', 
+        'father_name', 
+        'religion', 
+        'sect', 
+        'next_of_kin',
+        'dob', 
+        'nationality', 
+        'marital_status',
+        'domicile',
+        'proficiency_languages', 
+        'gender', 
+        'cnic', 
+        'created_at', 
+        'updated_at'
+    ];
 
 }

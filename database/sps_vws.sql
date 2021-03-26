@@ -888,6 +888,54 @@ BEGIN
 END$$
 DELIMITER ;
 
+DROP PROCEDURE sp_getEmploeeAddress;
+DELIMITER $$
+CREATE PROCEDURE `sp_getEmploeeAddress`(in addressid int(11))
+BEGIN  
+    IF addressid <> 0 THEN
+      SELECT employee.id as employee_id, employee.first_name, addr.* FROM (
+        SELECT id, address_id, first_name 
+        FROM tblemployeeinformations
+      ) AS employee JOIN(
+        SELECT * FROM tbladdresses WHERE id = addressid
+      ) AS addr ON addr.id = employee.address_id;
+    ELSE
+      SELECT employee.id as employee_id, employee.first_name, addr.* FROM (
+        SELECT id, address_id, first_name 
+        FROM tblemployeeinformations
+      ) AS employee JOIN(
+        SELECT * FROM tbladdresses
+      ) AS addr ON addr.id = employee.address_id;
+    END IF;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE sp_getEmploeeSpouse;
+DELIMITER $$
+CREATE PROCEDURE `sp_getEmploeeSpouse`(in spouseid int(11))
+BEGIN  
+    IF spouseid <> 0 THEN
+      SELECT spouse.*, employee.first_name, contact.mobile_number, contact.email FROM (
+        SELECT * FROM erp_spouse_details WHERE id = spouseid
+      ) AS spouse JOIN (
+        SELECT id, mobile_number, email
+        FROM tblcontacts
+      ) AS contact ON contact.id = spouse.contact_id JOIN(
+        SELECT id, first_name FROM tblemployeeinformations
+      ) AS employee ON employee.id = spouse.employee_id;
+    ELSE
+      SELECT spouse.*, employee.first_name, contact.mobile_number, contact.email FROM (
+        SELECT * FROM erp_spouse_details
+      ) AS spouse JOIN (
+        SELECT id, mobile_number, email
+        FROM tblcontacts
+      ) AS contact ON contact.id = spouse.contact_id JOIN(
+        SELECT id, first_name FROM tblemployeeinformations
+      ) AS employee ON employee.id = spouse.employee_id;
+    END IF;
+END$$
+DELIMITER ;
+
 
 BEGIN  
        SELECT * from (SELECT id,AccountId,CategoryName as AccountName,AccountDescription,status from tblaccountcategories where id in(

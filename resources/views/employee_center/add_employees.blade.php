@@ -208,18 +208,28 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
+                                <label>Pinterest</label>
+                                <input type="text" class="form-control" ng-model="user.pinterest" placeholder="Pinterest"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group">
                                 <label>Password:</label>
                                 <input type="password" class="form-control" ng-model="user.password" placeholder="Password"/>
                                 <i class="text-danger" ng-show="!user.password && showError"><small>Please Type Password</small></i>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
-
-                        </div>
                     </div><br/>
                     <div class="form-group row">
-                        <div class="col">
-                            <button type="submit" class="btn btn-success btn-sm float-right" ng-click="save_user()">Submit</button>
+                        <div class="col-lg-12 col-md-12 col-sm-12" align="right">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-sm btn-info" ng-click="save_user()" data-toggle="tooltip" data-placement="bottom" title="Save">
+                                    <i class="fa fa-save"></i>
+                                </button>
+                                <a href="{{url('hr/employees-addresses')}}" data-toggle="tooltip" data-placement="top" title="Next" type="button" class="btn btn-sm btn-primary">
+                                    <i class="mdi mdi-arrow-right"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -261,17 +271,17 @@
 <script>
     var Users = angular.module('UsersApp', []);
     Users.controller('UsersController', function ($scope, $http) {
-                $scope.getEmployees = function () {
-                    $(".loader").html('<div class="square-path-loader"></div>');
-                    $http.get('getEmployees').then(function (response) {
-                        if (response.data.length > 0) {
-                            $scope.Users = response.data;
-                            $(".loader").html('');
-                        }else{
-                            $(".loader").html('');
-                        }
-                    });
-                };
+        $scope.getEmployees = function () {
+            $(".loader").html('<div class="square-path-loader"></div>');
+            $http.get('getEmployees').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.Users = response.data;
+                    $(".loader").html('');
+                }else{
+                    $(".loader").html('');
+                }
+            });
+        };
         //
         //        $scope.approve_user = function (user_id, status) {
         //            $http.get('approve_user/' + user_id + '/' + status).then(function (response) {

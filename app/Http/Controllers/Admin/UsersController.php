@@ -18,7 +18,8 @@ use DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
-use App\Models\tblcontactinformation;
+use App\Models\tblcontact;
+use App\Models\tblsocialmedias;
 use App\Models\employeeCenter\tblemployeeinformation;
 
 class UsersController extends Controller {
@@ -59,11 +60,12 @@ class UsersController extends Controller {
     }
 
     public function SaveUsers(Request $request) {
+        return  $request->all();
         $upusers = User::where('id', $request->id)->first();
         if (empty($upusers)) {
             $CheckUser = User::where('name', $request->name)->orWhere('email', $request->email)->first();
             if (empty($CheckUser)) {
-                User::create([
+                $user = User::create([
                     'name' => $request->first_name.' '.$request->middle_name.' ',$request->last_name,
                     'email' => $request->email,
                     'is_admin' => $request->user_type,
@@ -71,22 +73,28 @@ class UsersController extends Controller {
                     'password' => bcrypt($request->password),
                 ]);
                 
-                $contact = tblcontactinformation::create([
+                $contact = tblcontact::create([
                     'email' => $request->email,
                     'phone_number' => $request->phone_number,
                     'mobile_number' => $request->mobile_number,
                     'fax_number' => $request->fax_number,
+                    'whatsapp' => $request->whatsapp,
+                ]);
+                
+                $social = tblsocialmedias::create([
                     'facebook' => $request->facebook,
                     'linkedin' => $request->linkedin,
-                    'whatsapp' => $request->whatsapp,
                     'twitter' => $request->twitter,
                     'instgram' => $request->instgram,
+                    'pinterest' => $request->pinterest,
                     'website' => $request->website,
                 ]);
                 
                 tblemployeeinformation::create([
                     'employee_id' => $request->employee_id, 
                     'contact_id' => $contact->id,
+                    'social_id' => $social->id,
+                    'user_id' => $user->id,
                     'first_name' => $request->first_name, 
                     'middle_name' => $request->middle_name,
                     'last_name' => $request->last_name,

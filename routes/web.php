@@ -23,10 +23,6 @@ Auth::routes();
 
 
 
-Route::get('employee-personal-information', 'Admin\UsersController@index')->name('users')->middleware('is_admin');
-Route::get('employees-addresses', 'EmployeeController@add_employees_addresses')->name('add-employees-addresses');
-Route::get('spouse-detail', 'EmployeeController@spouse_detail')->name('spouse-detail');
-Route::get('education-detail', 'EmployeeController@education_detail')->name('education-detail');
 Route::get('certification-detail', 'EmployeeController@certification_detail')->name('certification-detail');
 Route::get('experience-detail', 'EmployeeController@experience_detail')->name('experience-detail');
 Route::get('organizational-assignment', 'EmployeeController@organizational_assignment')->name('organizational-assignment');
@@ -36,11 +32,23 @@ Route::get('job-description', 'EmployeeController@job_description')->name('job-d
 Route::get('tasks', 'EmployeeController@tasks')->name('tasks');
 Route::get('employee-leave', 'EmployeeController@employee_leave')->name('employee-leave');
 
+Route::group(['prefix'=>'hr'], function () {
+  Route::get('getEmployees', 'Admin\UsersController@getEmployees')->middleware('is_admin');
+  Route::get('employee-personal-information', 'Admin\UsersController@index')->name('users')->middleware('is_admin');
+  Route::post('SaveUsers', 'Admin\UsersController@SaveUsers')->middleware('is_admin');
+  Route::resource('maintain-employee-address', 'Admin\EmployeeAddressController');
+  Route::get('employees-addresses', 'EmployeeController@add_employees_addresses');
+  Route::get('spouse-detail', 'EmployeeController@spouse_detail')->name('spouse-detail');
+  Route::resource('maintain-spouse-detail', 'Admin\SpouseDetailController');
+  Route::get('education-detail', 'EmployeeController@education_detail');
+});
+
+Route::get('getAddress/{address_id}', 'Admin\EmployeeAddressController@getAddress');
+Route::get('getContact/{contact_id}', 'Admin\EmployeeAddressController@getContact');
+
 Route::get('view-employees', 'Admin\UsersController@view_employees')->name('view_employees')->middleware('is_admin');
 //Route::get('getusers', 'Admin\UsersController@getusers')->middleware('is_admin');
-Route::get('getEmployees', 'Admin\UsersController@getEmployees')->middleware('is_admin');
 Route::get('approve_user/{user_id}/{status}', 'Admin\UsersController@approve_user')->middleware('is_admin');
-Route::post('SaveUsers', 'Admin\UsersController@SaveUsers')->middleware('is_admin');
 
 /**
  * Employees Routes
