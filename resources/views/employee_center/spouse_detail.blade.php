@@ -389,7 +389,7 @@
                         type: "success"
                     });
                     $scope.user = {};
-                    $scope.all_users();
+                    $scope.getSpouseDetail();
                 });
             }
         };

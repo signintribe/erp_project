@@ -60,7 +60,7 @@ class UsersController extends Controller {
     }
 
     public function SaveUsers(Request $request) {
-        return  $request->all();
+        //return  $request->all();
         $upusers = User::where('id', $request->id)->first();
         if (empty($upusers)) {
             $CheckUser = User::where('name', $request->name)->orWhere('email', $request->email)->first();

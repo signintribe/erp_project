@@ -23,8 +23,6 @@ Auth::routes();
 
 
 
-Route::get('certification-detail', 'EmployeeController@certification_detail')->name('certification-detail');
-Route::get('experience-detail', 'EmployeeController@experience_detail')->name('experience-detail');
 Route::get('organizational-assignment', 'EmployeeController@organizational_assignment')->name('organizational-assignment');
 Route::get('pay-emoluments', 'EmployeeController@pay_emoluments')->name('pay-and-emoluments');
 Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
@@ -40,7 +38,13 @@ Route::group(['prefix'=>'hr'], function () {
   Route::get('employees-addresses', 'EmployeeController@add_employees_addresses');
   Route::get('spouse-detail', 'EmployeeController@spouse_detail')->name('spouse-detail');
   Route::resource('maintain-spouse-detail', 'Admin\SpouseDetailController');
+  Route::resource('maintain-employee-education', 'Admin\EmployeeEducationController');
+  Route::resource('maintain-employee-certification', 'Admin\EmployeeCertificationController');
+  Route::resource('maintain-employee-experience', 'Admin\EmployeeExperienceController');
   Route::get('education-detail', 'EmployeeController@education_detail');
+  Route::get('certification-detail', 'EmployeeController@certification_detail')->name('certification-detail');
+  Route::get('experience-detail', 'EmployeeController@experience_detail')->name('experience-detail');
+
 });
 
 Route::get('getAddress/{address_id}', 'Admin\EmployeeAddressController@getAddress');
