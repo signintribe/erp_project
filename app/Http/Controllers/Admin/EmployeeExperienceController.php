@@ -40,15 +40,24 @@ class EmployeeExperienceController extends Controller
      */
     public function store(Request $request)
     {
-        $addressdata = $request->except(['phone_number','mobile_number', 'fax_number', 'email', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period','remarks_employee']);
-        $address = tbladdress::create($addressdata);
-        $contactdata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period','remarks_employee']);
-        $contact = tblcontact::create($contactdata);
-        $expdata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number','mobile_number', 'fax_number', 'email']);
-        $expdata['address_id'] = $address->id;
-        $expdata['contact_id'] = $contact->id;
-        $expdata['user_id'] = Auth::user()->id;
-        erp_employee_experience::create($expdata);
+        if($request->id){
+            $addressdata = $request->except(['created_at', 'updated_at', 'id', 'user_id', 'address_id', 'whatsapp', 'contact_id', 'phone_number','mobile_number', 'fax_number', 'email', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period','remarks_employee']);
+            $contactdata = $request->except(['created_at', 'updated_at', 'id', 'user_id', 'address_id',  'whatsapp', 'contact_id', 'address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period','remarks_employee']);
+            $expdata = $request->except(['created_at', 'updated_at', 'id', 'user_id', 'address_id',  'whatsapp', 'contact_id', 'address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number','mobile_number', 'fax_number', 'email']);
+            tbladdress::where('id', $request->address_id)->update($addressdata);
+            tblcontact::where('id', $request->contact_id)->update($contactdata);
+            erp_employee_experience::where('id', $request->id)->update($expdata);
+        }else{
+            $addressdata = $request->except(['phone_number','mobile_number', 'fax_number', 'email', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period','remarks_employee']);
+            $contactdata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period','remarks_employee']);
+            $expdata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number','mobile_number', 'fax_number', 'email']);
+            $address = tbladdress::create($addressdata);
+            $contact = tblcontact::create($contactdata);
+            $expdata['address_id'] = $address->id;
+            $expdata['contact_id'] = $contact->id;
+            $expdata['user_id'] = Auth::user()->id;
+            erp_employee_experience::create($expdata);
+        }
         return "Save Employee Experience";
     }
 
@@ -71,7 +80,7 @@ class EmployeeExperienceController extends Controller
      */
     public function edit($id)
     {
-        //
+        return erp_employee_experience::where('id', $id)->first();
     }
 
     /**
@@ -95,9 +104,9 @@ class EmployeeExperienceController extends Controller
     public function destroy($id)
     {
         $exp = erp_employee_experience::where('id', $id)->first();
+        erp_employee_experience::where('id', $id)->delete();
         tbladdress::where('id', $exp->address_id)->delete();
         tblcontact::where('id', $exp->contact_id)->delete();
-        erp_employee_experience::where('id', $id)->delete();
         return 'Experience Delete Permanently';
     }
 }

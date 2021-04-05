@@ -204,6 +204,7 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="app_url" value="<?php echo env('APP_URL'); ?>">
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var Experience = angular.module('ExperienceApp', []);
@@ -238,6 +239,7 @@
 
     Experience.controller('ExperienceController', function ($scope, $http) {
         $scope.experience = {};
+        $scope.appurl = $("#app_url").val();
         $scope.getEmployees = function () {
             $http.get('getEmployees').then(function (response) {
                 if (response.data.length > 0) {
@@ -247,17 +249,52 @@
         };
 
         $scope.deleteExperience = function (id) {
-            $http.delete('maintain-employee-experience/' + id).then(function (response) {
-                if (response.data.length > 0) {
-                    $scope.Users = response.data;
-                }
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('maintain-employee-experience/' + id).then(function (response) {
+                    $scope.getExperiences();
+                    swal("Deleted!", response.data, "success");
+                });
             });
         };
 
         $scope.getExperiences = function () {
+            $scope.experiences = {};
             $http.get('maintain-employee-experience').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.experiences = response.data;
+                }
+            });
+        };
+
+        $scope.editExperience = function (id) {
+            $http.get('maintain-employee-experience/' + id + '/edit').then(function (response) {
+                $scope.experience = response.data;
+                $scope.getAddress($scope.experience.address_id);
+            });
+        };
+
+        $scope.getAddress = function(address_id){
+            $http.get($scope.appurl+'getAddress/' + address_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.experience, response.data);
+                    $scope.getContact($scope.experience.contact_id);
+                }
+            });
+        };
+
+        $scope.getContact = function(contact_id){
+            $http.get($scope.appurl+'getContact/' + contact_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.experience, response.data);
                 }
             });
         };
@@ -279,8 +316,8 @@
                         text: res.data,
                         type: "success"
                     });
-                    $scope.education = {};
-                    //$scope.getCertification();
+                    $scope.experience = {};
+                    $scope.getExperiences();
                 });
             }
         };

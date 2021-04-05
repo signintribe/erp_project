@@ -63,7 +63,7 @@
                     <li class="nav-item"> <a href="{{url('hr/education-detail')}}" class="nav-link">Education Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/certification-detail')}}" class="nav-link">Certification Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/experience-detail')}}" class="nav-link">Experience Detail</a></li>
-                    <li class="nav-item"> <a href="{{url('organizational-assignment')}}" class="nav-link">Organizational Assignment</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/organizational-assignment')}}" class="nav-link">Organizational Assignment</a></li>
                     <li class="nav-item"> <a href="{{url('pay-emoluments')}}" class="nav-link">Pay and Emoluments</a></li>
                     <li class="nav-item"> <a href="{{url('employee-bank-detail')}}" class="nav-link">Bank Detail</a></li>
                     <li class="nav-item"> <a href="{{url('job-description')}}" class="nav-link">Job Description</a></li>

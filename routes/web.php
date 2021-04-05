@@ -23,7 +23,6 @@ Auth::routes();
 
 
 
-Route::get('organizational-assignment', 'EmployeeController@organizational_assignment')->name('organizational-assignment');
 Route::get('pay-emoluments', 'EmployeeController@pay_emoluments')->name('pay-and-emoluments');
 Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
 Route::get('job-description', 'EmployeeController@job_description')->name('job-description');
@@ -44,6 +43,7 @@ Route::group(['prefix'=>'hr'], function () {
   Route::get('education-detail', 'EmployeeController@education_detail');
   Route::get('certification-detail', 'EmployeeController@certification_detail')->name('certification-detail');
   Route::get('experience-detail', 'EmployeeController@experience_detail')->name('experience-detail');
+  Route::get('organizational-assignment', 'EmployeeController@organizational_assignment')->name('organizational-assignment');
 
 });
 
