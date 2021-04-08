@@ -8,10 +8,10 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
                     <label for="select_employee">* Select Employee</label>
-                    <select class="form-control" id="select_employee" ng-options="user.id as user.first_name for user in Users" ng-model="orgassignment.select_employee">
+                    <select class="form-control" id="select_employee" ng-options="user.id as user.first_name for user in Users" ng-model="orgassignment.employee_id">
                         <option value="">Select Employee</option>
                     </select>
-                    <i class="text-danger" ng-show="!orgassignment.select_employee && showError"><small>Please Select Employee</small></i>
+                    <i class="text-danger" ng-show="!orgassignment.employee_id && showError"><small>Please Select Employee</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="master_company">* Master Company</label>
@@ -23,7 +23,7 @@
                     <input type="text" class="form-control" id="child_company" ng-model="orgassignment.child_company" placeholder="Branch/Child Company"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="department">* Name of Department</label>
+                    <label for="department">Name of Department</label>
                     <input type="text" class="form-control" id="department" ng-model="orgassignment.department" placeholder="Name of Department"/>
                 </div>
             </div><br/>
@@ -38,11 +38,11 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="appointment_date">Date of Appointment</label>
-                    <input type="text" class="form-control" id="appointment_date" ng-model="orgassignment.appointment_date" placeholder="Date of Appointment"/>
+                    <input type="text" class="form-control" datepicker id="appointment_date" ng-model="orgassignment.appointment_date" placeholder="Date of Appointment"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="promotion_date">Date of Promotion</label>
-                    <input type="text" class="form-control" id="promotion_date" ng-model="orgassignment.promotion_date" placeholder="Date of Promotion"/>
+                    <input type="text" class="form-control" datepicker id="promotion_date" ng-model="orgassignment.promotion_date" placeholder="Date of Promotion"/>
                 </div>
             </div><br/>
             <div class="row">
@@ -56,7 +56,12 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="working_since">working Since</label>
-                    <input type="text" class="form-control" id="working_since" ng-model="orgassignment.working_since" placeholder="working Since"/>
+                    <select ng-model="orgassignment.working_since" class="form-control" id="working_since">
+                        <option value="">Select Working Since</option>
+                        <?php for($i=1960; $i<date('Y'); $i++){ ?>
+                        <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
             </div><br/>
             <div class="row">
@@ -76,16 +81,124 @@
             </div>
         </div>
     </div>
+    <br>
+    <div class="card">
+        <div class ="card-body">
+            <h3 class="card-title">All Assignments</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Sr#</th>
+                        <th>Employee Name</th> 
+                        <th>Master Company</th> 
+                        <th>Child Company</th>
+                        <th>Department</th>
+                        <th>Supervisor</th>
+                        <th>Appointment</th>
+                        <th>Promotion</th>
+                        <th>Working Since</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody ng-init="getAssignments()">
+                    <tr ng-repeat="a in Assignments">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="a.first_name"></td>
+                        <td ng-bind="a.master_company"></td>
+                        <td ng-bind="a.child_company"></td>
+                        <td ng-bind="a.department"></td>
+                        <td ng-bind="a.supervisor_name"></td>
+                        <td ng-bind="a.appointment_date"></td>
+                        <td ng-bind="a.promotion_date"></td>
+                        <td ng-bind="a.working_since"></td>
+                        <td>
+                            <button class="btn btn-xs btn-info" ng-click="editAssignment(a.id)">Edit</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteAssignment(a.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var Assignment = angular.module('AssignmentApp', []);
+
+    Assignment.directive('datepicker', function () {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            compile: function () {
+                return {
+                    pre: function (scope, element, attrs, ngModelCtrl) {
+                        var format, dateObj;
+                        format = (!attrs.dpFormat) ? 'yyyy-mm-dd' : attrs.dpFormat;
+                        if (!attrs.initDate && !attrs.dpFormat) {
+                            // If there is no initDate attribute than we will get todays date as the default
+                            dateObj = new Date();
+//                            scope[attrs.ngModel] = dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
+                        } else if (!attrs.initDate) {
+                            // Otherwise set as the init date
+                            scope[attrs.ngModel] = attrs.initDate;
+                        } else {
+                            // I could put some complex logic that changes the order of the date string I
+                            // create from the dateObj based on the format, but I'll leave that for now
+                            // Or I could switch case and limit the types of formats...
+                        }
+                        // Initialize the date-picker
+                        $(element).datepicker({
+                            format: format
+                        }).on('changeDate', function (ev) {
+                            // To me this looks cleaner than adding $apply(); after everything.
+                            scope.$apply(function () {
+                                ngModelCtrl.$setViewValue(ev.format(format));
+                            });
+                        });
+                    }
+                };
+            }
+        };
+    });
+
     Assignment.controller('AssignmentController', function ($scope, $http) {
         $scope.getEmployees = function () {
             $http.get('getEmployees').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.Users = response.data;
                 }
+            });
+        };
+        
+        $scope.getAssignments = function () {
+            $http.get('maintain-organization-assignment').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.Assignments = response.data;
+                }
+            });
+        };
+
+        $scope.editAssignment = function (id) {
+            $http.get('maintain-organization-assignment/'+id+'/edit').then(function (response) {
+                $scope.orgassignment = response.data;
+            });
+        };
+        
+        $scope.deleteAssignment = function (id) {
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('maintain-organization-assignment/' + id).then(function (response) {
+                    $scope.getAssignments();
+                    swal("Deleted!", response.data, "success");
+                });
             });
         };
         $scope.orgassignment = {};
@@ -96,6 +209,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                console.log($scope.orgassignment);
                 var Data = new FormData();
                 angular.forEach($scope.orgassignment, function (v, k) {
                     Data.append(k, v);
@@ -106,8 +220,8 @@
                         text: res.data,
                         type: "success"
                     });
-                    $scope.education = {};
-                    $scope.getCertification();
+                    $scope.orgassignment = {};
+                   $scope.getAssignments();
                 });
             }
         };
