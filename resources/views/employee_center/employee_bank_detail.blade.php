@@ -69,6 +69,11 @@
                     </div>
                 </div>
             </div><br/>
+        </div>
+    </div> <br>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Contact Detail</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
@@ -90,34 +95,8 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
-                        <label for="facebook">Facebook</label>
-                        <input type="text" id="facebook" ng-model="bankdetail.facebook" class="form-control" placeholder="Facebook"/>
-                    </div>
-                </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="linkedin">Linkedin</label>
-                        <input type="text" id="linkedin" ng-model="bankdetail.linkedin" class="form-control" placeholder="Linkedin"/>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="instgram">Instgram</label>
-                        <input type="text" id="instgram" ng-model="bankdetail.instgram" class="form-control" placeholder="Instgram"/>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
                         <label for="whatsapp">Whatsapp</label>
                         <input type="text" id="whatsapp" ng-model="bankdetail.whatsapp" class="form-control" placeholder="Whatsapp"/>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="twitter">Twitter</label>
-                        <input type="text" id="twitter" ng-model="bankdetail.twitter" class="form-control" placeholder="Twitter"/>
                     </div>
                 </div>
             </div><br/>
@@ -128,6 +107,13 @@
                         <input type="text" id="email" ng-model="bankdetail.email" class="form-control" placeholder="Email"/>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div><br>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Address Detail</h3>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                         <label for="address_1">Postal Address Line 1</label>
@@ -138,6 +124,12 @@
                     <div class="form-group">
                         <label for="address_2">Postal Address Line 2</label>
                         <input type="text" id="address_2" ng-model="bankdetail.address_2" class="form-control" placeholder="Postal Address Line 2"/>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                        <label for="address_3">Postal Address Line 3</label>
+                        <input type="text" id="address_3" ng-model="bankdetail.address_3" class="form-control" placeholder="Postal Address Line 3"/>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
@@ -170,6 +162,49 @@
                     <div class="form-group">
                         <label for="city">City</label>
                         <input type="text" id="city" ng-model="bankdetail.city" class="form-control" placeholder="City"/>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                        <label for="postal_code">Postal Code</label>
+                        <input type="text" id="postal_code" ng-model="bankdetail.postal_code" class="form-control" placeholder="Postal Code"/>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                        <label for="zip_code">Zip Code</label>
+                        <input type="text" id="zip_code" ng-model="bankdetail.zip_code" class="form-control" placeholder="Zip Code"/>
+                    </div>
+                </div>
+            </div><br/>
+        </div>
+    </div><br>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Social Media</h3>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                        <label for="facebook">Facebook</label>
+                        <input type="text" id="facebook" ng-model="bankdetail.facebook" class="form-control" placeholder="Facebook"/>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                        <label for="linkedin">Linkedin</label>
+                        <input type="text" id="linkedin" ng-model="bankdetail.linkedin" class="form-control" placeholder="Linkedin"/>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                        <label for="instgram">Instgram</label>
+                        <input type="text" id="instgram" ng-model="bankdetail.instgram" class="form-control" placeholder="Instgram"/>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                        <label for="twitter">Twitter</label>
+                        <input type="text" id="twitter" ng-model="bankdetail.twitter" class="form-control" placeholder="Twitter"/>
                     </div>
                 </div>
             </div><br/>
