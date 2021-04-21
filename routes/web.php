@@ -20,7 +20,6 @@ Auth::routes();
  * Supper Admin Routes
  */
 
-Route::get('job-description', 'EmployeeController@job_description')->name('job-description');
 Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
 Route::get('tasks', 'EmployeeController@tasks')->name('tasks');
 Route::get('employee-leave', 'EmployeeController@employee_leave')->name('employee-leave');

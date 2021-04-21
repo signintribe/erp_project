@@ -198,7 +198,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                         <label for="instgram">Instgram</label>
-                        <input type="text" id="instgram" ng-model="bankdetail.instgram" class="form-control" placeholder="Instgram"/>
+                        <input type="text" id="instgram" ng-model="bankdetail.instagram" class="form-control" placeholder="Instgram"/>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
@@ -246,6 +246,7 @@
             </table>
         </div>
     </div>
+    <input type="hidden" id="app_url" value="<?php echo env('APP_URL'); ?>">
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
@@ -316,7 +317,7 @@
         };
 
         $scope.getSocialMedia = function(social_id){
-            $http.get($scope.appurl+'getSocialMedias/' + social_id).then(function (response) {
+            $http.get($scope.appurl+'getSocialMedia/' + social_id).then(function (response) {
                 if (response.data) {
                     angular.extend($scope.bankdetail, response.data);
                 }
