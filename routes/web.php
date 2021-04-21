@@ -47,7 +47,8 @@ Route::group(['prefix'=>'hr'], function () {
   Route::resource('maintain-emp-bankdetail', 'Admin\EmployeeBankController');
   Route::get('job-description', 'EmployeeController@job_description')->name('job-description');
   Route::get('tasks', 'EmployeeController@tasks')->name('tasks');
-  Route::resource('maintain-emp-tasks', 'Admin\EmployeeBankController');
+  Route::resource('maintain-emp-tasks', 'Admin\EmployeeTaskController');
+  Route::get('get-task-assigned-details/{assigned_id}', 'Admin\EmployeeTaskController@taskAssignedDetail');
 });
 
 Route::get('getAddress/{address_id}', 'Admin\EmployeeAddressController@getAddress');
