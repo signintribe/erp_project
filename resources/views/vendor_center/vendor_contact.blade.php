@@ -1,5 +1,5 @@
-@extends('layouts.subuser.master')
-@section('title', 'Organizational Contact')
+@extends('layouts.admin.master')
+@section('title', 'Vendor Contact')
 @section('content')
 <div  ng-app="OrgContactApp" ng-controller="OrgContactController" ng-cloak>
     <div class="card">

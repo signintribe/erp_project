@@ -1,4 +1,4 @@
-@extends('layouts.subuser.master')
+@extends('layouts.admin.master')
 @section('title', 'Add Quotation')
 @section('content')
 <div  ng-app="QuotatoionApp" ng-controller="QuotatoionController" ng-cloak>

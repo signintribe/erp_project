@@ -1,4 +1,4 @@
-@extends('layouts.subuser.master')
+@extends('layouts.admin.master')
 @section('title', 'View Material Issuance')
 @section('content')
 <div  ng-app="MaterialissuanceApp" ng-controller="MaterialissuanceController" ng-cloak>
