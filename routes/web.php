@@ -51,6 +51,16 @@ Route::group(['prefix'=>'hr'], function () {
   Route::get('get-task-assigned-details/{assigned_id}', 'Admin\EmployeeTaskController@taskAssignedDetail');
 });
 
+/**
+ * Vendor Center
+*/
+Route::group(['prefix'=>'vendor'], function () {
+  Route::get('vendor-information', 'VendorController@index')->name('organizational-information');
+  Route::get('vendor-address', 'VendorController@organization_address')->name('organization-address');
+  Route::get('vendor-contact', 'VendorController@organization_contact')->name('organization-contact');
+  Route::get('vendor-person', 'VendorController@contact_person')->name('organization-contact-person');
+});
+
 Route::get('getAddress/{address_id}', 'Admin\EmployeeAddressController@getAddress');
 Route::get('getContact/{contact_id}', 'Admin\EmployeeAddressController@getContact');
 Route::get('getSocialMedia/{social_id}', 'Admin\EmployeeAddressController@getSocialMedia');
@@ -76,14 +86,6 @@ Route::get('customer-information', 'CustomerController@index')->name('customer-i
 Route::get('customer-address', 'CustomerController@customer_address')->name('customer-address');
 Route::get('contact-detail', 'CustomerController@contact_detail')->name('contact-detail');
 Route::get('customer-contact-person', 'CustomerController@customer_contact_person')->name('customer-contact-person');
-
-/**
- * Vendor Center
-*/
-Route::get('vendor-information', 'VendorController@index')->name('organizational-information');
-Route::get('vendor-address', 'VendorController@organization_address')->name('organization-address');
-Route::get('vendor-contact', 'VendorController@organization_contact')->name('organization-contact');
-Route::get('vendor-contact-person', 'VendorController@contact_person')->name('organization-contact-person');
 
 /**
  * Inventory Center

@@ -80,10 +80,10 @@
             </a>
             <div class="collapse" id="Vendor-Center">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a href="{{url('vendor-information')}}" class="nav-link">Vendor Information</a></li>
-                    <li class="nav-item"> <a href="{{url('vendor-address')}}" class="nav-link">Vendor Address</a></li>
-                    <li class="nav-item"> <a href="{{url('vendor-contact')}}" class="nav-link">Vendor Contact</a></li>
-                    <li class="nav-item"> <a href="{{url('vendor-contact-person')}}" class="nav-link">Contact Person</a></li>
+                    <li class="nav-item"> <a href="{{url('vendor/vendor-information')}}" class="nav-link">Vendor Information</a></li>
+                    <li class="nav-item"> <a href="{{url('vendor/vendor-address')}}" class="nav-link">Vendor Address</a></li>
+                    <li class="nav-item"> <a href="{{url('vendor/vendor-contact')}}" class="nav-link">Vendor Contact</a></li>
+                    <li class="nav-item"> <a href="{{url('vendor/vendor-person')}}" class="nav-link">Contact Person</a></li>
                 </ul>
             </div>
         </li>
