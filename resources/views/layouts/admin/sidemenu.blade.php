@@ -66,11 +66,8 @@
                     <li class="nav-item"> <a href="{{url('hr/organizational-assignment')}}" class="nav-link">Organizational Assignment</a></li>
                     <li class="nav-item"> <a href="{{url('hr/pay-emoluments')}}" class="nav-link">Pay and Emoluments</a></li>
                     <li class="nav-item"> <a href="{{url('hr/employee-bank-detail')}}" class="nav-link">Bank Detail</a></li>
-<<<<<<< HEAD
                     <li class="nav-item"> <a href="{{url('job-description')}}" class="nav-link">Job Description</a></li>
-=======
                     <li class="nav-item"> <a href="{{url('hr/job-description')}}" class="nav-link">Job Description</a></li>
->>>>>>> 829735af695e342979e1cfc10ca4cd4b16afc06c
                     <li class="nav-item"> <a href="{{url('tasks')}}" class="nav-link">Task</a></li>
                     <li class="nav-item"> <a class="nav-link" href="{{url('employee-leave')}}">Employee Leave</a></li>
                 </ul>
