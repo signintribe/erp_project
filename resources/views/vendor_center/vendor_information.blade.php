@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="organization_logo">Organization Logo</label>
-                    <input type="file" class="form-control" id="organization_logo"/>
+                    <input type="file" class="form-control" id="organization_logo"onchange="angular.element(this).scope().readUrl(this);"/>
                 </div>
             </div><br/>
             <div class="row">
@@ -109,6 +109,16 @@
                    $scope.getVendorInformation();
                 });
             }
+        };
+
+        $scope.readUrl = function (element) {
+            var reader = new FileReader();//rightbennerimage
+            reader.onload = function (event) {
+                $scope.$apply(function ($scope) {
+                    $scope.organization.organization_logo = element.files[0];
+                });
+            };
+            reader.readAsDataURL(element.files[0]);
         };
 
     });

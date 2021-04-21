@@ -38,10 +38,30 @@ class VendorInformationController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->hasFile('organization_logo')) {
+            $current= date('ymd').rand(1,999999).time();
+            $file= $request->file('organization_logo');
+            $imageName = $current.'.'.$file->getClientOriginalExtension();
+            $file->move(public_path('organization_logo'), $imageName);
+            if(!empty($request->id)){
+                $this->deleteOldImage($request->organization_logo);
+                $vendor = erp_vendor_information::where('id', $request->id)->first();
+                $vendor->organization_logo = $imageName;
+                $vendor->save();
+            }
+        }
+
+        if($request->id){
+            $data = $request->except(['id', 'user_id', 'created_at', 'updated_at']);
+            erp_vendor_information::where('id', $request->id)->update($data);
+        }else{
             $data = $request->all();
             $data['user_id'] = Auth::user()->id;
+            //return $data;
             erp_vendor_information::create($data);
-            return "Pay and Emloument save successfully";
+        }
+        return "Vendor Information saved successfully";
+
     }
 
     /**
