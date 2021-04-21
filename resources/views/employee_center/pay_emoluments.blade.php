@@ -6,7 +6,7 @@
         <div class="card-body">
             <h3 class="card-title">Pay and Emoluments</h3>
             <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
                     <label for="select_employee">* Select Employee</label>
                     <select class="form-control" id="select_employee" ng-options="user.id as user.first_name for user in Users" ng-model="emoluments.employee_id">
                         <option value="">Select Employee</option>
