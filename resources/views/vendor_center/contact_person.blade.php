@@ -4,7 +4,7 @@
 <div  ng-app="PersonApp" ng-controller="PersonController" ng-cloak>
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title">Organization Contact Person</h3>
+            <h3 class="card-title">Organizations Contact Person</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="organization_name">Name of Organization</label>
