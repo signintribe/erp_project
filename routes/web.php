@@ -21,7 +21,7 @@ Auth::routes();
  */
 
 Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
-Route::get('tasks', 'EmployeeController@tasks')->name('tasks');
+
 Route::get('employee-leave', 'EmployeeController@employee_leave')->name('employee-leave');
 
 Route::group(['prefix'=>'hr'], function () {
@@ -46,6 +46,8 @@ Route::group(['prefix'=>'hr'], function () {
   Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
   Route::resource('maintain-emp-bankdetail', 'Admin\EmployeeBankController');
   Route::get('job-description', 'EmployeeController@job_description')->name('job-description');
+  Route::get('tasks', 'EmployeeController@tasks')->name('tasks');
+  Route::resource('maintain-emp-tasks', 'Admin\EmployeeBankController');
 });
 
 /**

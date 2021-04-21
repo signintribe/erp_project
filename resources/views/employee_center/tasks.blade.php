@@ -6,11 +6,14 @@
         <div class="card-body">
             <h3 class="card-title">Tasks Detail</h3>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="select_employee">Select Employee</label>
-                    <select class="form-control" id="select_employee" ng-model="task.select_employee">
-                        <option value="">Select Employee</option>
-                    </select>
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
+                    <div class="form-group">
+                        <label for="select_employee">* Select Employee</label>
+                        <select class="form-control" id="select_employee" ng-options="user.id as user.first_name for user in Users" ng-model="bankdetail.employee_id">
+                            <option value="">Select Employee</option>
+                        </select>
+                        <i class="text-danger" ng-show="!bankdetail.employee_id && showError"><small>Please Select Employee</small></i>
+                    </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="task_name">Name of Task</label>
@@ -106,7 +109,37 @@
 <script>
     var Tasks = angular.module('TasksApp', []);
     Tasks.controller('TasksController', function ($scope, $http) {
+        $scope.task = {};
+        $scope.getEmployees = function () {
+                $http.get('getEmployees').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.Users = response.data;
+                }
+            });
+        };
 
+        $scope.save_task = function(){
+            if (!$scope.task.employee_id || !$scope.task.task_name) {
+                $scope.showError = true;
+                jQuery("input.required").filter(function () {
+                    return !this.value;
+                }).addClass("has-error");
+            } else {
+                var Data = new FormData();
+                angular.forEach($scope.task, function (v, k) {
+                    Data.append(k, v);
+                });
+                $http.post('maintain-emp-tasks', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    swal({
+                        title: "Save!",
+                        text: res.data,
+                        type: "success"
+                    });
+                    $scope.task = {};
+                    $scope.getTasks();
+                });
+            }
+        };
     });
 </script>
 @endsection
