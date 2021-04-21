@@ -57,7 +57,7 @@ Route::group(['prefix'=>'vendor'], function () {
   Route::get('vendor-information', 'VendorController@index')->name('organizational-information');
   Route::get('vendor-address', 'VendorController@organization_address')->name('organization-address');
   Route::get('vendor-contact', 'VendorController@organization_contact')->name('organization-contact');
-  Route::get('vendor-contact-person', 'VendorController@contact_person')->name('organization-contact-person');
+  Route::get('vendor-person', 'VendorController@contact_person')->name('organization-contact-person');
 });
 
 Route::get('getAddress/{address_id}', 'Admin\EmployeeAddressController@getAddress');
