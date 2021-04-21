@@ -67,7 +67,7 @@
                     <li class="nav-item"> <a href="{{url('hr/pay-emoluments')}}" class="nav-link">Pay and Emoluments</a></li>
                     <li class="nav-item"> <a href="{{url('hr/employee-bank-detail')}}" class="nav-link">Bank Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/job-description')}}" class="nav-link">Job Description</a></li>
-                    <li class="nav-item"> <a href="{{url('tasks')}}" class="nav-link">Task</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/tasks')}}" class="nav-link">Task</a></li>
                     <li class="nav-item"> <a class="nav-link" href="{{url('employee-leave')}}">Employee Leave</a></li>
                 </ul>
             </div>
