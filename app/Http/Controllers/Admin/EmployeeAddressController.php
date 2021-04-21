@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\tbladdress;
 use App\Models\tblcontact;
+use App\Models\tblsocialmedias;
 use App\Models\employeeCenter\tblemployeeinformation;
 use DB;
 class EmployeeAddressController extends Controller
@@ -103,5 +104,10 @@ class EmployeeAddressController extends Controller
     public function getContact($contact_id)
     {
         return tblcontact::select('phone_number','mobile_number','fax_number','whatsapp','email')->where('id', $contact_id)->first();
+    }
+
+    public function getSocialMedia($social_id)
+    {
+        return tblsocialmedias::select('website','twitter','instagram','facebook','linkedin','pinterest')->where('id', $social_id)->first();
     }
 }

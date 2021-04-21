@@ -6,13 +6,13 @@
         <div class="card-body">
             <h3 class="card-title">Employee Bank Detail</h3>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
                     <div class="form-group">
-                        <label for="employee_name">* Select Employee Name</label>
-                        <select id="employee_name" ng-model="bankdetail.employee_name" class="form-control">
+                        <label for="select_employee">* Select Employee</label>
+                        <select class="form-control" id="select_employee" ng-options="user.id as user.first_name for user in Users" ng-model="bankdetail.employee_id">
                             <option value="">Select Employee</option>
                         </select>
-                        <i class="text-danger" ng-show="!bankdetail.employee_name && showError"><small>Please Select Employee</small></i>
+                        <i class="text-danger" ng-show="!bankdetail.employee_id && showError"><small>Please Select Employee</small></i>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
@@ -117,19 +117,19 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                         <label for="address_1">Postal Address Line 1</label>
-                        <input type="text" id="address_1" ng-model="bankdetail.address_1" class="form-control" placeholder="Postal Address Line 1"/>
+                        <input type="text" id="address_1" ng-model="bankdetail.address_line_1" class="form-control" placeholder="Postal Address Line 1"/>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                         <label for="address_2">Postal Address Line 2</label>
-                        <input type="text" id="address_2" ng-model="bankdetail.address_2" class="form-control" placeholder="Postal Address Line 2"/>
+                        <input type="text" id="address_2" ng-model="bankdetail.address_line_2" class="form-control" placeholder="Postal Address Line 2"/>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                         <label for="address_3">Postal Address Line 3</label>
-                        <input type="text" id="address_3" ng-model="bankdetail.address_3" class="form-control" placeholder="Postal Address Line 3"/>
+                        <input type="text" id="address_3" ng-model="bankdetail.address_line_3" class="form-control" placeholder="Postal Address Line 3"/>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
@@ -210,9 +210,40 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button class="btn btn-sm btn-success float-right">Save</button>
+                    <button class="btn btn-sm btn-success float-right" ng-click="save_bankdetail()">Save</button>
                 </div>
             </div>
+        </div>
+    </div><br>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Sr#</th>
+                        <th>Employee Name</th>
+                        <th>Bank Name</th>
+                        <th>Branch Name</th>
+                        <th>Account Type</th>
+                        <th>Branch Code</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody ng-init="getBankDetails()">
+                    <tr ng-repeat="bank in bankdetails">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="bank.first_name"></td>
+                        <td ng-bind="bank.bank_name"></td>
+                        <td ng-bind="bank.branch_name"></td>
+                        <td ng-bind="bank.account_type"></td>
+                        <td ng-bind="bank.branch_code"></td>
+                        <td>
+                            <button class="btn btn-xs btn-info" ng-click="editBankDetail(bank.id)">Edit</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteBankDetail(bank.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -220,7 +251,101 @@
 <script>
     var BankDetail = angular.module('BankDetailApp', []);
     BankDetail.controller('BankDetailController', function ($scope, $http) {
+        $scope.bankdetail = {};
+        $scope.appurl = $("#app_url").val();
 
+        $scope.getEmployees = function () {
+            $http.get('getEmployees').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.Users = response.data;
+                }
+            });
+        };
+
+        $scope.deleteBankDetail = function (id) {
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('maintain-emp-bankdetail/' + id).then(function (response) {
+                    $scope.getBankDetails();
+                    swal("Deleted!", response.data, "success");
+                });
+            });
+        };
+
+        $scope.getBankDetails = function () {
+            $scope.bankdetails = {};
+            $http.get('maintain-emp-bankdetail').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.bankdetails = response.data;
+                }
+            });
+        };
+
+        $scope.editBankDetail = function (id) {
+            $http.get('maintain-emp-bankdetail/' + id + '/edit').then(function (response) {
+                $scope.bankdetail = response.data;
+                $scope.getAddress($scope.bankdetail.address_id);
+                $scope.getContact($scope.bankdetail.contact_id);
+                $scope.getSocialMedia($scope.bankdetail.social_id);
+            });
+        };
+
+        $scope.getAddress = function(address_id){
+            $http.get($scope.appurl+'getAddress/' + address_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.bankdetail, response.data);
+                    $scope.getContact($scope.bankdetail.contact_id);
+                }
+            });
+        };
+
+        $scope.getContact = function(contact_id){
+            $http.get($scope.appurl+'getContact/' + contact_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.bankdetail, response.data);
+                }
+            });
+        };
+
+        $scope.getSocialMedia = function(social_id){
+            $http.get($scope.appurl+'getSocialMedias/' + social_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.bankdetail, response.data);
+                }
+            });
+        };
+
+        
+        $scope.save_bankdetail = function(){
+            if (!$scope.bankdetail.employee_id || !$scope.bankdetail.account_title) {
+                $scope.showError = true;
+                jQuery("input.required").filter(function () {
+                    return !this.value;
+                }).addClass("has-error");
+            } else {
+                var Data = new FormData();
+                angular.forEach($scope.bankdetail, function (v, k) {
+                    Data.append(k, v);
+                });
+                $http.post('maintain-emp-bankdetail', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    swal({
+                        title: "Save!",
+                        text: res.data,
+                        type: "success"
+                    });
+                    $scope.bankdetail = {};
+                    $scope.getBankDetails();
+                });
+            }
+        };
     });
 </script>
 @endsection

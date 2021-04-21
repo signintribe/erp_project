@@ -1,5 +1,4 @@
 <?php
-
 /*
   |--------------------------------------------------------------------------
   | Web Routes
@@ -21,9 +20,6 @@ Auth::routes();
  * Supper Admin Routes
  */
 
-
-
-Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
 Route::get('job-description', 'EmployeeController@job_description')->name('job-description');
 Route::get('tasks', 'EmployeeController@tasks')->name('tasks');
 Route::get('employee-leave', 'EmployeeController@employee_leave')->name('employee-leave');
@@ -46,11 +42,13 @@ Route::group(['prefix'=>'hr'], function () {
   Route::get('experience-detail', 'EmployeeController@experience_detail')->name('experience-detail');
   Route::get('organizational-assignment', 'EmployeeController@organizational_assignment')->name('organizational-assignment');
   Route::get('pay-emoluments', 'EmployeeController@pay_emoluments')->name('pay-and-emoluments');
-
+  Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
+  Route::resource('maintain-emp-bankdetail', 'Admin\EmployeeBankController');
 });
 
 Route::get('getAddress/{address_id}', 'Admin\EmployeeAddressController@getAddress');
 Route::get('getContact/{contact_id}', 'Admin\EmployeeAddressController@getContact');
+Route::get('getSocialMedia/{social_id}', 'Admin\EmployeeAddressController@getSocialMedia');
 
 Route::get('view-employees', 'Admin\UsersController@view_employees')->name('view_employees')->middleware('is_admin');
 //Route::get('getusers', 'Admin\UsersController@getusers')->middleware('is_admin');
@@ -58,17 +56,17 @@ Route::get('approve_user/{user_id}/{status}', 'Admin\UsersController@approve_use
 
 /**
  * Employees Routes
- */
+*/
 Route::get('/home', 'HomeController@index')->name('home')->middleware('is_vendor');
 
 /**
  * User Dashboard
- */
+*/
 Route::get('/userdashboard', 'User\UserController@index')->name('userdashboard')->middleware('is_user');
 
 /**
  * Customer Dashboard
- */
+*/
 Route::get('customer-information', 'CustomerController@index')->name('customer-information');
 Route::get('customer-address', 'CustomerController@customer_address')->name('customer-address');
 Route::get('contact-detail', 'CustomerController@contact_detail')->name('contact-detail');
@@ -76,7 +74,7 @@ Route::get('customer-contact-person', 'CustomerController@customer_contact_perso
 
 /**
  * Vendor Center
- */
+*/
 Route::get('vendor-information', 'VendorController@index')->name('organizational-information');
 Route::get('vendor-address', 'VendorController@organization_address')->name('organization-address');
 Route::get('vendor-contact', 'VendorController@organization_contact')->name('organization-contact');
@@ -84,13 +82,13 @@ Route::get('vendor-contact-person', 'VendorController@contact_person')->name('or
 
 /**
  * Inventory Center
- */
+*/
 Route::get('add-inventory', 'InventoryController@index')->name('add-inventory');
 Route::get('view-inventory', 'InventoryController@view_inventory')->name('view-inventory');
 
 /**
  * Purchase Order Section
- */
+*/
 Route::get('add-purchase-order', 'PurchaseOrderController@index')->name('add-purchase-order');
 Route::get('add-purchase-receive', 'PurchaseOrderController@add_purchase_receive')->name('add-purchase-order');
 Route::get('view-purchase-order', 'PurchaseOrderController@view_purchase_order')->name('view-purchase-order');
@@ -98,7 +96,7 @@ Route::get('view-purchase-receive', 'PurchaseOrderController@view_purchase_recei
 
 /**
  * Quotation Section
- */
+*/
 Route::get('add-quotation', 'QuotationController@index')->name('add-quotation');
 Route::get('view-quotations', 'QuotationController@view_quotations')->name('view-quotations');
 
