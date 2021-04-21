@@ -20,7 +20,13 @@ Auth::routes();
  * Supper Admin Routes
  */
 
+<<<<<<< HEAD
 Route::get('job-description', 'EmployeeController@job_description')->name('job-description');
+=======
+
+
+Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
+>>>>>>> 829735af695e342979e1cfc10ca4cd4b16afc06c
 Route::get('tasks', 'EmployeeController@tasks')->name('tasks');
 Route::get('employee-leave', 'EmployeeController@employee_leave')->name('employee-leave');
 
@@ -37,13 +43,18 @@ Route::group(['prefix'=>'hr'], function () {
   Route::resource('maintain-employee-experience', 'Admin\EmployeeExperienceController');
   Route::resource('maintain-organization-assignment', 'Admin\EmployeeOrganizationAssignmentController');
   Route::resource('maintain-pay-emoluments', 'Admin\EmployeePayEmolumentController');
+  Route::resource('maintain-job-description', 'Admin\EmployeeJobDescriptionController');
   Route::get('education-detail', 'EmployeeController@education_detail');
   Route::get('certification-detail', 'EmployeeController@certification_detail')->name('certification-detail');
   Route::get('experience-detail', 'EmployeeController@experience_detail')->name('experience-detail');
   Route::get('organizational-assignment', 'EmployeeController@organizational_assignment')->name('organizational-assignment');
   Route::get('pay-emoluments', 'EmployeeController@pay_emoluments')->name('pay-and-emoluments');
+<<<<<<< HEAD
   Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
   Route::resource('maintain-emp-bankdetail', 'Admin\EmployeeBankController');
+=======
+  Route::get('job-description', 'EmployeeController@job_description')->name('job-description');
+>>>>>>> 829735af695e342979e1cfc10ca4cd4b16afc06c
 });
 
 Route::get('getAddress/{address_id}', 'Admin\EmployeeAddressController@getAddress');

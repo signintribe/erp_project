@@ -66,13 +66,134 @@
                     <li class="nav-item"> <a href="{{url('hr/organizational-assignment')}}" class="nav-link">Organizational Assignment</a></li>
                     <li class="nav-item"> <a href="{{url('hr/pay-emoluments')}}" class="nav-link">Pay and Emoluments</a></li>
                     <li class="nav-item"> <a href="{{url('hr/employee-bank-detail')}}" class="nav-link">Bank Detail</a></li>
+<<<<<<< HEAD
                     <li class="nav-item"> <a href="{{url('job-description')}}" class="nav-link">Job Description</a></li>
+=======
+                    <li class="nav-item"> <a href="{{url('hr/job-description')}}" class="nav-link">Job Description</a></li>
+>>>>>>> 829735af695e342979e1cfc10ca4cd4b16afc06c
                     <li class="nav-item"> <a href="{{url('tasks')}}" class="nav-link">Task</a></li>
                     <li class="nav-item"> <a class="nav-link" href="{{url('employee-leave')}}">Employee Leave</a></li>
                 </ul>
             </div>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Vendor-Center" aria-expanded="false" aria-controls="Vendor-Center">
+                <i class="fa fa-building menu-icon"></i>
+                <span class="menu-title">Vendor Center</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Vendor-Center">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('vendor-information')}}" class="nav-link">Vendor Information</a></li>
+                    <li class="nav-item"> <a href="{{url('vendor-address')}}" class="nav-link">Vendor Address</a></li>
+                    <li class="nav-item"> <a href="{{url('vendor-contact')}}" class="nav-link">Vendor Contact</a></li>
+                    <li class="nav-item"> <a href="{{url('vendor-contact-person')}}" class="nav-link">Contact Person</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Customer-Center" aria-expanded="false" aria-controls="Customer-Center">
+                <i class="fa fa-user menu-icon"></i>
+                <span class="menu-title">Customer Center</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Customer-Center">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('customer-information')}}" class="nav-link">Customer Information</a></li>
+                    <li class="nav-item"> <a href="{{url('customer-address')}}" class="nav-link">Customer Address</a></li>
+                    <li class="nav-item"> <a href="{{url('contact-detail')}}" class="nav-link">Contact Detail</a></li>
+                    <li class="nav-item"> <a href="{{url('customer-contact-person')}}" class="nav-link">Contact Person</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Inventory-Center" aria-expanded="false" aria-controls="Inventory-Center">
+                <i class="fa fa-cubes menu-icon"></i>
+                <span class="menu-title">Inventory Center</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Inventory-Center">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('add-inventory')}}" class="nav-link">Add Inventory</a></li>
+                    <li class="nav-item"> <a href="{{url('view-inventory')}}" class="nav-link">View Inventory</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Purchase-Order" aria-expanded="false" aria-controls="Purchase-Order">
+                <i class="fa fa-dollar menu-icon"></i>
+                <span class="menu-title">Purchase Order</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Purchase-Order">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('add-purchase-order')}}" class="nav-link">Add Purchase Order</a></li>
+                    <li class="nav-item"> <a href="{{url('view-purchase-order')}}" class="nav-link">View Purchase Order</a></li>
+                    <li class="nav-item"> <a href="{{url('add-purchase-receive')}}" class="nav-link">Add Purchase Receive</a></li>
+                    <li class="nav-item"> <a href="{{url('view-purchase-receive')}}" class="nav-link">View Purchase Receive</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Quotation" aria-expanded="false" aria-controls="Quotation">
+                <i class="fa fa-file-pdf-o menu-icon"></i>
+                <span class="menu-title">Quotation's</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Quotation">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('add-quotation')}}" class="nav-link">Add Quotation</a></li>
+                    <li class="nav-item"> <a href="{{url('view-quotations')}}" class="nav-link">View Quotations</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Sales" aria-expanded="false" aria-controls="Sales">
+                <i class="fa fa-cart-plus menu-icon"></i>
+                <span class="menu-title">Sales</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Sales">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('add-sales-order')}}" class="nav-link">Add Sales Order</a></li>
+                    <li class="nav-item"> <a href="{{url('view-sales-order')}}" class="nav-link">View Sales Order</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#AddLogistics" aria-expanded="false" aria-controls="AddLogistics">
+                <i class="fa fa-bus menu-icon"></i>
+                <span class="menu-title">Add Logistics</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="AddLogistics">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('freight-forward-det')}}" class="nav-link">Freight Forward Det</a></li>
+                    <li class="nav-item"> <a href="{{url('customer-clearance')}}" class="nav-link">Customer Clearance</a></li>
+                    <li class="nav-item"> <a href="{{url('carriage-company')}}" class="nav-link">Carriage Company</a></li>
+                    <li class="nav-item"> <a href="{{url('viewfreightforwarddet')}}" class="nav-link">View Freight Forward Det</a></li>
+                    <li class="nav-item"> <a href="{{url('viewcustomerclearance')}}" class="nav-link">View Customer Clearance</a></li>
+                    <li class="nav-item"> <a href="{{url('viewcarriagecompany')}}" class="nav-link">View Carriage Company</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#mmform" aria-expanded="false" aria-controls="mmform">
+                <i class="fa fa-cube menu-icon"></i>
+                <span class="menu-title">MM Forms</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="mmform">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('store-requisition')}}" class="nav-link">Store Requisition</a></li>
+                    <li class="nav-item"> <a href="{{url('material-issue')}}" class="nav-link">Material Issue</a></li>
+                    <li class="nav-item"> <a href="{{url('material-returned')}}" class="nav-link">Material Returned</a></li>
+                    <li class="nav-item"> <a href="{{url('view-storerequisition')}}" class="nav-link">View Store Requisition</a></li>
+                    <li class="nav-item"> <a href="{{url('view-materialissue')}}" class="nav-link">View Material Issue</a></li>
+                    <li class="nav-item"> <a href="{{url('view-materialreturned')}}" class="nav-link">View Material Returned</a></li>
+                </ul>
+            </div>
+        </li>
         <!--<li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#HR" aria-expanded="false" aria-controls="HR">
                 <i class="mdi mdi-chart-pie menu-icon"></i>
