@@ -20,7 +20,8 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="organization_logo">Organization Logo</label>
-                    <input type="file" class="form-control" id="organization_logo"onchange="angular.element(this).scope().readUrl(this);"/>
+                    <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);"/>
+                    <img ng-if="orglogo" ng-src="<% orglogo %>" class="img img-thumbnail" style-="width:100%; height:200px;">
                 </div>
             </div><br/>
             <div class="row">
@@ -119,14 +120,19 @@
             </table>
         </div>
     </div> 
+    <input type="hidden" id="appurl" value="<?php echo env('APP_URL') ?>">
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
-    var Vendor = angular.module('VendorApp', []);
+    var Vendor = angular.module('VendorApp', [], function ($interpolateProvider) {
+        $interpolateProvider.startSymbol('<%');
+        $interpolateProvider.endSymbol('%>');
+    });
+
+
     Vendor.controller('VendorController', function ($scope, $http) {
-
-
         $scope.organization = {};
+        $scope.appurl = $("#appurl").val();
         $scope.save_vendorInformation = function(){
             if (!$scope.organization.organization_name) {
                 $scope.showError = true;
@@ -150,9 +156,11 @@
             }
         };
 
+
         $scope.readUrl = function (element) {
             var reader = new FileReader();//rightbennerimage
             reader.onload = function (event) {
+                $scope.orglogo = event.target.result;
                 $scope.$apply(function ($scope) {
                     $scope.organization.organization_logo = element.files[0];
                 });
@@ -173,6 +181,7 @@
         $scope.editVendorInformation = function (id) {
             $http.get('maintain-vendor-information/'+id+'/edit').then(function (response) {
                 $scope.organization = response.data;
+                $scope.orglogo = $scope.appurl + "public/organization_logo/" + $scope.organization.organization_logo;
             });
         };
 

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
-use App\Models\employeeCenter\erp_vendor_information;
+use App\Models\VendorModels\erp_vendor_information;
 
 class VendorInformationController extends Controller
 {

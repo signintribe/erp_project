@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\employeeCenter;
+namespace App\Models\VendorModels;
 
 use Illuminate\Database\Eloquent\Model;
 
