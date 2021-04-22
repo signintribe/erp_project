@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\erp_employee_tasks;
 use App\Models\erp_tasks_assigned_details;
+use App\Models\tblemployeeinformations;
 use Auth;
 use DB;
 use File;
@@ -19,7 +20,8 @@ class EmployeeTaskController extends Controller
      */
     public function index()
     {
-        //
+        return DB::select('SELECT taskdetails.*, employee.first_name FROM (SELECT * FROM erp_employee_tasks WHERE user_id = '.Auth::user()->id.') AS taskdetails JOIN(SELECT id, first_name FROM tblemployeeinformations) AS employee ON employee.id = taskdetails.employee_id');
+
     }
 
     /**
@@ -57,6 +59,7 @@ class EmployeeTaskController extends Controller
         if($request->id){
             $tasks = $request->except('id','user_id','task_id','master_company','child_company','department_name','supervisor','supervisor_designation');
             $assignedTasks= $request->except('id','employee_id','user_id','task_name','task_date','expected_date','completion_status','attachment','completion_date','delay_task','efficiency','negligency','save_days');
+            
         }else{
             $tasks = $request->except('task_id','master_company','child_company','department_name','supervisor','supervisor_designation');
             $assignedTasks= $request->except('employee_id','user_id','task_name','task_date','expected_date','completion_status','attachment','completion_date','delay_task','efficiency','negligency','save_days');
@@ -82,7 +85,7 @@ class EmployeeTaskController extends Controller
     }
 
     public function taskAssignedDetail($assigned_id){
-        return erp_tasks_assigned_details::select('task_id','master_company','child_company','department_name','supervisor','supervisor_designation')->where('id', $assigned_id)->first();
+        return erp_tasks_assigned_details::select('task_id','master_company','child_company','department_name','supervisor','supervisor_designation')->where('task_id', $assigned_id)->first();
     }
     /**
      * Display the specified resource.
@@ -103,7 +106,7 @@ class EmployeeTaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        return erp_employee_tasks::where('id', $id)->first();
     }
 
     /**
@@ -126,6 +129,9 @@ class EmployeeTaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $task = erp_employee_tasks::where('id', $id)->first();
+        erp_employee_tasks::where('id', $id)->delete();
+        erp_tasks_assigned_details::where('id', $task->assigned_id)->delete();
+        return 'Task Details Delete Permanently';
     }
 }

@@ -75,7 +75,7 @@
             </div>
         </div>
     </div><br/>
-    <div class="card">
+    <div class="card" ng-init="getAssignedDetail()">
         <div class="card-body">
             <h3 class="card-title">Task Assigned By</h3>
             <div class="row">
@@ -123,10 +123,10 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody ng-init="getTasksDetail()">
+                <tbody ng-init="getTaskDetails()">
                     <tr ng-repeat="task in taskdetails">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="taskfirst_name"></td>
+                        <td ng-bind="task.first_name"></td>
                         <td ng-bind="task.task_name"></td>
                         <td ng-bind="task.task_date"></td>
                         <td ng-bind="task.expected_date"></td>
@@ -188,7 +188,7 @@
             reader.readAsDataURL(element.files[0]);
         };
 
-        $scope.deleteBankDetail = function (id) {
+        $scope.deleteTaskDetail = function (id) {
             swal({
                 title: "Are you sure?",
                 text: "Your will not be able to recover this record!",
@@ -218,12 +218,13 @@
         $scope.editTaskDetail = function (id) {
             $http.get('maintain-emp-tasks/' + id + '/edit').then(function (response) {
                 $scope.task = response.data;
-                $scope.getAssignedDetail($scope.bankdetail.assigned_id);
+                console.log($scope.task);
+                $scope.getAssignedDetail($scope.task.id);
             });
         };
 
         $scope.getAssignedDetail = function(assigned_id){
-            $http.get($scope.appurl+'get-task-assigned-details/' + assigned_id).then(function (response) {
+            $http.get('get-task-assigned-details/' + assigned_id).then(function (response) {
                 if (response.data) {
                     angular.extend($scope.task, response.data);
                 }
