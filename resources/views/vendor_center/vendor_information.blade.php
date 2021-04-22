@@ -79,7 +79,46 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div><br>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>Sr#</th>
+                        <th>Organization Name</th>
+                        <th>NTN</th>
+                        <th>Incroporation/License No</th>
+                        <th>Organization Logo</th>
+                        <th>STRN</th>
+                        <th>Import License No.</th>
+                        <th>Export License No.</th>
+                        <th>Chamber of Commerce License No.</th>
+                        <th>Currency in dealing</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody ng-init="getVendorInformation()">
+                    <tr ng-repeat="vendor in vendorinformations">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="vendor.organization_name"></td>
+                        <td ng-bind="vendor.ntn_no "></td>
+                        <td ng-bind="vendor.incroporation_no"></td>
+                        <td ng-bind="vendor.organization_logo"></td>
+                        <td ng-bind="vendor.strn"></td>
+                        <td ng-bind="vendor.import_license"></td>
+                        <td ng-bind="vendor.export_license"></td>
+                        <td ng-bind="vendor.chamber_no"></td>
+                        <td ng-bind="vendor.currency_dealing"></td>
+                        <td>
+                            <button class="btn btn-xs btn-info" ng-click="editVendorInformation(vendor.id)">Edit</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteVendorInformation(vendor.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> 
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
@@ -119,6 +158,40 @@
                 });
             };
             reader.readAsDataURL(element.files[0]);
+        };
+
+
+        $scope.getVendorInformation = function () {
+            $scope.vendorinformations = {};
+            $http.get('maintain-vendor-information').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.vendorinformations = response.data;
+                }
+            });
+        };
+
+        $scope.editVendorInformation = function (id) {
+            $http.get('maintain-vendor-information/'+id+'/edit').then(function (response) {
+                $scope.organization = response.data;
+            });
+        };
+
+        $scope.deleteVendorInformation = function (id) {
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('maintain-vendor-information/' + id).then(function (response) {
+                    $scope.getVendorInformation();
+                    swal("Deleted!", response.data, "success");
+                });
+            });
         };
 
     });

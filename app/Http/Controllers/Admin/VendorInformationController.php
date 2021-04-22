@@ -17,7 +17,7 @@ class VendorInformationController extends Controller
      */
     public function index()
     {
-        //
+        return erp_vendor_information::where('user_id', Auth::user()->id)->get();
     }
 
     /**
@@ -38,6 +38,7 @@ class VendorInformationController extends Controller
      */
     public function store(Request $request)
     {
+        $imageName = "";
         if ($request->hasFile('organization_logo')) {
             $current= date('ymd').rand(1,999999).time();
             $file= $request->file('organization_logo');
@@ -52,16 +53,29 @@ class VendorInformationController extends Controller
         }
 
         if($request->id){
+            if ($imageName){
+                $data['organization_logo'] = $imageName; 
+            }
             $data = $request->except(['id', 'user_id', 'created_at', 'updated_at']);
             erp_vendor_information::where('id', $request->id)->update($data);
         }else{
             $data = $request->all();
+            $data['organization_logo'] = $imageName;
             $data['user_id'] = Auth::user()->id;
             //return $data;
             erp_vendor_information::create($data);
         }
         return "Vendor Information saved successfully";
 
+    }
+
+
+    public function deleteOldImage($request)
+    {
+        if(File::exists(public_path('organization_logo/'.$request))){
+            $file =public_path('organization_logo/'.$request);
+            $img=File::delete($file);
+        }
     }
 
     /**
@@ -83,7 +97,7 @@ class VendorInformationController extends Controller
      */
     public function edit($id)
     {
-        //
+        return erp_vendor_information::where('id', $id)->first();
     }
 
     /**
@@ -106,6 +120,7 @@ class VendorInformationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        erp_vendor_information::where('id', $id)->delete();
+        return "Your record delete permanently";
     }
 }
