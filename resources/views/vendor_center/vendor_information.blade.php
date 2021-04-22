@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="organization_logo">Organization Logo</label>
-                    <input type="file" class="form-control" id="organization_logo"/>
+                    <input type="file" class="form-control" id="organization_logo"onchange="angular.element(this).scope().readUrl(this);"/>
                 </div>
             </div><br/>
             <div class="row">
@@ -46,7 +46,7 @@
                     <label for="currency_dealing">Currency in dealing</label>
                     <input type="text" class="form-control" id="currency_dealing" ng-model="organization.currency_dealing" placeholder="Currency in dealing"/>
                 </div>
-                 <div class="col-lg-3 col-md-3 col-sm-3">
+                 <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Nature of Business</label><br/>
                     <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
                     <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
@@ -66,7 +66,7 @@
                     <input type="checkbox" id="public"/> <label for="public">Public</label><br/>
                     <input type="checkbox" id="partnership"/> <label for="partnership">Partnership</label><br/>
                     <input type="checkbox" id="sole_proprietor"/> <label for="sole_proprietor">Sole Proprietor</label><br/>
-                </div>
+                </div> -->
             </div><br/>
         </div>
     </div><br/>
@@ -75,7 +75,7 @@
             <h3 class="card-title">Select product categories and attributes</h3>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-sm btn-success float-right">Save</button>
+                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_vendorInformation()">Save</button>
                 </div>
             </div>
         </div>
@@ -85,6 +85,41 @@
 <script>
     var Vendor = angular.module('VendorApp', []);
     Vendor.controller('VendorController', function ($scope, $http) {
+
+
+        $scope.organization = {};
+        $scope.save_vendorInformation = function(){
+            if (!$scope.organization.organization_name) {
+                $scope.showError = true;
+                jQuery("input.required").filter(function () {
+                    return !this.value;
+                }).addClass("has-error");
+            } else {
+                var Data = new FormData();
+                angular.forEach($scope.organization, function (v, k) {
+                    Data.append(k, v);
+                });
+                $http.post('maintain-vendor-information', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    swal({
+                        title: "Save!",
+                        text: res.data,
+                        type: "success"
+                    });
+                    $scope.organization = {};
+                   $scope.getVendorInformation();
+                });
+            }
+        };
+
+        $scope.readUrl = function (element) {
+            var reader = new FileReader();//rightbennerimage
+            reader.onload = function (event) {
+                $scope.$apply(function ($scope) {
+                    $scope.organization.organization_logo = element.files[0];
+                });
+            };
+            reader.readAsDataURL(element.files[0]);
+        };
 
     });
 </script>
