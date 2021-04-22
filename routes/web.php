@@ -55,6 +55,7 @@ Route::group(['prefix'=>'hr'], function () {
  * Vendor Center
 */
 Route::group(['prefix'=>'vendor'], function () {
+  Route::get('getVendors', 'Admin\VendorInformationController@getVendors')->middleware('is_admin');
   Route::get('vendor-information', 'VendorController@index')->name('organizational-information');
   Route::get('vendor-address', 'VendorController@organization_address')->name('organization-address');
   Route::get('vendor-contact', 'VendorController@organization_contact')->name('organization-contact');

@@ -27,6 +27,10 @@ class VendorController extends Controller {
     public function index(){
         return view('vendor_center.vendor_information');
     }
+
+    public function getVendors() {
+        return erp_vendor_information::get();
+    }
     
     public function organization_address() {
         return view('vendor_center.vendor_address');
