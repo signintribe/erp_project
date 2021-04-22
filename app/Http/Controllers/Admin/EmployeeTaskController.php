@@ -57,9 +57,10 @@ class EmployeeTaskController extends Controller
         }
 
         if($request->id){
-            $tasks = $request->except('id','user_id','task_id','master_company','child_company','department_name','supervisor','supervisor_designation');
-            $assignedTasks= $request->except('id','employee_id','user_id','task_name','task_date','expected_date','completion_status','attachment','completion_date','delay_task','efficiency','negligency','save_days');
-            
+            $tasks = $request->except('id','user_id','task_id','master_company','child_company','department_name','supervisor','supervisor_designation','created_at','updated_at');
+            $assignedTasks= $request->except('id','employee_id','user_id','task_name','task_date','expected_date','completion_status','attachment','completion_date','delay_task','efficiency','negligency','save_days','created_at','updated_at');
+            erp_employee_tasks::where('id', $request->id)->update($tasks);
+            erp_tasks_assigned_details::where('task_id', $request->task_id)->update($assignedTasks);
         }else{
             $tasks = $request->except('task_id','master_company','child_company','department_name','supervisor','supervisor_designation');
             $assignedTasks= $request->except('employee_id','user_id','task_name','task_date','expected_date','completion_status','attachment','completion_date','delay_task','efficiency','negligency','save_days');
@@ -129,9 +130,10 @@ class EmployeeTaskController extends Controller
      */
     public function destroy($id)
     {
+        $assign = erp_tasks_assigned_details::where('task_id', $id)->first();
+        erp_tasks_assigned_details::where('task_id', $assign->task_id)->delete();
         $task = erp_employee_tasks::where('id', $id)->first();
         erp_employee_tasks::where('id', $id)->delete();
-        erp_tasks_assigned_details::where('id', $task->assigned_id)->delete();
         return 'Task Details Delete Permanently';
     }
 }
