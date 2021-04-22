@@ -75,13 +75,13 @@
             </div>
         </div>
     </div><br/>
-    <div class="card" ng-init="getAssignedDetail()">
+    <div class="card">
         <div class="card-body">
             <h3 class="card-title">Task Assigned By</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="mast_company">Master Company</label>
-                    <input type="text" class="form-control" id="mast_company" ng-model="task.mast_company" placeholder="Master Company"/>
+                    <input type="text" class="form-control" id="master_company" ng-model="task.master_company" placeholder="Master Company"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="child_comapny">Branch/Child Company</label>
@@ -172,7 +172,7 @@
                         type: "success"
                     });
                     $scope.task = {};
-                    $scope.getTasks();
+                    $scope.getTaskDetails ();
                 });
             }
         };
