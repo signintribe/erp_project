@@ -6,11 +6,12 @@
         <div class="card-body">
             <h3 class="card-title">Organizational Contact</h3>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
                     <label for="organization_name">Name of Organization</label>
-                    <select class="form-control" ng-model="contact.org_name">
+                    <select class="form-control"  ng-options="vendor.id as vendor.organization_name for vendor in vendorinformations" ng-model="contact.vendor_id">
                         <option value="">Select Organization Name</option>
                     </select>
+                    <i class="text-danger" ng-show="!contact.vendor_id && showError"><small>Please Select Organization Name</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="phone_number">Phone Number</label>
@@ -20,30 +21,32 @@
                     <label for="mobile_number">Mobile Number</label>
                     <input type="text" class="form-control" id="mobile_number" ng-model="contact.mobile_number" placeholder="Mobile Number"/>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="facebook">Facebook</label>
-                    <input type="text" class="form-control" id="facebook" ng-model="contact.facebook" placeholder="Facebook"/>
-                </div>
+                
             </div><br/>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="linkedin">Linkedin</label>
-                    <input type="text" class="form-control" id="linkedin" ng-model="contact.linkedin" placeholder="Linkedin"/>
-                </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="whatsapp">Whatsapp</label>
                     <input type="text" class="form-control" id="whatsapp" ng-model="contact.whatsapp" placeholder="Whatsapp"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="twitter">Twitter</label>
-                    <input type="text" class="form-control" id="twitter" ng-model="contact.twitter" placeholder="Twitter"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="email">Email</label>
                     <input type="text" class="form-control" id="email" ng-model="contact.email" placeholder="Email"/>
                 </div>
-            </div><br/>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="fax_number">Fax Number</label>
+                    <input type="text" class="form-control" id="fax_number" ng-model="contact.fax_number" placeholder="Fax Number"/>
+                </div>
+            </div>
+        </div>
+    </div><br>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Organizational Social Media</h3>
             <div class="row">
+                 <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="instagram">Instagram</label>
+                    <input type="text" class="form-control" id="instagram" ng-model="contact.instagram" placeholder="Instagram"/>
+                </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="website">Website</label>
                     <input type="text" class="form-control" id="website" ng-model="contact.website" placeholder="Website"/>
@@ -52,28 +55,149 @@
                     <label for="pinterest">Pinterest</label>
                     <input type="text" class="form-control" id="pinterest" ng-model="contact.pinterest" placeholder="Pinterest"/>
                 </div>
+            </div><br>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="fax_number">Fax Number</label>
-                    <input type="text" class="form-control" id="fax_number" ng-model="contact.fax_number" placeholder="Fax Number"/>
+                    <label for="linkedin">Linkedin</label>
+                    <input type="text" class="form-control" id="linkedin" ng-model="contact.linkedin" placeholder="Linkedin"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="instagram">Instagram</label>
-                    <input type="text" class="form-control" id="instagram" ng-model="contact.instagram" placeholder="Instagram"/>
+                    <label for="twitter">Twitter</label>
+                    <input type="text" class="form-control" id="twitter" ng-model="contact.twitter" placeholder="Twitter"/>
                 </div>
-            </div><br/>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="facebook">Facebook</label>
+                    <input type="text" class="form-control" id="facebook" ng-model="contact.facebook" placeholder="Facebook"/>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-sm btn-success float-right">Save</button>
+                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_vendorContact()">Save</button>
                 </div>
             </div>
         </div>
+    </div><br>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>Sr#</th>
+                        <th>Organization Name</th>
+                        <th>Facebook</th>
+                        <th>Website</th>
+                        <th>Email</th>
+                        <th>Mobile Number</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody ng-init="getVendorContacts()">
+                    <tr ng-repeat="vendor in vendorcontacts">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="vendor.organization_name"></td>
+                        <td ng-bind="vendor.facebook "></td>
+                        <td ng-bind="vendor.website"></td>
+                        <td ng-bind="vendor.email"></td>
+                        <td ng-bind="vendor.mobile_number"></td>
+                        <td>
+                            <button class="btn btn-xs btn-info" ng-click="editVendorContact(vendor.id)">Edit</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteVendorContact(vendor.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+    <input type="hidden" id="app_url" value="<?php echo env('APP_URL'); ?>">
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var OrgContact = angular.module('OrgContactApp', []);
     OrgContact.controller('OrgContactController', function ($scope, $http) {
+        $scope.contact = {};
+        $scope.appurl = $("#app_url").val();
+        $scope.getVendors = function () {
+            $scope.vendorinformations = {};
+            $http.get('maintain-vendor-information').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.vendorinformations = response.data;
+                }
+            });
+        };
 
+        $scope.save_vendorContact = function(){
+            if (!$scope.contact.vendor_id) {
+                $scope.showError = true;
+                jQuery("input.required").filter(function () {
+                    return !this.value;
+                }).addClass("has-error");
+            } else {
+                var Data = new FormData();
+                angular.forEach($scope.contact, function (v, k) {
+                    Data.append(k, v);
+                });
+                $http.post('maintain-vendor-contact', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    swal({
+                        title: "Save!",
+                        text: res.data,
+                        type: "success"
+                    });
+                    $scope.contact = {};
+                    $scope.getVendorContacts();
+                });
+            }
+        };
+
+        $scope.deleteVendorContact = function (id) {
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('maintain-vendor-contact/' + id).then(function (response) {
+                    $scope.getVendorContacts();
+                    swal("Deleted!", response.data, "success");
+                });
+            });
+        };
+
+        $scope.getVendorContacts = function(){
+            $scope.vendorcontacts = {};
+            $http.get('maintain-vendor-contact').then(function (response) {
+                if (response.data) {
+                    $scope.vendorcontacts = response.data;
+                }
+            });
+        };
+
+        $scope.editVendorContact = function (id) {
+            $http.get('maintain-vendor-contact/' + id + '/edit').then(function (response) {
+                $scope.contact = response.data;
+                $scope.getContact($scope.contact.contact_id);
+                $scope.getSocialMedia($scope.contact.social_id);
+            });
+        };
+
+        $scope.getContact = function(contact_id){
+            $http.get($scope.appurl+'getContact/' + contact_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.contact, response.data);
+                }
+            });
+        };
+
+        $scope.getSocialMedia = function(social_id){
+            $http.get($scope.appurl+'getSocialMedia/' + social_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.contact, response.data);
+                }
+            });
+        };
     });
 </script>
 @endsection
