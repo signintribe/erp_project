@@ -135,7 +135,7 @@
     Address.controller('OrgAddressController', function ($scope, $http) {
         $scope.getVendors = function () {
             $scope.vendorinformations = {};
-            $http.get('maintain-vendor-address').then(function (response) {
+            $http.get('maintain-vendor-information').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.vendorinformations = response.data;
                 }
@@ -143,7 +143,7 @@
         };
 
         $scope.getAddress = function (address_id) {
-            $http.get('maintain-vendor-information').then(function (response) {
+            $http.get('maintain-vendor-address').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.Addresses = response.data;
                 }
