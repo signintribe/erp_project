@@ -97,7 +97,7 @@
                         <thead>
                             <tr>
                                 <th>Sr#</th>
-                                <th>Organization Name</th>
+                                <th>Organizations Name</th>
                                 <th>Street</th>
                                 <th>Sector</th>
                                 <th>Country</th>
