@@ -6,7 +6,7 @@
         <div class="card-body">
             <h3 class="card-title">Organizations Contact Person</h3>
             <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
                     <label for="organization_name">Name of Organization</label>
                     <select class="form-control"  ng-options="vendor.id as vendor.organization_name for vendor in vendorinformations" ng-model="contactperson.vendor_id">
                         <option value="">Select Organization Name</option>
