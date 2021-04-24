@@ -90,49 +90,51 @@
             </div>
         </div>
    </div><br>
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">All Address</h3>
-                    <table class="table table-bordered table-responsive">
-                        <thead>
-                            <tr>
-                                <th>Sr#</th>
-                                <th>Organizations Name</th>
-                                <th>Street</th>
-                                <th>Sector</th>
-                                <th>Country</th>
-                                <th>State</th>
-                                <th>City</th>
-                                <th>Zip Code</th>
-                                <th>Postal Code</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody ng-init="getAddress(0)">
-                            <tr ng-repeat="addr in Addresses">
-                                <td ng-bind="$index+1"></td>
-                                <td ng-bind="addr.organization_name"></td>
-                                <td ng-bind="addr.street"></td>
-                                <td ng-bind="addr.sector"></td>
-                                <td ng-bind="addr.country"></td>
-                                <td ng-bind="addr.state"></td>
-                                <td ng-bind="addr.city"></td>
-                                <td ng-bind="addr.zip_code"></td>
-                                <td ng-bind="addr.postal_code"></td>
-                                <td>
-                                    <button class="btn btn-xs btn-info" ng-click="editAddress(addr.id)">Edit</button>
-                                    <button class="btn btn-xs btn-danger" ng-click="deleteAddress(addr.id)">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">All Address</h3>
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>Sr#</th>
+                        <th>Organizations Name</th>
+                        <th>Street</th>
+                        <th>Sector</th>
+                        <th>Country</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Zip Code</th>
+                        <th>Postal Code</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody ng-init="getVendorAddress()">
+                    <tr ng-repeat="addr in addresses">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="addr.organization_name"></td>
+                        <td ng-bind="addr.street"></td>
+                        <td ng-bind="addr.sector"></td>
+                        <td ng-bind="addr.country"></td>
+                        <td ng-bind="addr.state"></td>
+                        <td ng-bind="addr.city"></td>
+                        <td ng-bind="addr.zip_code"></td>
+                        <td ng-bind="addr.postal_code"></td>
+                        <td>
+                            <button class="btn btn-xs btn-info" ng-click="editAddress(addr.id)">Edit</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteAddress(addr.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <input type="hidden" id="app_url" value="<?php echo env('APP_URL'); ?>">
+    </div>
+</div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var Address = angular.module('OrgAddressApp', []);
     Address.controller('OrgAddressController', function ($scope, $http) {
+        $scope.appurl = $("#app_url").val();
         $scope.getVendors = function () {
             $scope.vendorinformations = {};
             $http.get('maintain-vendor-information').then(function (response) {
@@ -142,23 +144,33 @@
             });
         };
 
-        $scope.getAddress = function (address_id) {
+        $scope.getVendorAddress = function () {
             $http.get('maintain-vendor-address').then(function (response) {
-                if (response.data.length > 0) {
-                    $scope.Addresses = response.data;
+                if (response.data.length) {
+                    $scope.addresses = response.data;
                 }
             });
         };
 
-        $scope.editAddress = function (address_id) {
-            $http.get('maintain-vendor-address/' + address_id + '/edit').then(function (response) {
-                if (response.data.length > 0) {
-                    $scope.address = response.data[0];
+        $scope.getAddress = function(address_id){
+            $http.get($scope.appurl+'getAddress/' + address_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.address, response.data);
                 }
             });
         };
 
-        $scope.deleteAddress = function (address_id) {
+        $scope.editAddress = function (id) {
+            $http.get('maintain-vendor-address/' + id + '/edit').then(function (response) {
+                if (response.data) {
+                    $scope.address = response.data;
+                    console.log($scope.address);
+                    $scope.getAddress($scope.address.address_id);
+                }
+            });
+        };
+
+        $scope.deleteAddress = function (id) {
             swal({
                 title: "Are you sure?",
                 text: "Your will not be able to recover this record!",
@@ -169,8 +181,8 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('maintain-vendor-address/' + address_id).then(function (response) {
-                    $scope.getAddress();
+                $http.delete('maintain-vendor-address/' + id).then(function (response) {
+                    $scope.getVendorAddress();
                     swal("Deleted!", response.data, "success");
                 });
             });
@@ -194,8 +206,8 @@
                         text: res.data,
                         type: "success"
                     });
-                    $scope.user = {};
-                    $scope.all_users();
+                    $scope.address = {};
+                    $scope.getVendorAddress();
                 });
             }
         };

@@ -40,11 +40,21 @@ class VendorAddressController extends Controller
      */
     public function store(Request $request)
     {
-        $address = $request->except('vendor_id');
+
+        if($request->id)
+        {
+        $address = $request->except('id', 'vendor_id','address_id', 'created_at', 'updated_at');
+        $vendorAddress = $request->except('id', 'created_at', 'updated_at', 'address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
+        tbladdress::where('id', $request->address_id)->update($address);
+        erp_vendor_address::where('id', $request->id)->update($vendorAddress);
+        }
+        else{
+        $address = $request->except('vendor_id','address_id');
         $vendorAddress = $request->except('address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
         $address = tbladdress::create($address);
         $vendorAddress['address_id'] = $address->id;
         $vendorAddress = erp_vendor_address::create($vendorAddress);
+        }
         return 'Save';
     }
 
@@ -67,7 +77,7 @@ class VendorAddressController extends Controller
      */
     public function edit($id)
     {
-        //
+       return erp_vendor_address::where('id', $id)->first();
     }
 
     /**
@@ -83,10 +93,6 @@ class VendorAddressController extends Controller
     }
 
 
-    public function getAddress($address_id)
-    {
-        return tbladdress::select('address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code')->where('id', $address_id)->first();
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -96,7 +102,9 @@ class VendorAddressController extends Controller
      */
     public function destroy($id)
     {
+        $det = erp_vendor_address::where('id', $id)->first();
         erp_vendor_address::where('id', $id)->delete();
-        return "Your record delete permanently";
+        tbladdress::where('id', $det->address_id)->delete();
+        return 'Vendor Address Delete Permanently';
     }
 }
