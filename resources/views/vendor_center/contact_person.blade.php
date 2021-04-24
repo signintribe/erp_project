@@ -193,7 +193,7 @@
                         type: "success"
                     });
                     $scope.contactperson = {};
-                    //$scope.getVendorContacts();
+                    $scope.getContactPersons();
                 });
             }
         };
@@ -242,6 +242,7 @@
                 $scope.getContact($scope.contactperson.contact_id);
                 $scope.getSocialMedia($scope.contactperson.social_id);
                 $scope.getAddress($scope.contactperson.address_id);
+                $scope.catimg = $scope.appurl +"public/contactperson_picture/" + $scope.contactperson.picture;
             });
         };
 

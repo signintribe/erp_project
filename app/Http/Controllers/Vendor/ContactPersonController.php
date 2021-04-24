@@ -91,8 +91,8 @@ class ContactPersonController extends Controller
     */
     public function deleteOldImage($request)
     {
-        if(File::exists(public_path('company-logo/'.$request))){
-            $file =public_path('company-logo/'.$request);
+        if(File::exists(public_path('contactperson_picture/'.$request))){
+            $file =public_path('contactperson_picture/'.$request);
             $img=File::delete($file);
         }
     }
