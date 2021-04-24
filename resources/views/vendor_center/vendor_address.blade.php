@@ -4,7 +4,7 @@
 <div  ng-app="OrgAddressApp" ng-controller="OrgAddressController" ng-cloak>
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title">Organizational Address</h3>
+            <h3 class="card-title">Organizationals Address</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors();">
                     <label for="organization_name">Name of Organization</label>
