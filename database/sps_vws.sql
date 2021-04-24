@@ -937,25 +937,6 @@ END$$
 DELIMITER ;
 
 
-DROP PROCEDURE sp_getVendorContact;
-DELIMITER $$
-CREATE PROCEDURE `sp_getVendorContact`(in userid int(11))
-BEGIN  
-    SELECT vendor.organization_name, contact.id, contact.contact_id, contact.social_id,  con.email, soc.website, soc.facebook, con.mobile_number FROM(
-      SELECT id, organization_name, user_id 
-      FROM erp_vendor_informations WHERE user_id = userid
-    ) AS vendor JOIN (
-      SELECT id, vendor_id, contact_id, social_id 
-      FROM erp_vendor_contacts
-    ) AS contact ON contact.vendor_id = vendor.id JOIN(
-      SELECT id, phone_number, mobile_number, fax_number, email, whatsapp FROM tblcontacts
-    ) AS con ON  con.id = contact.contact_id JOIN(
-      SELECT id, website, twitter, instagram, facebook, linkedin, pinterest FROM tblsocialmedias
-    )AS soc ON soc.id = contact.social_id
-END$$
-DELIMITER ;
-
-
 BEGIN  
        SELECT * from (SELECT id,AccountId,CategoryName as AccountName,AccountDescription,status from tblaccountcategories where id in(
         SELECT CategoryChildId from tblaccountparentchildassociations WHERE CategoryParentId in (

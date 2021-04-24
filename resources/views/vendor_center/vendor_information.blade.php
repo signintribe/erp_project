@@ -69,18 +69,18 @@
                     <input type="checkbox" id="sole_proprietor"/> <label for="sole_proprietor">Sole Proprietor</label><br/>
                 </div> -->
             </div><br/>
+        </div>
+    </div><br/>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Select product categories and attributes</h3>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_vendorInformation()">Save</button>
                 </div>
             </div>
         </div>
-    </div><br/>
-    <!-- <div class="card">
-        <div class="card-body">
-            <h3 class="card-title">Select product categories and attributes</h3>
-        </div>
-    </div><br> -->
+    </div><br>
     <div class="card">
         <div class="card-body">
             <table class="table table-bordered table-responsive">
@@ -90,7 +90,10 @@
                         <th>Organization Name</th>
                         <th>NTN</th>
                         <th>Incroporation/License No</th>
+                        <th>Organization Logo</th>
                         <th>STRN</th>
+                        <th>Import License No.</th>
+                        <th>Export License No.</th>
                         <th>Chamber of Commerce License No.</th>
                         <th>Currency in dealing</th>
                         <th>Action</th>
@@ -102,7 +105,10 @@
                         <td ng-bind="vendor.organization_name"></td>
                         <td ng-bind="vendor.ntn_no "></td>
                         <td ng-bind="vendor.incroporation_no"></td>
+                        <td ng-bind="vendor.organization_logo"></td>
                         <td ng-bind="vendor.strn"></td>
+                        <td ng-bind="vendor.import_license"></td>
+                        <td ng-bind="vendor.export_license"></td>
                         <td ng-bind="vendor.chamber_no"></td>
                         <td ng-bind="vendor.currency_dealing"></td>
                         <td>

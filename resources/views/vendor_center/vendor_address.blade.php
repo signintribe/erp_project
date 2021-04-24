@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors();">
                     <label for="organization_name">Name of Organization</label>
-                    <select class="form-control" ng-options="organization.id as organization.organization_name for organization in vendorinformations" ng-model="address.organization_name">
+                    <select class="form-control" ng-options="organization.id as organization.organization_name for organization in vendorinformations" ng-model="address.vendor_id">
                         <option value="">Select Organization Name</option>
                     </select>
                 </div>
@@ -85,7 +85,7 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-sm btn-success float-right">Save</button>
+                    <button type="button" ng-click="save_address()" class="btn btn-sm btn-success float-right">Save</button>
                 </div>
             </div>
         </div>
@@ -97,27 +97,31 @@
                         <thead>
                             <tr>
                                 <th>Sr#</th>
-                                <th>Organization Name</th>
+                                <th>Organizations Name</th>
                                 <th>Street</th>
                                 <th>Sector</th>
-                                <th>City</th>
-                                <th>State</th>
                                 <th>Country</th>
+                                <th>State</th>
+                                <th>City</th>
+                                <th>Zip Code</th>
+                                <th>Postal Code</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody ng-init="getAddress(0)">
                             <tr ng-repeat="addr in Addresses">
                                 <td ng-bind="$index+1"></td>
-                                <td ng-bind="addr.first_name"></td>
+                                <td ng-bind="addr.organization_name"></td>
                                 <td ng-bind="addr.street"></td>
                                 <td ng-bind="addr.sector"></td>
-                                <td ng-bind="addr.city"></td>
-                                <td ng-bind="addr.state"></td>
                                 <td ng-bind="addr.country"></td>
+                                <td ng-bind="addr.state"></td>
+                                <td ng-bind="addr.city"></td>
+                                <td ng-bind="addr.zip_code"></td>
+                                <td ng-bind="addr.postal_code"></td>
                                 <td>
                                     <button class="btn btn-xs btn-info" ng-click="editAddress(addr.id)">Edit</button>
-                                    <button class="btn btn-xs btn-danger" ng-click="editAddress(addr.id)">Delete</button>
+                                    <button class="btn btn-xs btn-danger" ng-click="deleteAddress(addr.id)">Delete</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -138,6 +142,37 @@
             });
         };
 
+        $scope.getAddress = function (address_id) {
+            $http.get('maintain-vendor-address').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.Addresses = response.data;
+                }
+            });
+        };
+
+        $scope.address = {};
+        $scope.save_address = function () {
+            if (!$scope.address.vendor_id || !$scope.address.address_line_1 || !$scope.address.street || !$scope.address.country || !$scope.address.state || !$scope.address.city) {
+                $scope.showError = true;
+                jQuery("input.required").filter(function () {
+                    return !this.value;
+                }).addClass("has-error");
+            } else {
+                var Data = new FormData();
+                angular.forEach($scope.address, function (v, k) {
+                    Data.append(k, v);
+                });
+                $http.post('maintain-vendor-address', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    swal({
+                        title: "Save!",
+                        text: res.data,
+                        type: "success"
+                    });
+                    $scope.user = {};
+                    $scope.all_users();
+                });
+            }
+        };
 
 
     });

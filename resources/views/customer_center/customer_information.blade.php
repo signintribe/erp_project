@@ -59,8 +59,8 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Nature of Business</label><br/>
                     <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
-                    <input type="checkbox" id="seller"/> <label for="seller">Seller</label><br/>
-                    <input type="checkbox" id="buyer"/> <label for="buyer">Buyer</label><br/>
+                    <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
+                    <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Sub Nature of Business</label><br/>

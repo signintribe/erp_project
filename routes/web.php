@@ -63,6 +63,7 @@ Route::group(['prefix'=>'vendor'], function () {
   Route::resource('maintain-vendor-information', 'Admin\VendorInformationController');
   Route::resource('maintain-vendor-contact', 'Vendor\VendorContactController');
   Route::resource('maintain-vendor-contactperson', 'Vendor\ContactPersonController');
+  Route::resource('maintain-vendor-address', 'Admin\VendorAddressController');
 });
 
 Route::get('getAddress/{address_id}', 'Admin\EmployeeAddressController@getAddress');
