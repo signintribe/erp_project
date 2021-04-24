@@ -937,6 +937,29 @@ END$$
 DELIMITER ;
 
 
+DROP PROCEDURE sp_getVendorAddress;
+DELIMITER $$
+CREATE PROCEDURE `sp_getVendorAddress`(in userid int(11))
+BEGIN  
+    SELECT
+    vendoraddress.id, vendor.organization_name,
+    address.address_line_1, address.address_line_2, address.address_line_3, address.street, 
+    address.sector, address.city, address.state,address.country, address.postal_code, 
+    address.zip_code
+    FROM(
+      SELECT id, organization_name 
+      FROM erp_vendor_informations WHERE user_id = userid
+    ) AS vendor JOIN(
+      SELECT id, address_id, vendor_id 
+      FROM erp_vendor_addresses
+    ) AS vendoraddress ON vendoraddress.vendor_id = vendor.id JOIN(
+      SELECT * FROM tbladdresses
+    ) AS address ON address.id = vendoraddress.address_id
+
+END$$
+DELIMITER ;
+
+
 BEGIN  
        SELECT * from (SELECT id,AccountId,CategoryName as AccountName,AccountDescription,status from tblaccountcategories where id in(
         SELECT CategoryChildId from tblaccountparentchildassociations WHERE CategoryParentId in (

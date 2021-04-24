@@ -93,7 +93,7 @@
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title">All Address</h3>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-responsive">
                         <thead>
                             <tr>
                                 <th>Sr#</th>
@@ -147,6 +147,32 @@
                 if (response.data.length > 0) {
                     $scope.Addresses = response.data;
                 }
+            });
+        };
+
+        $scope.editAddress = function (address_id) {
+            $http.get('maintain-vendor-address/' + address_id + '/edit').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.address = response.data[0];
+                }
+            });
+        };
+
+        $scope.deleteAddress = function (address_id) {
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('maintain-vendor-address/' + address_id).then(function (response) {
+                    $scope.getAddress();
+                    swal("Deleted!", response.data, "success");
+                });
             });
         };
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\tbladdress;
 use DB;
+use Auth;
 use App\Models\VendorModels\erp_vendor_address;
 
 
@@ -18,7 +19,7 @@ class VendorAddressController extends Controller
      */
     public function index()
     {
-        return erp_vendor_address::where('user_id', Auth::user()->id)->get();
+        return DB::select('call sp_getVendorAddress('.Auth::user()->id.')');
     }
 
     /**
@@ -95,6 +96,7 @@ class VendorAddressController extends Controller
      */
     public function destroy($id)
     {
-        //
+        erp_vendor_address::where('id', $id)->delete();
+        return "Your record delete permanently";
     }
 }
