@@ -162,6 +162,7 @@
             $http.get('maintain-vendor-contact').then(function (response) {
                 if (response.data) {
                     $scope.contacts = response.data;
+                    $scope.contacts.vendor_id = parseInt(response.data.vendor_id);
                 }
             });
         };

@@ -232,6 +232,7 @@
             $http.get('maintain-vendor-contactperson').then(function (response) {
                 if (response.data) {
                     $scope.contactpersons = response.data;
+                    $scope.contactpersons.vendor_id = parseInt(response.data.vendor_id);
                 }
             });
         };
