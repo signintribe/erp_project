@@ -164,7 +164,8 @@
             $http.get('maintain-vendor-address/' + id + '/edit').then(function (response) {
                 if (response.data) {
                     $scope.address = response.data;
-                    console.log($scope.address);
+                    $scope.address.vendor_id = parseInt(response.data.vendor_id);
+                    //console.log($scope.address);
                     $scope.getAddress($scope.address.address_id);
                 }
             });
