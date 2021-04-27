@@ -94,6 +94,7 @@ Route::get('contact-detail', 'CustomerController@contact_detail')->name('contact
 Route::get('customer-contact-person', 'CustomerController@customer_contact_person')->name('customer-contact-person');
 Route::resource('maintain-customer-information', 'Customer\CustomerInformationController');
 Route::resource('maintain-customer-address', 'Customer\CustomerAddressController');
+Route::resource('maintain-customer-detail', 'Customer\CustomerDetailController');
 
 /**
  * Inventory Center

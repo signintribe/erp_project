@@ -6,9 +6,9 @@
         <div class="card-body">
             <h3 class="card-title">Customer Contact</h3>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="customer_name">Name of Customer</label>
-                    <select class="form-control" id="customer_name" ng-model="contact.customer_name">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="customer_name" ng-init="getCustomers();">Name of Customer</label>
+                    <select class="form-control" id="customer_name" ng-options="customer.id as customer.customer_name for customer in customerinformations" ng-model="address.customer_id">
                         <option value="">Select Customer Name</option>
                     </select>
                 </div>
@@ -63,16 +63,133 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-sm btn-success float-right">Save</button>
+                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_customerdetail()">Save</button>
                 </div>
             </div>
         </div>
+    </div><br>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>Sr#</th>
+                        <th>Organization Name</th>
+                        <th>Email</th>
+                        <th>Mobile Number</th>
+                        <th>Facebook</th>
+                        <th>Website</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody ng-init="getDetails()">
+                    <tr ng-repeat="customer in details">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="customer.customer_name"></td>
+                        <td ng-bind="customer.email "></td>
+                        <td ng-bind="customer.mobile_number"></td>
+                        <td ng-bind="customer.facebook"></td>
+                        <td ng-bind="customer.website"></td>
+                        <td>
+                            <button class="btn btn-xs btn-info" ng-click="editDetail(customer.id)">Edit</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteDetail(customer.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+    <input type="hidden" id="app_url" value="<?php echo env('APP_URL'); ?>">
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var CustomerContact = angular.module('CustomerContactApp', []);
     CustomerContact.controller('CustomerContactController', function ($scope, $http) {
+        $scope.appurl = $("#app_url").val();
+        $scope.getCustomers = function () {
+            $scope.customerinformations = {};
+            $http.get('maintain-customer-information').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.customerinformations = response.data;
+                }
+            });
+        };
+
+
+        $scope.save_customerdetail = function(){
+            if (!$scope.detail.customer_id) {
+                $scope.showError = true;
+                jQuery("input.required").filter(function () {
+                    return !this.value;
+                }).addClass("has-error");
+            } else {
+                var Data = new FormData();
+                angular.forEach($scope.contact, function (v, k) {
+                    Data.append(k, v);
+                });
+                $http.post('maintain-customer-detail', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    swal({
+                        title: "Save!",
+                        text: res.data,
+                        type: "success"
+                    });
+                    $scope.detail = {};
+                    $scope.getDetails();
+                });
+            }
+        };
+
+        $scope.deleteDetail = function (id) {
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('maintain-customer-detail/' + id).then(function (response) {
+                    $scope.getDetails();
+                    swal("Deleted!", response.data, "success");
+                });
+            });
+        };
+
+        $scope.getDetails = function(){
+            $scope.details = {};
+            $http.get('maintain-customer-detail').then(function (response) {
+                if (response.data) {
+                    $scope.details = response.data;
+                    $scope.details.customer_id = parseInt(response.data.customer_id);
+                }
+            });
+        };
+
+        $scope.editDetail = function (id) {
+            $http.get('maintain-customer-detail/' + id + '/edit').then(function (response) {
+                $scope.detail = response.data;
+                $scope.getContact($scope.contact.contact_id);
+                $scope.getSocialMedia($scope.contact.social_id);
+            });
+        };
+
+        $scope.getContact = function(contact_id){
+            $http.get($scope.appurl+'getContact/' + contact_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.contact, response.data);
+                }
+            });
+        };
+
+        $scope.getSocialMedia = function(social_id){
+            $http.get($scope.appurl+'getSocialMedia/' + social_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.contact, response.data);
+                }
+            });
+        };
 
     });
 </script>
