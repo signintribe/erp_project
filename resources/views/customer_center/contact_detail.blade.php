@@ -7,7 +7,7 @@
             <h3 class="card-title">Customer Contact</h3>
             <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="customer_name" ng-init="getCustomers();">*Name of Customer</label>
+                    <label for="customer_name" ng-init="getCustomers();">* Name of Customer</label>
                     <select class="form-control" id="customer_name" ng-options="customer.id as customer.customer_name for customer in customerinformations" ng-model="contact.customer_id">
                         <option value="">Select Customer Name</option>
                     </select>
@@ -16,6 +16,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="phone_number">Phone Number</label>
                     <input type="text" class="form-control" id="phone_number" ng-model="contact.phone_number" placeholder="Phone Number"/>
+                    <i class="text-danger" ng-show="!contact.phone_number && showError"><small>Please Select Customer</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="mobile_number">Mobile Number</label>
@@ -118,7 +119,7 @@
 
         $scope.contact = {};
         $scope.save_customerdetail = function(){
-            if (!$scope.contact.customer_id) {
+            if (!$scope.contact.customer_id || !$scope.contact.phone_number) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\VendorModels\erp_customer_detail;
+use App\Models\CustomerModels\erp_customer_detail;
 use App\Models\tblcontact;
 use App\Models\tblsocialmedias;
 use Auth;
