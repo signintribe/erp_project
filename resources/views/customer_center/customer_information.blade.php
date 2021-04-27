@@ -162,6 +162,7 @@
                         type: "success"
                     });
                     $scope.customer = {};
+                    $scope.cuslogo = "";
                    $scope.getCustomerInformation();
                 });
             }

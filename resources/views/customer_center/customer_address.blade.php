@@ -146,6 +146,7 @@
 
 
         $scope.getCustomerAddress = function () {
+            $scope.addresses = {};
             $http.get('maintain-customer-address').then(function (response) {
                 if (response.data.length) {
                     $scope.addresses = response.data;
