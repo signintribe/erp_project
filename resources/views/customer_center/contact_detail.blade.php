@@ -171,7 +171,7 @@
 
         $scope.editDetail = function (id) {
             $http.get('maintain-customer-detail/' + id + '/edit').then(function (response) {
-                $scope.detail = response.data;
+                $scope.contact = response.data;
                 $scope.getContact($scope.contact.contact_id);
                 $scope.getSocialMedia($scope.contact.social_id);
             });
