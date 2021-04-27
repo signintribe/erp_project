@@ -7,10 +7,11 @@
             <h3 class="card-title">Customer Address</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="customer_name" ng-init="getCustomers();">Name of Customer</label>
+                    <label for="customer_name" ng-init="getCustomers();">*Name of Customer</label>
                     <select class="form-control" id="customer_name" ng-options="customer.id as customer.customer_name for customer in customerinformations" ng-model="address.customer_id">
                         <option value="">Select Customer Name</option>
                     </select>
+                    <i class="text-danger" ng-show="!address.customer_id && showError"><small>Please Select Customer</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
@@ -193,7 +194,7 @@
 
         $scope.address = {};
         $scope.save_address = function () {
-            if (!$scope.address.customer_id || !$scope.address.address_line_1 || !$scope.address.street || !$scope.address.country || !$scope.address.state || !$scope.address.city) {
+            if (!$scope.address.customer_id || !$scope.address.customer_id || !$scope.address.address_line_1 || !$scope.address.street || !$scope.address.country || !$scope.address.state || !$scope.address.city) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;

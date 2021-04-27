@@ -7,10 +7,11 @@
             <h3 class="card-title">Customer Contact</h3>
             <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="customer_name" ng-init="getCustomers();">Name of Customer</label>
-                    <select class="form-control" id="customer_name" ng-options="customer.id as customer.customer_name for customer in customerinformations" ng-model="address.customer_id">
+                    <label for="customer_name" ng-init="getCustomers();">*Name of Customer</label>
+                    <select class="form-control" id="customer_name" ng-options="customer.id as customer.customer_name for customer in customerinformations" ng-model="contact.customer_id">
                         <option value="">Select Customer Name</option>
                     </select>
+                    <i class="text-danger" ng-show="!contact.customer_id && showError"><small>Please Select Customer</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="phone_number">Phone Number</label>
@@ -115,9 +116,9 @@
             });
         };
 
-
+        $scope.contact = {};
         $scope.save_customerdetail = function(){
-            if (!$scope.detail.customer_id) {
+            if (!$scope.contact.customer_id) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;
@@ -133,7 +134,7 @@
                         text: res.data,
                         type: "success"
                     });
-                    $scope.detail = {};
+                    $scope.contact = {};
                     $scope.getDetails();
                 });
             }

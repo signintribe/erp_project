@@ -7,10 +7,11 @@
             <h3 class="card-title">Organizationals Address</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors();">
-                    <label for="organization_name">Name of Organization</label>
+                    <label for="organization_name">* Name of Organization</label>
                     <select class="form-control" ng-options="organization.id as organization.organization_name for organization in vendorinformations" ng-model="address.vendor_id">
                         <option value="">Select Organization Name</option>
                     </select>
+                    <i class="text-danger" ng-show="!organization.organization_name && showError"><small>Please Enter Organization</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">

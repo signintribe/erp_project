@@ -7,18 +7,20 @@
             <h3 class="card-title">Customer Information</h3>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <label for="customer_type">Type of Customer</label>
+                    <label for="customer_type">* Type of Customer</label>
                     <select class="form-control" ng-model="customer.customer_type" id="customer_type">
                         <option value="">Type of Customer</option>
                         <option value="Individual">Individual</option>
                         <option value="Organization">Organization</option>
                     </select>
+                    <i class="text-danger" ng-show="!customer.customer_type && showError"><small>Please Select Customer Type</small></i>
                 </div>
             </div><br/>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="customer_name">Customer Name</label>
+                    <label for="customer_name">* Customer Name</label>
                     <input type="text" class="form-control" id="customer_name" ng-model="customer.customer_name" placeholder="Cusomer Name"/>
+                    <i class="text-danger" ng-show="!customer.customer_name && showError"><small>Please Enter Customer Name</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="ntn_no">NTN</label>
@@ -145,7 +147,7 @@
         $scope.customer = {};
         $scope.appurl = $("#appurl").val();
         $scope.save_customerInformation = function(){
-            if (!$scope.customer.customer_name) {
+            if (!$scope.customer.customer_type || !$scope.customer.customer_name) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;

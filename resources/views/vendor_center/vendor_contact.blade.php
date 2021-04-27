@@ -7,15 +7,16 @@
             <h3 class="card-title">Organizational Contact</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
-                    <label for="organization_name">Name of Organization</label>
+                    <label for="organization_name">* Name of Organization</label>
                     <select class="form-control"  ng-options="vendor.id as vendor.organization_name for vendor in vendorinformations" ng-model="contact.vendor_id">
                         <option value="">Select Organization Name</option>
                     </select>
-                    <i class="text-danger" ng-show="!contact.vendor_id && showError"><small>Please Select Organization Name</small></i>
+                    <i class="text-danger" ng-show="!contact.vendor_id && showError"><small>Please Enter Organization</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="phone_number">Phone Number</label>
+                    <label for="phone_number">* Phone Number</label>
                     <input type="text" class="form-control" id="phone_number" ng-model="contact.phone_number" placeholder="Phone Number"/>
+                    <i class="text-danger" ng-show="!contact.phone_number && showError"><small>Please Enter Phone no</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="mobile_number">Mobile Number</label>
@@ -117,7 +118,7 @@
         };
 
         $scope.save_vendorcontact = function(){
-            if (!$scope.contact.vendor_id) {
+            if (!$scope.contact.vendor_id || !$scope.contact.phone_number) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;

@@ -7,8 +7,9 @@
             <h3 class="card-title">Organizational Information</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="organization_name">Name of Organization</label>
+                    <label for="organization_name">* Name of Organization</label>
                     <input type="text" class="form-control" id="organization_name" ng-model="organization.organization_name" placeholder="Name of Organization"/>
+                    <i class="text-danger" ng-show="!organization.organization_name && showError"><small>Please Enter Organization</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="ntn_no">NTN</label>
