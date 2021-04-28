@@ -7,10 +7,11 @@
             <h3 class="card-title">Customer Contact Person</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="customer_name">Name of Customer</label>
-                    <select class="form-control" id="customer_name" ng-model="contactperson.org_name">
+                    <label for="customer_name" ng-init="getCustomers();">*Name of Customer</label>
+                    <select class="form-control" id="customer_name" ng-options="customer.id as customer.customer_name for customer in customerinformations" ng-model="contactperson.customer_id">
                         <option value="">Select Customer Name</option>
                     </select>
+                    <i class="text-danger" ng-show="!contactperson.customer_id && showError"><small>Please Select Customer</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="title">Title</label>
@@ -27,8 +28,11 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="picture">Picture</label>
-                    <input type="file" class="form-control" id="picture" ng-model="contactperson.picture" placeholder="Picture"/>
+                    <div class="form-group">
+                        <label for="cat-img">Picture</label>
+                        <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);" >
+                        <img ng-if="catimg" ng-src="<% catimg %>" class="img img-thumbnail" style-="width:100%; height:200px;">
+                    </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="whatsapp">Whatsapp</label>
@@ -87,11 +91,11 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="address_line1">Postal Address Line 1</label>
-                    <input type="text" class="form-control" id="address_line1" ng-model="contactperson.address_line1" placeholder="Postal Address Line 1"/>
+                    <input type="text" class="form-control" id="address_line1" ng-model="contactperson.address_line_1" placeholder="Postal Address Line 1"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="address_line2">Postal Address Line 2</label>
-                    <input type="text" class="form-control" id="address_line2" ng-model="contactperson.address_line2" placeholder="Postal Address Line 2"/>
+                    <input type="text" class="form-control" id="address_line2" ng-model="contactperson.address_line_2" placeholder="Postal Address Line 2"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="sector">Sector/Mohallah</label>
@@ -114,17 +118,156 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-sm btn-success float-right">Save</button>
+                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_contactPerson()">Save</button>
                 </div>
             </div>
         </div>
+    </div><br>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>Sr#</th>
+                        <th>Organization Name</th>
+                        <th>Title</th>
+                        <th>First Name</th>
+                        <th>Email</th>
+                        <th>Mobile Number</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody ng-init="getContactPersons()">
+                    <tr ng-repeat="customer in contactpersons">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="customer.customer_name"></td>
+                        <td ng-bind="customer.title "></td>
+                        <td ng-bind="customer.first_name"></td>
+                        <td ng-bind="customer.email"></td>
+                        <td ng-bind="customer.mobile_number"></td>
+                        <td>
+                            <button class="btn btn-xs btn-info" ng-click="editContactPerson(customer.id)">Edit</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteContactPerson(customer.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+    <input type="hidden" id="app_url" value="<?php echo env('APP_URL'); ?>">
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
-    var OrgContact = angular.module('PersonApp', []);
+    var OrgContact = angular.module('PersonApp', [], function ($interpolateProvider) {
+        $interpolateProvider.startSymbol('<%');
+        $interpolateProvider.endSymbol('%>');
+    });
     OrgContact.controller('PersonController', function ($scope, $http) {
+        $scope.contactperson = {};
+        $scope.appurl = $("#app_url").val();
+        $scope.getCustomers = function () {
+            $scope.customerinformations = {};
+            $http.get('maintain-customer-information').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.customerinformations = response.data;
+                }
+            });
+        };
+        $scope.save_contactPerson = function(){
+            if (!$scope.contactperson.customer_id) {
+                $scope.showError = true;
+                jQuery("input.required").filter(function () {
+                    return !this.value;
+                }).addClass("has-error");
+            } else {
+                var Data = new FormData();
+                angular.forEach($scope.contactperson, function (v, k) {
+                    Data.append(k, v);
+                });
+                $http.post('maintain-customer-contactperson', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    swal({
+                        title: "Save!",
+                        text: res.data,
+                        type: "success"
+                    });
+                    $scope.contactperson = {};
+                    $scope.getContactPersons();
+                });
+            }
+        };
 
+        $scope.readUrl = function (element) {
+            var reader = new FileReader();//rightbennerimage
+            reader.onload = function (event) {
+                $scope.catimg = event.target.result;
+                $scope.$apply(function ($scope) {
+                    $scope.contactperson.picture = element.files[0];
+                });
+            };
+            reader.readAsDataURL(element.files[0]);
+        };
+
+        $scope.deleteContactPerson = function (id) {
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('maintain-customer-contactperson/' + id).then(function (response) {
+                    $scope.getContactPersons();
+                    swal("Deleted!", response.data, "success");
+                });
+            });
+        };
+
+        $scope.getContactPersons = function(){
+            $scope.contactpersons = {};
+            $http.get('maintain-customer-contactperson').then(function (response) {
+                if (response.data) {
+                    $scope.contactpersons = response.data;
+                    $scope.contactpersons.customer_id = parseInt(response.data.customer_id);
+                }
+            });
+        };
+
+        $scope.editContactPerson = function (id) {
+            $http.get('maintain-customer-contactperson/' + id + '/edit').then(function (response) {
+                $scope.contactperson = response.data;
+                $scope.getContact($scope.contactperson.contact_id);
+                $scope.getSocialMedia($scope.contactperson.social_id);
+                $scope.getAddress($scope.contactperson.address_id);
+                $scope.catimg = $scope.appurl +"public/customercontactperson_picture/" + $scope.contactperson.picture;
+            });
+        };
+
+        $scope.getContact = function(contact_id){
+            $http.get($scope.appurl+'getContact/' + contact_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.contactperson, response.data);
+                }
+            });
+        };
+
+        $scope.getSocialMedia = function(social_id){
+            $http.get($scope.appurl+'getSocialMedia/' + social_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.contactperson, response.data);
+                }
+            });
+        };
+
+        $scope.getAddress = function(address_id){
+            $http.get($scope.appurl+'getAddress/' + address_id).then(function (response) {
+                if (response.data) {
+                    angular.extend($scope.contactperson, response.data);
+                }
+            });
+        };
     });
 </script>
 @endsection
