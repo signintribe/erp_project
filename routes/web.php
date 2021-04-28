@@ -88,6 +88,11 @@ Route::get('/userdashboard', 'User\UserController@index')->name('userdashboard')
 /**
  * Customer Dashboard
 */
+
+/**
+ * Customer Center
+*/
+Route::group(['prefix'=>'customer'], function () {
 Route::get('customer-information', 'CustomerController@index')->name('customer-information');
 Route::get('customer-address', 'CustomerController@customer_address')->name('customer-address');
 Route::get('contact-detail', 'CustomerController@contact_detail')->name('contact-detail');
@@ -95,7 +100,9 @@ Route::get('customer-contact-person', 'CustomerController@customer_contact_perso
 Route::resource('maintain-customer-information', 'Customer\CustomerInformationController');
 Route::resource('maintain-customer-address', 'Customer\CustomerAddressController');
 Route::resource('maintain-customer-detail', 'Customer\CustomerDetailController');
+Route::resource('maintain-customer-contactperson', 'Customer\CustomerContactController');
 
+});
 /**
  * Inventory Center
 */
