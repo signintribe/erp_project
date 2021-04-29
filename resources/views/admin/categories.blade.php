@@ -86,8 +86,44 @@
                         <div class="form-group">
                             <div class="form-check form-check-success" ng-repeat="catstwo in categoryiestwo">
                                 <label class="form-check-label">
-                                    <input type="radio" name="catthree" class="form-check-input">
+                                    <input type="radio" name="catthree" class="form-check-input"  ng-click="get_categoriesthree(catstwo.id)">
                                     <%catstwo.category_name%>
+                                    <i class="input-helper"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div align='center' id="catfour"></div>
+                        <div class="form-group">
+                            <div class="form-check form-check-success" ng-repeat="catsthree in categoryiesthree">
+                                <label class="form-check-label">
+                                    <input type="radio" name="catfour" class="form-check-input"  ng-click="get_categoriesfour(catsthree.id)">
+                                    <%catsthree.category_name%>
+                                    <i class="input-helper"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div align='center' id="catfive"></div>
+                        <div class="form-group">
+                            <div class="form-check form-check-success" ng-repeat="catsfour in categoryiesfour">
+                                <label class="form-check-label">
+                                    <input type="radio" name="catfive" class="form-check-input"  ng-click="get_categoriesfive(catsfour.id)">
+                                    <%catsfour.category_name%>
+                                    <i class="input-helper"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div align='center' id="catsix"></div>
+                        <div class="form-group">
+                            <div class="form-check form-check-success" ng-repeat="catsfive in categoryiesfive">
+                                <label class="form-check-label">
+                                    <input type="radio" name="catsix" class="form-check-input"  ng-click="get_categoriessix(catsfive.id)">
+                                    <%catsfive.category_name%>
                                     <i class="input-helper"></i>
                                 </label>
                             </div>
@@ -166,6 +202,45 @@
             });
         };
 
+        $scope.get_categoriesthree = function (parent_id) {
+            $scope.categoryiesthree = {};
+            $("#catfour").html('<div class="square-path-loader"></div>');
+            $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.categoryiesthree = response.data;
+                    $("#catfour").html('');
+                } else {
+                    $("#catfour").html('');
+                }
+            });
+        };
+
+        $scope.get_categoriesfour = function (parent_id) {
+            $scope.categoryiesfour = {};
+            $("#catfive").html('<div class="square-path-loader"></div>');
+            $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.categoryiesfour = response.data;
+                    $("#catfive").html('');
+                } else {
+                    $("#catfive").html('');
+                }
+            });
+        };
+
+        $scope.get_categoriesfive = function (parent_id) {
+            $scope.categoryiesfive = {};
+            $("#catsix").html('<div class="square-path-loader"></div>');
+            $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.categoryiesfive = response.data;
+                    $("#catsix").html('');
+                } else {
+                    $("#catsix").html('');
+                }
+            });
+        };
+
         $scope.get_category = function (category_id) {
             $http.get('get_categories/' + category_id).then(function (response) {
                 $scope.category = response.data[0];
@@ -188,6 +263,7 @@
                 });
             });
         };
+
         $scope.category = {};
         $scope.save_category = function () {
             console.log($scope.category);
