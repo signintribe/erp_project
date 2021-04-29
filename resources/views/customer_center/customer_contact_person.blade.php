@@ -201,7 +201,7 @@
             reader.onload = function (event) {
                 $scope.catimg = event.target.result;
                 $scope.$apply(function ($scope) {
-                    $scope.contactperson.picture = element.files[0];
+                    $scope.contactperson.custpicture = element.files[0];
                 });
             };
             reader.readAsDataURL(element.files[0]);
