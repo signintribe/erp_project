@@ -39,45 +39,38 @@ class CategoryController extends Controller {
     }
 
     public function save_category(Request $request) {
-        $cat = tblcategory::where('id', $request->id)->first();
         $imgname = "";
-        if (empty($cat)) {
-            if ($request->hasFile('category_image')) {
-                $current = date('ymd') . rand(1, 999999) . time();
-                $file = $request->file('category_image');
-                $imgname = $current . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('/category_images'), $imgname);
+        if ($request->hasFile('category_image')) {
+            $current = date('ymd') . rand(1, 999999) . time();
+            $file = $request->file('category_image');
+            $imgname = $current . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('/category_images'), $imgname);
+            if($request->id){
+                $this->deleteOldImage($request->picture);
             }
-            $category = tblcategory::create([
-                        'category_name' => $request->category_name,
-                        'category_description' => $request->category_description,
-                        'measurement' => $request->measurement,
-                        'category_image' => $imgname
-            ]);
-
-            tblcategoryassociation::create([
-                'child_id' => $category->id,
-                'parent_id' => $request->parent_id ? $request->parent_id : 1
-            ]);
-        } else {
-            if ($request->hasFile('category_image')) {
-                $current = date('ymd') . rand(1, 999999) . time();
-                $file = $request->file('category_image');
-                $imgname = $current . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('/category_images'), $imgname);
-                $cat->category_image = $imgname;
-            }
-            $cat->category_name = $request->category_name;
-            $cat->category_description = $request->category_description;
-            $cat->measurement = $request->measurement;
-            $cat->save();
-
+        }
+        if ($request->id) {
+            $catdata = $request->except(['id', 'parent_id', 'category_image']);
+            $catdata['category_image'] = $imgname;
+            tblcategory::where('id', $request->id)->update($catdata);
             tblcategoryassociation::where('child_id', $request->id)->delete();
-
             tblcategoryassociation::create([
                 'child_id' => $cat->id,
                 'parent_id' => $request->parent_id ? $request->parent_id : 1
             ]);
+        } else {
+            $catdata = $request->except(['parent_id', 'category_image']);
+            $catdata['category_image'] = $imgname;
+            $category = tblcategory::create($catdata);
+            tblcategoryassociation::create([
+                'child_id' => $category->id,
+                'parent_id' => $request->parent_id ? $request->parent_id : 1
+            ]);
+        }
+        $parent = tblcategoryassociation::where('parent_id', $request->parent_id)->get();
+        if(!empty($parent)){
+            $productcat['product_category'] = 0;
+            tblcategory::where('id', $request->parent_id)->update($productcat);
         }
         return "Category Save Successfully";
     }

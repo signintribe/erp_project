@@ -9,5 +9,12 @@ class tblcategory extends Model
     /**
      * @var array
      */
-    protected $fillable = ['category_name', 'category_image', 'category_description', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'category_name',
+        'category_image', 
+        'category_description',
+        'product_category', 
+        'created_at', 
+        'updated_at'
+    ];
 }
