@@ -103,6 +103,18 @@
             </div>
         </li>
         <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Category-Center" aria-expanded="false" aria-controls="Inventory-Center">
+                <i class="fa fa-group menu-icon"></i>
+                <span class="menu-title">Category Center</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Category-Center">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('categories')}}" class="nav-link">Add Category</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#Inventory-Center" aria-expanded="false" aria-controls="Inventory-Center">
                 <i class="fa fa-cubes menu-icon"></i>
                 <span class="menu-title">Inventory Center</span>
