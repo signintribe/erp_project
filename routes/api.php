@@ -30,3 +30,4 @@ Route::get('get-company-rateing/{company_id}', 'ApiController@get_company_ratein
  * Add Category Attributes
  */
 Route::resource('maintain-attributes', 'Admin\AttributeController');
+Route::get('product-categories', 'Admin\AttributeController@getCategory');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\erp_attribute;
+use App\Models\tblcategory;
 use Auth;
 use DB;
 class AttributeController extends Controller
@@ -93,5 +94,9 @@ class AttributeController extends Controller
     {
         erp_attribute::where('id', $id)->delete();
         return response()->json(['status'=> true, 'message' => 'Attribute Delete Permanently']);
+    }
+
+    public function getCategory(){
+        return tblcategory::where('product_category', 1)->get();
     }
 }
