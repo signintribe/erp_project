@@ -93,14 +93,14 @@ Route::get('/userdashboard', 'User\UserController@index')->name('userdashboard')
  * Customer Center
 */
 Route::group(['prefix'=>'customer'], function () {
-Route::get('customer-information', 'CustomerController@index')->name('customer-information');
-Route::get('customer-address', 'CustomerController@customer_address')->name('customer-address');
-Route::get('contact-detail', 'CustomerController@contact_detail')->name('contact-detail');
-Route::get('customer-contact-person', 'CustomerController@customer_contact_person')->name('customer-contact-person');
-Route::resource('maintain-customer-information', 'Customer\CustomerInformationController');
-Route::resource('maintain-customer-address', 'Customer\CustomerAddressController');
-Route::resource('maintain-customer-detail', 'Customer\CustomerDetailController');
-Route::resource('maintain-customer-contactperson', 'Customer\CustomerContactController');
+  Route::get('customer-information', 'CustomerController@index')->name('customer-information');
+  Route::get('customer-address', 'CustomerController@customer_address')->name('customer-address');
+  Route::get('contact-detail', 'CustomerController@contact_detail')->name('contact-detail');
+  Route::get('customer-contact-person', 'CustomerController@customer_contact_person')->name('customer-contact-person');
+  Route::resource('maintain-customer-information', 'Customer\CustomerInformationController');
+  Route::resource('maintain-customer-address', 'Customer\CustomerAddressController');
+  Route::resource('maintain-customer-detail', 'Customer\CustomerDetailController');
+  Route::resource('maintain-customer-contactperson', 'Customer\CustomerContactController');
 
 });
 /**
@@ -173,6 +173,8 @@ Route::get('get_categories/{category_id}', 'Admin\CategoryController@get_categor
 Route::get('get-categorywithitsparents/{parent_id}', 'Admin\CategoryController@get_categorywithitsparents')->name('get-categorywithitsparents');
 Route::get('delete_category/{category_id}', 'Admin\CategoryController@delete_category')->name('deletecategories')->middleware('is_admin');
 Route::post('save_category', 'Admin\CategoryController@save_category')->name('savecategories')->middleware('is_admin');
+
+
 
 Route::get('queries-reports', 'Admin\QueriesController@index')->name('queries-reports')->middleware('is_admin');
 Route::get('all-queries-report', 'Admin\QueriesController@all_queries_report')->name('all-queries-report')->middleware('is_admin');
