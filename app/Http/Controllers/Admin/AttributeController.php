@@ -43,7 +43,7 @@ class AttributeController extends Controller
             erp_attribute::where('id', $request->id)->update($attribute);
         }else{
             $attribute = $request->all();
-            $attribute['user_id'] = 1;//Auth::user()->id;
+            $attribute['user_id'] = Auth::user()->id;
             erp_attribute::create($attribute);
         }
         return response()->json(['status'=> true, 'message' => 'Attribute Save Successfully']);
