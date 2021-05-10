@@ -112,6 +112,7 @@
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a href="{{url('categories')}}" class="nav-link">Add Category</a></li>
                     <li class="nav-item"> <a href="{{url('attributes')}}" class="nav-link">Add Attributes</a></li>
+                    <li class="nav-item"> <a href="{{url('attribute_value')}}" class="nav-link">Attribute values</a></li>
                 </ul>
             </div>
         </li>

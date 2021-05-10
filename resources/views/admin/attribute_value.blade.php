@@ -2,7 +2,7 @@
 @section('title', 'Attributes')
 @section('content')
 <link rel="stylesheet" href="{{ asset('public/dashboard/vendors/icheck/skins/all.css')}}">
-<div class="row" ng-app="AttributeApp" ng-controller="AttributeController">
+<div class="row" ng-app="AttributeValueApp" ng-controller="AttributeValueController">
     <div class="col-lg-4 col-md-4 col-sm-4">
         <div class="card">
             <div class="card-body">
@@ -11,7 +11,7 @@
                 <div class="form-group row">
                     <div class="col">
                         <label>* Attribute Name:</label>
-                        <input type="text" class="form-control" placeholder="Attribute Name" ng-model="attribute.attribute_name"/>
+                        <input type="text" class="form-control" placeholder="Attribute Name" ng-model="value.value_name"/>
                         <i class="text-danger" ng-show="!attribute.attribute_name && showError"><small>Please Type Attribute Name</small></i>
                     </div>
                 </div>
@@ -36,9 +36,9 @@
                     </div>
                 </div> -->
                 <div class="form-group row">
-                    <div class="col" ng-init="get_allcategories()">
+                    <div class="col" ng-init="get_allattributes()">
                         <label>Parent Category:</label>
-                        <select class="form-control" ng-options="cat.id as cat.category_name for cat in categories" ng-model="attribute.category_id">
+                        <select class="form-control" ng-options="atr.id as atr.attribute_name for atr in attributes" ng-model="value.attribute_id">
                             <option value="">Select Category</option>
                         </select>
                     </div>
@@ -54,91 +54,91 @@
     <div class="col-lg-8 col-md-8 col-sm-8">
         <div class="card">
             <div class="card-body">
-            <table class="table table-bordered table-responsive">
-                <thead>
-                    <tr>
-                        <th>Sr#</th>
-                        <th>Category Name</th>
-                        <th>Attributes</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody ng-init="getAttributeInformation()">
-                    <tr ng-repeat="attribute in attributeinformations">
-                        <td ng-bind="$index+1"></td>
-                        <td ng-bind="attribute.category_name"></td>
-                        <td ng-bind="attribute.attribute_name "></td>
-                        <td>
-                            <button class="btn btn-xs btn-info" ng-click="editAttributeInformation(attribute.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteAttributeInformation(attribute.id)">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Sr#</th>
+                            <th>Attribute Name</th>
+                            <th>Value Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-init="getAttributeValueInfo()">
+                        <tr ng-repeat="atrvalue in attributevalueinfo">
+                            <td ng-bind="$index+1"></td>
+                            <td ng-bind="atrvalue.attribute_name"></td>
+                            <td ng-bind="atrvalue.value_name "></td>
+                            <td>
+                                <button class="btn btn-xs btn-info" ng-click="editAttributeValueInfo(atrvalue.id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteAttributeValueInfo(atrvalue.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
+        </div> 
     </div>
     <input type="hidden" id="appurl" value="<?php echo env('APP_URL') ?>">
 </div>
 <script src="{{ asset('public/dashboard/js/iCheck.js')}}"></script>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
-    var Attribute = angular.module('AttributeApp', [], function ($interpolateProvider) {
+    var AttributeValue = angular.module('AttributeValueApp', [], function ($interpolateProvider) {
         $interpolateProvider.startSymbol('<%');
         $interpolateProvider.endSymbol('%>');
     });
 
     
-    Attribute.controller('AttributeController', function ($scope, $http) {
-        $scope.get_allcategories = function () {
-            $http.get('api/product-categories').then(function (response) {
+    AttributeValue.controller('AttributeValueController', function ($scope, $http) {
+        $scope.get_allattributes = function () {
+            $http.get('api/maintain-attributes').then(function (response) {
                 if (response.data.length > 0) {
-                    $scope.categories = response.data;
+                    $scope.attributes = response.data;
                 }
             });
         };
-        $scope.attribute = {};
+        $scope.value = {};
         $scope.appurl = $("#appurl").val();
         $scope.save_attributeInformation = function(){
-            if (!$scope.attribute.attribute_name) {
+            if (!$scope.value.attribute_name) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;
                 }).addClass("has-error");
             } else {
                 var Data = new FormData();
-                angular.forEach($scope.attribute, function (v, k) {
+                angular.forEach($scope.value, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('api/maintain-attributes', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post('api/maintain-attribute-values', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data.message,
                         type: "success"
                     });
-                    $scope.attribute = {};
-                   $scope.getAttributeInformation();
+                    $scope.value = {};
+                   $scope.getAttributeValueInfo();
                 });
             }
         };
 
 
-        $scope.getAttributeInformation = function () {
-            $scope.attributeinformations = {};
-            $http.get('api/maintain-attributes').then(function (response) {
+        $scope.getAttributeValueInfo = function () {
+            $scope.attributevalueinfo = {};
+            $http.get('api/maintain-attribute-values').then(function (response) {
                 if (response.data.length > 0) {
-                    $scope.attributeinformations = response.data;
+                    $scope.attributevalueinfo = response.data;
                 }
             });
         };
 
-        $scope.editAttributeInformation = function (id) {
-            $http.get('api/maintain-attributes/'+id+'/edit').then(function (response) {
-                $scope.attribute = response.data;
+        $scope.editAttributeValueInfo = function (id) {
+            $http.get('api/maintain-attribute-values/'+id+'/edit').then(function (response) {
+                $scope.value = response.data;
             });
         };
 
-        $scope.deleteAttributeInformation = function (id) {
+        $scope.deleteAttributeValueInfo = function (id) {
             swal({
                 title: "Are you sure?",
                 text: "Your will not be able to recover this record!",
@@ -149,8 +149,8 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('api/maintain-attributes/' + id).then(function (response) {
-                    $scope.getAttributeInformation();
+                $http.delete('api/maintain-attribute-values/' + id).then(function (response) {
+                    $scope.getAttributeValueInfo();
                     swal("Deleted!", response.data, "success");
                 });
             });
