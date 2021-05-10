@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\erp_attribute;
+use App\Models\erp_attribute_value;
 class AttributeValuesController extends Controller
 {
     /**
@@ -35,7 +36,10 @@ class AttributeValuesController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        $values = $request->all();
+        $values['user_id'] = Auth::user()->id;
+        erp_attribute_value::create($values);
+        return response()->json(['status'=>true, 'message' => 'Attribute Value Save Successfully']);
     }
 
     /**
