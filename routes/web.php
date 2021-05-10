@@ -174,6 +174,7 @@ Route::get('get-categorywithitsparents/{parent_id}', 'Admin\CategoryController@g
 Route::get('delete_category/{category_id}', 'Admin\CategoryController@delete_category')->name('deletecategories')->middleware('is_admin');
 Route::post('save_category', 'Admin\CategoryController@save_category')->name('savecategories')->middleware('is_admin');
 Route::view('attributes' , 'admin.attributes');
+Route::view('attribute_value' , 'admin.attribute_value');
 
 
 
