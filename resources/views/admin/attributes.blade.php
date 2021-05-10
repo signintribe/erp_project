@@ -53,28 +53,28 @@
     </div>
     <div class="col-lg-8 col-md-8 col-sm-8">
         <div class="card">
-            <div class="card-body">
-            <table class="table table-bordered table-responsive">
-                <thead>
-                    <tr>
-                        <th>Sr#</th>
-                        <th>Category Name</th>
-                        <th>Attributes</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody ng-init="getAttributeInformation()">
-                    <tr ng-repeat="attribute in attributeinformations">
-                        <td ng-bind="$index+1"></td>
-                        <td ng-bind="attribute.category_name"></td>
-                        <td ng-bind="attribute.attribute_name "></td>
-                        <td>
-                            <button class="btn btn-xs btn-info" ng-click="editAttributeInformation(attribute.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteAttributeInformation(attribute.id)">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="card-body table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sr#</th>
+                            <th>Category Name</th>
+                            <th>Attributes</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-init="getAttributeInformation()">
+                        <tr ng-repeat="attribute in attributeinformations">
+                            <td ng-bind="$index+1"></td>
+                            <td ng-bind="attribute.category_name"></td>
+                            <td ng-bind="attribute.attribute_name "></td>
+                            <td>
+                                <button class="btn btn-xs btn-info" ng-click="editAttributeInformation(attribute.id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteAttributeInformation(attribute.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
