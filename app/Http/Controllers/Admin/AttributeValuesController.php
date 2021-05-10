@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\erp_attribute;
 use App\Models\erp_attribute_value;
+use Auth;
+use DB;
 class AttributeValuesController extends Controller
 {
     /**
@@ -15,7 +17,7 @@ class AttributeValuesController extends Controller
      */
     public function index()
     {
-        return erp_attribute::get();
+        return DB::select('SELECT attr.attribute_name, valu.* FROM (SELECT id, attribute_name FROM erp_attributes)AS attr JOIN(SELECT * FROM erp_attribute_values) AS valu ON valu.attribute_id = attr.id');
     }
 
     /**
@@ -36,9 +38,14 @@ class AttributeValuesController extends Controller
      */
     public function store(Request $request)
     {
-        $values = $request->all();
-        $values['user_id'] = Auth::user()->id;
-        erp_attribute_value::create($values);
+        if($request->id){
+            $values = $request->except(['id', 'user_id']);
+            erp_attribute_value::where('id', $request->id)->update($values);
+        }else{
+            $values = $request->all();
+            $values['user_id'] = Auth::user()->id;
+            erp_attribute_value::create($values);
+        }
         return response()->json(['status'=>true, 'message' => 'Attribute Value Save Successfully']);
     }
 
@@ -61,7 +68,7 @@ class AttributeValuesController extends Controller
      */
     public function edit($id)
     {
-        //
+        return erp_attribute_value::where('id', $id)->first();
     }
 
     /**
@@ -84,6 +91,7 @@ class AttributeValuesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        erp_attribute_value::where('id', $id)->delete();
+        return response()->json(['status' => true, 'message' => 'Value Delete Permanently']);
     }
 }
