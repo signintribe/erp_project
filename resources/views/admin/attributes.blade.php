@@ -36,7 +36,7 @@
                     </div>
                 </div> -->
                 <div class="form-group row">
-                    <div class="col" ng-init="get_allcategories(0)">
+                    <div class="col" ng-init="get_allcategories()">
                         <label>Parent Category:</label>
                         <select class="form-control" ng-options="cat.id as cat.category_name for cat in categories" ng-model="attribute.category_id">
                             <option value="">Select Parent Category</option>
@@ -90,8 +90,8 @@
 
     
     Attribute.controller('AttributeController', function ($scope, $http) {
-        $scope.get_allcategories = function (category_id) {
-            $http.get('api/product-categories/' + category_id).then(function (response) {
+        $scope.get_allcategories = function () {
+            $http.get('api/product-categories').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.categories = response.data;
                 }
