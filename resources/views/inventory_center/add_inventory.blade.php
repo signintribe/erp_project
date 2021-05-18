@@ -18,11 +18,78 @@
                 </div>
             </div><br/>
             <div class="row">
-                <div class="col-lg-12 col-sm-12 col-md-12">
-                    <label>Select Category</label><br/>
-                    <input type="checkbox"> <label>IT</label><br/>
-                    <input type="checkbox"> <label>Telecommunication</label><br/>
-                    <input type="checkbox"> <label>Electrical</label><br/>
+                <div class="col">
+                    <label>Category</label>
+                    <div align='center' id="catone"></div>
+                    <div class="form-group" ng-init="get_categorywithitsparents(1)">
+                        <div class="form-check form-check-primary" ng-repeat="cats in categorywithparents">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="catone" ng-click="get_categoriesone(cats.id)">
+                                <%cats.category_name%>
+                                <i class="input-helper"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div align='center' id="cattwo"></div>
+                    <div class="form-group">
+                        <div class="form-check form-check-warning" ng-repeat="catsone in categoryiesone">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="cattwo" ng-click="get_categoriestwo(catsone.id)">
+                                <%catsone.category_name%>
+                                <i class="input-helper"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div align='center' id="catthree"></div>
+                    <div class="form-group">
+                        <div class="form-check form-check-success" ng-repeat="catstwo in categoryiestwo">
+                            <label class="form-check-label">
+                                <input type="radio" name="catthree" class="form-check-input"  ng-click="get_categoriesthree(catstwo.id)">
+                                <%catstwo.category_name%>
+                                <i class="input-helper"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div align='center' id="catfour"></div>
+                    <div class="form-group">
+                        <div class="form-check form-check-success" ng-repeat="catsthree in categoryiesthree">
+                            <label class="form-check-label">
+                                <input type="radio" name="catfour" class="form-check-input"  ng-click="get_categoriesfour(catsthree.id)">
+                                <%catsthree.category_name%>
+                                <i class="input-helper"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div align='center' id="catfive"></div>
+                    <div class="form-group">
+                        <div class="form-check form-check-success" ng-repeat="catsfour in categoryiesfour">
+                            <label class="form-check-label">
+                                <input type="radio" name="catfive" class="form-check-input"  ng-click="get_categoriesfive(catsfour.id)">
+                                <%catsfour.category_name%>
+                                <i class="input-helper"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div align='center' id="catsix"></div>
+                    <div class="form-group">
+                        <div class="form-check form-check-success" ng-repeat="catsfive in categoryiesfive">
+                            <label class="form-check-label">
+                                <input type="radio" name="catsix" class="form-check-input"  ng-click="get_categoriessix(catsfive.id)">
+                                <%catsfive.category_name%>
+                                <i class="input-helper"></i>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div><br/>
             <div class="row">
@@ -185,9 +252,103 @@
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
-    var Inventory = angular.module('InventoryApp', []);
+    var Inventory = angular.module('InventoryApp', [], function ($interpolateProvider) {
+        $interpolateProvider.startSymbol('<%');
+        $interpolateProvider.endSymbol('%>');
+    });
     Inventory.controller('InventoryController', function ($scope, $http) {
+        $scope.get_allcategories = function (category_id) {
+            $http.get('get_categories/' + category_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.categories = response.data;
+                }
+            });
+        };
 
+        $scope.get_categorywithitsparents = function (parent_id) {
+            $scope.categorywithparents = {};
+            $("#catone").html('<div class="square-path-loader"></div>');
+            $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.categorywithparents = response.data;
+                    $("#catone").html('');
+                } else {
+                    $("#catone").html('');
+                }
+            });
+        };
+
+        $scope.get_categoriesone = function (parent_id) {
+            $scope.categoryiesone = {};
+            $scope.categoryiestwo = {};
+            $("#cattwo").html('<div class="square-path-loader"></div>');
+            $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.categoryiesone = response.data;
+                    $("#cattwo").html('');
+                } else {
+                    $("#cattwo").html('');
+                }
+            });
+        };
+
+        $scope.get_categoriestwo = function (parent_id) {
+            $scope.categoryiestwo = {};
+            $("#catthree").html('<div class="square-path-loader"></div>');
+            $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.categoryiestwo = response.data;
+                    $("#catthree").html('');
+                } else {
+                    $("#catthree").html('');
+                }
+            });
+        };
+
+        $scope.get_categoriesthree = function (parent_id) {
+            $scope.categoryiesthree = {};
+            $("#catfour").html('<div class="square-path-loader"></div>');
+            $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.categoryiesthree = response.data;
+                    $("#catfour").html('');
+                } else {
+                    $("#catfour").html('');
+                }
+            });
+        };
+
+        $scope.get_categoriesfour = function (parent_id) {
+            $scope.categoryiesfour = {};
+            $("#catfive").html('<div class="square-path-loader"></div>');
+            $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.categoryiesfour = response.data;
+                    $("#catfive").html('');
+                } else {
+                    $("#catfive").html('');
+                }
+            });
+        };
+
+        $scope.get_categoriesfive = function (parent_id) {
+            $scope.categoryiesfive = {};
+            $("#catsix").html('<div class="square-path-loader"></div>');
+            $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.categoryiesfive = response.data;
+                    $("#catsix").html('');
+                } else {
+                    $("#catsix").html('');
+                }
+            });
+        };
+
+        $scope.get_category = function (category_id) {
+            $http.get('get_categories/' + category_id).then(function (response) {
+                $scope.category = response.data[0];
+            });
+        };
     });
 </script>
 @endsection
