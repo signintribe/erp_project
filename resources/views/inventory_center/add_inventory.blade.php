@@ -18,8 +18,10 @@
                 </div>
             </div><br/>
             <div class="row">
+                <label>Select Category</label>
+            </div>
+            <div class="row">
                 <div class="col">
-                    <label>Category</label>
                     <div align='center' id="catone"></div>
                     <div class="form-group" ng-init="get_categorywithitsparents(1)">
                         <div class="form-check form-check-primary" ng-repeat="cats in categorywithparents">
