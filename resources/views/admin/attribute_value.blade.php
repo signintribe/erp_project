@@ -12,7 +12,7 @@
                     <div class="col">
                         <label>* Attribute Name:</label>
                         <input type="text" class="form-control" placeholder="Attribute Name" ng-model="value.value_name"/>
-                        <i class="text-danger" ng-show="!attribute.attribute_name && showError"><small>Please Type Attribute Name</small></i>
+                        <i class="text-danger" ng-show="!value.value_name && showError"><small>Please Type Attribute Name</small></i>
                     </div>
                 </div>
                 <!-- <div class="form-group row">
@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col">
-                        <button type="submit" class="btn btn-success btn-sm" ng-click="save_attributeInformation()">Submit</button>
+                        <button type="submit" class="btn btn-success btn-sm" ng-click="save_attributevalueInfo()">Submit</button>
                     </div>
                 </div>
             </div>
@@ -54,6 +54,7 @@
     <div class="col-lg-8 col-md-8 col-sm-8">
         <div class="card">
             <div class="card-body">
+            <?php echo Auth::user()->id ?>
                 <table class="table table-bordered table-responsive">
                     <thead>
                         <tr>
@@ -99,8 +100,8 @@
         };
         $scope.value = {};
         $scope.appurl = $("#appurl").val();
-        $scope.save_attributeInformation = function(){
-            if (!$scope.value.attribute_name) {
+        $scope.save_attributevalueInfo = function(){
+            if (!$scope.value.value_name) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;
@@ -110,7 +111,7 @@
                 angular.forEach($scope.value, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('api/maintain-attribute-values', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post('maintain-attribute-values', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data.message,
@@ -125,7 +126,7 @@
 
         $scope.getAttributeValueInfo = function () {
             $scope.attributevalueinfo = {};
-            $http.get('api/maintain-attribute-values').then(function (response) {
+            $http.get('maintain-attribute-values').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.attributevalueinfo = response.data;
                 }
@@ -133,7 +134,7 @@
         };
 
         $scope.editAttributeValueInfo = function (id) {
-            $http.get('api/maintain-attribute-values/'+id+'/edit').then(function (response) {
+            $http.get('maintain-attribute-values/'+id+'/edit').then(function (response) {
                 $scope.value = response.data;
             });
         };
@@ -149,7 +150,7 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('api/maintain-attribute-values/' + id).then(function (response) {
+                $http.delete('maintain-attribute-values/' + id).then(function (response) {
                     $scope.getAttributeValueInfo();
                     swal("Deleted!", response.data, "success");
                 });

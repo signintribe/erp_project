@@ -15,9 +15,9 @@ class AttributeValuesController extends Controller
      *
      * @return void
      */
-    public function __construct() {
+    /* public function __construct() {
         $this->middleware('auth');
-    }
+    } */
     
     /**
      * Display a listing of the resource.
@@ -47,6 +47,7 @@ class AttributeValuesController extends Controller
      */
     public function store(Request $request)
     {
+        //return $request->all();
         if($request->id){
             $values = $request->except(['id', 'user_id']);
             erp_attribute_value::where('id', $request->id)->update($values);

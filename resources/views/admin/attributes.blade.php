@@ -110,7 +110,7 @@
                 angular.forEach($scope.attribute, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('api/maintain-attributes', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post('maintain-attributes', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data.message,
@@ -125,7 +125,7 @@
 
         $scope.getAttributeInformation = function () {
             $scope.attributeinformations = {};
-            $http.get('api/maintain-attributes').then(function (response) {
+            $http.get('maintain-attributes').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.attributeinformations = response.data;
                 }
@@ -133,7 +133,7 @@
         };
 
         $scope.editAttributeInformation = function (id) {
-            $http.get('api/maintain-attributes/'+id+'/edit').then(function (response) {
+            $http.get('maintain-attributes/'+id+'/edit').then(function (response) {
                 $scope.attribute = response.data;
             });
         };
@@ -149,7 +149,7 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('api/maintain-attributes/' + id).then(function (response) {
+                $http.delete('maintain-attributes/' + id).then(function (response) {
                     $scope.getAttributeInformation();
                     swal("Deleted!", response.data, "success");
                 });

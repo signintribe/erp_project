@@ -175,6 +175,8 @@ Route::get('delete_category/{category_id}', 'Admin\CategoryController@delete_cat
 Route::post('save_category', 'Admin\CategoryController@save_category')->name('savecategories')->middleware('is_admin');
 Route::view('attributes' , 'admin.attributes');
 Route::view('attribute_value' , 'admin.attribute_value');
+Route::resource('maintain-attribute-values','Admin\AttributeValuesController');
+Route::resource('maintain-attributes','Admin\AttributeController');
 
 
 
