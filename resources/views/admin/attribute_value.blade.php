@@ -54,7 +54,6 @@
     <div class="col-lg-8 col-md-8 col-sm-8">
         <div class="card">
             <div class="card-body">
-            <?php echo Auth::user()->id ?>
                 <table class="table table-bordered table-responsive">
                     <thead>
                         <tr>
