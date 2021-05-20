@@ -53,8 +53,8 @@
     </div>
     <div class="col-lg-8 col-md-8 col-sm-8">
         <div class="card">
-            <div class="card-body">
-                <table class="table table-bordered table-responsive">
+            <div class="card-body table-responsive">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Sr#</th>

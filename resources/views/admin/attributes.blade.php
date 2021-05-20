@@ -135,6 +135,7 @@
         $scope.editAttributeInformation = function (id) {
             $http.get('maintain-attributes/'+id+'/edit').then(function (response) {
                 $scope.attribute = response.data;
+                $scope.attribute.category_id = parseInt($scope.attribute.category_id);
             });
         };
 
