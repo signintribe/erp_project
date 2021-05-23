@@ -15,9 +15,14 @@ class AttributeValuesController extends Controller
      *
      * @return void
      */
-    /* public function __construct() {
+    public function __construct() {
         $this->middleware('auth');
-    } */
+    }
+
+    public function attributeValueView()
+    {
+        return view('admin.attribute_value');
+    }
     
     /**
      * Display a listing of the resource.

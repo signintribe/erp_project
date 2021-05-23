@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\erp_attribute;
 use App\Models\tblcategory;
+use App\Models\erp_attribute_value;
 use Auth;
 use DB;
 class AttributeController extends Controller
@@ -15,9 +16,14 @@ class AttributeController extends Controller
      *
      * @return void
      */
-    /* public function __construct() {
+    public function __construct() {
         $this->middleware('auth');
-    } */
+    }
+    
+    public function attributesView()
+    {
+        return view('admin.attributes');
+    }
     
     /**
      * Display a listing of the resource.
@@ -105,7 +111,16 @@ class AttributeController extends Controller
         return response()->json(['status'=> true, 'message' => 'Attribute Delete Permanently']);
     }
 
-    public function getCategory(){
-        return tblcategory::where('product_category', 1)->get();
+    public function getAttrValues($category_id)
+    {
+        $attributes = array();
+        $attr = erp_attribute::where('category_id', $category_id)->get();
+        foreach ($attr as $key => $value) {
+            $attrvalue = erp_attribute_value::where('attribute_id', $value['id'])->get();
+            $attributes[] = array(
+                $value['attribute_name'] => $attrvalue
+            );
+        }
+        return response()->json(['status' => true, 'data' => $attributes]);
     }
 }

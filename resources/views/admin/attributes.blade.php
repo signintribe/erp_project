@@ -91,7 +91,7 @@
     
     Attribute.controller('AttributeController', function ($scope, $http) {
         $scope.get_allcategories = function () {
-            $http.get('api/product-categories').then(function (response) {
+            $http.get('product-categories').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.categories = response.data;
                 }

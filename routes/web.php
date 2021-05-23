@@ -107,6 +107,7 @@ Route::group(['prefix'=>'customer'], function () {
  * Inventory Center
 */
 Route::get('add-inventory', 'InventoryController@index')->name('add-inventory');
+Route::post('save-inventory', 'InventoryController@saveInventory');
 Route::get('view-inventory', 'InventoryController@view_inventory')->name('view-inventory');
 
 /**
@@ -173,10 +174,14 @@ Route::get('get_categories/{category_id}', 'Admin\CategoryController@get_categor
 Route::get('get-categorywithitsparents/{parent_id}', 'Admin\CategoryController@get_categorywithitsparents')->name('get-categorywithitsparents');
 Route::get('delete_category/{category_id}', 'Admin\CategoryController@delete_category')->name('deletecategories')->middleware('is_admin');
 Route::post('save_category', 'Admin\CategoryController@save_category')->name('savecategories')->middleware('is_admin');
-Route::view('attributes' , 'admin.attributes');
-Route::view('attribute_value' , 'admin.attribute_value');
+Route::get('product-categories', 'Admin\CategoryController@getCategory');
+
 Route::resource('maintain-attribute-values','Admin\AttributeValuesController');
+Route::get('attribute_value','Admin\AttributeValuesController@attributeValueView');
+
+Route::get('attributes', 'Admin\AttributeController@attributesView');
 Route::resource('maintain-attributes','Admin\AttributeController');
+Route::get('get-attr-values/{category_id}', 'Admin\AttributeController@getAttrValues');
 
 
 

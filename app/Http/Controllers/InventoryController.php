@@ -7,7 +7,7 @@
  */
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
 /**
  * Description of InventoryController
  *
@@ -24,5 +24,12 @@ class InventoryController extends Controller{
     
     public function view_inventory() {
        return view('inventory_center.view_inventory');
+    }
+
+    public function saveInventory(Request $request)
+    {
+        $data = $request->all();
+        $attribute = json_decode($data['attributes'], true);
+        return $attribute;
     }
 }

@@ -7,8 +7,9 @@
             <h3 class="card-title">Product Information</h3>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <label for="product_name">Name of Product/Service</label>
+                    <label for="product_name">* Name of Product/Service</label>
                     <input type="text" class="form-control" id="product_name" ng-model="inventory.product_name" placeholder="Name of Product/Service"/>
+                    <i class="text-danger" ng-show="!inventory.product_name && showError"><small>Please Type Product Name</small></i>
                 </div>
             </div><br/>
             <div class="row">
@@ -16,7 +17,11 @@
                     <label for="description">Description</label>
                     <textarea id="description" ng-model="inventory.description" class="form-control" cols="5" rows="5" placeholder="Product/Service Description"></textarea>
                 </div>
-            </div><br/>
+            </div>
+        </div>
+    </div><br/>
+    <div class="card">
+        <div class="card-body">
             <div class="row">
                 <label>Select Category</label>
             </div>
@@ -25,8 +30,8 @@
                     <div align='center' id="catone"></div>
                     <div class="form-group" ng-init="get_categorywithitsparents(1)">
                         <div class="form-check form-check-primary" ng-repeat="cats in categorywithparents">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="catone" ng-click="get_categoriesone(cats.id)">
+                            <label class="form-check-label" style="text-transform: capitalize">
+                                <input type="radio" class="form-check-input" ng-model="inventory.category_id" ng-value="cats.id" ng-click="get_categoriesone(cats.id)">
                                 <%cats.category_name%>
                                 <i class="input-helper"></i>
                             </label>
@@ -37,8 +42,8 @@
                     <div align='center' id="cattwo"></div>
                     <div class="form-group">
                         <div class="form-check form-check-warning" ng-repeat="catsone in categoryiesone">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="cattwo" ng-click="get_categoriestwo(catsone.id)">
+                            <label class="form-check-label" style="text-transform: capitalize">
+                                <input type="radio" class="form-check-input" ng-model="inventory.category_id" ng-value="catsone.id" ng-click="get_categoriestwo(catsone.id)">
                                 <%catsone.category_name%>
                                 <i class="input-helper"></i>
                             </label>
@@ -49,8 +54,8 @@
                     <div align='center' id="catthree"></div>
                     <div class="form-group">
                         <div class="form-check form-check-success" ng-repeat="catstwo in categoryiestwo">
-                            <label class="form-check-label">
-                                <input type="radio" name="catthree" class="form-check-input"  ng-click="get_categoriesthree(catstwo.id)">
+                            <label class="form-check-label" style="text-transform: capitalize">
+                                <input type="radio" class="form-check-input" ng-model="inventory.category_id"  ng-value="catstwo.id" ng-click="get_categoriesthree(catstwo.id)">
                                 <%catstwo.category_name%>
                                 <i class="input-helper"></i>
                             </label>
@@ -61,8 +66,8 @@
                     <div align='center' id="catfour"></div>
                     <div class="form-group">
                         <div class="form-check form-check-success" ng-repeat="catsthree in categoryiesthree">
-                            <label class="form-check-label">
-                                <input type="radio" name="catfour" class="form-check-input"  ng-click="get_categoriesfour(catsthree.id)">
+                            <label class="form-check-label" style="text-transform: capitalize">
+                                <input type="radio" class="form-check-input" ng-model="inventory.category_id"  ng-value="catsthree.id" ng-click="get_categoriesfour(catsthree.id)">
                                 <%catsthree.category_name%>
                                 <i class="input-helper"></i>
                             </label>
@@ -73,8 +78,8 @@
                     <div align='center' id="catfive"></div>
                     <div class="form-group">
                         <div class="form-check form-check-success" ng-repeat="catsfour in categoryiesfour">
-                            <label class="form-check-label">
-                                <input type="radio" name="catfive" class="form-check-input"  ng-click="get_categoriesfive(catsfour.id)">
+                            <label class="form-check-label" style="text-transform: capitalize">
+                                <input type="radio" class="form-check-input" ng-model="inventory.category_id"  ng-value="catsfour.id" ng-click="get_categoriesfive(catsfour.id)">
                                 <%catsfour.category_name%>
                                 <i class="input-helper"></i>
                             </label>
@@ -85,8 +90,8 @@
                     <div align='center' id="catsix"></div>
                     <div class="form-group">
                         <div class="form-check form-check-success" ng-repeat="catsfive in categoryiesfive">
-                            <label class="form-check-label">
-                                <input type="radio" name="catsix" class="form-check-input"  ng-click="get_categoriessix(catsfive.id)">
+                            <label class="form-check-label" style="text-transform: capitalize">
+                                <input type="radio" class="form-check-input" ng-model="inventory.category_id"  ng-value="catsfive.id" ng-click="get_categoriessix(catsfive.id)">
                                 <%catsfive.category_name%>
                                 <i class="input-helper"></i>
                             </label>
@@ -94,12 +99,20 @@
                     </div>
                 </div>
             </div><br/>
-            <div class="row">
+            <div class="row" ng-if="attributes">
                 <div class="col-lg-12 col-sm-12 col-md-12">
-                    <label>Select Attributes</label><br/>
-                    <input type="checkbox"> <label>Brand</label><br/>
-                    <input type="checkbox"> <label>Model</label><br/>
-                    <input type="checkbox"> <label>Warranty Type</label><br/>
+                    <label>Select Attributes</label>
+                </div>
+            </div><br/>
+            <div id="attrbuts"></div>
+            <div class="row" ng-repeat="attr in attributes">
+                <div class="col" ng-repeat="(key, value) in attr">
+                    <label ng-bind="key" style="font-weight: bolder; text-transform: capitalize"></label><hr/>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="atv in value" style="padding-bottom: 20px;">
+                            <input type="checkbox" ng-click="getAttr(atv.id)" id="atv<% atv.id %>"> <label for="atv<% atv.id %>" ng-bind="atv.value_name"></label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -173,10 +186,10 @@
         <div class="card-body">
             <h3 class="card-title">Vendor Information</h3>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="vendor">Select Vendor</label>
-                    <select class="form-control" id="vendor" ng-model="inventory.vendor_id">
-                        <option value="">Select Vendor</option>
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
+                <label for="organization_name">Name of Vendor</label>
+                    <select class="form-control"  ng-options="vendor.id as vendor.organization_name for vendor in vendorinformations" ng-model="inventory.vendor_id">
+                        <option value="">Select Vendor Name</option>
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
@@ -246,7 +259,7 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-success btn-sm float-right">Save</button>
+                    <button type="button" class="btn btn-success btn-sm float-right" ng-click="saveInventory()">Save</button>
                 </div>
             </div>
         </div>
@@ -259,6 +272,40 @@
         $interpolateProvider.endSymbol('%>');
     });
     Inventory.controller('InventoryController', function ($scope, $http) {
+        $scope.inventory = {};
+        $scope.saveInventory = function(){
+            $scope.inventory.attributes = JSON.stringify($scope.attrvals);
+            console.log($scope.inventory);
+            if (!$scope.inventory.product_name) {
+                $scope.showError = true;
+                jQuery("input.required").filter(function () {
+                    return !this.value;
+                }).addClass("has-error");
+            } else {
+                var Data = new FormData();
+                angular.forEach($scope.inventory, function (v, k) {
+                    Data.append(k, v);
+                });
+                $http.post('save-inventory', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    swal({
+                        title: "Save!",
+                        text: res.data,
+                        type: "success"
+                    });
+                    //$scope.inventory = {};
+                });
+            }
+        };
+
+        $scope.getVendors = function () {
+            $scope.vendorinformations = {};
+            $http.get('vendor/maintain-vendor-information').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.vendorinformations = response.data;
+                }
+            });
+        };
+
         $scope.get_allcategories = function (category_id) {
             $http.get('get_categories/' + category_id).then(function (response) {
                 if (response.data.length > 0) {
@@ -276,6 +323,7 @@
                     $("#catone").html('');
                 } else {
                     $("#catone").html('');
+                    $scope.getAttributes(parent_id);
                 }
             });
         };
@@ -283,6 +331,9 @@
         $scope.get_categoriesone = function (parent_id) {
             $scope.categoryiesone = {};
             $scope.categoryiestwo = {};
+            $scope.categoryiesthree = {};
+            $scope.categoryiesfour = {};
+            $scope.categoryiesfive = {};
             $("#cattwo").html('<div class="square-path-loader"></div>');
             $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
                 if (response.data.length > 0) {
@@ -290,12 +341,16 @@
                     $("#cattwo").html('');
                 } else {
                     $("#cattwo").html('');
+                    $scope.getAttributes(parent_id);
                 }
             });
         };
 
         $scope.get_categoriestwo = function (parent_id) {
             $scope.categoryiestwo = {};
+            $scope.categoryiesthree = {};
+            $scope.categoryiesfour = {};
+            $scope.categoryiesfive = {};
             $("#catthree").html('<div class="square-path-loader"></div>');
             $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
                 if (response.data.length > 0) {
@@ -303,12 +358,15 @@
                     $("#catthree").html('');
                 } else {
                     $("#catthree").html('');
+                    $scope.getAttributes(parent_id);
                 }
             });
         };
 
         $scope.get_categoriesthree = function (parent_id) {
             $scope.categoryiesthree = {};
+            $scope.categoryiesfour = {};
+            $scope.categoryiesfive = {};
             $("#catfour").html('<div class="square-path-loader"></div>');
             $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
                 if (response.data.length > 0) {
@@ -316,12 +374,14 @@
                     $("#catfour").html('');
                 } else {
                     $("#catfour").html('');
+                    $scope.getAttributes(parent_id);
                 }
             });
         };
 
         $scope.get_categoriesfour = function (parent_id) {
             $scope.categoryiesfour = {};
+            $scope.categoryiesfive = {};
             $("#catfive").html('<div class="square-path-loader"></div>');
             $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
                 if (response.data.length > 0) {
@@ -329,6 +389,7 @@
                     $("#catfive").html('');
                 } else {
                     $("#catfive").html('');
+                    $scope.getAttributes(parent_id);
                 }
             });
         };
@@ -342,8 +403,32 @@
                     $("#catsix").html('');
                 } else {
                     $("#catsix").html('');
+                    $scope.getAttributes(parent_id);
                 }
             });
+        };
+
+        $scope.getAttributes = function (category_id) {
+            $scope.attributes = {};
+            $("#attrbuts").html('<div class="square-path-loader"></div>');
+            $http.get('get-attr-values/' + category_id).then(function (response) {
+                if (response.data.status == true) {
+                    $scope.attributes = response.data.data;
+                    $("#attrbuts").html('');
+                    console.log($scope.attributes);
+                } else {
+                    $("#attrbuts").html('');
+                }
+            });
+        };
+        $scope.attrvals = [];
+        $scope.getAttr = function(attr_id){
+            let index = $scope.attrvals.indexOf(attr_id);
+            if(index == -1){
+                $scope.attrvals.push(attr_id);
+            }else{
+                $scope.attrvals.splice(index, 1);
+            }
         };
 
         $scope.get_category = function (category_id) {

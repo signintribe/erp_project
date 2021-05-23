@@ -37,9 +37,9 @@
                 </div> -->
                 <div class="form-group row">
                     <div class="col" ng-init="get_allattributes()">
-                        <label>Parent Category:</label>
-                        <select class="form-control" ng-options="atr.id as atr.attribute_name for atr in attributes" ng-model="value.attribute_id">
-                            <option value="">Select Category</option>
+                        <label>Attribute Name:</label>
+                        <select class="form-control" style="text-transform: capitalize;" ng-options="atr.id as atr.attribute_name for atr in attributes" ng-model="value.attribute_id">
+                            <option value="">Select Attribute</option>
                         </select>
                     </div>
                 </div>
@@ -66,8 +66,8 @@
                     <tbody ng-init="getAttributeValueInfo()">
                         <tr ng-repeat="atrvalue in attributevalueinfo">
                             <td ng-bind="$index+1"></td>
-                            <td ng-bind="atrvalue.attribute_name"></td>
-                            <td ng-bind="atrvalue.value_name "></td>
+                            <td ng-bind="atrvalue.attribute_name" style="text-transform: capitalize;"></td>
+                            <td ng-bind="atrvalue.value_name " style="text-transform: capitalize;"></td>
                             <td>
                                 <button class="btn btn-xs btn-info" ng-click="editAttributeValueInfo(atrvalue.id)">Edit</button>
                                 <button class="btn btn-xs btn-danger" ng-click="deleteAttributeValueInfo(atrvalue.id)">Delete</button>
@@ -91,7 +91,7 @@
     
     AttributeValue.controller('AttributeValueController', function ($scope, $http) {
         $scope.get_allattributes = function () {
-            $http.get('api/maintain-attributes').then(function (response) {
+            $http.get('maintain-attributes').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.attributes = response.data;
                 }

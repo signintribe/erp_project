@@ -318,7 +318,7 @@ DELIMITER $$
 CREATE PROCEDURE `sp_getchildcategories`(in parentid int(11))
 BEGIN
    SELECT 
-    cat.id, asso.parent_id, cat.category_id, cat.category_name 
+    cat.id, asso.parent_id, cat.category_id, cat.category_name, cat.product_category 
     FROM (
       SELECT 
       id, child_id, parent_id 
@@ -326,7 +326,7 @@ BEGIN
       WHERE parent_id = parentid
     ) AS asso JOIN (
       SELECT 
-      id, category_id, category_name 
+      id, category_id, category_name, product_category 
       FROM tblcategories
     ) AS cat ON cat.id = asso.child_id ORDER BY cat.category_name ASC;
 END$$

@@ -89,4 +89,8 @@ class CategoryController extends Controller {
         return 'Category Delete Permanently';
     }
 
+    public function getCategory(){
+        return tblcategory::where('product_category', 1)->get();
+    }
+
 }
