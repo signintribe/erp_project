@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <label for="description">Description</label>
-                    <textarea id="description" ng-model="inventory.description" class="form-control" cols="5" rows="5" placeholder="Product/Service Description"></textarea>
+                    <textarea id="description" ng-model="inventory.product_description" class="form-control" cols="5" rows="5" placeholder="Product/Service Description"></textarea>
                 </div>
             </div>
         </div>
@@ -122,10 +122,6 @@
             <h3 class="card-title">Product Pricing</h3>
             <div class="row">
                 <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="product_price">Product Price</label>
-                    <input type="text" class="form-control" id="product_price" ng-model="inventory.product_price" placeholder="Product Price"/>
-                </div>
-                <div class="col-lg-3 col-sm-3 col-md-3">
                     <label for="income_tax">Income Tax</label>
                     <input type="text" class="form-control" id="income_tax" ng-model="inventory.income_tax" placeholder="Income Tax"/>
                 </div>
@@ -163,11 +159,11 @@
                 </div>
                 <div class="col-lg-3 col-sm-3 col-md-3">
                     <label for="gross_price">Gross Purchase Price</label>
-                    <input type="text" class="form-control" id="gross_price" ng-model="inventory.gross_price" placeholder="Gross Purchase Price"/>
+                    <input type="text" class="form-control" id="gross_price" ng-model="inventory.gross_pur_price" placeholder="Gross Purchase Price"/>
                 </div>
                 <div class="col-lg-3 col-sm-3 col-md-3">
                     <label for="carriage_charges">Carriage Inward Charges</label>
-                    <input type="text" class="form-control" id="carriage_charges" ng-model="inventory.carriage_charges" placeholder="Carriage Inward Charges"/>
+                    <input type="text" class="form-control" id="carriage_charges" ng-model="inventory.carriage_inward_charges" placeholder="Carriage Inward Charges"/>
                 </div>
                 <div class="col-lg-3 col-sm-3 col-md-3">
                     <label for="octri_taxes">Octri and Taxes</label>
@@ -177,7 +173,7 @@
             <div class="row">
                 <div class="col-lg-3 col-sm-3 col-md-3">
                     <label for="net_price">Net Purchase Price at Godown</label>
-                    <input type="text" class="form-control" id="net_price" ng-model="inventory.net_price" placeholder="Net Purchase Price at Godown"/>
+                    <input type="text" class="form-control" id="net_price" ng-model="inventory.net_pur_price" placeholder="Net Purchase Price at Godown"/>
                 </div>
             </div><br/>
         </div>
@@ -217,7 +213,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="stockin_hand">Stock in hand</label>
-                    <input type="text" class="form-control" id="stockin_hand" ng-model="inventory.stockin_hand" placeholder="Stock in hand"/>
+                    <input type="text" class="form-control" id="stockin_hand" ng-model="inventory.stock_in_hand" placeholder="Stock in hand"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="store_name">Store Name</label>
@@ -229,32 +225,38 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="stockon_purchase">Stock on Purchase Order</label>
-                    <input type="text" class="form-control" id="stockon_purchase" ng-model="inventory.stockon_purchase" placeholder="Stock on Purchase Order"/>
+                    <input type="text" class="form-control" id="stockon_purchase" ng-model="inventory.stock_pur_order" placeholder="Stock on Purchase Order"/>
                 </div>
             </div><br/>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="stockon_sales">Stock on Sales Order</label>
-                    <input type="text" class="form-control" id="stockon_sales" ng-model="inventory.stockon_sales" placeholder="Stock on Sales Order"/>
+                    <input type="text" class="form-control" id="stockon_sales" ng-model="inventory.stock_sale_order" placeholder="Stock on Sales Order"/>
                 </div>
             </div>
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
+        <div class="card-body" ng-init="getAccounts()">
             <h3 class="card-title">Accounts</h3>
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4">
-                    <label for="chartof_account_cost">Chart of Account Id Cost of Sales</label>
-                    <input type="text" class="form-control" id="chartof_account_cost" ng-model="inventory.chartof_account_cost" placeholder="Chart of Account Id Cost of Sales"/>
+                    <label>Chart of Account Id Cost of Sales</label>
+                    <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="inventory.chartof_account_cost">
+                        <option value="">Select Chart of Account Id Cost of Sales</option>
+                    </select>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
-                    <label for="chartof_account_inventory">Chart of Account Id Inventory</label>
-                    <input type="text" class="form-control" id="chartof_account_inventory" ng-model="inventory.chartof_account_inventory" placeholder="Chart of Account Id Inventory"/>
+                    <label>Chart of Account Id Inventory</label>
+                    <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="inventory.chartof_account_inventory">
+                        <option value="">Select Chart of Account Id Inventory</option>
+                    </select>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
-                    <label for="chartof_account_sale">Chart of Account Id Sales</label>
-                    <input type="text" class="form-control" id="chartof_account_sale" ng-model="inventory.chartof_account_sale" placeholder="Chart of Account Id Sales"/>
+                    <label>Chart of Account Id Sales</label>
+                    <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="inventory.chartof_account_sale">
+                        <option value="">Select Chart of Account Id Sales</option>
+                    </select>
                 </div>
             </div><br/>
             <div class="row">
@@ -272,6 +274,12 @@
         $interpolateProvider.endSymbol('%>');
     });
     Inventory.controller('InventoryController', function ($scope, $http) {
+        $scope.getAccounts = function () {
+            var Accounts = $http.get('AllchartofAccount');
+            Accounts.then(function (r) {
+                $scope.Accounts = r.data;
+            });
+        };
         $scope.inventory = {};
         $scope.saveInventory = function(){
             $scope.inventory.attributes = JSON.stringify($scope.attrvals);
@@ -292,7 +300,7 @@
                         text: res.data,
                         type: "success"
                     });
-                    //$scope.inventory = {};
+                    $scope.inventory = {};
                 });
             }
         };
