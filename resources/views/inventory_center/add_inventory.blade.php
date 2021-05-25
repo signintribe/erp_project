@@ -173,7 +173,7 @@
             <div class="row">
                 <div class="col-lg-3 col-sm-3 col-md-3">
                     <label for="net_price">Net Purchase Price at Godown</label>
-                    <input type="text" class="form-control" id="net_price" ng-model="inventory.net_pur_price" placeholder="Net Purchase Price at Godown"/>
+                    <input type="text" class="form-control" id="net_price" ng-blur="calculate()" ng-model="inventory.net_pur_price" placeholder="Net Purchase Price at Godown"/>
                 </div>
             </div><br/>
         </div>
@@ -184,7 +184,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
                 <label for="organization_name">Name of Vendor</label>
-                    <select class="form-control"  ng-options="vendor.id as vendor.organization_name for vendor in vendorinformations" ng-model="inventory.vendor_id">
+                    <select class="form-control"  ng-options="vendor.id as vendor.organization_name for vendor in vendorinformations" ng-model="inventory.vendor_name">
                         <option value="">Select Vendor Name</option>
                     </select>
                 </div>
@@ -271,7 +271,7 @@
 <script>
     var Inventory = angular.module('InventoryApp', [], function ($interpolateProvider) {
         $interpolateProvider.startSymbol('<%');
-        $interpolateProvider.endSymbol('%>');
+        $interpolateProvider.endSymbol('%>  ');
     });
     Inventory.controller('InventoryController', function ($scope, $http) {
         $scope.getAccounts = function () {
@@ -281,6 +281,12 @@
             });
         };
         $scope.inventory = {};
+        $scope.calculate = function(){
+            $scope.inventory.net_pur_price = parseInt($scope.inventory.income_tax) + parseInt($scope.inventory.withholding_tax) + 
+            parseInt($scope.inventory.sales_tax) + parseInt($scope.inventory.fed) + parseInt($scope.inventory.import_duty) +
+            parseInt($scope.inventory.tax_adjustment) + parseInt($scope.inventory.tax_exemption) + parseInt($scope.inventory.delivery_charges) +             
+            parseInt($scope.inventory.gross_pur_price) + parseInt($scope.inventory.carriage_inward_charges) + parseInt($scope.inventory.octri_taxes);            
+        };
         $scope.saveInventory = function(){
             $scope.inventory.attributes = JSON.stringify($scope.attrvals);
             console.log($scope.inventory);
@@ -305,6 +311,7 @@
             }
         };
 
+       
         $scope.getVendors = function () {
             $scope.vendorinformations = {};
             $http.get('vendor/maintain-vendor-information').then(function (response) {
