@@ -285,9 +285,10 @@
         };
         $scope.inventory = {};
         $scope.calculate = function(){
-            if(parseInt($scope.inventory.income_tax) == empty){
-                parseInt($scope.inventory.income_tax) = 0;
+            if(!$scope.inventory.income_tax){
+                $scope.inventory.income_tax = 0;
             }
+            alert($scope.inventory.income_tax);
             /* if(parseInt($scope.inventory.withholding_tax) == empty){
                 parseInt($scope.inventory.withholding_tax) = 0;
             }
