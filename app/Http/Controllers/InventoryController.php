@@ -27,8 +27,7 @@ class InventoryController extends Controller{
     }
     
     public function index() {
-        $inventory = tblproduct_informations::latest()->id();
-        return view('inventory_center.add_inventory', compact('inventory'));
+        return view('inventory_center.add_inventory');
     }
     
     public function view_inventory() {
@@ -99,6 +98,10 @@ class InventoryController extends Controller{
 
     public function getVendor($id){
         return tblproduct_vendor::where('product_id', $id)->first();
+    }
+
+    public function editAddInventory($id) {
+        return view('inventory_center.edit_inventory', compact('id'));
     }
 
     /**

@@ -106,9 +106,9 @@ Route::group(['prefix'=>'customer'], function () {
 /**
  * Inventory Center
 */
-Route::get('add-inventory/{id}', 'InventoryController@index')->name('add-inventory');
+Route::get('add-inventory', 'InventoryController@index')->name('add-inventory');
 Route::get('get-inventory', 'InventoryController@getInventory');
-Route::get('edit-inventory/{id}', 'InventoryController@editInventory');
+Route::get('get-inventory-info/{id}', 'InventoryController@editInventory');
 Route::delete('delete-inventory/{id}', 'InventoryController@deleteInventory');
 Route::post('save-inventory', 'InventoryController@saveInventory');
 Route::get('view-inventory', 'InventoryController@view_inventory')->name('view-inventory');
@@ -116,6 +116,7 @@ Route::get('get-stock/{id}', 'InventoryController@getStock');
 Route::get('get-pricing/{id}', 'InventoryController@getPricing');
 Route::get('get-account/{id}', 'InventoryController@getAccount');
 Route::get('get-vendor/{id}', 'InventoryController@getVendor');
+Route::get('edit-inventory/{id}', 'InventoryController@editAddInventory');
 
 /**
  * Purchase Order Section

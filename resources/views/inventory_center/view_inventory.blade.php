@@ -23,7 +23,7 @@
                             <td ng-bind="data.product_name" style="text-transform: capitalize;"></td>
                             <td ng-bind="data.vendor_name" style="text-transform: capitalize;"></td>
                             <td>
-                                <a class="btn btn-xs btn-info" href="add-inventory/<% data.id %>">Edit</a>
+                                <a class="btn btn-xs btn-info" href="edit-inventory/<% data.id %>">Edit</a>
                                 <button class="btn btn-xs btn-danger" ng-click="deleteInventoryInfo(data.id)">Delete</button>
                             </td>
                         </tr>
@@ -47,49 +47,6 @@
                 if (response.data.length > 0) {
                     $scope.inventoryinfo = response.data;
                 }
-            });
-        };
-
-        $scope.editInventoryInfo = function (id) {
-            $http.get('edit-inventory/'+id).then(function (response) {
-                $scope.inventory = response.data;
-                $scope.getInventoryStock($scope.inventory.id);
-                $scope.getInventoryPricing($scope.inventory.id);
-                $scope.getInventoryAccount($scope.inventory.id);
-                $scope.getInventoryVendor($scope.inventory.id);
-
-            });
-        };
-
-        $scope.getInventoryStock = function(id){
-            $scope.inventoryinfo = {};
-            $http.get('get-stock/'+id).then(function (response) {
-                angular.extend($scope.inventory,response.data);
-                
-            });
-        };
-
-        $scope.getInventoryPricing = function(id){
-            $scope.inventoryinfo = {};
-            $http.get('get-pricing/'+id).then(function (response) {
-                angular.extend($scope.inventory,response.data);
-                
-            });
-        };
-
-        $scope.getInventoryAccount = function(id){
-            $scope.inventoryinfo = {};
-            $http.get('get-account/'+id).then(function (response) {
-                angular.extend($scope.inventory, response.data);
-                
-            });
-        };
-
-        $scope.getInventoryVendor = function(id){
-            $scope.inventoryinfo = {};
-            $http.get('get-vendor/'+id).then(function (response) {
-                angular.extend($scope.inventory,response.data);
-                
             });
         };
 
