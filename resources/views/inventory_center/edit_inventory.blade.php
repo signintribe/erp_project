@@ -2,7 +2,7 @@
 @section('title', 'Add Inventory')
 @section('content')
 <div  ng-app="InventoryApp" ng-controller="InventoryController" ng-cloak>
-    <div class="card" ng-init="editInventoryInfo({{$id}})">
+    <div class="card" ng-init="editInventoryInfo({{$id}}); inventory.id={{$id}}">
         <div class="card-body">
             <h3 class="card-title">Product Information</h3>
             <div class="row">
@@ -173,7 +173,8 @@
             <div class="row">
                 <div class="col-lg-3 col-sm-3 col-md-3">
                     <label for="net_price">Net Purchase Price at Godown</label>
-                    <input type="text" class="form-control" id="net_price" ng-blur="calculate()" ng-model="inventory.net_pur_price" placeholder="Net Purchase Price at Godown"/>
+                    <input type="text" class="form-control" id="net_price"  readonly ng-model="inventory.net_pur_price" placeholder="Net Purchase Price at Godown"/>
+                    <button ng-click="calculate()">Calculate</button>
                 </div>
             </div><br/>
         </div>
@@ -302,7 +303,7 @@
                 angular.forEach($scope.inventory, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('save-inventory', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post($scope.appurl + 'save-inventory', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data,
@@ -312,7 +313,45 @@
                 });
             }
         };
-
+        $scope.calculate = function(){
+            if(!$scope.inventory.income_tax){
+              $scope.inventory.income_tax = 0;
+            }
+            if(!$scope.inventory.withholding_tax){
+                $scope.inventory.withholding_tax = 0;
+            }
+            if(!$scope.inventory.sales_tax){
+                $scope.inventory.sales_tax = 0;
+            }
+            if(!$scope.inventory.fed){
+                $scope.inventory.fed = 0;
+            }
+            if(!$scope.inventory.import_duty){
+                $scope.inventory.import_duty = 0;
+            }
+            if(!$scope.inventory.tax_adjustment){
+                $scope.inventory.tax_adjustment = 0;
+            }
+            if(!$scope.inventory.tax_exemption){
+                $scope.inventory.tax_exemption = 0;
+            }
+            if(!$scope.inventory.delivery_charges){
+                $scope.inventory.delivery_charges = 0;
+            }
+            if(!$scope.inventory.gross_pur_price){
+                $scope.inventory.gross_pur_price = 0;
+            }
+            if(!$scope.inventory.carriage_inward_charges){
+                $scope.inventory.carriage_inward_charges = 0;
+            }
+            if(!$scope.inventory.octri_taxes){
+                $scope.inventory.octri_taxes = 0;
+            }
+            $scope.inventory.net_pur_price = parseInt($scope.inventory.income_tax) + parseInt($scope.inventory.withholding_tax) + 
+            parseInt($scope.inventory.sales_tax) + parseInt($scope.inventory.fed) + parseInt($scope.inventory.import_duty) +
+            parseInt($scope.inventory.tax_adjustment) + parseInt($scope.inventory.tax_exemption) + parseInt($scope.inventory.delivery_charges) +             
+            parseInt($scope.inventory.gross_pur_price) + parseInt($scope.inventory.carriage_inward_charges) + parseInt($scope.inventory.octri_taxes);            
+        };
        
         $scope.getVendors = function () {
             $scope.vendorinformations = {};
