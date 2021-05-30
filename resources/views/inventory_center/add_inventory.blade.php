@@ -472,6 +472,7 @@
                 }
             });
         };
+        
         $scope.attrvals = [];
         $scope.getAttr = function(attr_id){
             let index = $scope.attrvals.indexOf(attr_id);

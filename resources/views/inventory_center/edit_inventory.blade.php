@@ -23,9 +23,14 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <label>Select Category</label>
+                <label>Selected Category</label>
             </div>
-            <div class="row">
+            <button ng-click="change_category()">
+                <span ng-repeat="c in selectedCategories" ng-if="$index != 0">
+                        <% selectedCategories[$index] %> <i class="fa fa-arrow-right" ng-if="$index + 1 < selectedCategories.length"></i>
+                </span>
+            </button><br>
+            <div class="row" style="display: none;" id="categories">
                 <div class="col">
                     <div align='center' id="catone"></div>
                     <div class="form-group" ng-init="get_categorywithitsparents(1)">
@@ -99,7 +104,26 @@
                     </div>
                 </div>
             </div><br/>
-            <div class="row" ng-if="attributes">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-md-12">
+                    <label>Selected Attributes</label>
+                </div>
+            </div><br/>
+            <div ng-repeat="Attributes in catattributes">
+                <div ng-repeat="(AttrName, catAtt) in Attributes">
+                    <label ng-bind="AttrName" style="font-weight: bolder; text-transform: capitalize"></label><hr/>
+                    <div ng-repeat="Av in catAtt">
+                        <div ng-repeat="proAtt in SelectedAttributes">
+                            <div class="row" ng-if="Av.id == proAtt.value_id">
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <input type="checkbox" checked ng-click="getAttr(proAtt.value_id)" id="atv<% proAtt.value_id %>"> <label for="atv<% proAtt.value_id %>" ng-bind="Av.value_name"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <!-- <div class="row" ng-if="attributes">
                 <div class="col-lg-12 col-sm-12 col-md-12">
                     <label>Select Attributes</label>
                 </div>
@@ -114,7 +138,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div><br/>
     <div class="card">
@@ -290,9 +314,12 @@
             parseInt($scope.inventory.tax_adjustment) + parseInt($scope.inventory.tax_exemption) + parseInt($scope.inventory.delivery_charges) +             
             parseInt($scope.inventory.gross_pur_price) + parseInt($scope.inventory.carriage_inward_charges) + parseInt($scope.inventory.octri_taxes);            
         };
+        $scope.change_category = function(){
+            $('#categories').show('slow');
+        };
         $scope.saveInventory = function(){
             $scope.inventory.attributes = JSON.stringify($scope.attrvals);
-            console.log($scope.inventory);
+            //console.log($scope.inventory);
             if (!$scope.inventory.product_name) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
@@ -471,7 +498,7 @@
                 if (response.data.status == true) {
                     $scope.attributes = response.data.data;
                     $("#attrbuts").html('');
-                    console.log($scope.attributes);
+                    //console.log($scope.attributes);
                 } else {
                     $("#attrbuts").html('');
                 }
@@ -500,39 +527,65 @@
                 $scope.getInventoryPricing($scope.inventory.id);
                 $scope.getInventoryAccount($scope.inventory.id);
                 $scope.getInventoryVendor($scope.inventory.id);
-
+                $scope.getInventoryCategory($scope.inventory.category_id);
+                $scope.getInventoryAttributes($scope.inventory.category_id);
+                $scope.getSelectedAttributes($scope.inventory.id);
+                //console.log($scope.inventory);
             });
         };
 
         $scope.getInventoryStock = function(id){
             $scope.inventoryinfo = {};
             $http.get($scope.appurl + 'get-stock/'+id).then(function (response) {
-                angular.extend($scope.inventory,response.data);
-                
+                angular.extend($scope.inventory, response.data);                
             });
         };
 
         $scope.getInventoryPricing = function(id){
             $scope.inventoryinfo = {};
             $http.get($scope.appurl + 'get-pricing/'+id).then(function (response) {
-                angular.extend($scope.inventory,response.data);
-                
+                angular.extend($scope.inventory, response.data);                
             });
         };
 
         $scope.getInventoryAccount = function(id){
             $scope.inventoryinfo = {};
             $http.get($scope.appurl + 'get-account/'+id).then(function (response) {
-                angular.extend($scope.inventory, response.data);
-                
+                angular.extend($scope.inventory, response.data);                
             });
         };
 
         $scope.getInventoryVendor = function(id){
             $scope.inventoryinfo = {};
             $http.get($scope.appurl + 'get-vendor/'+id).then(function (response) {
-                angular.extend($scope.inventory,response.data.id);
-                
+                angular.extend($scope.inventory, response.data);                
+            });
+        };
+
+        $scope.getInventoryCategory = function(id){
+            $scope.inventoryinfo = {};
+            $http.get($scope.appurl + 'get-category/' + id).then(function (response) {
+                $scope.selectedCategories = response.data;
+            });
+        };
+
+        $scope.getInventoryAttributes = function(id){
+            $scope.catattributes = {};
+            $("#attrbuts").html('<div class="square-path-loader"></div>');
+            $http.get($scope.appurl + 'get-attribute/' + id).then(function (response) {
+                if (response.data.status == true) {
+                    $scope.catattributes = response.data.data;
+                    $("#attrbuts").html('');
+                    //console.log($scope.catattributes);
+                } else {
+                    $("#attrbuts").html('');
+                }
+            });
+        };
+
+        $scope.getSelectedAttributes = function(id){
+            $http.get($scope.appurl + 'get-selected-atts/' + id).then(function (response) {
+                $scope.SelectedAttributes = response.data;
             });
         };
     });

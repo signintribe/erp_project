@@ -14,6 +14,10 @@ use App\Models\tblproduct_attributes;
 use App\Models\tblproduct_vendor;
 use App\Models\tblproduct_stockavailability;
 use App\Models\tblproduct_accounts;
+use App\Models\tblcategoryassociation;
+use App\Models\tblcategory;
+use App\Models\erp_attribute;
+use App\Models\erp_attribute_value;
 use Auth;
 use DB;
 /**
@@ -103,7 +107,44 @@ class InventoryController extends Controller{
         return tblproduct_vendor::select('product_id','vendor_name','stock_class','product_status')->where('product_id', $id)->first();
     }
 
-    public function editAddInventory($id) {
+    public function getCategory($id){
+        $cat = tblcategory::where('id', $id)->first();
+        $catname = $cat->category_name;
+        $cats = array();
+        $cats[] = $catname; 
+        $getparent = tblcategoryassociation::where('child_id', $id)->first();
+        $parent = $getparent->parent_id;
+        while($parent){
+            $cat = tblcategory::where('id', $parent)->first();
+            $cats[] = $cat->category_name;
+            $getparent = tblcategoryassociation::where('child_id', $cat->id)->first(); 
+            if(!empty($getparent)){
+                $parent = $getparent->parent_id;
+            }else{
+                break;
+            }
+        }
+        return array_reverse($cats);
+    }
+
+    public function getAttribute($id){
+        $attributes = array();
+        $attr = erp_attribute::where('category_id', $id)->get();
+        foreach ($attr as $key => $value) {
+            $attrvalue = erp_attribute_value::where('attribute_id', $value['id'])->get();
+            $attributes[] = array(
+                $value['attribute_name'] => $attrvalue
+            );
+        }
+        return response()->json(['status' => true, 'data' => $attributes]);
+
+    }
+
+    public function selectedAttribute($id){
+        return tblproduct_attributes::where('product_id', $id)->get();
+    }
+
+    public function editAddInventory($id){
         return view('inventory_center.edit_inventory', compact('id'));
     }
 
