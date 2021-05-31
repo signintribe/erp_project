@@ -286,39 +286,38 @@
         $scope.inventory = {};
         $scope.calculate = function(){
             if(!$scope.inventory.income_tax){
-                $scope.inventory.income_tax = 0;
+              $scope.inventory.income_tax = 0;
             }
-            alert($scope.inventory.income_tax);
-            /* if(parseInt($scope.inventory.withholding_tax) == empty){
-                parseInt($scope.inventory.withholding_tax) = 0;
+            if(!$scope.inventory.withholding_tax){
+                $scope.inventory.withholding_tax = 0;
             }
-            if(parseInt($scope.inventory.sales_tax) == empty){
-                parseInt($scope.inventory.sales_tax) = 0;
+            if(!$scope.inventory.sales_tax){
+                $scope.inventory.sales_tax = 0;
             }
-            if(parseInt($scope.inventory.fed) == empty){
-                parseInt($scope.inventory.fed) = 0;
+            if(!$scope.inventory.fed){
+                $scope.inventory.fed = 0;
             }
-            if(parseInt($scope.inventory.import_duty) == empty){
-                parseInt($scope.inventory.import_duty) = 0;
+            if(!$scope.inventory.import_duty){
+                $scope.inventory.import_duty = 0;
             }
-            if(parseInt($scope.inventory.tax_adjustment) == empty){
-                parseInt($scope.inventory.tax_adjustment) = 0;
+            if(!$scope.inventory.tax_adjustment){
+                $scope.inventory.tax_adjustment = 0;
             }
-            if(parseInt($scope.inventory.tax_exemption) == empty){
-                parseInt($scope.inventory.tax_exemption) = 0;
+            if(!$scope.inventory.tax_exemption){
+                $scope.inventory.tax_exemption = 0;
             }
-            if(parseInt($scope.inventory.delivery_charges) == empty){
-                parseInt($scope.inventory.delivery_charges) = 0;
+            if(!$scope.inventory.delivery_charges){
+                $scope.inventory.delivery_charges = 0;
             }
-            if(parseInt($scope.inventory.gross_pur_price) == empty){
-                parseInt($scope.inventory.gross_pur_price) = 0;
+            if(!$scope.inventory.gross_pur_price){
+                $scope.inventory.gross_pur_price = 0;
             }
-            if(parseInt($scope.inventory.carriage_inward_charges) == empty){
-                parseInt($scope.inventory.carriage_inward_charges) = 0;
+            if(!$scope.inventory.carriage_inward_charges){
+                $scope.inventory.carriage_inward_charges = 0;
             }
-            if(parseInt($scope.inventory.octri_taxes) == empty){
-                parseInt($scope.inventory.octri_taxes) = 0;
-            } */
+            if(!$scope.inventory.octri_taxes){
+                $scope.inventory.octri_taxes = 0;
+            }
             $scope.inventory.net_pur_price = parseInt($scope.inventory.income_tax) + parseInt($scope.inventory.withholding_tax) + 
             parseInt($scope.inventory.sales_tax) + parseInt($scope.inventory.fed) + parseInt($scope.inventory.import_duty) +
             parseInt($scope.inventory.tax_adjustment) + parseInt($scope.inventory.tax_exemption) + parseInt($scope.inventory.delivery_charges) +             
@@ -473,6 +472,7 @@
                 }
             });
         };
+        
         $scope.attrvals = [];
         $scope.getAttr = function(attr_id){
             let index = $scope.attrvals.indexOf(attr_id);

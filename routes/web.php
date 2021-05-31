@@ -116,6 +116,9 @@ Route::get('get-stock/{id}', 'InventoryController@getStock');
 Route::get('get-pricing/{id}', 'InventoryController@getPricing');
 Route::get('get-account/{id}', 'InventoryController@getAccount');
 Route::get('get-vendor/{id}', 'InventoryController@getVendor');
+Route::get('get-category/{id}', 'InventoryController@getCategory');
+Route::get('get-attribute/{id}', 'InventoryController@getAttribute');
+Route::get('get-selected-atts/{id}', 'InventoryController@selectedAttribute');
 Route::get('edit-inventory/{id}', 'InventoryController@editAddInventory');
 
 /**
