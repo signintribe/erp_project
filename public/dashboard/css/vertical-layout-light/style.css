@@ -26862,7 +26862,7 @@ div.tagsinput span.tag a {
 /* Sidebar */
 .sidebar {
   min-height: calc(100vh - 70px);
-  background: #5e2572;
+  background: #3d3d3d;
   font-family: "Roboto", sans-serif;
   font-weight: 500;
   padding: 0;
@@ -27016,7 +27016,7 @@ div.tagsinput span.tag a {
 }
 
 .sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link {
-  background: #512063;
+  background: #4b4b4b;
 }
 
 .sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link .menu-title,
@@ -27071,7 +27071,7 @@ div.tagsinput span.tag a {
 }
 
 .sidebar-light .sidebar .nav .nav-item .nav-link i.menu-icon {
-  color: #5e2572;
+  color: #4b4b4b;
 }
 
 .sidebar-light .sidebar .nav .nav-item .nav-link .menu-title {
@@ -27079,7 +27079,7 @@ div.tagsinput span.tag a {
 }
 
 .sidebar-light .sidebar .nav .nav-item.active > .nav-link {
-  background: #5e2572;
+  background: #4b4b4b;
 }
 
 .sidebar-light .sidebar .nav .nav-item.active > .nav-link .menu-title,
