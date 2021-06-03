@@ -40,16 +40,27 @@ class InventoryController extends Controller{
 
     public function saveInventory(Request $request)
     {
-        //return $request->all();
+       //return $request->all();
+
         if($request->id){
             $product = $request->except('id','user_id','attributes','stock_sale_order','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','product_id','income_tax','withholding_tax','sales_tax','fed','import_duty','tax_adjustment','tax_exemption','delivery_charges','gross_pur_price','carriage_inward_charges','octri_taxes','net_pur_price');
-            $attributes = $request->except('id','user_id','attributes','stock_sale_order','product_name','product_description','category_id','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','income_tax','withholding_tax','sales_tax','fed','import_duty','tax_adjustment','tax_exemption','delivery_charges','gross_pur_price','carriage_inward_charges','octri_taxes','net_pur_price');
+            $attributes = $request->except('id','user_id','stock_sale_order','product_name','product_description','category_id','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','income_tax','withholding_tax','sales_tax','fed','import_duty','tax_adjustment','tax_exemption','delivery_charges','gross_pur_price','carriage_inward_charges','octri_taxes','net_pur_price');
             $pricing = $request->except('id','user_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale');
             $vendor = $request->except('id','user_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','income_tax','withholding_tax','sales_tax','fed','import_duty','tax_adjustment','tax_exemption','delivery_charges','gross_pur_price','carriage_inward_charges','octri_taxes','net_pur_price');
             $stock = $request->except('id','user_id','attributes','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','chartof_account_cost','chartof_account_inventory','chartof_account_sale','income_tax','withholding_tax','sales_tax','fed','import_duty','tax_adjustment','tax_exemption','delivery_charges','gross_pur_price','carriage_inward_charges','octri_taxes','net_pur_price',);
             $account = $request->except('id','user_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','income_tax','withholding_tax','sales_tax','fed','import_duty','tax_adjustment','tax_exemption','delivery_charges','gross_pur_price','carriage_inward_charges','octri_taxes','net_pur_price');
             tblproduct_informations::where('id', $request->id)->update($product);
-            tblproduct_attributes::where('product_id', $request->id)->update($attributes);
+            $data = json_decode($attributes['attributes'], true);
+            if (!empty($data)){
+                tblproduct_attributes::where('product_id', $request->id)->delete();
+            }
+            $attribute = json_decode($attributes['attributes'], true);
+            for ($i=0; $i < count($attribute); $i++) { 
+                tblproduct_attributes::create([
+                    'product_id' => $request->id,
+                    'value_id' => $attribute[$i]
+                ]);
+            }              
             tblproduct_vendor::where('product_id', $request->id)->update($vendor);
             tblproduct_stockavailability::where('product_id', $request->id)->update($stock);
             tblproduct_pricing::where('product_id', $request->id)->update($pricing );

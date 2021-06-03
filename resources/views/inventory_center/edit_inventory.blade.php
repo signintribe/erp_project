@@ -1,5 +1,5 @@
 @extends('layouts.admin.master')
-@section('title', 'Add Inventory')
+@section('title', 'Edit Inventory')
 @section('content')
 <div  ng-app="InventoryApp" ng-controller="InventoryController" ng-cloak>
     <div class="card" ng-init="editInventoryInfo({{$id}}); inventory.id={{$id}}">
@@ -25,7 +25,7 @@
             <div class="row">
                 <label>Selected Category</label>
             </div>
-            <button ng-click="change_category()">
+            <button class="btn btn-success btn-rounded btn-fw btn-sm" ng-click="change_category()">
                 <span ng-repeat="c in selectedCategories" ng-if="$index != 0">
                         <% selectedCategories[$index] %> <i class="fa fa-arrow-right" ng-if="$index + 1 < selectedCategories.length"></i>
                 </span>
@@ -105,27 +105,25 @@
                 </div>
             </div><br/>
             <div class="row">
-                <div class="col-lg-12 col-sm-12 col-md-12">
-                    <label>Selected Attributes</label>
-                </div>
+                <label>Selected Attributes</label>
             </div><br/>
             <div ng-repeat="Attributes in catattributes">
                 <div ng-repeat="(AttrName, catAtt) in Attributes">
                     <label ng-bind="AttrName" style="font-weight: bolder; text-transform: capitalize"></label><hr/>
                     <div ng-repeat="Av in catAtt">
-                        <div ng-repeat="proAtt in SelectedAttributes">
-                            <div class="row" ng-if="Av.id == proAtt.value_id">
-                                <div class="col-lg-2 col-md-2 col-sm-2">
-                                    <input type="checkbox" checked ng-click="getAttr(proAtt.value_id)" id="atv<% proAtt.value_id %>"> <label for="atv<% proAtt.value_id %>" ng-bind="Av.value_name"></label>
-                                </div>
-                            </div>
-                        </div>
+                        <div>
+                            <div ng-repeat="proAtt in SelectedAttributes">  
+                                <p  data-ng-if="Av.id == proAtt.value_id">
+                                    <mark style="color: red;"><% Av.value_name %></mark>
+                                </p>                                 
+                            </div>                          
+                        </div>                       
                     </div>
                 </div>
-            </div> 
-            <!-- <div class="row" ng-if="attributes">
+            </div><br/> 
+            <div class="row" ng-if="attributes">
                 <div class="col-lg-12 col-sm-12 col-md-12">
-                    <label>Select Attributes</label>
+                    <label  style="font-weight: bolder; text-transform: capitalize; color: Green">Select Attributes Again</label>
                 </div>
             </div><br/>
             <div id="attrbuts"></div>
@@ -138,7 +136,7 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div><br/>
     <div class="card">
@@ -336,7 +334,6 @@
                         text: res.data,
                         type: "success"
                     });
-                    $scope.inventory = {};
                 });
             }
         };
@@ -535,35 +532,34 @@
         };
 
         $scope.getInventoryStock = function(id){
-            $scope.inventoryinfo = {};
             $http.get($scope.appurl + 'get-stock/'+id).then(function (response) {
                 angular.extend($scope.inventory, response.data);                
             });
         };
 
         $scope.getInventoryPricing = function(id){
-            $scope.inventoryinfo = {};
             $http.get($scope.appurl + 'get-pricing/'+id).then(function (response) {
                 angular.extend($scope.inventory, response.data);                
             });
         };
 
         $scope.getInventoryAccount = function(id){
-            $scope.inventoryinfo = {};
-            $http.get($scope.appurl + 'get-account/'+id).then(function (response) {
-                angular.extend($scope.inventory, response.data);                
+            $http.get($scope.appurl + 'get-account/' + id).then(function (response) {
+                angular.extend($scope.inventory, response.data);  
+                $scope.inventory.chartof_account_cost = parseInt(response.data.chartof_account_cost);
+                $scope.inventory.chartof_account_inventory = parseInt(response.data.chartof_account_inventory);
+                $scope.inventory.chartof_account_sale = parseInt(response.data.chartof_account_sale);              
             });
         };
 
         $scope.getInventoryVendor = function(id){
-            $scope.inventoryinfo = {};
-            $http.get($scope.appurl + 'get-vendor/'+id).then(function (response) {
-                angular.extend($scope.inventory, response.data);                
+            $http.get($scope.appurl + 'get-vendor/' + id).then(function (response) {
+                angular.extend($scope.inventory, response.data); 
+                $scope.inventory.vendor_name = parseInt(response.data.vendor_name);               
             });
         };
 
         $scope.getInventoryCategory = function(id){
-            $scope.inventoryinfo = {};
             $http.get($scope.appurl + 'get-category/' + id).then(function (response) {
                 $scope.selectedCategories = response.data;
             });
