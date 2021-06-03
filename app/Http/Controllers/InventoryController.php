@@ -128,7 +128,7 @@ class InventoryController extends Controller{
         while($parent){
             $cat = tblcategory::where('id', $parent)->first();
             $cats[] = $cat->category_name;
-            $getparent = tblcategoryassociation::where('child_id', $cat->id)->first(); 
+            $getparent = tblcategoryassociation::where('child_id', $cat->id)->first();
             if(!empty($getparent)){
                 $parent = $getparent->parent_id;
             }else{
