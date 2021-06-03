@@ -19,9 +19,9 @@
                     <tbody ng-init="getInventoryInfo()">
                         <tr ng-repeat="data in inventoryinfo">
                             <td ng-bind="$index+1"></td>
-                            <td ng-bind="data.category_id" style="text-transform: capitalize;"></td>
+                            <td ng-bind="data.category_name" style="text-transform: capitalize;"></td>
                             <td ng-bind="data.product_name" style="text-transform: capitalize;"></td>
-                            <td ng-bind="data.vendor_name" style="text-transform: capitalize;"></td>
+                            <td ng-bind="data.organization_name" style="text-transform: capitalize;"></td>
                             <td>
                                 <a class="btn btn-xs btn-info" href="edit-inventory/<% data.id %>">Edit</a>
                                 <button class="btn btn-xs btn-danger" ng-click="deleteInventoryInfo(data.id)">Delete</button>
