@@ -194,11 +194,23 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-3 col-sm-3 col-md-3">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" readonly ng-model="inventory.net_pur_price" placeholder="Net Purchase Price at Godown" aria-label="Recipient's username">
+                            <div class="input-group-append">
+                            <button class="btn btn-sm btn-success" ng-click="calculate()" type="button">Calculate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br/>
+            <!-- <div class="row">
+                <div class="col-lg-3 col-sm-3 col-md-3">
                     <label for="net_price">Net Purchase Price at Godown</label>
                     <input type="text" class="form-control" id="net_price"  readonly ng-model="inventory.net_pur_price" placeholder="Net Purchase Price at Godown"/>
                     <button ng-click="calculate()">Calculate</button>
                 </div>
-            </div><br/>
+            </div><br/> -->
         </div>
     </div><br/>
     <div class="card">
