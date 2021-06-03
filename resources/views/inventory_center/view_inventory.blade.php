@@ -10,7 +10,7 @@
                     <thead>
                         <tr>
                             <th>Sr#</th>
-                            <th>Category Id</th>
+                            <th>Category Name</th>
                             <th>Product Name</th>
                             <th>Vendor Name</th>
                             <th>Action</th>
