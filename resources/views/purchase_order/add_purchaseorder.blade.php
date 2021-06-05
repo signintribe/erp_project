@@ -11,10 +11,6 @@
                     <input type="text" id="mobile_number" class="form-control" ng-model="po.mobile_number" placeholder="Mobile Number"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="po_number">PO Number</label>
-                    <input type="text" id="po_number" class="form-control" ng-model="po.po_number" placeholder="PO Number"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="po_date">PO Date</label>
                     <input type="text" id="po_date" class="form-control" ng-model="po.po_date" placeholder="PO Date"/>
                 </div>
@@ -43,8 +39,8 @@
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="vendor_date">Vendor Balance</label>
-                    <input type="text" id="vendor_date" class="form-control" ng-model="po.vendor_date" placeholder="Vendor Balance"/>
+                    <label for="vendor_balance">Vendor Balance</label>
+                    <input type="text" id="vendor_balance" class="form-control" ng-model="po.vendor_balance" placeholder="Vendor Balance"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="total_po">Purchase Order Total</label>
@@ -87,14 +83,18 @@
                     <input type="text" id="payment_mode" class="form-control" ng-model="po.payment_mode" placeholder="Payment Mode"/>
                 </div>
             </div><br/>
-            <div class="row">
+            <div class="row" ng-init="getAccounts()">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="chartofaccount_purchase">Chart of Account Purchases</label>
-                    <input type="text" id="chartofaccount_purchase" class="form-control" ng-model="po.chartofaccount_purchase" placeholder="Chart of Account Purchases"/>
+                    <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="po.chartofaccount_purchase">
+                        <option value="">Chart of Account Purchases</option>
+                    </select>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label for="chartofaccount_payment">Chart of Account for Payment</label>
-                    <input type="text" id="chartofaccount_payment" class="form-control" ng-model="po.chartofaccount_payment" placeholder="Chart of Account for Payment"/>
+                <label for="chartofaccount_payment">Chart of Account for Payment</label>
+                    <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="po.chartofaccount_payment">
+                        <option value="">Chart of Account for Payment</option>
+                    </select>
                 </div>
             </div><br/>
             <div class="row">
@@ -106,6 +106,11 @@
                     <label for="description">Description</label>
                     <textarea id="description" class="form-control" ng-model="po.description" placeholder="Description"></textarea>
                 </div>
+            </div><br/>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <button type="button" class="btn btn-success btn-sm float-right" ng-click="savePurchaseOrder()">Save</button>
+                </div>
             </div>
         </div>
     </div><br/>
@@ -114,12 +119,42 @@
             <h3 class="card-title">Product Category</h3>
         </div>
     </div>
+    <input type="hidden" id="appurl" value="<?php echo env('APP_URL') ?>">
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var PO = angular.module('POApp', []);
     PO.controller('POController', function ($scope, $http) {
+        $scope.po = {};
+        $scope.appurl = $("#appurl").val();
+        $scope.getAccounts = function () {
+            var Accounts = $http.get($scope.appurl + 'AllchartofAccount');
+            Accounts.then(function (r) {
+                $scope.Accounts = r.data;
+            });
+        };
 
+        $scope.savePurchaseOrder = function(){
+            if (!$scope.po.mobile_number) {
+                $scope.showError = true;
+                jQuery("input.required").filter(function () {
+                    return !this.value;
+                }).addClass("has-error");
+            } else {
+                var Data = new FormData();
+                angular.forEach($scope.po, function (v, k) {
+                    Data.append(k, v);
+                });
+                $http.post('save-purchase-order', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    swal({
+                        title: "Save!",
+                        text: res.data,
+                        type: "success"
+                    });
+                    $scope.po = {};
+                });
+            }
+        };
     });
 </script>
 @endsection

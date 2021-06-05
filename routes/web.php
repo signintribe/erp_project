@@ -125,6 +125,10 @@ Route::get('edit-inventory/{id}', 'InventoryController@editAddInventory');
  * Purchase Order Section
 */
 Route::get('add-purchase-order', 'PurchaseOrderController@index')->name('add-purchase-order');
+Route::post('save-purchase-order', 'PurchaseOrderController@savePurchaseOrder');
+Route::get('get-purchase-order-info', 'PurchaseOrderController@getpurchaseOrder');
+Route::get('edit-purchase-order/{id}', 'PurchaseOrderController@edit');
+Route::get('delete-purchase-order/{id}', 'PurchaseOrderController@destroy');
 Route::get('add-purchase-receive', 'PurchaseOrderController@add_purchase_receive')->name('add-purchase-order');
 Route::get('view-purchase-order', 'PurchaseOrderController@view_purchase_order')->name('view-purchase-order');
 Route::get('view-purchase-receive', 'PurchaseOrderController@view_purchase_receive')->name('view-purchase-receive');
