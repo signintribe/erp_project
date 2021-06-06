@@ -955,6 +955,26 @@ BEGIN
 END$$
 DELIMITER ;
 
+DROP PROCEDURE `sp_getinventoryinfo`;
+DELIMITER $$
+CREATE PROCEDURE `sp_getinventoryinfo`(IN `userid` INT(11))
+BEGIN
+    SELECT inventory.id, cats.category_name,  inventory.product_name, 
+    vend.organization_name, date(inventory.created_at) AS created_date
+    FROM (
+       SELECT id, category_id, product_name, user_id, created_at 
+      FROM tblproduct_informations WHERE user_id = userid
+    ) AS inventory JOIN (
+      SELECT id, vendor_name, product_id
+      FROM tblproduct_vendors
+    ) AS vendor ON inventory.id = vendor.product_id JOIN(
+      SELECT id, category_name FROM tblcategories
+    )AS cats ON cats.id = inventory.category_id JOIN(
+      SELECT id, organization_name FROM erp_vendor_informations
+    ) AS vend ON vend.id = vendor.vendor_name;
+END$$
+DELIMITER ;
+
 
 
 SELECT vendor.organization_name, contactperson.id, contactperson.contact_id, contactperson.social_id, contactperson.title, contactperson.first_name, contact_person.last_name, contactperson.picture, con.email, soc.website, soc.facebook, con.mobile_number, address.address_line_1, address.city, address.country, address.state FROM(

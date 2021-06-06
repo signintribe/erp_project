@@ -98,7 +98,7 @@ class InventoryController extends Controller{
     }
 
     public function getInventory(){
-        return $Accounts = DB::select('call sp_getinventoryinfo(1)');
+        return $Accounts = DB::select('call sp_getinventoryinfo('.Auth::user()->id.')');
     }
 
     public function getStock($id){
