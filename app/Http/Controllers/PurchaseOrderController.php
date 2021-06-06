@@ -47,12 +47,17 @@ class PurchaseOrderController extends Controller{
         if($request->id){
             $data = $request->except(['id', 'user_id', 'created_at', 'updated_at']);
             erp_purchase_order::where('id', $request->id)->update($data);
+            return "Purchase Order Update successfully";
         }else{
             $data = $request->all();
             $data['user_id'] = Auth::user()->id;
             erp_purchase_order::create($data);
         }
         return "Purchase Order save successfully";
+    }
+
+    public function editPurchaseOrder($id){
+        return view('purchase_order.edit-purchase-order', compact('id'));
     }
 
     /**
