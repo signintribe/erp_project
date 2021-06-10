@@ -31,7 +31,7 @@ class AttributeValuesController extends Controller
      */
     public function index()
     {
-        return DB::select('SELECT attr.attribute_name, valu.* FROM (SELECT id, attribute_name FROM erp_attributes)AS attr JOIN(SELECT * FROM erp_attribute_values) AS valu ON valu.attribute_id = attr.id');
+        return DB::select('SELECT av.*, attr.category_id, attr.attribute_name, cat.category_name FROM (SELECT * FROM erp_attribute_values) AS av JOIN(SELECT id, category_id, attribute_name FROM erp_attributes) AS attr ON attr.id=av.attribute_id JOIN(SELECT id, category_name FROM tblcategories)AS cat ON cat.id=attr.category_id');
     }
 
     /**
@@ -83,7 +83,7 @@ class AttributeValuesController extends Controller
      */
     public function edit($id)
     {
-        return erp_attribute_value::where('id', $id)->first();
+        return DB::select('SELECT av.*, attr.category_id, cat.category_name FROM (SELECT * FROM erp_attribute_values WHERE id='.$id.') AS av JOIN(SELECT id, category_id FROM erp_attributes) AS attr ON attr.id=av.attribute_id JOIN(SELECT id, category_name FROM tblcategories)AS cat ON cat.id=attr.category_id');
     }
 
     /**

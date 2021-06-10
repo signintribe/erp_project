@@ -197,6 +197,7 @@ Route::get('attribute_value','Admin\AttributeValuesController@attributeValueView
 
 Route::get('attributes', 'Admin\AttributeController@attributesView');
 Route::resource('maintain-attributes','Admin\AttributeController');
+Route::get('get-attributes/{category_id}','Admin\AttributeController@getAttributes');
 Route::get('get-attr-values/{category_id}', 'Admin\AttributeController@getAttrValues');
 
 

@@ -123,4 +123,9 @@ class AttributeController extends Controller
         }
         return response()->json(['status' => true, 'data' => $attributes]);
     }
+
+    public function getAttributes($category_id)
+    {
+        return erp_attribute::where('category_id', $category_id)->get();
+    }
 }

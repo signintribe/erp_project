@@ -15,28 +15,17 @@
                         <i class="text-danger" ng-show="!value.value_name && showError"><small>Please Type Attribute Name</small></i>
                     </div>
                 </div>
-                <!-- <div class="form-group row">
-                    <div class="col">
-                        <label>Measurement:</label>
-                        <input type="text" class="form-control" placeholder="Measurement" ng-model="category.measurement"/>
-                        <small class="text text-muted">Add category measurement if add 3rd level category</small>
+                <div class="form-group row">
+                    <div class="col" ng-init="productCategory();">
+                        <label for="category_id">* Select Category:</label>
+                        <select ng-model="value.category_id" class="form-control" ng-change="get_allattributes(value.category_id)" id="category_id" ng-options="cats.id as cats.category_name for cats in productCategories">
+                            <option value="">Select Category</option>
+                        </select>
+                        <i class="text-danger" ng-show="!value.value_name && showError"><small>Please Type Attribute Name</small></i>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col">
-                        <label>Category Description:</label>
-                        <textarea class="form-control" placeholder="Category Description" ng-model="category.category_description" rows="5" cols="5"></textarea>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col">
-                        <label>Category Image:</label>
-                        <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);"><br/>
-                        <img ng-if="catimage" ng-src="<% catimage %>" class="img img-responsive" style="width: 100%; height: 200px;"/>
-                    </div>
-                </div> -->
-                <div class="form-group row">
-                    <div class="col" ng-init="get_allattributes()">
                         <label>Attribute Name:</label>
                         <select class="form-control" style="text-transform: capitalize;" ng-options="atr.id as atr.attribute_name for atr in attributes" ng-model="value.attribute_id">
                             <option value="">Select Attribute</option>
@@ -58,6 +47,7 @@
                     <thead>
                         <tr>
                             <th>Sr#</th>
+                            <th>Category Name</th>
                             <th>Attribute Name</th>
                             <th>Value Name</th>
                             <th>Action</th>
@@ -66,11 +56,14 @@
                     <tbody ng-init="getAttributeValueInfo()">
                         <tr ng-repeat="atrvalue in attributevalueinfo">
                             <td ng-bind="$index+1"></td>
+                            <td ng-bind="atrvalue.category_name" style="text-transform: capitalize;"></td>
                             <td ng-bind="atrvalue.attribute_name" style="text-transform: capitalize;"></td>
                             <td ng-bind="atrvalue.value_name " style="text-transform: capitalize;"></td>
                             <td>
-                                <button class="btn btn-xs btn-info" ng-click="editAttributeValueInfo(atrvalue.id)">Edit</button>
-                                <button class="btn btn-xs btn-danger" ng-click="deleteAttributeValueInfo(atrvalue.id)">Delete</button>
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-info" ng-click="editAttributeValueInfo(atrvalue.id)">Edit</button>
+                                    <button class="btn btn-xs btn-danger" ng-click="deleteAttributeValueInfo(atrvalue.id)">Delete</button>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -90,8 +83,8 @@
 
     
     AttributeValue.controller('AttributeValueController', function ($scope, $http) {
-        $scope.get_allattributes = function () {
-            $http.get('maintain-attributes').then(function (response) {
+        $scope.get_allattributes = function (category_id) {
+            $http.get('get-attributes/'+category_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.attributes = response.data;
                 }
@@ -132,9 +125,18 @@
             });
         };
 
+        $scope.productCategory = function () {
+            $http.get('product-categories').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.productCategories = response.data;
+                }
+            });
+        };
+
         $scope.editAttributeValueInfo = function (id) {
             $http.get('maintain-attribute-values/'+id+'/edit').then(function (response) {
-                $scope.value = response.data;
+                $scope.get_allattributes(response.data[0].category_id);
+                $scope.value = response.data[0];
             });
         };
 
