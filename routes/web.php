@@ -151,6 +151,8 @@ Route::get('view-sales-order', 'SalesController@view_sales_order')->name('view-s
  * Logistics Section
  */
 Route::get('freight-forward-det', 'LogisticsController@index')->name('freight-forward-det');
+Route::resource('save-freightforward-det', 'FreightForwardDetController');
+Route::get('edit-ff-det/{id}', 'FreightForwardDetController@editFFDET');
 Route::get('customer-clearance', 'LogisticsController@customer_clearance')->name('customer-clearance');
 Route::get('carriage-company', 'LogisticsController@carriage_company')->name('carriage-company');
 Route::get('viewfreightforwarddet', 'LogisticsController@view_freight_forward_det')->name('view-freight-forward-det');

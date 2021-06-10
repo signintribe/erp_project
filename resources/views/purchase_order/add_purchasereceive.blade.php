@@ -13,10 +13,6 @@
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="mobile_number">Mobile Number</label>
-                    <input type="text" id="mobile_number" class="form-control" ng-model="pr.mobile_number" placeholder="PO Number"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="goods_date">Goods receive date</label>
                     <input type="text" id="goods_date" class="form-control" ng-model="pr.goods_date" placeholder="Goods receive date"/>
                 </div>
@@ -51,7 +47,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="quantity">Quantity</label>
                     <input type="text" id="quantity" class="form-control" ng-model="pr.quantity" placeholder="Quantity"/>
-                </div>
+                </div><!-- 
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="unit_price">Unit Price</label>
                     <input type="text" id="unit_price" class="form-control" ng-model="pr.unit_price" placeholder="Unit Price"/>
@@ -63,9 +59,9 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="discount">Discount if any</label>
                     <input type="text" id="discount" class="form-control" ng-model="pr.discount" placeholder="Discount if any"/>
-                </div>
+                </div> -->
             </div><br/>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="total_price">Total Price</label>
                     <input type="text" id="total_price" class="form-control" ng-model="pr.total_price" placeholder="Total Price"/>
@@ -78,7 +74,7 @@
                     <label for="payment_mode">Payment Mode</label>
                     <input type="text" id="payment_mode" class="form-control" ng-model="pr.payment_mode" placeholder="Payment Mode"/>
                 </div>
-            </div><br/>
+            </div><br/> -->
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="chartofaccount_purchase">Chart of Account Purchases</label>
@@ -90,10 +86,6 @@
                 </div>
             </div><br/>
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label for="address">Address</label>
-                    <textarea id="address" class="form-control" ng-model="pr.address" placeholder="Address"></textarea>
-                </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="description">Description</label>
                     <textarea id="description" class="form-control" ng-model="pr.description" placeholder="Description"></textarea>
