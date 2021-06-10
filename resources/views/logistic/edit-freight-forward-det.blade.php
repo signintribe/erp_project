@@ -1,5 +1,5 @@
 @extends('layouts.admin.master')
-@section('title', 'Add Freight Forward Det')
+@section('title', 'Edit Freight Forward Det')
 @section('content')
 <div  ng-app="FreightApp" ng-controller="FreightController" ng-cloak>
     <div class="card">
