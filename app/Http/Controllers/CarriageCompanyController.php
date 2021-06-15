@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\erp_freightforward_det;
+use App\Models\erp_carriage_company;
 use App\Models\tbladdress;
 use App\Models\tblcontact;
 use App\Models\tblsocialmedias;
@@ -12,7 +12,7 @@ use Auth;
 use DB;
 use File;
 
-class FreightForwardDetController extends Controller
+class CarriageCompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class FreightForwardDetController extends Controller
      */
     public function index()
     {
-        return DB::select('SELECT freight.*, address.city, address.country, contact.mobile_number FROM (SELECT * FROM erp_freightforward_dets) AS freight JOIN (SELECT id, city, country FROM tbladdresses) AS address on address.id = freight.address_id JOIN (SELECT id, mobile_number FROM tblcontacts) AS contact on contact.id = freight.contact_id');
+        return DB::select('SELECT carriage.*, address.city, address.country, contact.mobile_number FROM (SELECT * FROM erp_carriage_companies) AS carriage JOIN (SELECT id, city, country FROM tbladdresses) AS address on address.id = carriage.address_id JOIN (SELECT id, mobile_number FROM tblcontacts) AS contact on contact.id = carriage.contact_id');
     }
 
     /**
@@ -54,20 +54,20 @@ class FreightForwardDetController extends Controller
             }
         }
         if($request->id){
-            $freight = $request->except('id', 'logo_file', 'address_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
+            $carriage = $request->except('id', 'logo_file', 'address_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
             $address = $request->except('id', 'logo_file', 'address_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','user_id','organization_name','ntn_no','incroporation_no','organization_logo','strn','import_license','export_license','chamber_no','currency_dealing','created_at','updated_at');
             $contact = $request->except('id', 'logo_file', 'website','twitter','instagram','facebook','linkedin','pinterest','address_id','contact_id','social_id','address_line_1','address_line_2', 'street','sector','city','state','country','postal_code','zip_code','user_id','organization_name','ntn_no','incroporation_no','organization_logo','strn','import_license','export_license','chamber_no','currency_dealing','created_at','updated_at');
             $social = $request->except('id', 'address_line_1', 'logo_file', 'address_line_2','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email','user_id','address_id','contact_id','social_id','organization_name','ntn_no','incroporation_no','organization_logo','strn','import_license','export_license','chamber_no','currency_dealing');
             if($imageName){
-                $freight['organization_logo'] = $imageName;
+                $carriage['organization_logo'] = $imageName;
             }            
-            erp_freightforward_det::where('id', $request->id)->update($freight);
+            erp_carriage_company::where('id', $request->id)->update($carriage);
             tbladdress::where('id', $request->address_id)->update($address);
             tblcontact::where('id', $request->contact_id)->update($contact);
             tblsocialmedias::where('id', $request->social_id)->update($social);            
-            return "Freight Forward Det Update successfully";
+            return "Carriage Company Update successfully";
         }else{
-            $freight = $request->except('website','twitter','logo_file','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','street','sector','city','state','country','postal_code','zip_code');
+            $carriage = $request->except('website','twitter','logo_file','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','street','sector','city','state','country','postal_code','zip_code');
             $address = $request->except('address_id','contact_id','logo_file','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','user_id','organization_name','ntn_no','incroporation_no','organization_logo','strn','import_license','export_license','chamber_no','currency_dealing');
             $contact = $request->except('address_id','website','twitter','logo_file','instagram','facebook','linkedin','pinterest','contact_id','social_id','address_line_1','address_line_2','street','sector','city','state','country','postal_code','zip_code','user_id','organization_name','ntn_no','incroporation_no','organization_logo','strn','import_license','export_license','chamber_no','currency_dealing');
             $social = $request->except('address_line_1','address_line_2','logo_file','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email','user_id','address_id','contact_id','social_id','organization_name','ntn_no','incroporation_no','organization_logo','strn','import_license','export_license','chamber_no','currency_dealing');
@@ -75,14 +75,14 @@ class FreightForwardDetController extends Controller
             $contact = tblcontact::create($contact);
             $social = tblsocialmedias::create($social);
 
-            $freight['user_id'] = Auth::user()->id;
-            $freight['address_id'] = $address->id;
-            $freight['contact_id'] = $contact->id;
-            $freight['social_id'] = $social->id;
-            $freight['organization_logo'] = $imageName;
-            erp_freightforward_det::create($freight);
+            $carriage['user_id'] = Auth::user()->id;
+            $carriage['address_id'] = $address->id;
+            $carriage['contact_id'] = $contact->id;
+            $carriage['social_id'] = $social->id;
+            $carriage['organization_logo'] = $imageName;
+            erp_carriage_company::create($carriage);
         }
-        return "Freight Forward Det save successfully";
+        return "Carriage Company save successfully";
     }
 
     public function deleteOldImage($request)
@@ -93,12 +93,12 @@ class FreightForwardDetController extends Controller
         }
     }
 
-    public function editFfdet($id){
-        return view('logistic.edit-freight-forward-det', compact('id'));
+    public function editCusClearance($id){
+        return view('logistic.edit-carriage-company', compact('id'));
     }
 
-    public function getFFDetInfo($id){
-        return DB::select('SELECT id, address_id, contact_id, social_id, organization_name, ntn_no, incroporation_no, organization_logo, strn, import_license, export_license, chamber_no, currency_dealing  FROM erp_freightforward_dets  where id = '.$id.' ');
+    public function getCusClearanceInfo($id){
+        return DB::select('SELECT id, address_id, contact_id, social_id, organization_name, ntn_no, incroporation_no, organization_logo, strn, import_license, export_license, chamber_no, currency_dealing  FROM erp_carriage_companies where id = '.$id.' ');
     }
 
     public function getAddress($address_id){
@@ -156,11 +156,11 @@ class FreightForwardDetController extends Controller
      */
     public function destroy($id)
     {
-        $det = erp_freightforward_det::where('id', $id)->first();
-        erp_freightforward_det::where('id', $id)->delete();
+        $det = erp_carriage_company::where('id', $id)->first();
+        erp_carriage_company::where('id', $id)->delete();
         tbladdress::where('id', $det->address_id)->delete();
         tblcontact::where('id', $det->contact_id)->delete();
         tblsocialmedias::where('id', $det->social_id)->delete();
-        return 'Freight Forward Det Info Delete Permanently';
+        return 'Carriage Company Info Delete Permanently';
     }
 }
