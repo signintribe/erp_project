@@ -7,6 +7,10 @@
  */
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Models\erp_quotation;
+use Auth;
+use DB;
 
 /**
  * Description of QuotationController
@@ -27,4 +31,27 @@ class QuotationController extends Controller {
         return view('quotation.view-quotations');
     }
 
+    public function saveQuotation(Request $request)
+    {
+        //return $request->all();
+        if($request->id){
+            $data = $request->except('id', 'user_id');
+            erp_quotation::where('id', $request->id)->update($data);
+            return "Quotation Info Update Successfully";
+        }else{
+            $data = $request->all();
+            $data['user_id'] = Auth::User()->id;
+            erp_quotation::create($data);
+        }
+        return "Quotation Info Save Successfully";
+    }
+
+    public function deleteQuotation($id){
+        erp_quotation::where('id', $id)->delete();
+        return 'Quotation Info Delete permanently';
+    }
+
+    public function getQuotations(){
+        return DB::select('SELECT quotation.*, vendor.company_name FROM (SELECT * FROM erp_quotations) AS quotation JOIN (SELECT id, company_name FROM erp_suppliers) AS vendor on vendor.id = quotation.vendor_name');
+    }
 }

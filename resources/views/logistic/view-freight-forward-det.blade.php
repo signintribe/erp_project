@@ -22,7 +22,7 @@
                         <tr ng-repeat="data in freight">
                             <td ng-bind="$index+1"></td>
                             <td ng-bind="data.organization_name" style="text-transform: capitalize;"></td>
-                            <td ng-bind="data.strn" style="text-transform: capitalize;"></td>
+                            <td ng-bind="data.ntn_no" style="text-transform: capitalize;"></td>
                             <td ng-bind="data.country" style="text-transform: capitalize;"></td>
                             <td ng-bind="data.mobile_number" style="text-transform: capitalize;"></td>
                             <td ng-bind="data.city" style="text-transform: capitalize;"></td>
@@ -39,7 +39,10 @@
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
-    var Logistics = angular.module('LogisticsApp', []);
+    var Logistics = angular.module('LogisticsApp', [], function ($interpolateProvider) {
+        $interpolateProvider.startSymbol('<%');
+        $interpolateProvider.endSymbol('%>');
+    });
     Logistics.controller('LogisticsController', function ($scope, $http) {
         $scope.getFFDetInfo = function(){
             $scope.freight = {};
@@ -47,6 +50,24 @@
                 if (response.data.length > 0) {
                     $scope.freight = response.data;
                 }
+            });
+        };
+
+        $scope.deleteFFDetInfo = function (id) {
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('save-freightforward-det/' + id).then(function (response) {
+                    $scope.getFFDetInfo();
+                    swal("Deleted!", response.data, "success");
+                });
             });
         };
     });

@@ -1,8 +1,8 @@
 @extends('layouts.admin.master')
 @section('title', 'Edit Freight Forward Det')
 @section('content')
-<div  ng-app="FreightApp" ng-controller="FreightController" ng-cloak>
-    <div class="card">
+<div  ng-app="EditFreightApp" ng-controller="EditFreightController" ng-cloak>
+    <div class="card"  ng-init="editFFDetInfo({{$id}}); freight.id={{$id}}">
         <div class="card-body">
             <h3 class="card-title">Organization Information</h3>
             <div class="row">
@@ -77,11 +77,11 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="address_line1">Postal Address Line 1</label>
-                    <input type="text" class="form-control" id="address_line1" ng-model="freight.address_line1" placeholder="Postal Address Line 1"/>
+                    <input type="text" class="form-control" id="address_line1" ng-model="freight.address_line_1" placeholder="Postal Address Line 1"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="address_line2">Postal Address Line 2</label>
-                    <input type="text" class="form-control" id="address_line2" ng-model="freight.address_line2" placeholder="Postal Address Line 2"/>
+                    <input type="text" class="form-control" id="address_line2" ng-model="freight.address_line_2" placeholder="Postal Address Line 2"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="sector">Sector/Mohallah</label>
@@ -170,15 +170,16 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="appurl" value="<?php echo env('APP_URL') ?>">
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
-    var Freight = angular.module('FreightApp', [], function ($interpolateProvider) {
+    var Freight = angular.module('EditFreightApp', [], function ($interpolateProvider) {
         $interpolateProvider.startSymbol('<%');
         $interpolateProvider.endSymbol('%>');
     });
-    Freight.controller('FreightController', function ($scope, $http) {
+    Freight.controller('EditFreightController', function ($scope, $http) {
+        $scope.appurl = $("#appurl").val();
         $scope.freight = {};
-
         $scope.saveFreightForward = function(){
             if (!$scope.freight.organization_name) {
                 $scope.showError = true;
@@ -190,13 +191,12 @@
                 angular.forEach($scope.freight, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('save-freightforward-det', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post($scope.appurl + 'save-freightforward-det', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data,
                         type: "success"
                     });
-                    $scope.freight = {};
                 });
             }
         };
@@ -206,10 +206,41 @@
             reader.onload = function (event) {
                 $scope.catimage = event.target.result;
                 $scope.$apply(function ($scope) {
-                    $scope.freight.organization_logo = element.files[0];
+                    $scope.freight.logo_file = element.files[0];
                 });
             };
             reader.readAsDataURL(element.files[0]);
+        };
+
+        $scope.editFFDetInfo = function (id) {
+            $http.get($scope.appurl + 'get-ffdet-info/' + id).then(function (response) {
+                $scope.freight = response.data[0];
+                $scope.catimage = $scope.appurl +  "public/organization_logo/" + $scope.freight.organization_logo;
+                $scope.editAddress($scope.freight.address_id);
+                $scope.editContact($scope.freight.contact_id);
+                $scope.editSocial($scope.freight.social_id);
+            });
+        };
+
+        $scope.editAddress = function (address_id) {
+            $http.get($scope.appurl + 'get-address/' + address_id).then(function (response) {
+                angular.extend($scope.freight, response.data[0]);
+                //console.log($scope.inventory);
+            });
+        };
+
+        $scope.editContact = function (contact_id) {
+            $http.get($scope.appurl + 'get-contact/' + contact_id).then(function (response) {
+                angular.extend($scope.freight, response.data[0]);
+                //console.log($scope.inventory);
+            });
+        };
+
+        $scope.editSocial = function (social_id) {
+            $http.get($scope.appurl + 'get-social/' + social_id).then(function (response) {
+                angular.extend($scope.freight, response.data[0]);
+                //console.log($scope.inventory);
+            });
         };
     });
 </script>
