@@ -137,6 +137,8 @@
             $http.get('maintain-attribute-values/'+id+'/edit').then(function (response) {
                 $scope.get_allattributes(response.data[0].category_id);
                 $scope.value = response.data[0];
+                $scope.value.attribute_id = parseInt($scope.value.attribute_id);
+                $scope.value.category_id = parseInt($scope.value.category_id);
             });
         };
 

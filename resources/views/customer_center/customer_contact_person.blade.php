@@ -124,8 +124,8 @@
         </div>
     </div><br>
     <div class="card">
-        <div class="card-body">
-            <table class="table table-bordered table-responsive">
+        <div class="card-body table-responsive">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Sr#</th>
@@ -146,8 +146,10 @@
                         <td ng-bind="customer.email"></td>
                         <td ng-bind="customer.mobile_number"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="editContactPerson(customer.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteContactPerson(customer.id)">Delete</button>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info" ng-click="editContactPerson(customer.id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteContactPerson(customer.id)">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>

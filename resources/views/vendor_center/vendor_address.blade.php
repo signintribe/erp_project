@@ -92,9 +92,9 @@
         </div>
    </div><br>
     <div class="card">
-        <div class="card-body">
+        <div class="card-body table-responsive">
             <h3 class="card-title">All Address</h3>
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Sr#</th>
@@ -121,8 +121,10 @@
                         <td ng-bind="addr.zip_code"></td>
                         <td ng-bind="addr.postal_code"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="editAddress(addr.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteAddress(addr.id)">Delete</button>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info" ng-click="editAddress(addr.id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteAddress(addr.id)">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>

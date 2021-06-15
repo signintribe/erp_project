@@ -15,13 +15,13 @@
                         <i class="text-danger" ng-show="!category.category_name && showError"><small>Please Type Category Name</small></i>
                     </div>
                 </div>
-                <div class="form-group row">
+                <!-- <div class="form-group row">
                     <div class="col">
                         <label>Measurement:</label>
                         <input type="text" class="form-control" placeholder="Measurement" ng-model="category.measurement"/>
                         <small class="text text-muted">Add category measurement if add 3rd level category</small>
                     </div>
-                </div>
+                </div> -->
                 <div class="form-group row">
                     <div class="col">
                         <label>Category Description:</label>

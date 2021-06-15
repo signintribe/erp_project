@@ -71,8 +71,8 @@
         </div>
     </div><br>
     <div class="card">
-        <div class="card-body">
-            <table class="table table-bordered table-responsive">
+        <div class="card-body table-responsive">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Sr#</th>
@@ -93,8 +93,10 @@
                         <td ng-bind="customer.facebook"></td>
                         <td ng-bind="customer.website"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="editDetail(customer.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteDetail(customer.id)">Delete</button>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info" ng-click="editDetail(customer.id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteDetail(customer.id)">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
