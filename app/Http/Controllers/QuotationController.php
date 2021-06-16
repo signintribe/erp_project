@@ -54,4 +54,12 @@ class QuotationController extends Controller {
     public function getQuotations(){
         return DB::select('SELECT quotation.*, vendor.company_name FROM (SELECT * FROM erp_quotations) AS quotation JOIN (SELECT id, company_name FROM erp_suppliers) AS vendor on vendor.id = quotation.vendor_name');
     }
+
+    public function getEditQuotation($id){
+        return view('quotation.edit-quotation', compact('id'));
+    }
+
+    public function getQuotation($id){
+        return erp_quotation::where('id', $id)->first();
+    }
 }

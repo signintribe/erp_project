@@ -43,7 +43,10 @@
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
-    var Quotation = angular.module('QuotationApp', []);
+    var Quotation = angular.module('QuotationApp', [], function ($interpolateProvider) {
+        $interpolateProvider.startSymbol('<%');
+        $interpolateProvider.endSymbol('%>');
+    });
     Quotation.controller('QuotationController', function ($scope, $http) {
         $scope.getQuotationInformation = function () {
             $scope.quotationinformations = {};

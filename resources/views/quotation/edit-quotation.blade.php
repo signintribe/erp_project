@@ -1,15 +1,15 @@
 @extends('layouts.admin.master')
-@section('title', 'Add Quotation')
+@section('title', 'Edit Quotation')
 @section('content')
-<div  ng-app="QuotatoionApp" ng-controller="QuotatoionController" ng-cloak>
+<div  ng-app="EditQuotationApp" ng-controller="EditQuotationController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-body" ng-init="editQuotationInformation({{$id}}); quotation.id={{$id}}">
             <h3 class="card-title">Add Quotation</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendorInformation()">
                     <label for="customer_name">Select Vendor</label>
                     <select id="customer_name" class="form-control" ng-options="vendor.id as vendor.company_name for vendor in vendorinformations" ng-model="quotation.vendor_name">
-                        <option value="">Select Customer</option>
+                        <option value="">Select Vendor</option>
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
@@ -28,7 +28,7 @@
             <div class="row">            
                 <div class="col-lg-3 col-sm-3 col-md-3">
                     <label for="total_price">Total Price</label>
-                    <div class="form-group">
+                    <div class="form-group">                        
                         <div class="input-group">
                             <input type="text" class="form-control" readonly ng-model="quotation.total_price" placeholder=" Calculate total price" aria-label="Recipient's username">
                             <div class="input-group-append">
@@ -101,17 +101,21 @@
             </div>
         </div>
     </div> -->
+    <input type="hidden" id="appurl" value="<?php echo env('APP_URL') ?>">
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
-    var Quotatoion = angular.module('QuotatoionApp', []);
-    Quotatoion.controller('QuotatoionController', function ($scope, $http) {
+    var EditQuotatoion = angular.module('EditQuotationApp', [], function ($interpolateProvider) {
+        $interpolateProvider.startSymbol('<%');
+        $interpolateProvider.endSymbol('%>');
+    });
+    EditQuotatoion.controller('EditQuotationController', function ($scope, $http) {
         $scope.quotation = {};
         $scope.appurl = $("#appurl").val();
 
         $scope.getVendorInformation = function () {
             $scope.vendorinformations = {};
-            $http.get('vendor/save-vendor-information').then(function (response) {
+            $http.get($scope.appurl + 'vendor/save-vendor-information').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.vendorinformations = response.data;
                 }
@@ -139,15 +143,23 @@
                 angular.forEach($scope.quotation, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('save-quotation-information', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post($scope.appurl + 'save-quotation-information', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data,
                         type: "success"
                     });
-                    $scope.quotation = {};
+                    $scope.editQuotationInformation();
                 });
             }
+        };
+
+        $scope.editQuotationInformation = function (id) {
+            $http.get($scope.appurl + 'edit-quotation-information/' + id ).then(function (response) {
+                $scope.quotation = response.data;
+                $scope.quotation.vendor_name = parseInt(response.data.vendor_name);
+                $scope.quotation.shipment_status = response.data.shipment_status;
+            });
         };
     });
 </script>

@@ -175,17 +175,19 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#AddLogistics" aria-expanded="false" aria-controls="AddLogistics">
                 <i class="fa fa-bus menu-icon"></i>
-                <span class="menu-title">Add Logistics</span>
+                <span class="menu-title">Logistics</span>
                 <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="AddLogistics">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a href="{{url('freight-forward-det')}}" class="nav-link">Freight Forward Det</a></li>
+                    <li class="nav-item"> <a href="{{url('add-logistic')}}" class="nav-link">Add Logistics</a></li>
+                    <li class="nav-item"> <a href="{{url('view-logistic')}}" class="nav-link">View Logistics</a></li>
+                    <!-- <li class="nav-item"> <a href="{{url('freight-forward-det')}}" class="nav-link">Freight Forward Det</a></li>
                     <li class="nav-item"> <a href="{{url('customer-clearance')}}" class="nav-link">Customer Clearance</a></li>
                     <li class="nav-item"> <a href="{{url('carriage-company')}}" class="nav-link">Carriage Company</a></li>
                     <li class="nav-item"> <a href="{{url('viewfreightforwarddet')}}" class="nav-link">View Freight Forward Det</a></li>
                     <li class="nav-item"> <a href="{{url('viewcustomerclearance')}}" class="nav-link">View Customer Clearance</a></li>
-                    <li class="nav-item"> <a href="{{url('viewcarriagecompany')}}" class="nav-link">View Carriage Company</a></li>
+                    <li class="nav-item"> <a href="{{url('viewcarriagecompany')}}" class="nav-link">View Carriage Company</a></li> -->
                 </ul>
             </div>
         </li>
