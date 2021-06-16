@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use File;
 use App\Models\VendorModels\erp_vendor_information;
 
 class VendorInformationController extends Controller
@@ -38,28 +39,29 @@ class VendorInformationController extends Controller
      */
     public function store(Request $request)
     {
+        //return $request->all();
         $imageName = "";
-        if ($request->hasFile('organization_logo')) {
+        if ($request->hasFile('org_logo')) {
             $current= date('ymd').rand(1,999999).time();
-            $file= $request->file('organization_logo');
+            $file= $request->file('org_logo');
             $imageName = $current.'.'.$file->getClientOriginalExtension();
             $file->move(public_path('organization_logo'), $imageName);
             if(!empty($request->id)){
                 $this->deleteOldImage($request->organization_logo);
-                $vendor = erp_vendor_information::where('id', $request->id)->first();
+                /* $vendor = erp_vendor_information::where('id', $request->id)->first();
                 $vendor->organization_logo = $imageName;
-                $vendor->save();
+                $vendor->save(); */
             }
         }
 
         if($request->id){
-            if ($imageName){
+            $data = $request->except(['id', 'user_id', 'org_logo', 'created_at', 'updated_at']);
+            if ($imageName !=""){
                 $data['organization_logo'] = $imageName; 
             }
-            $data = $request->except(['id', 'user_id', 'created_at', 'updated_at']);
             erp_vendor_information::where('id', $request->id)->update($data);
         }else{
-            $data = $request->all();
+            $data = $request->except(['org_logo']);
             $data['organization_logo'] = $imageName;
             $data['user_id'] = Auth::user()->id;
             //return $data;

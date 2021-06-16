@@ -83,18 +83,15 @@
         </div>
     </div><br>
     <div class="card">
-        <div class="card-body">
-            <table class="table table-bordered table-responsive">
+        <div class="card-body table-responsive">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Sr#</th>
+                        <th>Organization Logo</th>
                         <th>Organization Name</th>
                         <th>NTN</th>
-                        <th>Incroporation/License No</th>
-                        <th>Organization Logo</th>
                         <th>STRN</th>
-                        <th>Import License No.</th>
-                        <th>Export License No.</th>
                         <th>Chamber of Commerce License No.</th>
                         <th>Currency in dealing</th>
                         <th>Action</th>
@@ -103,18 +100,19 @@
                 <tbody ng-init="getVendorInformation()">
                     <tr ng-repeat="vendor in vendorinformations">
                         <td ng-bind="$index+1"></td>
+                        <td>
+                            <img ng-src="{{asset('public/organization_logo/<% vendor.organization_logo %>')}}" alt="">
+                        </td>
                         <td ng-bind="vendor.organization_name"></td>
                         <td ng-bind="vendor.ntn_no "></td>
-                        <td ng-bind="vendor.incroporation_no"></td>
-                        <td ng-bind="vendor.organization_logo"></td>
                         <td ng-bind="vendor.strn"></td>
-                        <td ng-bind="vendor.import_license"></td>
-                        <td ng-bind="vendor.export_license"></td>
                         <td ng-bind="vendor.chamber_no"></td>
                         <td ng-bind="vendor.currency_dealing"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="editVendorInformation(vendor.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteVendorInformation(vendor.id)">Delete</button>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info" ng-click="editVendorInformation(vendor.id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteVendorInformation(vendor.id)">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -163,7 +161,7 @@
             reader.onload = function (event) {
                 $scope.orglogo = event.target.result;
                 $scope.$apply(function ($scope) {
-                    $scope.organization.organization_logo = element.files[0];
+                    $scope.organization.org_logo = element.files[0];
                 });
             };
             reader.readAsDataURL(element.files[0]);

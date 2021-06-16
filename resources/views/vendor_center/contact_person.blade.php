@@ -7,7 +7,7 @@
             <h3 class="card-title">Organizations Contact Person</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
-                    <label for="organization_name">Name of Organization</label>
+                    <label for="organization_name">* Name of Organization</label>
                     <select class="form-control"  ng-options="vendor.id as vendor.organization_name for vendor in vendorinformations" ng-model="contactperson.vendor_id">
                         <option value="">Select Organization Name</option>
                     </select>
@@ -124,8 +124,8 @@
         </div>
     </div><br>
     <div class="card">
-        <div class="card-body">
-            <table class="table table-bordered table-responsive">
+        <div class="card-body table-responsive">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Sr#</th>
@@ -146,8 +146,10 @@
                         <td ng-bind="vendor.email"></td>
                         <td ng-bind="vendor.mobile_number"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="editContactPerson(vendor.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteContactPerson(vendor.id)">Delete</button>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info" ng-click="editContactPerson(vendor.id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteContactPerson(vendor.id)">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -203,7 +205,7 @@
             reader.onload = function (event) {
                 $scope.catimg = event.target.result;
                 $scope.$apply(function ($scope) {
-                    $scope.contactperson.picture = element.files[0];
+                    $scope.contactperson.userpicture = element.files[0];
                 });
             };
             reader.readAsDataURL(element.files[0]);
@@ -240,6 +242,7 @@
         $scope.editContactPerson = function (id) {
             $http.get('maintain-vendor-contactperson/' + id + '/edit').then(function (response) {
                 $scope.contactperson = response.data;
+                $scope.contactperson.vendor_id = parseInt($scope.contactperson.vendor_id);
                 $scope.getContact($scope.contactperson.contact_id);
                 $scope.getSocialMedia($scope.contactperson.social_id);
                 $scope.getAddress($scope.contactperson.address_id);

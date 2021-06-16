@@ -93,8 +93,10 @@
                         <td ng-bind="vendor.facebook"></td>
                         <td ng-bind="vendor.website"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="editContact(vendor.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteContact(vendor.id)">Delete</button>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info" ng-click="editContact(vendor.id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteContact(vendor.id)">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
