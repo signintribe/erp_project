@@ -2,7 +2,7 @@
 @section('title', 'Company Profile')
 @section('content')
 <div ng-app="CompanyApp" ng-controller="CompanyController">
-    <div class="card">
+    <div class="card" ng-init="editCompany('<?php echo Auth::user()->id; ?>')">
         <div class="card-body">
             <div class="row">
                 <div class="col">
@@ -245,7 +245,7 @@
             <button type="submit" id="updatebtn" class="btn btn-success btn-sm float-right" ng-click="update_companyinfo();">Submit</button>
         </div>
     </div><br/>
-    <div class="card d-print-none">
+<!-- <div class="card d-print-none">
         <div class="card-body" ng-init="get_allcompanyinfo();">
             <h3 class="card-title">All Compaines</h3>
             <small class="text text-danger" ng-bind="deletemessage" ng-if="deletemessage"></small>
@@ -278,7 +278,7 @@
             </table>
 
         </div>
-    </div>
+    </div> -->
 </div>
 <input type="hidden" id="baseurl" value="<?php echo env('APP_URL'); ?>">
 <script src="{{ asset('public/js/angular.min.js')}}"></script>

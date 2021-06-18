@@ -98,7 +98,7 @@ class CompanyProfileController extends Controller
      */
     public function edit($id)
     {
-        return tblcompanydetail::where('id', $id)->first();
+        return tblcompanydetail::where('user_id', $id)->first();
     }
 
     /**
