@@ -145,6 +145,8 @@ Route::get('view-purchase-receive', 'PurchaseOrderController@view_purchase_recei
 Route::get('add-quotation', 'QuotationController@index')->name('add-quotation');
 Route::post('save-quotation-information', 'QuotationController@saveQuotation');
 Route::get('get-quotation-information', 'QuotationController@getQuotations');
+Route::get('edit-quotation/{id}', 'QuotationController@getEditQuotation');
+Route::get('edit-quotation-information/{id}', 'QuotationController@getQuotation');
 Route::delete('delete-quotation-information/{id}', 'QuotationController@deleteQuotation');
 Route::get('view-quotations', 'QuotationController@view_quotations')->name('view-quotations');
 
@@ -159,14 +161,24 @@ Route::get('view-sales-order', 'SalesController@view_sales_order')->name('view-s
  * Logistics Section
  */
 Route::get('freight-forward-det', 'LogisticsController@index')->name('freight-forward-det');
-Route::resource('save-freightforward-det', 'FreightForwardDetController');
+Route::get('add-logistic', 'LogisticsController@index');
+Route::post('save-logistic', 'LogisticsController@saveLogistic');
+Route::get('get-logistics', 'LogisticsController@getLogistics');
+Route::get('edit-logistic/{id}', 'LogisticsController@viewEdit');
+Route::get('edit-logistic-info/{id}', 'LogisticsController@editLogistic');
+Route::delete('delete-logistic/{id}', 'LogisticsController@destroy');
+Route::get('get-log-address/{address_id}', 'FreightForwardDetController@getAddress');
+Route::get('get-log-contact/{contact_id}', 'FreightForwardDetController@getContact');
+Route::get('get-log-social/{social_id}', 'FreightForwardDetController@getSocial');
+Route::get('view-logistic', 'LogisticsController@viewLogistics');
+/* Route::resource('save-freightforward-det', 'FreightForwardDetController');
 Route::get('edit-ff-det/{id}', 'FreightForwardDetController@editFfdet');
 Route::get('get-ffdet-info/{id}', 'FreightForwardDetController@getFFDetInfo');
 Route::get('get-address/{address_id}', 'FreightForwardDetController@getAddress');
 Route::get('get-contact/{contact_id}', 'FreightForwardDetController@getContact');
-Route::get('get-social/{social_id}', 'FreightForwardDetController@getSocial');
+Route::get('get-social/{social_id}', 'FreightForwardDetController@getSocial'); */
 
-Route::resource('save-cus-clearance', 'CustomerClearanceController');
+/* Route::resource('save-cus-clearance', 'CustomerClearanceController');
 Route::get('edit-cus-clearance/{id}', 'CustomerClearanceController@editCusClearance');
 Route::get('get-cusclearance-info/{id}', 'CustomerClearanceController@getCusClearanceInfo');
 Route::get('get-cus-address/{address_id}', 'CustomerClearanceController@getAddress');
@@ -183,7 +195,7 @@ Route::get('customer-clearance', 'LogisticsController@customer_clearance')->name
 Route::get('carriage-company', 'LogisticsController@carriage_company')->name('carriage-company');
 Route::get('viewfreightforwarddet', 'LogisticsController@view_freight_forward_det')->name('view-freight-forward-det');
 Route::get('viewcustomerclearance', 'LogisticsController@view_customer_clearance')->name('view-customer-clearance');
-Route::get('viewcarriagecompany', 'LogisticsController@view_carriage_company')->name('view-carriage-company');
+Route::get('viewcarriagecompany', 'LogisticsController@view_carriage_company')->name('view-carriage-company'); */
 
 /**
  * MM Forms

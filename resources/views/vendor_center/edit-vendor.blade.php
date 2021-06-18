@@ -108,8 +108,6 @@
         $interpolateProvider.startSymbol('<%');
         $interpolateProvider.endSymbol('%>');
     });
-
-
     Vendor.controller('VendorController', function ($scope, $http) {
         $scope.organization = {};
         $scope.appurl = $("#appurl").val();
