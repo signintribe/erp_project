@@ -34,6 +34,9 @@ class CompanyCalenderController extends Controller
 
     }
 
+    public function editCalender($id){
+        return view('admin.edit-company-calender', compact('id'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -52,7 +55,13 @@ class CompanyCalenderController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        //return $request->all();
+        if($request->id){
+            $data = $request->except('id','office_id', 'company_name', 'company_id', 'office_name', 'department_name');
+            tblcompany_calender::where('id', $request->id)->update($data);
+            return "Calender Update";
+        }
+        $data = $request->except('office_id');
         tblcompany_calender::create($data);
         return "Calender Save";
     }
@@ -103,7 +112,8 @@ class CompanyCalenderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        tblcompany_calender::where('id', $id)->delete();
+        return 'Calender delete Successfully';
     }
 
     public function get_calendar($dept_id)

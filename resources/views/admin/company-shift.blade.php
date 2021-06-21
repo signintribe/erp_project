@@ -12,13 +12,13 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="row" ng-init="getoffice(0)">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="company" ng-init="all_companies();">Select Company</label>
                     <select ng-model="shift.company_id" ng-change="getoffice(shift.company_id)" ng-options="c.id as c.company_name for c in companies" id="company" class="form-control">
                         <option value="">Select Company</option>
                     </select>
-                </div>
+                </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="office">Select Office</label>
                     <select ng-model="shift.office_id" ng-change="getDepartments(shift.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
