@@ -1,7 +1,7 @@
 @extends('layouts.admin.master')
-@section('title', 'Company Controller')
+@section('title', 'Edit Company Calender')
 @section('content')
-<div  ng-app="CalanderApp" ng-controller="CalanderController" ng-cloak>
+<div  ng-app="EditCalanderApp" ng-controller="EditCalanderController" ng-cloak>
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -130,8 +130,8 @@
                         <td ng-bind="calendar.calender_start_date"></td>
                         <td ng-bind="calendar.calender_end_date"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="editCalendar(calendar.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteCalendar(calendar.id)">Delete</button>
+                            <button class="btn btn-xs btn-info" ng-click="getoffice(calendar.company_id);getDepartments(calendar.office_id);editCalendar(calendar.id);">Edit</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteCalendar(calendar.id);">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -142,7 +142,7 @@
 <input type="hidden" value="<?php echo env('APP_URL'); ?>" id="appurl">
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
-    var OrderList = angular.module('CalanderApp', [], function ($interpolateProvider) {
+    var OrderList = angular.module('EditCalanderApp', [], function ($interpolateProvider) {
         $interpolateProvider.startSymbol('<%');
         $interpolateProvider.endSymbol('%>');
     });
@@ -183,7 +183,7 @@
         };
     });
 
-    OrderList.controller('CalanderController', function ($scope, $http) {
+    OrderList.controller('EditCalanderController', function ($scope, $http) {
         $scope.calander = {};
         $scope.app_url = $("#appurl").val();
         $scope.all_companies = function () {
@@ -232,6 +232,7 @@
         $scope.editCalendar = function(id){
             $http.get('maintain-calender/'+ id + '/edit').then(function (response) {
                 $scope.calander = response.data[0];
+                $scope.calander.company_id = parseInt($scope.calander.company_id);
                 $scope.calander.office_id = parseInt($scope.calander.office_id);
                 $scope.calander.department_id = parseInt($scope.calander.department_id);
                 $("#ShowPrint").show();
@@ -262,7 +263,7 @@
             }
         };
 
-        $scope.deleteCalendar = function(id){
+        $scope.deleteRegistration = function(id){
             swal({
                 title: "Are you sure?",
                 text: "Your will not be able to recover this record!",
@@ -273,8 +274,8 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('maintain-calender/'+id).then(function (response) {
-                    $scope.get_calendars();
+                $http.delete('registration-company/'+id).then(function (response) {
+                    $scope.allcompany_registrations();
                     swal("Deleted!", response.data, "success");
                 });
             });

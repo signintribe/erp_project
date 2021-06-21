@@ -50,9 +50,15 @@ class CompanyShiftController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        erp_maintain_shift::create($data);
-        return "Shift save successfully";
+        if($request->id){
+            $data = $request->except('company_name', 'company_id', 'department_name', 'office_name', 'office_id');
+            erp_maintain_shift::where('id', $request->id)->update($data);
+            return "Shift update successfully";
+        }else{
+            $data = $request->all();
+            erp_maintain_shift::create($data);
+            return "Shift save successfully";
+        }
     }
 
     /**
