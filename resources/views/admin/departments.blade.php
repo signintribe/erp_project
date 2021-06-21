@@ -12,14 +12,7 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="company">* Select Company</label>
-                    <select ng-model="dept.company_id" ng-change="getoffice(dept.company_id)" ng-options="company.id as company.company_name for company in companies" class="form-control" id="company" required>
-                        <option value="">Select Company</option>
-                    </select>
-                    <i class="text-danger" ng-show="!dept.company_id && showError"><small>Please Select Company</small></i><br/>
-                </div>
+            <div class="row" ng-init="getoffice(0)">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="office">* Select Office</label>
                     <select ng-model="dept.office_id" ng-options="office.id as office.office_name for office in offices" class="form-control" id="office" required>
@@ -36,8 +29,6 @@
                     <label for="start_date">Department Start</label>
                     <input type="text" id="start_date" ng-model="dept.start_date" datepicker class="form-control" placeholder="Department Start"/>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="dept_scope">Department Scope</label>
                     <input type="text" id="dept_scope" ng-model="dept.department_scope" class="form-control" placeholder="Department Scope"/>
@@ -67,8 +58,6 @@
                         </div>
                     </div>
                 </div>
-            </div><br>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group row">
                         <div class="col">
@@ -95,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <label for="description">Description</label>

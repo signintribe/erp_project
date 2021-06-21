@@ -136,14 +136,14 @@ class CompanyProfileController extends Controller {
     }
 
     public function getcompanysocial($social_id) {
-        return tblsocialmedias::where('id', $social_id)->first();
+        return tblsocialmedias::select('website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest')->where('id', $social_id)->first();
     }
 
     public function getcompanyaddress($address_id) {
-        return tbladdress::where('id', $address_id)->first();
+        return tbladdress::select('address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code')->where('id', $address_id)->first();
     }
     public function getcompanycontact($contact_id) {
-        return tblcontact::where('id', $contact_id)->first();
+        return tblcontact::select('phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email')->where('id', $contact_id)->first();
     }
 
 }

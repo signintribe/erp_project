@@ -8,6 +8,8 @@ use App\Models\tbladdress;
 use App\Models\tblcontact;
 use App\Models\tblsocialmedias;
 use App\Models\tblmaintain_office;
+use App\Models\tbldepartmen;
+use App\Models\VendorModels\tblcompanydetail;
 use DB;
 use Auth;
 class OfficeController extends Controller
@@ -53,50 +55,27 @@ class OfficeController extends Controller
      */
     public function store(Request $request)
     {
-        $adderss = new tbladdress();
-        $adderss->address_line_1 = $request->address_line_1;
-        $adderss->address_line_2 = $request->address_line_2;
-        $adderss->street = $request->street;
-        $adderss->sector = $request->sector;
-        $adderss->city = $request->city;
-        $adderss->state = $request->state;
-        $adderss->country = $request->country;
-        $adderss->postal_code = $request->postal_code;
-        $adderss->zip_code = $request->zip_code;
-        $adderss->save();
-        $adderss_id = $adderss->id;
-
-        $contact = new tblcontact();
-        $contact->phone_number = $request->phone_number;
-        $contact->mobile_number =$request->mobile_number;
-        $contact->fax_number = $request->fax_number;
-        $contact->whatsapp = $request->whatsapp;
-        $contact->email = $request->email;
-        $contact->save();
-        $contact_id = $contact->id;
-
-        $sm = new tblsocialmedias();
-        $sm->website = $request->website;
-        $sm->twitter = $request->twitter;
-        $sm->instagram = $request->instagram;
-        $sm->facebook = $request->facebook;
-        $sm->linkedin = $request->linkedin;
-        $sm->pinterest = $request->pinterest;
-        $sm->save();
-        $sm_id = $sm->id;
-
-        $office = new tblmaintain_office();
-        $office->company_id = $request->company_id;
-        $office->office_name = $request->office_name;
-        $office->office_type = $request->office_type;
-        $office->start_date = $request->start_date;
-        $office->office_status = $request->office_status;
-        $office->scope_office =$request->scope_office;
-        $office->address_id = $adderss_id;
-        $office->contact_id = $contact_id;
-        $office->social_id = $sm_id;
-        $office->save();
-
+        if($request->id){
+            $this->update($request);
+        }else{
+            $addressdata = $request->except(['office_name', 'office_type', 'start_date', 'office_status', 'scope_office', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']);
+            $adderss = tbladdress::create($addressdata);
+            $adderss_id = $adderss->id;
+            $contactdata = $request->except(['address_line_1', 'address_line_2', 'city', 'country', 'postal_code', 'sector', 'state', 'street', 'zip_code', 'office_name', 'office_type', 'start_date', 'office_status', 'scope_office', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']);
+            $contact = tblcontact::create($contactdata);
+            $contact_id = $contact->id;
+            $smdata = $request->except(['address_line_1', 'address_line_2', 'city', 'country', 'postal_code', 'sector', 'state', 'street', 'zip_code', 'office_name', 'office_type', 'start_date', 'office_status', 'scope_office', 'phone_number', 'mobile_number', 'fax_number']);
+            $sm = tblsocialmedias::create($smdata);
+            $sm_id = $sm->id;
+            $officedata = $request->except(['address_line_1', 'address_line_2', 'city', 'country', 'postal_code', 'sector', 'state', 'street', 'zip_code', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']);
+            $officedata['office_status'] = $request->office_status == 'true' ? 1 : 0;
+            $officedata['address_id'] = $adderss_id;
+            $officedata['contact_id'] = $contact_id;
+            $officedata['social_id'] = $sm_id;
+            $company = tblcompanydetail::where('user_id', Auth::user()->id)->first();
+            $officedata['company_id'] = $company->id;
+            $office = tblmaintain_office::create($officedata);
+        }
         return 'Company Office Save Successfully';
     }
 
@@ -129,9 +108,17 @@ class OfficeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($request)
     {
-        //
+        $addressdata = $request->except(['address_id', 'contact_id', 'social_id', 'company_id', 'id', 'created_at', 'updated_at', 'office_name', 'office_type', 'start_date', 'office_status', 'scope_office', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']);
+        $adderss = tbladdress::where('id', $request->address_id)->update($addressdata);
+        $contactdata = $request->except(['address_id', 'contact_id', 'social_id', 'company_id', 'id', 'created_at', 'updated_at', 'address_line_1', 'address_line_2', 'address_line_3', 'city', 'country', 'postal_code', 'sector', 'state', 'street', 'zip_code', 'office_name', 'office_type', 'start_date', 'office_status', 'scope_office', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']);
+        $contact = tblcontact::where('id', $request->contact_id)->update($contactdata);
+        $smdata = $request->except(['address_id', 'contact_id', 'social_id', 'company_id', 'id', 'created_at', 'updated_at', 'address_line_1', 'address_line_2', 'address_line_3', 'city', 'country', 'postal_code', 'sector', 'state', 'street', 'zip_code', 'office_name', 'office_type', 'start_date', 'office_status', 'scope_office', 'phone_number', 'mobile_number', 'fax_number']);
+        $sm = tblsocialmedias::where('id', $request->social_id)->create($smdata);
+        $officedata = $request->except(['address_id', 'contact_id', 'social_id', 'company_id', 'id', 'created_at', 'updated_at', 'address_line_1', 'address_line_2', 'address_line_3', 'city', 'country', 'postal_code', 'sector', 'state', 'street', 'zip_code', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']);
+        $officedata['office_status'] = $request->office_status == 'true' ? 1 : 0;
+        $office = tblmaintain_office::where('id', $request->id)->update($officedata);
     }
 
     /**
@@ -142,10 +129,24 @@ class OfficeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $info = tblmaintain_office::where('id', $id)->first();
+            tbldepartmen::where('office_id', $id)->delete();
+            tbladdress::where('id', $info->address_id)->delete();
+            tblcontact::where('id', $info->contact_id)->delete();
+            tblsocialmedias::where('id', $info->social_id)->delete();
+            tblmaintain_office::where('id', $id)->delete();
+            return "Office information delete";
+          } catch (\Illuminate\Database\QueryException $e) {
+              return $e->errorInfo[2];
+          }
     }
 
     public function getoffice($company_id){
+        if($company_id == 0){
+            $com = $company_id = \App\Models\VendorModels\tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+            $company_id = $com->id;
+        }
         return tblmaintain_office::where('company_id', $company_id)->get();
     }
 }

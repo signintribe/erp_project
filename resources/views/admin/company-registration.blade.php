@@ -13,14 +13,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
-                    <label for="select-company" ng-init="all_companies();">Select Company</label>
-                    <select class="form-control" id="select-company" ng-options="c.id as c.company_name for c in companies" ng-model="registration.company_id">
-                        <option value="">Select Company</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <label for="registration-authority">Registration Authority</label>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="registration-authority">* Registration Authority</label>
                     <select class="form-control" id="registration-authority" ng-model="registration.registration_authority">
                         <option value="">Registration Authority</option>
                         <option value="NTN">NTN</option>
@@ -31,18 +25,19 @@
                         <option value="IOT ID">IOT ID</option>
                         <option value="FED">FED</option>
                     </select>
+                    <i class="text-danger" ng-show="!registration.registration_authority && showError"><small>Please select registration authority</small></i>
                 </div>
-                <div class="col">
-                    <label for="reg-id">Registration Id/No</label>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="reg-id">* Registration Id/No</label>
                     <input type="text" id="reg-id" class="form-control" placeholder="Registration Id/No" ng-model="registration.registration_id"/>
+                    <i class="text-danger" ng-show="!registration.registration_id && showError"><small>Please type registration id</small></i>
                 </div>
-                <div class="col">
-                    <label for="reg-name">Name of Registration</label>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="reg-name">* Name of Registration</label>
                     <input type="text" id="reg-name" class="form-control" placeholder="Name of Registration" ng-model="registration.registration_name"/>
+                    <i class="text-danger" ng-show="!registration.registration_name && showError"><small>Please type registration Name</small></i>
                 </div>
-            </div><br/>
-            <div class="row">
-                <div class="col">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                         <label for="registration-date">Registration Date</label>
                         <div class="input-group">
@@ -50,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                         <label for="expiry-date">Expiry Date</label>
                         <div class="input-group">
@@ -58,25 +53,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="phone">Phone Number</label>
                     <input type="text" id="phone" class="form-control" placeholder="Phone Number" ng-model="registration.phone_number"/>
                 </div>
-                <div class="col">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="website">Website</label>
                     <input type="text" id="website" class="form-control" placeholder="Website" ng-model="registration.website"/>
                 </div>
-            </div><br/>
-            <div class="row">
-                <div class="col">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="email">Email</label>
                     <input type="text" id="email" class="form-control" placeholder="Email" ng-model="registration.email"/>
                 </div>
-                <div class="col">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="mobile">Mobile Number</label>
                     <input type="text" id="mobile" class="form-control" placeholder="Mobile Number" ng-model="registration.mobile_number"/>
                 </div>
-                <div class="col">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="authority-address">Address of Authority</label>
                     <input type="text" id="authority-address" class="form-control" placeholder="Address of Registration Authority" ng-model="registration.registration_authority_address"/>
                 </div>
@@ -192,8 +185,7 @@
         };
 
         $scope.save_companyregistration = function () {
-            console.log($scope.registration);
-            if (!$scope.registration.company_id || !$scope.registration.registration_authority || !$scope.registration.registration_id || !$scope.registration.registration_name) {
+            if (!$scope.registration.registration_authority || !$scope.registration.registration_id || !$scope.registration.registration_name) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;
@@ -209,6 +201,7 @@
                         text: res.data,
                         type: "success"
                     });
+                    $scope.registration = {};
                     $scope.allcompany_registrations();
                 });
             }

@@ -37,8 +37,13 @@ class DepartmentsController extends Controller {
     }
 
     public function SaveDepartment(Request $request) {
-        //return $request->all();
-        $adderss = new tbladdress();
+        $addr = $request->except(['office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id','phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']); 
+        $cont = $request->except(['address_line_1', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']); 
+        $soc = $request->except(['address_line_1', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email']);
+        $adderss = tbladdress::where('id', $request->address_id)->first();
+        if(empty($adderss)){
+            $adderss = new tbladdress();
+        }
         $adderss->address_line_1 = $request->address_line_1;
         $adderss->address_line_2 = $request->address_line_2;
         $adderss->street = $request->street;
@@ -51,23 +56,10 @@ class DepartmentsController extends Controller {
         $adderss->save();
         $address_id = $adderss->id;
 
-        $contact = new tblcontact();
-        $contact->phone_number = $request->phone_number;
-        $contact->mobile_number =$request->mobile_number;
-        $contact->fax_number = $request->fax_number;
-        $contact->whatsapp = $request->whatsapp;
-        $contact->email = $request->email;
-        $contact->save();
+        $contact = tblcontact::where('id', $request->contact_id)->first();
         $contact_id = $contact->id;
 
-        $sm = new tblsocialmedias();
-        $sm->website = $request->website;
-        $sm->twitter = $request->twitter;
-        $sm->instagram = $request->instagram;
-        $sm->facebook = $request->facebook;
-        $sm->linkedin = $request->linkedin;
-        $sm->pinterest = $request->pinterest;
-        $sm->save();
+        $sm = tblsocialmedias::where('id', $request->social_id)->first();
         $social_id = $sm->id;
 
         tbldepartmen::create([
