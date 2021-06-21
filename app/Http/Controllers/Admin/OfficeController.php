@@ -144,7 +144,7 @@ class OfficeController extends Controller
 
     public function getoffice($company_id){
         if($company_id == 0){
-            $com = $company_id = \App\Models\VendorModels\tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+            $com = \App\Models\VendorModels\tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
             $company_id = $com->id;
         }
         return tblmaintain_office::where('company_id', $company_id)->get();
