@@ -14,6 +14,9 @@ use App\Models\tbldepartmen;
 use App\Models\tbladdress;
 use App\Models\tblcontact;
 use App\Models\tblsocialmedias;
+use App\Models\erp_employee_jd;
+use App\Models\erp_maintain_shift;
+use App\Models\tblcompany_calender;
 use DB;
 use Auth;
 /**
@@ -56,8 +59,20 @@ class DepartmentsController extends Controller {
     }
 
     public function delete_department($deptid){
-        $d = tbldepartmen::where('id', $deptid)->first();
-        //tbladdress::where('id', $d->address_id)->delete();
+        try {
+            return $this->hasMany('tbldepartmen');
+            $info = tbldepartmen::where('id', $deptid)->first();
+            tbladdress::where('id', $info->address_id)->delete();
+            tblcontact::where('id', $info->contact_id)->delete();
+            tblsocialmedias::where('id', $info->social_id)->delete();
+            erp_employee_jd::where('department_id', $deptid)->delete();
+            erp_maintain_shift::where('department_id', $deptid)->delete();
+            tblcompany_calender::where('department_id', $deptid)->delete();
+            tbldepartmen::where('id', $deptid)->delete();
+            return response()->json(['status' => true, 'message' => 'Dept delete permanently']);
+          } catch (\Illuminate\Database\QueryException $e) {
+              return response()->json(['status' => false, 'message' => $e->errorInfo[2]]);
+          }
     }
 
     public function getonedept($deptid){

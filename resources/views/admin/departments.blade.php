@@ -358,7 +358,7 @@
             function(){
                 $http.get('delete-department/' + id).then(function (response) {
                     $scope.get_departments();
-                    if(response.data.status === 0){
+                    if(response.data.status === 'true'){
                         swal("Delete!", response.data.message, "success");
                     }else{
                         swal("Not Delete!", response.data.message, "error");
