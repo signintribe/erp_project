@@ -21,6 +21,8 @@ use App\User;
 use App\Models\tblcontact;
 use App\Models\tblsocialmedias;
 use App\Models\employeeCenter\tblemployeeinformation;
+use App\Models\VendorModels\tblcompanydetail;
+use Auth;
 
 class UsersController extends Controller {
 
@@ -89,8 +91,10 @@ class UsersController extends Controller {
                     'pinterest' => $request->pinterest,
                     'website' => $request->website,
                 ]);
-                
+                $company = tblcompanydetail::where('user_id', Auth::user()->id)->first();
+                //$data['company_id'] = $company->id;
                 tblemployeeinformation::create([
+                    'company_id' => $company->id,
                     'employee_id' => $request->employee_id, 
                     'contact_id' => $contact->id,
                     'social_id' => $social->id,
