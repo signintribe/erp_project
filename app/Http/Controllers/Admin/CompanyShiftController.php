@@ -103,7 +103,8 @@ class CompanyShiftController extends Controller
      */
     public function destroy($id)
     {
-        //
+        erp_maintain_shift::where('id', $id)->delete();
+        return 'Company Shifts Delete permanently';
     }
 
     public function get_shift($dept_id)

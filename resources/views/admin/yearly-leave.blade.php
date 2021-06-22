@@ -12,13 +12,13 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="row" ng-init="getoffice(0)">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="company" ng-init="all_companies();">Select Company</label>
                     <select ng-model="yl.company_id" ng-change="getoffice(yl.company_id)" ng-options="c.id as c.company_name for c in companies" id="company" class="form-control">
                         <option value="">Select Company</option>
                     </select>
-                </div>
+                </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="office">Select Office</label>
                     <select ng-model="yl.office_id" ng-change="getDepartments(yl.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
@@ -42,12 +42,12 @@
                     </select>
                     <i class="text-danger" ng-show="!yl.leave_type && showError"><small>Please Type Leave Type</small></i>
                 </div>
-            </div><br>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="total_leave">Total Leave</label>
                     <input type="text" class="form-control" id="total_leave" ng-model="yl.total_leave" placeholder="Total Leave">
                 </div>
+            </div><br>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="leave_rules">Leave Rules</label>
                     <input type="text" class="form-control" id="leave_rules" ng-model="yl.leave_rules" placeholder="Leave Rules">
@@ -60,8 +60,6 @@
                     <label for="leave_rate">Leave Rate</label>
                     <input type="text" class="form-control" id="leave_rate" ng-model="yl.leave_rate" datepicker placeholder="Leave Rate">
                 </div>
-            </div><br>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="lapsed">Does Leave Lapsed/C.F</label>
                     <input type="text" class="form-control" id="lapsed" ng-model="yl.lapsed" placeholder="Does Leave Lapsed/C.F">
@@ -97,7 +95,7 @@
                         <td ng-bind="l.leave_type"></td>
                         <td>
                             <button class="btn btn-xs btn-info" ng-click="getoffice(l.company_id); getDepartments(l.office_id); editLeaves(l.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger">Delete</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteYearlyLeave(l.id)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -185,7 +183,7 @@
             }
         };
 
-        $scope.deleteRegistration = function(id){
+        $scope.deleteYearlyLeave = function(id){
             swal({
                 title: "Are you sure?",
                 text: "Your will not be able to recover this record!",
@@ -196,8 +194,8 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('registration-company/'+id).then(function (response) {
-                    $scope.allcompany_registrations();
+                $http.delete('maintain-leaves/'+id).then(function (response) {
+                    $scope.get_leaves();
                     swal("Deleted!", response.data, "success");
                 });
             });

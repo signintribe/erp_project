@@ -110,7 +110,7 @@
                         <td ng-bind="s.shift_end_time"></td>
                         <td>
                             <button class="btn btn-xs btn-info" ng-click="getoffice(s.company_id); getDepartments(s.office_id); editShift(s.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger">Delete</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteShifts(s.id)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -162,7 +162,7 @@
                     $scope.shifts = response.data;
                 }
             });
-        }
+        };
 
         $scope.editShift = function(id){
             $http.get('maintain-shift/'+ id + '/edit').then(function (response) {
@@ -187,18 +187,18 @@
                     Data.append(k, v);
                 });
                 $http.post('maintain-shift', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
-                    $scope.get_calendars();
+                    //$scope.get_calendars();
                     swal({
                         title: "Save!",
                         text: res.data,
                         type: "success"
                     });
-                    //$scope.calander = {};
+                    $scope.get_shifts();
                 });
             }
         };
 
-        $scope.deleteRegistration = function(id){
+        $scope.deleteShifts = function(id){
             swal({
                 title: "Are you sure?",
                 text: "Your will not be able to recover this record!",
@@ -209,8 +209,8 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('registration-company/'+id).then(function (response) {
-                    $scope.allcompany_registrations();
+                $http.delete('maintain-shift/' +id).then(function (response) {
+                    $scope.get_shifts();
                     swal("Deleted!", response.data, "success");
                 });
             });

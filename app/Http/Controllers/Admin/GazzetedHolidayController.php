@@ -51,6 +51,11 @@ class GazzetedHolidayController extends Controller
      */
     public function store(Request $request)
     {
+        if($request->id){
+            $data = $request->except(['id','jdDoc', 'company_id', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);
+            erp_gazzeted_holiday::where('id', $request->id)->update($data);
+            return "Gazzeted Holiday Update";
+        }
         $data = $request->except(['company_id', 'office_id']);
         erp_gazzeted_holiday::create($data);
         return "Gazzeted Holiday Save";
@@ -98,6 +103,7 @@ class GazzetedHolidayController extends Controller
      */
     public function destroy($id)
     {
-        //
+        erp_gazzeted_holiday::where('id', $id)->delete();
+        return 'Gazzete Holiday Info Delete Permanently';
     }
 }

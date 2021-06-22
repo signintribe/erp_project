@@ -12,13 +12,13 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="row" ng-init="getoffice(0)">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="company" ng-init="all_companies();">Select Company</label>
                     <select ng-model="gh.company_id" ng-change="getoffice(gh.company_id)" ng-options="c.id as c.company_name for c in companies" id="company" class="form-control">
                         <option value="">Select Company</option>
                     </select>
-                </div>
+                </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="office">Select Office</label>
                     <select ng-model="gh.office_id" ng-change="getDepartments(gh.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
@@ -86,7 +86,7 @@
                         <td ng-bind="h.end_date"></td>
                         <td>
                             <button class="btn btn-xs btn-info" ng-click="getoffice(h.company_id); getDepartments(h.office_id); editHoliday(h.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger">Delete</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteGazHoliday(h.id)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -211,7 +211,7 @@
             }
         };
 
-        $scope.deleteRegistration = function(id){
+        $scope.deleteGazHoliday = function(id){
             swal({
                 title: "Are you sure?",
                 text: "Your will not be able to recover this record!",
@@ -222,8 +222,8 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('registration-company/'+id).then(function (response) {
-                    $scope.allcompany_registrations();
+                $http.delete('maintain-holiday/'+id).then(function (response) {
+                    $scope.get_holiday();
                     swal("Deleted!", response.data, "success");
                 });
             });

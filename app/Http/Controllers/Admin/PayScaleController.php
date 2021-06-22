@@ -51,10 +51,17 @@ class PayScaleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['company_id', 'office_id']);
-        $data['status'] = $data['status'] == 'true' ? 1 : 0;
-        erp_employee_payscale::create($data);
-        return "Employee Payscale Save Successfully";
+        if($request->id){
+            $data = $request->except(['id', 'company_id', 'office_id','office_name','company_name', 'department_name']);
+            $data['status'] = $data['status'] == 'true' ? 1 : 0;
+            erp_employee_payscale::where('id', $request->id)->update($data);
+            return "Employee Payscale Update Successfully";
+        }else{
+            $data = $request->except(['company_id', 'office_id']);
+            $data['status'] = $data['status'] == 'true' ? 1 : 0;
+            erp_employee_payscale::create($data);
+            return "Employee Payscale Save Successfully";
+        }
     }
 
     /**
@@ -99,6 +106,7 @@ class PayScaleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        erp_employee_payscale::where('id', $id)->delete();
+        return 'Employee Payscale delete Permanently';
     }
 }
