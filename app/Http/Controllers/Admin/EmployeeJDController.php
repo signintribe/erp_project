@@ -50,7 +50,6 @@ class EmployeeJDController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['company_id', 'office_id']);
         if ($request->hasFile('jdDoc')) {
             $current = date('ymd') . rand(1, 999999) . time();
             $file = $request->file('jdDoc');
@@ -58,8 +57,15 @@ class EmployeeJDController extends Controller
             $file->move(public_path('/employeeJD'), $imgname);
             $data['attachment'] = $imgname;
         }
-        erp_employee_jd::create($data);
-        return "Employee Job Description Save Successfully";
+        if($request->id){
+            $data = $request->except(['id','jdDoc', 'company_id', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);        
+            erp_employee_jd::where('id', $request->id)->update($data);
+            return "Employee Job Description Update Successfully";
+        }else{
+            $data = $request->except(['company_id', 'office_id']);        
+            erp_employee_jd::create($data);
+            return "Employee Job Description Save Successfully";
+        }
     }
 
     /**
@@ -104,6 +110,7 @@ class EmployeeJDController extends Controller
      */
     public function destroy($id)
     {
-        //
+        erp_employee_jd::where('id', $id)->delete();
+        return 'Employee Job Desc delete Permanently';
     }
 }

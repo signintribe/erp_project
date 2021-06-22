@@ -12,13 +12,13 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="row" ng-init="getoffice(0)">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="company" ng-init="all_companies();">Select Company</label>
                     <select ng-model="pld.company_id" ng-change="getoffice(pld.company_id)" ng-options="c.id as c.company_name for c in companies" id="company" class="form-control">
                         <option value="">Select Company</option>
                     </select>
-                </div>
+                </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="office">Select Office</label>
                     <select ng-model="pld.office_id" ng-change="getDepartments(pld.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="department"> Select Department</label>
-                    <select ng-model="pld.department_id" id="department" ng-change="getCalendar(pld.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
+                    <select ng-model="pld.department_id" id="department" ng-change="get_shifts(pld.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
                 </div>
@@ -37,14 +37,14 @@
                         <option value="">Select Calendar</option>
                     </select>
                 </div>
-            </div><br>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="get_shifts()">
                     <label for="select_calendar">Select Shift</label>
                     <select ng-model="pld.shift_id" ng-options="shift.id as shift.shift_name for shift in shifts" id="select_calendar" class="form-control">
                         <option value="">Select Shift</option>
                     </select>
                 </div>
+            </div><br>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="allowance">Allowance</label>
                     <input type="text" class="form-control" id="allowance" ng-model="pld.allowance" placeholder="Leave Rules">
@@ -57,12 +57,12 @@
                     <label for="amount">Amount in Rs</label>
                     <input type="text" class="form-control" id="amount" ng-model="pld.amount" datepicker placeholder="Amount in Rs">
                 </div>
-            </div><br>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="pay_frequency">Pay Frequency</label>
                     <input type="text" class="form-control" id="pay_frequency" ng-model="pld.pay_frequency" placeholder="Pay Frequency">
                 </div>
+            </div><br>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="hourly">Hourly</label>
                     <input type="text" class="form-control" id="hourly" ng-model="pld.hourly" placeholder="Hourly">
@@ -112,7 +112,7 @@
                         <td ng-bind="p.allowance"></td>
                         <td>
                             <button class="btn btn-xs btn-info" ng-click="getoffice(p.company_id); getDepartments(p.office_id); getCalendar(p.department_id); getShift(p.department_id); editpayallowance(p.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger">Delete</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deletePayAllowance(p.id)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -160,17 +160,17 @@
 
         $scope.getCalendar = function (dept_id) {
             $scope.calendars = {};
-            $http.get('get-calendar/'+dept_id).then(function (response) {
+            $http.get('maintain-calender/'+dept_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.calendars = response.data;
                 }
-                $scope.getShift(dept_id);
+               // $scope.getShift(dept_id);
             });
         };
 
-        $scope.getShift = function (dept_id) {
+        /* $scope.getShift = function (dept_id) {
             $scope.shifts = {};
-            $http.get('get-shift/'+dept_id).then(function (response) {
+            $http.get('maintain-shift/'+dept_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.shifts = response.data;
                 }
@@ -183,7 +183,23 @@
                     $scope.pays = response.data;
                 }
             });
-        }
+        }; */
+
+        $scope.get_calendars = function(dept_id){
+            $http.get('get-calendar/' + dept_id).then(function (response) {
+                if(response.data.length > 0){
+                    $scope.calendars = response.data;
+                }
+            });
+        };
+
+        $scope.get_shifts = function(dept_id){
+            $http.get('maintain-shift/' +dept_id).then(function (response) {
+                if(response.data.length > 0){
+                    $scope.shifts = response.data;
+                }
+            });
+        };
 
         $scope.editpayallowance = function(id){
             $http.get('maintain-allowance-deducation/'+ id + '/edit').then(function (response) {
@@ -210,7 +226,7 @@
                     Data.append(k, v);
                 });
                 $http.post('maintain-allowance-deducation', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
-                    $scope.get_leaves();
+                    $scope.get_payallowance();
                     swal({
                         title: "Save!",
                         text: res.data,
@@ -221,7 +237,7 @@
             }
         };
 
-        $scope.deleteRegistration = function(id){
+        $scope.deletePayAllowance = function(id){
             swal({
                 title: "Are you sure?",
                 text: "Your will not be able to recover this record!",
@@ -232,8 +248,8 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('registration-company/'+id).then(function (response) {
-                    $scope.allcompany_registrations();
+                $http.delete('maintain-allowance-deducation/'+id).then(function (response) {
+                    $scope.get_payallowance();
                     swal("Deleted!", response.data, "success");
                 });
             });

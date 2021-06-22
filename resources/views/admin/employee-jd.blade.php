@@ -12,13 +12,13 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="row" ng-init="getoffice(0)">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="company" ng-init="all_companies();">Select Company</label>
                     <select ng-model="jds.company_id" ng-change="getoffice(jds.company_id)" ng-options="c.id as c.company_name for c in companies" id="company" class="form-control">
                         <option value="">Select Company</option>
                     </select>
-                </div>
+                </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="office">Select Office</label>
                     <select ng-model="jds.office_id" ng-change="getDepartments(jds.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
@@ -37,16 +37,12 @@
                     <input type="text" ng-model="jds.jd_name" id="jd_name" class="form-control" placeholder="JD Name">
                     <i class="text-danger" ng-show="!jds.jd_name && showError"><small>Please Type JD Name</small></i>
                 </div>
-            </div><br>
-            <div class="row">
-                <div class="col-lg-5 col-md-5 col-sm-5">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="attachment">Attachment</label>
                     <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);">
+                    <img ng-if="jdDoc" ng-src="<% jdDoc %>" class="img-lg rounded" style-="width:100%; height:200px;">
                 </div>
-                <div class="col-lg-7 col-md-7 col-sm-7">
-                    <img ng-if="jdDoc" ng-src="<% jdDoc %>" class="img-lg rounded"/>
-                </div>
-            </div><br>
+            </div><br>            
             <div class="row">
                 <div class="col">
                     <label for="description">Description</label>
@@ -83,7 +79,7 @@
                         <td ng-bind="j.jd_name"></td>
                         <td>
                             <button class="btn btn-xs btn-info" ng-click="getoffice(j.company_id); getDepartments(j.office_id); editJD(j.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger">Delete</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteJobDescription(j.id)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -180,6 +176,7 @@
                 $scope.jds.company_id = parseInt($scope.jds.company_id);
                 $scope.jds.office_id = parseInt($scope.jds.office_id);
                 $scope.jds.department_id = parseInt($scope.jds.department_id);
+                $scope.jdDoc = $scope.appurl + "public/employeeJD/" + $scope.jds.attachment;
                 $("#ShowPrint").show();
             });
         }
@@ -208,7 +205,7 @@
             }
         };
 
-        $scope.deleteRegistration = function(id){
+        $scope.deleteJobDescription = function(id){
             swal({
                 title: "Are you sure?",
                 text: "Your will not be able to recover this record!",
@@ -219,8 +216,8 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('registration-company/'+id).then(function (response) {
-                    $scope.allcompany_registrations();
+                $http.delete('maintain-jds/'+id).then(function (response) {
+                    $scope.get_jds();
                     swal("Deleted!", response.data, "success");
                 });
             });

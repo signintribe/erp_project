@@ -50,9 +50,15 @@ class YearlyLeaveController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['company_id', 'office_id']);
-        erp_maintain_leave::create($data);
-        return "Employee Yearly Leaves Save";
+        if($request->id){
+            $data = $request->except(['id','jdDoc', 'company_id', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);
+            erp_maintain_leave::where('id', $request->id)->update($data);
+            return "Employee Yearly Leaves Update";
+        }else{
+            $data = $request->except(['company_id', 'office_id']);
+            erp_maintain_leave::create($data);
+            return "Employee Yearly Leaves Save";
+        }
     }
 
     /**
@@ -97,6 +103,7 @@ class YearlyLeaveController extends Controller
      */
     public function destroy($id)
     {
-        //
+        erp_maintain_leave::where('id', $id)->delete();
+        return 'Yearly Leave Info Deleted';
     }
 }

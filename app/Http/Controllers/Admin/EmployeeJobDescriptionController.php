@@ -39,8 +39,9 @@ class EmployeeJobDescriptionController extends Controller
     public function store(Request $request)
     {
         if($request->id){
-            $data = $request->except(['id', 'user_id', 'created_at', 'updated_at']);
+            $data = $request->except(['id', 'company_id', 'user_id', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);
             erp_employee_job_description::where('id', $request->id)->update($data);
+            return "Job Description Update successfully";
         }else{
             $data = $request->all();
             $data['user_id'] = Auth::user()->id;

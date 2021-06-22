@@ -12,13 +12,13 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="row" ng-init="getoffice(0)">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="company" ng-init="all_companies();">Select Company</label>
                     <select ng-model="group.company_id" ng-change="getoffice(group.company_id)" ng-options="c.id as c.company_name for c in companies" id="company" class="form-control">
                         <option value="">Select Company</option>
                     </select>
-                </div>
+                </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="office">Select Office</label>
                     <select ng-model="group.office_id" ng-change="getDepartments(group.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
@@ -37,7 +37,7 @@
                     <input type="text" ng-model="group.group_name" id="group_name" class="form-control" placeholder="Group Name">
                     <i class="text-danger" ng-show="!group.group_name && showError"><small>Please Type Group Name</small></i>
                 </div>
-            </div><br>
+            </div><br><!-- 
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="group_category">* Group Category</label>
@@ -45,9 +45,9 @@
                         <option value="">Group Category</option>
                     </select>
                 </div>
-            </div><br>
+            </div><br> -->
             <div class="row">
-                <div class="col">
+                <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="group_scope">Scope of Group</label>
                     <textarea ng-model="group.scope_group" id="group_scope" cols="30" rows="10" class="form-control" placeholder="Scope of Group"></textarea>
                 </div>
@@ -82,7 +82,7 @@
                         <td ng-bind="g.group_name"></td>
                         <td>
                             <button class="btn btn-xs btn-info" ng-click="getoffice(g.company_id); getDepartments(g.office_id); editGroup(g.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger">Delete</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteEmployeeGroup(g.id)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -159,18 +159,18 @@
                     Data.append(k, v);
                 });
                 $http.post('maintain-group', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
-                    //$scope.get_calendars();
+                    $scope.get_groups();
                     swal({
                         title: "Save!",
                         text: res.data,
                         type: "success"
                     });
-                    //$scope.calander = {};
+                    $scope.get_groups();
                 });
             }
         };
 
-        $scope.deleteRegistration = function(id){
+        $scope.deleteEmployeeGroup = function(id){
             swal({
                 title: "Are you sure?",
                 text: "Your will not be able to recover this record!",
@@ -181,8 +181,8 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('registration-company/'+id).then(function (response) {
-                    $scope.allcompany_registrations();
+                $http.delete('maintain-group/'+id).then(function (response) {
+                    $scope.get_groups();
                     swal("Deleted!", response.data, "success");
                 });
             });

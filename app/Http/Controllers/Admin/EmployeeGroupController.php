@@ -50,9 +50,15 @@ class EmployeeGroupController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['company_id', 'office_id']);
-        erp_employee_group::create($data);
-        return "Employee Group Save Successfully";
+        if($request->id){
+            $data = $request->except(['id', 'company_id', 'office_id','office_name','company_name', 'department_name']);
+            erp_employee_group::where('id', $request->id)->update($data);
+            return "Employee Group Update Successfully";
+        }else{
+            $data = $request->except(['company_id', 'office_id']);
+            erp_employee_group::create($data);
+            return "Employee Group Save Successfully";
+        }
     }
 
     /**
@@ -97,6 +103,7 @@ class EmployeeGroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        erp_employee_group::where('id', $id)->delete();
+        return 'Employee Group delete Permanently';
     }
 }
