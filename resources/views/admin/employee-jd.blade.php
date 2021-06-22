@@ -67,6 +67,7 @@
                         <th>Office Name</th>
                         <th>Department Name</th>
                         <th>JD Name</th>
+                        <th>Attachment</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -77,6 +78,7 @@
                         <td ng-bind="j.office_name"></td>
                         <td ng-bind="j.department_name"></td>
                         <td ng-bind="j.jd_name"></td>
+                        <td><a href="public/employeeJD/<% j.attachment %>" ng-bind="j.attachment"></a></td>
                         <td>
                             <button class="btn btn-xs btn-info" ng-click="getoffice(j.company_id); getDepartments(j.office_id); editJD(j.id)">Edit</button>
                             <button class="btn btn-xs btn-danger" ng-click="deleteJobDescription(j.id)">Delete</button>
@@ -176,7 +178,7 @@
                 $scope.jds.company_id = parseInt($scope.jds.company_id);
                 $scope.jds.office_id = parseInt($scope.jds.office_id);
                 $scope.jds.department_id = parseInt($scope.jds.department_id);
-                $scope.jdDoc = $scope.appurl + "public/employeeJD/" + $scope.jds.attachment;
+                //$scope.jdDoc = $scope.appurl + "public/employeeJD/" + $scope.jds.attachment;
                 $("#ShowPrint").show();
             });
         }

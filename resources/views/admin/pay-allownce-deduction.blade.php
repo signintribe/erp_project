@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="department"> Select Department</label>
-                    <select ng-model="pld.department_id" id="department" ng-change="get_shifts(pld.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
+                    <select ng-model="pld.department_id" id="department" ng-change="get_shifts(pld.department_id); get_calendars(pld.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
                 </div>
@@ -194,7 +194,7 @@
         };
 
         $scope.get_shifts = function(dept_id){
-            $http.get('maintain-shift/' +dept_id).then(function (response) {
+            $http.get('get-shift/' +dept_id).then(function (response) {
                 if(response.data.length > 0){
                     $scope.shifts = response.data;
                 }

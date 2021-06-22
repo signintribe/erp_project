@@ -118,6 +118,6 @@ class CompanyCalenderController extends Controller
 
     public function get_calendar($dept_id)
     {
-        return tblcompany_calender::where('department_id', $dept_id)->first();
+        return tblcompany_calender::where('department_id', $dept_id)->get();
     }
 }
