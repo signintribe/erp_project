@@ -22,6 +22,7 @@ class tblemployeeinformation  extends Model{
      * @var array
      */
     protected $fillable = [
+        'company_id',
         'employee_id', 
         'contact_id',
         'social_id',
