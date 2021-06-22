@@ -40,40 +40,14 @@ class DepartmentsController extends Controller {
         $addr = $request->except(['office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id','phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']); 
         $cont = $request->except(['address_line_1', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']); 
         $soc = $request->except(['address_line_1', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email']);
-        $adderss = tbladdress::where('id', $request->address_id)->first();
-        if(empty($adderss)){
-            $adderss = new tbladdress();
-        }
-        $adderss->address_line_1 = $request->address_line_1;
-        $adderss->address_line_2 = $request->address_line_2;
-        $adderss->street = $request->street;
-        $adderss->sector = $request->sector;
-        $adderss->city = $request->city;
-        $adderss->state = $request->state;
-        $adderss->country = $request->country;
-        $adderss->postal_code = $request->postal_code;
-        $adderss->zip_code = $request->zip_code;
-        $adderss->save();
-        $address_id = $adderss->id;
-
-        $contact = tblcontact::where('id', $request->contact_id)->first();
-        $contact_id = $contact->id;
-
-        $sm = tblsocialmedias::where('id', $request->social_id)->first();
-        $social_id = $sm->id;
-
-        tbldepartmen::create([
-            'office_id' => $request->office_id,
-            'department_name' => $request->department_name,
-            'description' => $request->description,
-            'start_date' => $request->start_date,
-            'department_scope' => $request->department_scope,
-            'department_status' => $request->department_status == 'true' ? 1 : 0,
-            'address_id' => $address_id,
-            'contact_id' => $contact_id,
-            'social_id' => $social_id,
-        ]);
-
+        $dept = $request->except(['address_line_1', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']);
+        $adderss = tbladdress::create($addr);
+        $contact = tblcontact::create($cont);
+        $sm = tblsocialmedias::create($soc);
+        $dept['address_id'] = $adderss->id;
+        $dept['contact_id'] = $contact->id;
+        $dept['social_id'] = $sm->id;
+        tbldepartmen::create($dept);
         return "Department Save Successfully";
     }
 
