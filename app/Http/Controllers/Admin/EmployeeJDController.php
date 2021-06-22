@@ -50,19 +50,21 @@ class EmployeeJDController extends Controller
      */
     public function store(Request $request)
     {
+        $imgname = "";
         if ($request->hasFile('jdDoc')) {
             $current = date('ymd') . rand(1, 999999) . time();
             $file = $request->file('jdDoc');
             $imgname = $current . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('/employeeJD'), $imgname);
-            $data['attachment'] = $imgname;
         }
         if($request->id){
             $data = $request->except(['id','jdDoc', 'company_id', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);        
+            $data['attachment'] = $imgname == "" ? $request->attachment : $imgname;
             erp_employee_jd::where('id', $request->id)->update($data);
             return "Employee Job Description Update Successfully";
         }else{
-            $data = $request->except(['company_id', 'office_id']);        
+            $data = $request->except(['company_id', 'office_id']); 
+            $data['attachment'] = $imgname; 
             erp_employee_jd::create($data);
             return "Employee Job Description Save Successfully";
         }
