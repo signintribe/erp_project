@@ -180,21 +180,12 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Youtube Channel</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="dept.youtube" placeholder="Youtube Channel">
-                        <div class="input-group-addon input-group-append"><i class="fa fa-youtube input-group-text"></i></div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Twitter Page</label>
                     <div class="input-group">
                         <input type="text" class="form-control" ng-model="dept.twitter" placeholder="Twitter Page">
                         <div class="input-group-addon input-group-append"><i class="fa fa-twitter input-group-text"></i></div>
                     </div>
                 </div>
-            </div><br/>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Website</label>
                     <div class="input-group">
@@ -202,6 +193,8 @@
                         <div class="input-group-addon input-group-append"><i class="fa fa-globe input-group-text"></i></div>
                     </div>
                 </div>
+            </div><br/>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="instagram">Instagram</label>
                     <div class="input-group">
@@ -379,7 +372,7 @@
         $scope.dept = {};
         $scope.save_department = function () {
             console.log($scope.dept);
-            if (!$scope.dept.company_id || !$scope.dept.office_id || !$scope.dept.department_name || !$scope.dept.address_line_1 || !$scope.dept.country || !$scope.dept.phone_number || !$scope.dept.mobile_number) {
+            if (!$scope.dept.office_id || !$scope.dept.department_name || !$scope.dept.address_line_1 || !$scope.dept.country || !$scope.dept.phone_number || !$scope.dept.mobile_number) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;

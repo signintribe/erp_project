@@ -51,7 +51,8 @@ class UsersController extends Controller {
 //        return DB::select('call sp_users()');
 //    }
     public function getEmployees() {
-        return tblemployeeinformation::get();
+        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+        return tblemployeeinformation::where('company_id', $company->id)->get();
     }
 
     public function approve_user($user_id, $status) {
@@ -91,7 +92,7 @@ class UsersController extends Controller {
                     'pinterest' => $request->pinterest,
                     'website' => $request->website,
                 ]);
-                $company = tblcompanydetail::where('user_id', Auth::user()->id)->first();
+                $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
                 //$data['company_id'] = $company->id;
                 tblemployeeinformation::create([
                     'company_id' => $company->id,
