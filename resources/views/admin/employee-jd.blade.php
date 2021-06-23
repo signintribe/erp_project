@@ -181,7 +181,7 @@
                 //$scope.jdDoc = $scope.appurl + "public/employeeJD/" + $scope.jds.attachment;
                 $("#ShowPrint").show();
             });
-        }
+        };
 
 
         $scope.save_jds = function () {

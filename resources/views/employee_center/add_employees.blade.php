@@ -250,14 +250,17 @@
                             </tr>
                         </thead>
                         <tbody ng-init="getEmployees();">
-                            <tr ng-repeat="user in Users">
+                            <tr ng-repeat="u in Users">
                                 <td ng-bind="$index + 1"></td>
-                                <td ng-bind="user.first_name"></td>
-                                <td ng-bind="user.employee_id"></td>
-                                <td ng-bind="user.nationality"></td>
-                                <td ng-bind="user.domicile"></td>
-                                <td ng-bind="user.cnic"></td>
-                                <td></td>
+                                <td ng-bind="u.first_name"></td>
+                                <td ng-bind="u.employee_id"></td>
+                                <td ng-bind="u.nationality"></td>
+                                <td ng-bind="u.domicile"></td>
+                                <td ng-bind="u.cnic"></td>
+                                <td>
+                                    <button class="btn btn-xs btn-info" ng-click="editEmployeeInfo(u.id)">Edit</button>
+                                    <button class="btn btn-xs btn-danger" ng-click="deleteEmployeeInfo(u.id)">Delete</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -310,10 +313,57 @@
                         type: "success"
                     });
                     $scope.user = {};
-                    $scope.all_users();
+                    $scope.getEmployees();
                 });
             }
         };
+
+        $scope.editEmployeeInfo = function(id){
+            $http.get('editEmployee/'+ id).then(function (response) {
+                $scope.user = response.data;
+                $scope.editContactInfo(response.data.contact_id);
+                $scope.editSocialInfo(response.data.social_id);
+                $("#ShowPrint").show();
+            });
+        };
+
+        $scope.editContactInfo = function(con_id){
+            $http.get('editContact/'+ con_id).then(function (response) {
+                angular.extend($scope.user, response.data);
+                /* $scope.user.email = parseInt(response.data.email);
+                $scope.user.mobile_number = parseInt(response.data.mobile_number);
+                $scope.user.phone_number = parseInt(response.data.phone_number);
+                $scope.user.fax_number = parseInt(response.data.fax_number);
+                $scope.user.whatsapp = parseInt(response.data.whatsapp); */
+                $("#ShowPrint").show();
+            });
+        };
+
+        $scope.editSocialInfo = function(soc_id){
+            $http.get('editSocial/'+ soc_id).then(function (response) {
+                angular.extend($scope.user, response.data);
+                $("#ShowPrint").show();
+            });
+        };
+
+        $scope.deleteEmployeeInfo = function(id){
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('deleteEmployees/'+id).then(function (response) {
+                    $scope.getEmployees();
+                    swal("Deleted!", response.data, "success");
+                });
+            });
+        };
+
     });
 </script>
 @endsection

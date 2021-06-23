@@ -9,6 +9,6 @@ class tblcontact extends Model
     protected $fillable = [
         'phone_number','mobile_number','fax_number','whatsapp','email',
         'created_at',
-        'updated_at	'
+        'updated_at	',
     ];
 }

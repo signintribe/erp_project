@@ -28,6 +28,10 @@ Route::group(['prefix'=>'hr'], function () {
   Route::get('getEmployees', 'Admin\UsersController@getEmployees')->middleware('is_admin');
   Route::get('employee-personal-information', 'Admin\UsersController@index')->name('users')->middleware('is_admin');
   Route::post('SaveUsers', 'Admin\UsersController@SaveUsers')->middleware('is_admin');
+  Route::get('editEmployee/{id}', 'Admin\UsersController@editEmployeeInfo');
+  Route::get('editContact/{con_id}', 'Admin\UsersController@editContact');
+  Route::get('editSocial/{soc_id}', 'Admin\UsersController@editSocial');
+  Route::delete('deleteEmployees/{id}', 'Admin\UsersController@deleteEmployeeInfo');
   Route::resource('maintain-employee-address', 'Admin\EmployeeAddressController');
   Route::get('employees-addresses', 'EmployeeController@add_employees_addresses');
   Route::get('spouse-detail', 'EmployeeController@spouse_detail')->name('spouse-detail');
