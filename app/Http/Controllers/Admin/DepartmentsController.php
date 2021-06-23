@@ -40,17 +40,30 @@ class DepartmentsController extends Controller {
     }
 
     public function SaveDepartment(Request $request) {
-        $addr = $request->except(['office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id','phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']); 
-        $cont = $request->except(['address_line_1', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']); 
-        $soc = $request->except(['address_line_1', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email']);
-        $dept = $request->except(['address_line_1', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']);
-        $adderss = tbladdress::create($addr);
-        $contact = tblcontact::create($cont);
-        $sm = tblsocialmedias::create($soc);
-        $dept['address_id'] = $adderss->id;
-        $dept['contact_id'] = $contact->id;
-        $dept['social_id'] = $sm->id;
-        tbldepartmen::create($dept);
+        if($request->id){
+            $addr = $request->except(['company_name', 'company_id', 'office_name', 'created_at', 'updated_at', 'office_id', 'id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id','phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']); 
+            $cont = $request->except(['address_line_3', 'company_name', 'company_id', 'office_name', 'created_at', 'updated_at', 'address_line_1', 'id', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']); 
+            $soc = $request->except(['address_line_3', 'company_name', 'company_id', 'office_name', 'created_at', 'updated_at', 'address_line_1', 'id', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email']);
+            $dept = $request->except(['address_line_3', 'company_name', 'company_id', 'office_name', 'created_at', 'updated_at', 'address_id','contact_id','social_id', 'id', 'address_line_1', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']);
+            $adderss = tbladdress::where('id', $request->address_id)->update($addr);
+            $contact = tblcontact::where('id', $request->contact_id)->update($cont);
+            $sm = tblsocialmedias::where('id', $request->social_id)->update($soc);
+            $dept['department_status'] = $request->department_status == 'true' ? 1 : 0;
+            tbldepartmen::where('id', $request->id)->update($dept);
+        }else{
+            $addr = $request->except(['office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id','phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']); 
+            $cont = $request->except(['address_line_1', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']); 
+            $soc = $request->except(['address_line_1', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email']);
+            $dept = $request->except(['address_line_1', 'address_line_2', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']);
+            $adderss = tbladdress::create($addr);
+            $contact = tblcontact::create($cont);
+            $sm = tblsocialmedias::create($soc);
+            $dept['address_id'] = $adderss->id;
+            $dept['contact_id'] = $contact->id;
+            $dept['social_id'] = $sm->id;
+            $dept['department_status'] = $request->department_status == 'true' ? 1 : 0;
+            tbldepartmen::create($dept);
+        }
         return "Department Save Successfully";
     }
 
@@ -60,7 +73,6 @@ class DepartmentsController extends Controller {
 
     public function delete_department($deptid){
         try {
-            return $this->hasMany('tbldepartmen');
             $info = tbldepartmen::where('id', $deptid)->first();
             tbladdress::where('id', $info->address_id)->delete();
             tblcontact::where('id', $info->contact_id)->delete();

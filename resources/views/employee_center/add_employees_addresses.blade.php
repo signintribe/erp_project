@@ -131,7 +131,7 @@
                                 <td ng-bind="addr.country"></td>
                                 <td>
                                     <button class="btn btn-xs btn-info" ng-click="editAddress(addr.id)">Edit</button>
-                                    <button class="btn btn-xs btn-danger" ng-click="editAddress(addr.id)">Delete</button>
+                                    <button class="btn btn-xs btn-danger" ng-click="deleteAddress(addr.id)">Delete</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -168,6 +168,28 @@
                 }
             });
         };
+
+        $scope.deleteAddress = function (address_id) {
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record! ",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('maintain-employee-address/' + address_id).then(function (response) {
+                    $scope.getAddress(0);
+                    if(response.data.status === 'true'){
+                        swal("Delete!", response.data.message, "success");
+                    }else{
+                        swal("Not Delete!", response.data.message, "error");
+                    }
+                });
+            });
+        };
         
         $scope.address = {};
         $scope.save_address = function () {
@@ -187,8 +209,8 @@
                         text: res.data,
                         type: "success"
                     });
-                    $scope.user = {};
-                    $scope.all_users();
+                    $scope.address = {};
+                    $scope.getAddress(0);
                 });
             }
         };

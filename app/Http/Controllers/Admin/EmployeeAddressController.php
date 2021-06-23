@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\tbladdress;
 use App\Models\tblcontact;
 use App\Models\tblsocialmedias;
+use App\Models\erp_employee_address;
 use App\Models\employeeCenter\tblemployeeinformation;
 use DB;
 class EmployeeAddressController extends Controller
@@ -39,15 +40,26 @@ class EmployeeAddressController extends Controller
      */
     public function store(Request $request)
     {
-        $employee = tblemployeeinformation::where('id', $request->employee_id)->first();
-        if(!empty($employee)){
-            $addressdata = $request->except(['employee_id']);
-            $address = tbladdress::create($addressdata);
-            $employee->address_id = $address->id;
-            $employee->save();
+        //return $request->all();
+        $gtaddr = tbladdress::where('id', $request->id)->first();
+        if(!empty($gtaddr)){
+            $addressdata = $request->except(['id', 'employee_id', 'first_name', 'created_at', 'updated_at']);
+            tbladdress::where('id', $request->id)->update($addressdata);
             return "Employee Address Save";
         }else{
-            return "Please Add Employee Information First";
+            $employee = tblemployeeinformation::where('id', $request->employee_id)->first();
+            if(!empty($employee)){
+                $addressdata = $request->except(['employee_id']);
+                $address = tbladdress::create($addressdata);
+                
+                $addressdata = array();
+                $addressdata['employee_id'] = $request->employee_id;
+                $addressdata['address_id'] = $address->id;
+                erp_employee_address::create($addressdata);
+                return "Employee Address Save";
+            }else{
+                return "Please Add Employee Information First";
+            }
         }
     }
 
@@ -93,7 +105,12 @@ class EmployeeAddressController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            tbladdress::where('id', $id)->delete();
+            return response()->json(['status'=>true, 'message'=>'Employee Address Delete']);
+          } catch (\Illuminate\Database\QueryException $e) {
+              return response()->json(['status' => false, 'message' => $e->errorInfo[2]]);
+          }
     }
 
     public function getAddress($address_id)
