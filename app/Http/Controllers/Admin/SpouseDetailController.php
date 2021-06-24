@@ -38,16 +38,26 @@ class SpouseDetailController extends Controller
      */
     public function store(Request $request)
     {
-        $addressdata = $request->except(['phone_number','mobile_number', 'fax_number', 'email', 'employee_id','spouse_first_name','spouse_middle_name','spouse_last_name','relation','gender','dob','domicile','marital_status','patronage']);
-        $address = tbladdress::create($addressdata);
-        $contactdata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'employee_id','spouse_first_name','spouse_middle_name','spouse_last_name','relation','gender','dob','domicile','marital_status','patronage']);
-        $contact = tblcontact::create($contactdata);
-        $spousedata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number','mobile_number', 'fax_number', 'email']);
-        $spousedata['address_id'] = $address->id;
-        $spousedata['contact_id'] = $contact->id;
-        erp_spouse_detail::create($spousedata);
+        if($request->id){
+            //return $request->all();
+            $addressdata = $request->except(['id','address_id','contact_id','whatsapp','phone_number','mobile_number', 'fax_number', 'email', 'employee_id','spouse_first_name','spouse_middle_name','spouse_last_name','relation','gender','dob','domicile','marital_status','patronage','created_at','updated_at']);
+            $contactdata = $request->except(['id','address_id','contact_id','whatsapp','address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'employee_id','spouse_first_name','spouse_middle_name','spouse_last_name','relation','gender','dob','domicile','marital_status','patronage','created_at','updated_at']);
+            $spousedata = $request->except(['id','address_id','contact_id','whatsapp','address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number','mobile_number', 'fax_number', 'email','created_at','updated_at']);
+            tbladdress::where('id', $request->address_id)->update($addressdata);
+            tblcontact::where('id', $request->contact_id)->update($contactdata);
+            erp_spouse_detail::where('id', $request->id)->update($spousedata);
+            return "Update";
+        }else{
+            $addressdata = $request->except(['phone_number','mobile_number', 'fax_number', 'email', 'employee_id','spouse_first_name','spouse_middle_name','spouse_last_name','relation','gender','dob','domicile','marital_status','patronage']);
+            $address = tbladdress::create($addressdata);
+            $contactdata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'employee_id','spouse_first_name','spouse_middle_name','spouse_last_name','relation','gender','dob','domicile','marital_status','patronage']);
+            $contact = tblcontact::create($contactdata);
+            $spousedata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number','mobile_number', 'fax_number', 'email']);
+            $spousedata['address_id'] = $address->id;
+            $spousedata['contact_id'] = $contact->id;
+            erp_spouse_detail::create($spousedata);
+        }
         return "Save";
-
     }
 
     /**
@@ -92,6 +102,10 @@ class SpouseDetailController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = erp_spouse_detail::where('id', $id)->first();
+        erp_spouse_detail::where('id', $data->id)->delete();
+        tbladdress::where('id', $data->address_id)->delete();
+        tblcontact::where('id', $data->contact_id)->delete();
+        return 'Employee Spouse Info Deleted';
     }
 }
