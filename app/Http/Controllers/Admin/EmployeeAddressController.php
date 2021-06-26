@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\tbladdress;
 use App\Models\tblcontact;
 use App\Models\tblsocialmedias;
+use App\Models\VendorModels\tblcompanydetail;
 use App\Models\erp_employee_address;
 use App\Models\employeeCenter\tblemployeeinformation;
 use DB;
+use Auth;
 class EmployeeAddressController extends Controller
 {
     /**
@@ -19,7 +21,8 @@ class EmployeeAddressController extends Controller
      */
     public function index()
     {
-        return DB::select('call sp_getEmploeeAddress(0)');
+        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+        return DB::select('call sp_getEmploeeAddress(0, '.$company->id.')');
     }
 
     /**
@@ -43,9 +46,9 @@ class EmployeeAddressController extends Controller
         //return $request->all();
         $gtaddr = tbladdress::where('id', $request->id)->first();
         if(!empty($gtaddr)){
-            $addressdata = $request->except(['id', 'employee_id', 'first_name', 'created_at', 'updated_at']);
+            $addressdata = $request->except(['id', 'employee_id', 'employee_name', 'created_at', 'updated_at']);
             tbladdress::where('id', $request->id)->update($addressdata);
-            return "Employee Address Save";
+            return "Employee Address Update";
         }else{
             $employee = tblemployeeinformation::where('id', $request->employee_id)->first();
             if(!empty($employee)){
@@ -82,7 +85,8 @@ class EmployeeAddressController extends Controller
      */
     public function edit($id)
     {
-        return DB::select('call sp_getEmploeeAddress('.$id.')');
+        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+        return DB::select('call sp_getEmploeeAddress('.$id.', '.$company->id.')');
     }
 
     /**

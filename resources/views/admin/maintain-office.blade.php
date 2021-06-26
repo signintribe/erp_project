@@ -40,14 +40,6 @@
                     <label for="office-scope">Office Scope</label>
                     <input type="text" id="expiry-date" class="form-control" placeholder="Office Scope" ng-model="office.scope_office"/>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="postal-code">Postal Code</label>
-                    <input type="text" id="postal-code" class="form-control" placeholder="Postal Code" ng-model="registration.postal_code"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                <label for="zip-code">Zip Code</label>
-                    <input type="text" id="zip-code" class="form-control" placeholder="Zip Code" ng-model="registration.zip_code"/>                    
-                </div>
             </div><hr/>
             <h3 class="card-title">Address Information</h3>
             <div class="row">
