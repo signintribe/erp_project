@@ -890,22 +890,30 @@ DELIMITER ;
 
 DROP PROCEDURE sp_getEmploeeAddress;
 DELIMITER $$
-CREATE PROCEDURE `sp_getEmploeeAddress`(in addressid int(11))
+CREATE PROCEDURE `sp_getEmploeeAddress`(in addressid int(11), in cid int(11))
 BEGIN  
     IF addressid <> 0 THEN
-      SELECT employee.id as employee_id, employee.first_name, addr.* FROM (
-        SELECT id, address_id, first_name 
-        FROM tblemployeeinformations
-      ) AS employee JOIN(
+      SELECT empinfo.id as employee_id, empinfo.employee_name, addr.* FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT id, address_id, employee_id 
+        FROM erp_employee_addresses
+      ) AS emp_addr ON emp_addr.employee_id = empinfo.id JOIN(
         SELECT * FROM tbladdresses WHERE id = addressid
-      ) AS addr ON addr.id = employee.address_id;
+      ) AS addr ON addr.id = emp_addr.address_id;
     ELSE
-      SELECT employee.id as employee_id, employee.first_name, addr.* FROM (
-        SELECT id, address_id, first_name 
-        FROM tblemployeeinformations
-      ) AS employee JOIN(
+      SELECT empinfo.id as employee_id, empinfo.employee_name, addr.* FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT id, address_id, employee_id 
+        FROM erp_employee_addresses
+      ) AS emp_addr ON emp_addr.employee_id = empinfo.id JOIN(
         SELECT * FROM tbladdresses
-      ) AS addr ON addr.id = employee.address_id;
+      ) AS addr ON addr.id = emp_addr.address_id;
     END IF;
 END$$
 DELIMITER ;

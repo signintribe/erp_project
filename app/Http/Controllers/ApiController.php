@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\User;
+use App\Models\VendorModels\tblcompanydetail;
 use App\Models\VendorModels\tblcustomerquery;
 
 /**
@@ -148,6 +149,22 @@ class ApiController extends Controller {
 
     public function get_company_rateing($company_id) {
         return DB::select("call sp_getcompanyrating(" . $company_id . ")");
+    }
+
+    public function searchCompany($company_name)
+    {
+        return tblcompanydetail::where('company_name', 'like', $company_name . '%')->limit(10)->get();
+    }
+
+    public function myCompany($company_id)
+    {
+        $data[] = DB::table('tblcompanydetails')
+        ->leftJoin('tbladdresses', 'tbladdresses.id', '=', 'tblcompanydetails.address_id')
+        ->where('tblcompanydetails.id', $company_id)
+        ->select('tblcompanydetails.id','tblcompanydetails.company_name','tblcompanydetails.company_logo', 'tblcompanydetails.established', 'tbladdresses.address_line_1', 'tbladdresses.sector', 'tbladdresses.street', 'tbladdresses.country', 'tbladdresses.city', 'tblcompanydetails.created_at')
+        ->first();
+
+        return $data;
     }
 
 }

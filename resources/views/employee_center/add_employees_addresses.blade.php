@@ -123,7 +123,7 @@
                         <tbody ng-init="getAddress(0)">
                             <tr ng-repeat="addr in Addresses">
                                 <td ng-bind="$index+1"></td>
-                                <td ng-bind="addr.first_name"></td>
+                                <td ng-bind="addr.employee_name"></td>
                                 <td ng-bind="addr.street"></td>
                                 <td ng-bind="addr.sector"></td>
                                 <td ng-bind="addr.city"></td>
@@ -165,6 +165,7 @@
             $http.get('maintain-employee-address/' + address_id + '/edit').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.address = response.data[0];
+                    $scope.address.employee_id = parseInt($scope.address.employee_id);
                 }
             });
         };

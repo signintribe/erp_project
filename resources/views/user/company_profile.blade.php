@@ -200,7 +200,7 @@
                         <input type="text" class="form-control" ng-model="company.linkedin" placeholder="Linkedin">
                         <div class="input-group-addon input-group-append"><i class="fa fa-linkedin input-group-text"></i></div>
                     </div>
-                    <i class="text-danger" ng-show="!company.linkedin && showError"><small>Please Type Country</small></i>
+                    <i class="text-danger" ng-show="!company.linkedin && showError"><small>Please Type Linkedin</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Youtube Channel</label>
@@ -224,7 +224,7 @@
                         <input type="text" class="form-control" ng-model="company.website" placeholder="Website">
                         <div class="input-group-addon input-group-append"><i class="fa fa-globe input-group-text"></i></div>
                     </div>
-                    <i class="text-danger" ng-show="!company.linkedin && showError"><small>Please Type Country</small></i>
+                    <i class="text-danger" ng-show="!company.linkedin && showError"><small>Please Type Website</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="instagram">Instagram</label>
@@ -420,7 +420,7 @@
                     Data.append(k, v);
                 });
                 //JSON.stringify($scope.company);
-                $http.put('maintain-company/' + $scope.company.id , Data , {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post('maintain-company' , Data , {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data,

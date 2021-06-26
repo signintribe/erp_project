@@ -21,9 +21,11 @@ Auth::routes();
  */
 
 Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
+Route::get('search-companies/{compny_name}', 'ApiController@searchCompany');
+Route::get('get-mycompany/{compny_id}', 'ApiController@myCompany');
 
 Route::get('employee-leave', 'EmployeeController@employee_leave')->name('employee-leave');
-
+Route::view('open-existing-company','auth.open-company');
 Route::group(['prefix'=>'hr'], function () {
   Route::get('getEmployees', 'Admin\UsersController@getEmployees')->middleware('is_admin');
   Route::get('employee-personal-information', 'Admin\UsersController@index')->name('users')->middleware('is_admin');

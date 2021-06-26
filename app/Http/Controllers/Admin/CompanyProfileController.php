@@ -11,7 +11,7 @@ use App\Models\tblcompany_registration;
 use App\Models\tblmaintain_office;
 use App\Models\VendorModels\tblcompanydetail;
 use Auth;
-
+use File;
 class CompanyProfileController extends Controller
 {
     /**
@@ -51,31 +51,33 @@ class CompanyProfileController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
-        $addressdata = $request->except(['facebook', 'linkedin', 'twitter', 'website', 'youtube', 'companyLogo', 'user_id', 'company_name', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
-        $address = tbladdress::create($addressdata);
-    
-        $socialmediadata = $request->except(['address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code', 'companyLogo', 'user_id', 'company_name', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
-        $social = tblsocialmedias::create($socialmediadata);
+        if($request->id){
+            $this->update($request);
+        }else{
+            $addressdata = $request->except(['facebook', 'linkedin', 'twitter', 'website', 'youtube', 'companyLogo', 'user_id', 'company_name', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
+            $address = tbladdress::create($addressdata);
         
-        $contactdata = $request->except(['address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code', 'companyLogo', 'user_id', 'company_name', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
-        $contact = tblcontact::create($contactdata);
+            $socialmediadata = $request->except(['address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code', 'companyLogo', 'user_id', 'company_name', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
+            $social = tblsocialmedias::create($socialmediadata);
+            
+            $contactdata = $request->except(['address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code', 'companyLogo', 'user_id', 'company_name', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
+            $contact = tblcontact::create($contactdata);
 
-        $companydata = $request->except(['phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email','facebook', 'linkedin', 'twitter', 'website', 'youtube', 'address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code']);
-        $companydata['address_id'] = $address->id;
-        $companydata['social_id'] = $social->id;
-        $companydata['contact_id'] = $contact->id;
-        $companydata['user_id'] = Auth::user()->id;
+            $companydata = $request->except(['phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email','facebook', 'linkedin', 'twitter', 'website', 'youtube', 'address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code']);
+            $companydata['address_id'] = $address->id;
+            $companydata['social_id'] = $social->id;
+            $companydata['contact_id'] = $contact->id;
+            $companydata['user_id'] = Auth::user()->id;
 
-        if ($request->hasFile('companyLogo')) {
-            $current = date('ymd') . rand(1, 999999) . time();
-            $file = $request->file('companyLogo');
-            $imgname = $current . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('/company_logs'), $imgname);
+            if ($request->hasFile('companyLogo')) {
+                $current = date('ymd') . rand(1, 999999) . time();
+                $file = $request->file('companyLogo');
+                $imgname = $current . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('/company_logs'), $imgname);
+            }
+            $companydata['company_logo'] = $imgname;    
+            tblcompanydetail::create($companydata);
         }
-        $companydata['company_logo'] = $imgname;    
-        tblcompanydetail::create($companydata);
-
         return "Your comapny information save successfully";
     }
 
@@ -108,9 +110,44 @@ class CompanyProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($request)
     {
-        return $request->all();
+        $companydata = $request->except(['id', 'created_at', 'updated_at', 'user_id', 'address_id', 'contact_id', 'social_id', 'phone_number', 'mobile_number', 'companyLogo', 'fax_number', 'whatsapp', 'email','facebook', 'linkedin', 'twitter', 'instagram', 'pinterest', 'website', 'youtube', 'address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code']);
+        $addressdata = $request->except(['company_verified', 'id', 'company_id', 'created_at', 'updated_at', 'user_id', 'address_id', 'contact_id', 'social_id', 'facebook', 'linkedin', 'twitter', 'instagram', 'pinterest', 'website', 'youtube', 'companyLogo', 'user_id', 'company_name', 'company_rating', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
+        if(empty(tbladdress::where('id', $request->address_id)->first())){
+            $address = tbladdress::create($addressdata);
+            $companydata['address_id'] = $address->id;
+        }else{
+            tbladdress::where('id', $request->address_id)->update($addressdata);
+        }
+    
+        $socialmediadata = $request->except(['company_verified', 'id', 'company_id', 'created_at', 'updated_at', 'user_id', 'address_id', 'contact_id', 'social_id', 'address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code', 'companyLogo', 'user_id', 'company_name', 'company_rating', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
+        if(empty(tblsocialmedias::where('id', $request->social_id)->first())){
+            $social = tblsocialmedias::create($socialmediadata);
+            $companydata['social_id'] = $social->id;
+        }else{
+            tblsocialmedias::where('id', $request->social_id)->update($socialmediadata);
+        }
+        
+        $contactdata = $request->except(['company_verified', 'id', 'company_id', 'created_at', 'updated_at', 'user_id', 'companyLogo', 'address_id', 'contact_id', 'social_id', 'address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code', 'companyLogo', 'user_id', 'company_name', 'company_rating', 'office_timing', 'established', 'address', 'desription', 'company_logo', 'facebook', 'linkedin', 'twitter', 'instagram', 'pinterest', 'website', 'youtube',]);
+        if(empty(tblcontact::where('id', $request->contact_id)->first())){
+            $contact = tblcontact::create($contactdata);
+            $companydata['contact_id'] = $contact->id;
+        }else{
+            tblcontact::where('id', $request->contact_id)->update($contactdata);
+        }
+
+        if ($request->hasFile('companyLogo')) {
+            $current = date('ymd') . rand(1, 999999) . time();
+            $file = $request->file('companyLogo');
+            $imgname = $current . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('/company_logs'), $imgname);
+            $companydata['company_logo'] = $imgname;
+            $file_path = public_path("company_logs/" . $request->company_logo);
+            File::exists($file_path) ? File::delete($file_path) : '';
+        }    
+        tblcompanydetail::where('id', $request->id)->update($companydata);
+        
     }
 
     /**

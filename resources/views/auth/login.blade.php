@@ -3,7 +3,7 @@
 @section('content')
 <div class="content-wrap nopadding">
 
-    <div class="section nopadding nomargin" style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; background: #444;"></div>
+    <div class="section nopadding nomargin" style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; background: #444; background: #444;background: url('public/erpimg.jpg') center no-repeat; background-size: cover;"></div>
 
     <div class="section nobg full-screen nopadding nomargin">
         <div class="container vertical-middle divcenter clearfix">
@@ -47,13 +47,14 @@
 
                         <div class="col_full nobottommargin">
                             <button class="button button-3d button-black nomargin" tabindex="4" id="login-form-submit" name="login-form-submit" value="login">Login</button>
+                            <a class="button button-3d button-red nomargin" tabindex="5" href="<?php echo env('APP_URL'); ?>">Back to home</a>
                             <!--<a href="register" class="button button-rounded si-facebook si-colored" tabindex="5">Register</a>-->
                         </div>
                     </form>
                 </div>
             </div>
 
-            <div class="row center dark"><small>Copyrights &copy; All Rights Reserved by App.</small></div>
+            <div class="row center"><small>Copyrights &copy; All Rights Reserved by App.</small></div>
 
         </div>
     </div>
