@@ -276,7 +276,7 @@
                             <td ng-bind="spouse.email"></td>
                             <td>
                                 <button class="btn btn-xs btn-info" ng-click="eidtSpouse(spouse.id);">Edit</button>
-                                <button class="btn btn-xs btn-danger">Delete</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteSpouse(spouse.id)">Delete</button>
                             </td>
                         </tr>
                     </tbody>
@@ -349,7 +349,9 @@
             $http.get('maintain-spouse-detail/' + id + '/edit').then(function (response) {
                 //if (response.data.length > 0) {
                     $scope.user = response.data;
+                    $scope.user.employee_id = parseInt(response.data.employee_id);
                     $scope.getAddress($scope.user.address_id);
+                    $scope.getContact($scope.user.contact_id);
                 //}
             });
         };
@@ -392,6 +394,24 @@
                     $scope.getSpouseDetail();
                 });
             }
+        };
+
+        $scope.deleteSpouse = function(id){
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                $http.delete('maintain-spouse-detail/'+id).then(function (response) {
+                    $scope.getSpouseDetail();
+                    swal("Deleted!", response.data, "success");
+                });
+            });
         };
     });
 </script>
