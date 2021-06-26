@@ -8,6 +8,7 @@ class erp_employee_education extends Model
 {
     protected $fillable = [
         'employee_id',
+        'user_id',
         'qualification_name',
         'passing_year',
         'subject',

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\employeeCenter\erp_employee_education;
 use DB;
+use Auth;
 class EmployeeEducationController extends Controller
 {
     /**
@@ -15,7 +16,7 @@ class EmployeeEducationController extends Controller
      */
     public function index()
     {
-        return DB::select('SELECT e.first_name, edu.* FROM tblemployeeinformations AS e JOIN erp_employee_educations AS edu ON edu.employee_id = e.id');
+        return DB::select('SELECT edu.*, employee.first_name FROM (SELECT * FROM erp_employee_educations WHERE user_id = '.Auth::user()->id.') AS edu JOIN(SELECT id, first_name FROM tblemployeeinformations) AS employee ON employee.id = edu.employee_id');
     }
 
     /**
@@ -39,8 +40,10 @@ class EmployeeEducationController extends Controller
         if($request->id){
             $data = $request->except(['id']);
             erp_employee_education::where('id', $request->id)->update($data);
+            return 'Employee Education Update';
         }else{
             $data = $request->all();
+            $data['user_id']= Auth::user()->id;
             erp_employee_education::create($data);
         }
         return "Employee Education Save";

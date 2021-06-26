@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\employeeCenter\erp_employee_certification;
 use Auth;
 use DB;
+use App\Models\employeeCenter\tblemployeeinformation;
+
 class EmployeeCertificationController extends Controller
 {
     /**
@@ -16,7 +18,10 @@ class EmployeeCertificationController extends Controller
      */
     public function index()
     {
-        return DB::select('SELECT cert.*, employee.first_name FROM (SELECT * FROM erp_employee_certifications WHERE user_id = '.Auth::user()->id.') AS cert JOIN(SELECT id, first_name FROM tblemployeeinformations) AS employee ON employee.id = cert.user_id');
+       // return erp_employee_certification::get();
+       // return DB::select('SELECT e.first_name, edu.* FROM tblemployeeinformations AS e JOIN erp_employee_certifications AS edu ON edu.employee_id = e.id');
+
+        return DB::select('SELECT cert.*, employee.first_name FROM (SELECT * FROM erp_employee_certifications WHERE user_id = '.Auth::user()->id.') AS cert JOIN(SELECT id, first_name FROM tblemployeeinformations) AS employee ON employee.id = cert.employee_id');
     }
 
     /**
@@ -40,6 +45,7 @@ class EmployeeCertificationController extends Controller
         if($request->id){
             $data = $request->all();
             erp_employee_certification::where('id', $request->id)->update($data);
+            return "Employee Certification Update";
         }else{
             $data = $request->all();
             $data['user_id'] = Auth::user()->id;
@@ -91,6 +97,6 @@ class EmployeeCertificationController extends Controller
     public function destroy($id)
     {
         erp_employee_certification::where('id', $id)->delete();
-        return "Certification Delete";
+        return "Employee Certification Delete";
     }
 }
