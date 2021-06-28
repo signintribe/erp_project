@@ -91,4 +91,8 @@ class DepartmentsController extends Controller {
         return DB::select('call getAlldepartment(' . Auth::user()->id . ', '.$deptid.')');;
     }
 
+    public function getDepts(){
+        return tbldepartmen::get();
+    }
+
 }

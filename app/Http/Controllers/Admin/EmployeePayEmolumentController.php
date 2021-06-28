@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use App\Models\employeeCenter\erp_pay_emoluments;
+use App\Models\VendorModels\tblcompanydetail;
+
 class EmployeePayEmolumentController extends Controller
 {
     /**
@@ -16,7 +18,9 @@ class EmployeePayEmolumentController extends Controller
      */
     public function index()
     {
-        return DB::select('SELECT pay.*, emp.first_name FROM (SELECT id, first_name FROM tblemployeeinformations) AS emp JOIN (SELECT * FROM erp_pay_emoluments)AS pay ON pay.employee_id = emp.id WHERE pay.user_id = '.Auth::user()->id.'');
+        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+        return DB::select('call sp_getEmployeePayEmolument(0, '.$company->id.')');
+        //return DB::select('SELECT pay.*, emp.first_name FROM (SELECT id, first_name FROM tblemployeeinformations) AS emp JOIN (SELECT * FROM erp_pay_emoluments)AS pay ON pay.employee_id = emp.id WHERE pay.user_id = '.Auth::user()->id.'');
     }
 
     /**
@@ -40,6 +44,7 @@ class EmployeePayEmolumentController extends Controller
         if($request->id){
             $data = $request->except(['id', 'user_id', 'created_at', 'updated_at']);
             erp_pay_emoluments::where('id', $request->id)->update($data);
+            return "Pay and Emloument update successfully";
         }else{
             $data = $request->all();
             $data['user_id'] = Auth::user()->id;
@@ -91,6 +96,6 @@ class EmployeePayEmolumentController extends Controller
     public function destroy($id)
     {
         erp_pay_emoluments::where('id', $id)->delete();
-        return "Your record delete permanently";
+        return "Employee Pay Emoluments delete permanently";
     }
 }

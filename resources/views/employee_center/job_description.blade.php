@@ -57,7 +57,7 @@
                 <tbody ng-init="getJobDescriptions();">
                     <tr ng-repeat="job in jobdescriptions">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="job.first_name"></td>
+                        <td ng-bind="job.employee_name"></td>
                         <td ng-bind="job.daily_task"></td>
                         <td ng-bind="job.weekly_task"></td>
                         <td ng-bind="job.monthly_task"></td>
@@ -139,7 +139,7 @@
                         type: "success"
                     });
                     $scope.jobdescription = {};
-                   $scope.getJobDescriptions();
+                    $scope.getJobDescriptions();
                 });
             }
         };

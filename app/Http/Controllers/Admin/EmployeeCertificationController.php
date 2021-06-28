@@ -8,6 +8,8 @@ use App\Models\employeeCenter\erp_employee_certification;
 use Auth;
 use DB;
 use App\Models\employeeCenter\tblemployeeinformation;
+use App\Models\VendorModels\tblcompanydetail;
+
 
 class EmployeeCertificationController extends Controller
 {
@@ -18,10 +20,9 @@ class EmployeeCertificationController extends Controller
      */
     public function index()
     {
-       // return erp_employee_certification::get();
-       // return DB::select('SELECT e.first_name, edu.* FROM tblemployeeinformations AS e JOIN erp_employee_certifications AS edu ON edu.employee_id = e.id');
-
-        return DB::select('SELECT cert.*, employee.first_name FROM (SELECT * FROM erp_employee_certifications WHERE user_id = '.Auth::user()->id.') AS cert JOIN(SELECT id, first_name FROM tblemployeeinformations) AS employee ON employee.id = cert.employee_id');
+        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+        return DB::select('call sp_getEmployeeCertification(0, '.$company->id.')');
+       // return DB::select('SELECT cert.*, employee.first_name FROM (SELECT * FROM erp_employee_certifications WHERE user_id = '.Auth::user()->id.') AS cert JOIN(SELECT id, first_name FROM tblemployeeinformations) AS employee ON employee.id = cert.employee_id');
     }
 
     /**
