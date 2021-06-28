@@ -920,10 +920,15 @@ DELIMITER ;
 
 DROP PROCEDURE sp_getEmploeeSpouse;
 DELIMITER $$
-CREATE PROCEDURE `sp_getEmploeeSpouse`(in spouseid int(11))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmploeeSpouse`(IN `spouseid` INT(11), in cid INT(11))
+    NO SQL
 BEGIN  
     IF spouseid <> 0 THEN
-      SELECT spouse.*, employee.first_name, contact.mobile_number, contact.email FROM (
+      SELECT spouse.*, empinfo.id as employee_id, empinfo.employee_name, contact.mobile_number, contact.email FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
         SELECT * FROM erp_spouse_details WHERE id = spouseid
       ) AS spouse JOIN (
         SELECT id, mobile_number, email
@@ -932,7 +937,11 @@ BEGIN
         SELECT id, first_name FROM tblemployeeinformations
       ) AS employee ON employee.id = spouse.employee_id;
     ELSE
-      SELECT spouse.*, employee.first_name, contact.mobile_number, contact.email FROM (
+      SELECT spouse.*, empinfo.id as employee_id, empinfo.employee_name, employee.first_name, contact.mobile_number, contact.email FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
         SELECT * FROM erp_spouse_details
       ) AS spouse JOIN (
         SELECT id, mobile_number, email
