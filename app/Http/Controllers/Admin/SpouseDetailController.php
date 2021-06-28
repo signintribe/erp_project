@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\employeeCenter\erp_spouse_detail;
 use App\Models\tbladdress;
 use App\Models\tblcontact;
+use App\Models\VendorModels\tblcompanydetail;
 use DB;
+use Auth;
 class SpouseDetailController extends Controller
 {
     /**
@@ -17,7 +19,8 @@ class SpouseDetailController extends Controller
      */
     public function index()
     {
-        return DB::select('call sp_getEmploeeSpouse(0)');
+        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+        return DB::select('call sp_getEmploeeSpouse(0, '.$company->id.')');
     }
 
     /**

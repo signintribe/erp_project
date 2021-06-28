@@ -269,7 +269,7 @@
                     <tbody ng-init="getSpouseDetail();">
                         <tr ng-repeat='spouse in spousedetails'>
                             <td ng-bind="$index + 1"></td>
-                            <td ng-bind="spouse.first_name"></td>
+                            <td ng-bind="spouse.employee_name"></td>
                             <td ng-bind="spouse.spouse_first_name"></td>
                             <td ng-bind="spouse.relation"></td>
                             <td ng-bind="spouse.mobile_number"></td>
