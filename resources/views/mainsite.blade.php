@@ -29,7 +29,6 @@
         <div class="vertical-middle subscribe-widget" data-loader="button">
             <div class="col-padding">
                 <div class="heading-block nobottomborder bottommargin-sm">
-                    <img src="{{asset('public/nazirsons.jpg')}}" class="img img-thumbnail" style="width:100px; height:70px;" alt="">
                     <h1 style="line-height: 1.4;font-size: 24px;">Welcome to ERP</h1>
                     <span style="font-size:16px; top-margin: 20px;" class="t300 hidden-xs">
                         From below buttons you can create new or open existing company. 
@@ -54,7 +53,8 @@
 
 </div>
 
-</section><!-- #slider end -->
+</section>
+<!-- #slider end -->
             <!-- <div class="container vertical-middle divcenter clearfix">
 
                 <div class="row center">
