@@ -232,7 +232,7 @@
                 <tbody ng-init="getBankDetails()">
                     <tr ng-repeat="bank in bankdetails">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="bank.first_name"></td>
+                        <td ng-bind="bank.employee_name"></td>
                         <td ng-bind="bank.bank_name"></td>
                         <td ng-bind="bank.branch_name"></td>
                         <td ng-bind="bank.account_type"></td>

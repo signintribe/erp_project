@@ -96,7 +96,7 @@
                 <tbody ng-init="getEducation()">
                     <tr ng-repeat="e in Educations">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="e.first_name"></td>
+                        <td ng-bind="e.employee_name"></td>
                         <td ng-bind="e.qualification_name"></td>
                         <td ng-bind="e.passing_year"></td>
                         <td ng-bind="e.subject"></td>

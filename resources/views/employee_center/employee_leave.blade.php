@@ -26,7 +26,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr ng-repeat="leave in elavedetails">
                         <td></td>
                         <td></td>
                         <td></td>

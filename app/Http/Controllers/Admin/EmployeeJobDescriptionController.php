@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use App\Models\employeeCenter\erp_employee_job_description;
+use App\Models\VendorModels\tblcompanydetail;
+
 class EmployeeJobDescriptionController extends Controller
 {
     /**
@@ -16,7 +18,9 @@ class EmployeeJobDescriptionController extends Controller
      */
     public function index()
     {
-        return DB::select('SELECT job.*, emp.first_name FROM (SELECT id, first_name FROM tblemployeeinformations) AS emp JOIN (SELECT * FROM erp_employee_job_descriptions)AS job ON job.employee_id = emp.id WHERE job.user_id = '.Auth::user()->id.'');
+        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+        return DB::select('call sp_getEmployeeJobDescription(0, '.$company->id.')');
+       //return DB::select('SELECT job.*, emp.first_name FROM (SELECT id, first_name FROM tblemployeeinformations) AS emp JOIN (SELECT * FROM erp_employee_job_descriptions)AS job ON job.employee_id = emp.id WHERE job.user_id = '.Auth::user()->id.'');
 
     }
 

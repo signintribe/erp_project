@@ -92,7 +92,7 @@
                 <tbody ng-init="getPayEmoluments();">
                     <tr ng-repeat="pay in payEmoluments">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="pay.first_name"></td>
+                        <td ng-bind="pay.employee_name"></td>
                         <td ng-bind="pay.basic_pay"></td>
                         <td ng-bind="pay.conveyance_allowance"></td>
                         <td ng-bind="pay.medical_allowance"></td>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\employeeCenter\erp_employee_education;
+use App\Models\VendorModels\tblcompanydetail;
 use DB;
 use Auth;
 class EmployeeEducationController extends Controller
@@ -16,7 +17,8 @@ class EmployeeEducationController extends Controller
      */
     public function index()
     {
-        return DB::select('SELECT edu.*, employee.first_name FROM (SELECT * FROM erp_employee_educations WHERE user_id = '.Auth::user()->id.') AS edu JOIN(SELECT id, first_name FROM tblemployeeinformations) AS employee ON employee.id = edu.employee_id');
+        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+        return DB::select('call sp_getEmployeeEducation(0, '.$company->id.')');
     }
 
     /**

@@ -126,7 +126,7 @@
                 <tbody ng-init="getTaskDetails()">
                     <tr ng-repeat="task in taskdetails">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="task.first_name"></td>
+                        <td ng-bind="task.employee_name"></td>
                         <td ng-bind="task.task_name"></td>
                         <td ng-bind="task.task_date"></td>
                         <td ng-bind="task.expected_date"></td>

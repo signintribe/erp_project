@@ -8,6 +8,7 @@ class erp_employee_assignment extends Model
 {
     protected $fillable = [
         'employee_id',
+        'department_id',
         'user_id',
         'master_company',
         'child_company',

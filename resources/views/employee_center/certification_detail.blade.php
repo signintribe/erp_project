@@ -92,7 +92,7 @@
                 <tbody ng-init="getCertification()">
                     <tr ng-repeat=" cert in allcert">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="cert.first_name"></td>
+                        <td ng-bind="cert.employee_name"></td>
                         <td ng-bind="cert.certification_name"></td>
                         <td ng-bind="cert.start_date"></td>
                         <td ng-bind="cert.end_date"></td>

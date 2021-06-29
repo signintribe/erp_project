@@ -188,7 +188,7 @@
                 <tbody ng-init="getExperiences()">
                     <tr ng-repeat="exp in experiences">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="exp.first_name"></td>
+                        <td ng-bind="exp.employee_name"></td>
                         <td ng-bind="exp.organization"></td>
                         <td ng-bind="exp.designation"></td>
                         <td ng-bind="exp.worked_from"></td>

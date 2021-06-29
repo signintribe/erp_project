@@ -10,6 +10,8 @@ use App\Models\tblsocial_media;
 use App\Models\employeeCenter\erp_employee_experience;
 use Auth;
 use DB;
+use App\Models\VendorModels\tblcompanydetail;
+
 class EmployeeExperienceController extends Controller
 {
     /**
@@ -19,7 +21,9 @@ class EmployeeExperienceController extends Controller
      */
     public function index()
     {
-        return DB::select('SELECT experiences.*, employee.first_name FROM (SELECT * FROM erp_employee_experiences WHERE user_id = '.Auth::user()->id.') AS experiences JOIN(SELECT id, first_name FROM tblemployeeinformations) AS employee ON employee.id = experiences.employee_id');
+        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+        return DB::select('call sp_getEmployeeExperience(0, '.$company->id.')');
+        //return DB::select('SELECT experiences.*, employee.first_name FROM (SELECT * FROM erp_employee_experiences WHERE user_id = '.Auth::user()->id.') AS experiences JOIN(SELECT id, first_name FROM tblemployeeinformations) AS employee ON employee.id = experiences.employee_id');
     }
 
     /**
@@ -47,6 +51,7 @@ class EmployeeExperienceController extends Controller
             tbladdress::where('id', $request->address_id)->update($addressdata);
             tblcontact::where('id', $request->contact_id)->update($contactdata);
             erp_employee_experience::where('id', $request->id)->update($expdata);
+            return "Update Employee Experience";
         }else{
             $addressdata = $request->except(['phone_number','mobile_number', 'fax_number', 'email', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period','remarks_employee']);
             $contactdata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period','remarks_employee']);

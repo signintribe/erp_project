@@ -930,12 +930,10 @@ BEGIN
         FROM tblemployeeinformations WHERE company_id = cid
       )AS empinfo JOIN(
         SELECT * FROM erp_spouse_details WHERE id = spouseid
-      ) AS spouse JOIN (
+      ) AS spouse ON spouse.employee_id = empinfo.id JOIN (
         SELECT id, mobile_number, email
         FROM tblcontacts
-      ) AS contact ON contact.id = spouse.contact_id JOIN(
-        SELECT id, first_name FROM tblemployeeinformations
-      ) AS employee ON employee.id = spouse.employee_id;
+      ) AS contact ON contact.id = spouse.contact_id;
     ELSE
       SELECT spouse.*, empinfo.id as employee_id, empinfo.employee_name, employee.first_name, contact.mobile_number, contact.email FROM (
         SELECT id, company_id, 
@@ -943,16 +941,213 @@ BEGIN
         FROM tblemployeeinformations WHERE company_id = cid
       )AS empinfo JOIN(
         SELECT * FROM erp_spouse_details
-      ) AS spouse JOIN (
+      ) AS spouse ON spouse.employee_id = empinfo.id JOIN (
         SELECT id, mobile_number, email
         FROM tblcontacts
-      ) AS contact ON contact.id = spouse.contact_id JOIN(
-        SELECT id, first_name FROM tblemployeeinformations
-      ) AS employee ON employee.id = spouse.employee_id;
+      ) AS contact ON contact.id = spouse.contact_id;
     END IF;
 END$$
 DELIMITER ;
 
+Drop PROCEDURE sp_getEmployeeEducation;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeEducation`(IN `educationid` INT(11), in cid INT(11))
+    NO SQL
+BEGIN  
+    IF educationid <> 0 THEN
+      SELECT education.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_educations WHERE id = educationid
+      ) AS education ON education.employee_id = empinfo.id;
+    ELSE
+      SELECT education.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_educations
+      ) AS education ON education.employee_id = empinfo.id;
+    END IF;
+END$$
+DELIMITER ;
+
+Drop PROCEDURE sp_getEmployeeCertification;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeCertification`(IN `certificationid` INT(11), in cid INT(11))
+    NO SQL
+BEGIN  
+    IF certificationid <> 0 THEN
+      SELECT certification.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_certifications WHERE id = certificationid
+      ) AS certification ON certification.employee_id = empinfo.id;
+    ELSE
+      SELECT certification.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_certifications
+      ) AS certification ON certification.employee_id = empinfo.id;
+    END IF;
+END$$
+DELIMITER ;
+
+Drop PROCEDURE sp_getEmployeeExperience;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeExperience`(IN `expid` INT(11), in cid INT(11))
+    NO SQL
+BEGIN  
+    IF expid <> 0 THEN
+      SELECT exp.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_experiences WHERE id = expid
+      ) AS exp ON exp.employee_id = empinfo.id;
+    ELSE
+      SELECT exp.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_experiences
+      ) AS exp ON exp.employee_id = empinfo.id;
+    END IF;
+END$$
+DELIMITER ;
+
+Drop PROCEDURE sp_getEmployeeOrgAssignment;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeOrgAssignment`(IN `orgid` INT(11), in cid INT(11))
+    NO SQL
+BEGIN  
+    IF orgid <> 0 THEN
+      SELECT org.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_assignments WHERE id = orgid
+      ) AS org ON org.employee_id = empinfo.id;
+    ELSE
+      SELECT org.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_assignments
+      ) AS org ON org.employee_id = empinfo.id;
+    END IF;
+END$$
+DELIMITER ;
+
+Drop PROCEDURE sp_getEmployeePayEmolument;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeePayEmolument`(IN `payid` INT(11), in cid INT(11))
+    NO SQL
+BEGIN  
+    IF payid <> 0 THEN
+      SELECT pay.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_pay_emoluments WHERE id = payid
+      ) AS pay ON pay.employee_id = empinfo.id;
+    ELSE
+      SELECT pay.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_pay_emoluments
+      ) AS pay ON pay.employee_id = empinfo.id;
+    END IF;
+END$$
+DELIMITER ;
+
+Drop PROCEDURE sp_getEmployeeBankDetail;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeBankDetail`(IN `bankid` INT(11), in cid INT(11))
+    NO SQL
+BEGIN  
+    IF bankid <> 0 THEN
+      SELECT bank.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_bank_details WHERE id = bankid
+      ) AS bank ON bank.employee_id = empinfo.id;
+    ELSE
+      SELECT bank.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_bank_details
+      ) AS bank ON bank.employee_id = empinfo.id;
+    END IF;
+END$$
+DELIMITER ;
+
+Drop PROCEDURE sp_getEmployeeJobDescription;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeJobDescription`(IN `jobid` INT(11), in cid INT(11))
+    NO SQL
+BEGIN  
+    IF jobid <> 0 THEN
+      SELECT job.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_job_descriptions WHERE id = bankid
+      ) AS job ON job.employee_id = empinfo.id;
+    ELSE
+      SELECT job.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_job_descriptions
+      ) AS job ON job.employee_id = empinfo.id;
+    END IF;
+END$$
+DELIMITER ;
+
+Drop PROCEDURE sp_getEmployeeTasks;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeTasks`(IN `taskid` INT(11), in cid INT(11))
+    NO SQL
+BEGIN  
+    IF taskid <> 0 THEN
+      SELECT task.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_tasks WHERE id = taskid
+      ) AS task ON task.employee_id = empinfo.id;
+    ELSE
+      SELECT task.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+        SELECT id, company_id, 
+        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS empinfo JOIN(
+        SELECT * FROM erp_employee_tasks
+      ) AS task ON task.employee_id = empinfo.id;
+    END IF;
+END$$
+DELIMITER ;
 
 DROP PROCEDURE sp_getVendorContact;
 DELIMITER $$

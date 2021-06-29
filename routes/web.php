@@ -285,6 +285,7 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('company-departments', 'Admin\DepartmentsController@index')->name('departments')->middleware('is_admin');
   Route::post('SaveDepartment', 'Admin\DepartmentsController@SaveDepartment')->name('SaveDepartment')->middleware('is_admin');
   Route::get('getdepartments', 'Admin\DepartmentsController@getdepartments')->name('getdepartments')->middleware('is_admin');
+  Route::get('getdeps', 'Admin\DepartmentsController@getDepts');
   Route::get('delete-department/{deptid}', 'Admin\DepartmentsController@delete_department')->name('delete-department')->middleware('is_admin');
   Route::get('getonedept/{deptid}', 'Admin\DepartmentsController@getonedept')->name('delete-department')->middleware('is_admin');
   Route::get('company-calander', 'Admin\CompanyCalenderController@company_calander')->name('company_calander')->middleware('is_admin');
