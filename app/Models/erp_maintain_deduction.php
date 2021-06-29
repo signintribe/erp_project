@@ -8,6 +8,7 @@ class erp_maintain_deduction extends Model
 {
     protected $fillable = [
         'department_id',
+        'group_id',
         'calendar_id',
         'shift_id',
         'allowance',

@@ -106,4 +106,8 @@ class EmployeeGroupController extends Controller
         erp_employee_group::where('id', $id)->delete();
         return 'Employee Group delete Permanently';
     }
+
+    public function getGroups($dep_id){
+        return erp_employee_group::where('department_id', $dep_id)->get();
+    }
 }
