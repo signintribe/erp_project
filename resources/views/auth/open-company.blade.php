@@ -42,6 +42,7 @@
                         <ol ng-if="companies" style="padding-left:15px;">
                             <li style="cursor: pointer" ng-click="getCompanyInformation(company.id)" ng-repeat="company in companies" ng-bind="company.company_name"></li>
                         </ol>
+                        <input type="hidden" class="form-control" id="company_id" name="company_id">
                         <div class="row" ng-if="mycompany">
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <p>
@@ -136,6 +137,7 @@
                 $scope.mycompany = {};
                 $http.get( 'get-mycompany/' + company_id).then(function (response) {
                     $scope.mycompany = response.data[0];
+                    $("#company_id").val($scope.mycompany);
                     $("#loadMore").hide('slow');
                     $scope.companies = {};
                 });
