@@ -8,6 +8,7 @@ class erp_maintain_leave extends Model
 {
     protected $fillable = [
         'department_id',
+        'group_id',
         'leave_type',
         'total_leave',
         'leave_rules',

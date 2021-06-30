@@ -8,6 +8,7 @@ class erp_employee_payscale extends Model
 {
     protected $fillable = [
         'department_id',
+        'group_id',
         'payscale_name',
         'initial_pay',
         'annual_increments',

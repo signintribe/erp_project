@@ -27,10 +27,17 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="department">* Select Department</label>
-                    <select ng-model="payscale.department_id" id="department" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
+                    <select ng-model="payscale.department_id" id="department" ng-change="getGroups(payscale.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
                     <i class="text-danger" ng-show="!payscale.department_id && showError"><small>Please Select Department</small></i>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="department">* Select Employee Group</label>
+                    <select ng-model="payscale.group_id" id="employee-group" ng-options="group.id as group.group_name for group in groups" class="form-control">
+                        <option value="">Select Employee Group</option>
+                    </select>
+                    <i class="text-danger" ng-show="!payscale.group_id && showError"><small>Please Select Employee Group</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="payscale_name">* Payscale Name</label>
@@ -113,7 +120,7 @@
                         <td ng-bind="p.payscale_name"></td>
                         <td ng-bind="p.initial_pay"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(p.company_id); getDepartments(p.office_id); editPayscale(p.id)">Edit</button>
+                            <button class="btn btn-xs btn-info" ng-click="getoffice(p.company_id); getDepartments(p.office_id); editPayscale(p.id); getGroups(p.department_id);">Edit</button>
                             <button class="btn btn-xs btn-danger" ng-click="deletePayScale(p.id)">Delete</button>
                         </td>
                     </tr>
@@ -197,6 +204,15 @@
             });
         };
 
+        $scope.getGroups = function (dep_id) {
+            $scope.groups = {};
+            $http.get('get-groups/' + dep_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.groups = response.data;
+                }
+            });
+        };
+
         $scope.get_payscale = function(){
             $http.get('maintain-payscale').then(function (response) {
                 if(response.data.length > 0){
@@ -211,6 +227,7 @@
                 $scope.payscale.company_id = parseInt($scope.payscale.company_id);
                 $scope.payscale.office_id = parseInt($scope.payscale.office_id);
                 $scope.payscale.department_id = parseInt($scope.payscale.department_id);
+                $scope.payscale.group_id = parseInt($scope.payscale.group_id);
                 $scope.payscale.status = $scope.payscale.status == 0 ? false : true;
                 $("#ShowPrint").show();
             });

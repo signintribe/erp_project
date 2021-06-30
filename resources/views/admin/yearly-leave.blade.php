@@ -27,10 +27,17 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="department">* Select Department</label>
-                    <select ng-model="yl.department_id" id="department" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
+                    <select ng-model="yl.department_id" id="department" ng-change="getGroups(yl.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
                     <i class="text-danger" ng-show="!yl.department_id && showError"><small>Please Select Department</small></i>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="group_id">* Select Employee Group</label>
+                    <select ng-model="yl.group_id" id="employee-group" ng-options="group.id as group.group_name for group in groups" class="form-control">
+                        <option value="">Select Employee Group</option>
+                    </select>
+                    <i class="text-danger" ng-show="!yl.group_id && showError"><small>Please Select Employee Group</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="leave_type">* Leave Type</label>
@@ -42,12 +49,12 @@
                     </select>
                     <i class="text-danger" ng-show="!yl.leave_type && showError"><small>Please Type Leave Type</small></i>
                 </div>
+            </div><br>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="total_leave">Total Leave</label>
                     <input type="text" class="form-control" id="total_leave" ng-model="yl.total_leave" placeholder="Total Leave">
                 </div>
-            </div><br>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="leave_rules">Leave Rules</label>
                     <input type="text" class="form-control" id="leave_rules" ng-model="yl.leave_rules" placeholder="Leave Rules">
@@ -60,6 +67,8 @@
                     <label for="leave_rate">Leave Rate</label>
                     <input type="text" class="form-control" id="leave_rate" ng-model="yl.leave_rate" datepicker placeholder="Leave Rate">
                 </div>
+            </div><br>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="lapsed">Does Leave Lapsed/C.F</label>
                     <input type="text" class="form-control" id="lapsed" ng-model="yl.lapsed" placeholder="Does Leave Lapsed/C.F">
@@ -94,7 +103,7 @@
                         <td ng-bind="l.department_name"></td>
                         <td ng-bind="l.leave_type"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(l.company_id); getDepartments(l.office_id); editLeaves(l.id)">Edit</button>
+                            <button class="btn btn-xs btn-info" ng-click="getoffice(l.company_id); getDepartments(l.office_id); editLeaves(l.id); getGroups(l.department_id)">Edit</button>
                             <button class="btn btn-xs btn-danger" ng-click="deleteYearlyLeave(l.id)">Delete</button>
                         </td>
                     </tr>
@@ -137,6 +146,15 @@
             $http.get('get-departments/'+office_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.departments = response.data;
+                }
+            });
+        };
+
+        $scope.getGroups = function (dep_id) {
+            $scope.groups = {};
+            $http.get('get-groups/' + dep_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.groups = response.data;
                 }
             });
         };

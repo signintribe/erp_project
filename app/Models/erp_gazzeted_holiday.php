@@ -8,6 +8,7 @@ class erp_gazzeted_holiday extends Model
 {
     protected $fillable = [
         'department_id',
+        'group_id',
         'holiday_name',
         'holiday_event',
         'start_date',

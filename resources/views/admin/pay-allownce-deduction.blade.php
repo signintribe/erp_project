@@ -27,9 +27,16 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="department"> Select Department</label>
-                    <select ng-model="pld.department_id" id="department" ng-change="get_shifts(pld.department_id); get_calendars(pld.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
+                    <select ng-model="pld.department_id" id="department" ng-change="getGroups(pld.department_id); get_calendars(pld.department_id); get_shifts(pld.department_id)"  ng-change="get_shifts(pld.department_id); get_calendars(pld.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="group_id">* Select Employee Group</label>
+                    <select ng-model="pld.group_id" id="employee-group" ng-options="group.id as group.group_name for group in groups" class="form-control">
+                        <option value="">Select Employee Group</option>
+                    </select>
+                    <i class="text-danger" ng-show="!pld.group_id && showError"><small>Please Select Employee Group</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="select_calendar">Select Calendar</label>
@@ -37,14 +44,14 @@
                         <option value="">Select Calendar</option>
                     </select>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="get_shifts()">
+            </div><br>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="select_calendar">Select Shift</label>
                     <select ng-model="pld.shift_id" ng-options="shift.id as shift.shift_name for shift in shifts" id="select_calendar" class="form-control">
                         <option value="">Select Shift</option>
                     </select>
                 </div>
-            </div><br>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="allowance">Allowance</label>
                     <input type="text" class="form-control" id="allowance" ng-model="pld.allowance" placeholder="Leave Rules">
@@ -57,12 +64,12 @@
                     <label for="amount">Amount in Rs</label>
                     <input type="text" class="form-control" id="amount" ng-model="pld.amount" datepicker placeholder="Amount in Rs">
                 </div>
+            </div><br>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="pay_frequency">Pay Frequency</label>
                     <input type="text" class="form-control" id="pay_frequency" ng-model="pld.pay_frequency" placeholder="Pay Frequency">
                 </div>
-            </div><br>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="hourly">Hourly</label>
                     <input type="text" class="form-control" id="hourly" ng-model="pld.hourly" placeholder="Hourly">
@@ -111,7 +118,7 @@
                         <td ng-bind="p.department_name"></td>
                         <td ng-bind="p.allowance"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(p.company_id); getDepartments(p.office_id); getCalendar(p.department_id); getShift(p.department_id); editpayallowance(p.id)">Edit</button>
+                            <button class="btn btn-xs btn-info" ng-click="getoffice(p.company_id); getDepartments(p.office_id); get_calendars(p.department_id); get_shifts(p.department_id); editpayallowance(p.id); getGroups(p.department_id);">Edit</button>
                             <button class="btn btn-xs btn-danger" ng-click="deletePayAllowance(p.id)">Delete</button>
                         </td>
                     </tr>
@@ -158,7 +165,16 @@
             });
         };
 
-        $scope.getCalendar = function (dept_id) {
+        $scope.getGroups = function (dep_id) {
+            $scope.groups = {};
+            $http.get('get-groups/' + dep_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.groups = response.data;
+                }
+            });
+        };
+
+       /*  $scope.getCalendar = function (dept_id) {
             $scope.calendars = {};
             $http.get('maintain-calender/'+dept_id).then(function (response) {
                 if (response.data.length > 0) {
@@ -166,7 +182,7 @@
                 }
                // $scope.getShift(dept_id);
             });
-        };
+        }; */
 
         /* $scope.getShift = function (dept_id) {
             $scope.shifts = {};
@@ -175,7 +191,7 @@
                     $scope.shifts = response.data;
                 }
             });
-        };
+        }; */
 
         $scope.get_payallowance = function(){
             $http.get('maintain-allowance-deducation').then(function (response) {
@@ -183,7 +199,7 @@
                     $scope.pays = response.data;
                 }
             });
-        }; */
+        };
 
         $scope.get_calendars = function(dept_id){
             $http.get('get-calendar/' + dept_id).then(function (response) {
@@ -207,8 +223,8 @@
                 $scope.pld.company_id = parseInt($scope.pld.company_id);
                 $scope.pld.office_id = parseInt($scope.pld.office_id);
                 $scope.pld.department_id = parseInt($scope.pld.department_id);
-                $scope.pld.calendar_id = parseInt($scope.pld.calendar_id);
-                $scope.pld.shift_id = parseInt($scope.pld.shift_id);
+               // $scope.pld.calendar_id = parseInt($scope.pld.calendar_id);
+                //$scope.pld.shift_id = parseInt($scope.pld.shift_id);
                 $("#ShowPrint").show();
             });
         }

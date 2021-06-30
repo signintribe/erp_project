@@ -296,6 +296,7 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('get-shift/{dept_id}', 'Admin\CompanyShiftController@get_shift')->middleware('is_admin');
   Route::resource('maintain-shift', 'Admin\CompanyShiftController');
   Route::get('employee-group', 'Admin\EmployeeGroupController@employee_group');
+  Route::get('get-groups/{dep_id}', 'Admin\EmployeeGroupController@getGroups');
   Route::get('employee-payscale', 'Admin\PayScaleController@employee_payscale');
   Route::get('employee-jd', 'Admin\EmployeeJDController@employee_jd');
   Route::get('gazzeted-holiday', 'Admin\GazzetedHolidayController@gazzeted_holiday');

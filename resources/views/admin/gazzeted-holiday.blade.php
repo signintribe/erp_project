@@ -27,10 +27,17 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="department">* Select Department</label>
-                    <select ng-model="gh.department_id" id="department" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
+                    <select ng-model="gh.department_id" id="department" ng-change="getGroups(gh.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
                     <i class="text-danger" ng-show="!gh.department_id && showError"><small>Please Select Department</small></i>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="group_id">* Select Employee Group</label>
+                    <select ng-model="gh.group_id" id="employee-group" ng-options="group.id as group.group_name for group in groups" class="form-control">
+                        <option value="">Select Employee Group</option>
+                    </select>
+                    <i class="text-danger" ng-show="!gh.group_id && showError"><small>Please Select Employee Group</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="holiday_name">* Holiday Name</label>
@@ -85,7 +92,7 @@
                         <td ng-bind="h.start_date"></td>
                         <td ng-bind="h.end_date"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(h.company_id); getDepartments(h.office_id); editHoliday(h.id)">Edit</button>
+                            <button class="btn btn-xs btn-info" ng-click="getoffice(h.company_id); getDepartments(h.office_id); editHoliday(h.id); getGroups(h.department_id)">Edit</button>
                             <button class="btn btn-xs btn-danger" ng-click="deleteGazHoliday(h.id)">Delete</button>
                         </td>
                     </tr>
@@ -165,6 +172,15 @@
             $http.get('get-departments/'+office_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.departments = response.data;
+                }
+            });
+        };
+
+        $scope.getGroups = function (dep_id) {
+            $scope.groups = {};
+            $http.get('get-groups/' + dep_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.groups = response.data;
                 }
             });
         };

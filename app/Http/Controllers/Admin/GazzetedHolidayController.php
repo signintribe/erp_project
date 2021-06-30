@@ -52,7 +52,7 @@ class GazzetedHolidayController extends Controller
     public function store(Request $request)
     {
         if($request->id){
-            $data = $request->except(['id','jdDoc', 'company_id', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);
+            $data = $request->except(['id','jdDoc', 'company_id', 'group_name', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);
             erp_gazzeted_holiday::where('id', $request->id)->update($data);
             return "Gazzeted Holiday Update";
         }
