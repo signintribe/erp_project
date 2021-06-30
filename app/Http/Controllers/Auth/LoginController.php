@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-
+use App\Models\VendorModels\tblcompanydetail;
+use App\User;
 class LoginController extends Controller {
     /*
       |--------------------------------------------------------------------------
@@ -38,22 +39,24 @@ use AuthenticatesUsers;
 
     public function login(Request $request) {
         $input = $request->all();
-        
-//        $this->validate($request, [
-//            'email' => 'required|email',
-//            'password' => 'required',
-//        ]);
-
-        if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
-            if (auth()->user()->is_admin == 1) {
-                return redirect()->route('adminhome');
-            } else if (auth()->user()->is_admin == 0) {
-                return redirect()->route('home');
-            }else if(auth()->user()->is_admin == 2){
-                return redirect()->route('userdashboard');
+        if($input['company_id']){
+            $user = User::where('email', $input['email'])->first();
+            if(empty(tblcompanydetail::where('id', $input['company_id'])->where('user_id', $user->id)->first())){
+                return redirect()->route('open-company')->withInput()->withErrors(['status' => 'You are not registered in this company']);
             }
-        } else {
-            return redirect()->route('login')->withInput()->withErrors(['status' => 'Email-Address And Password Are Wrong.']);
+            if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+                if (auth()->user()->is_admin == 1) {
+                    return redirect()->route('adminhome');
+                } else if (auth()->user()->is_admin == 0) {
+                    return redirect()->route('home');
+                }else if(auth()->user()->is_admin == 2){
+                    return redirect()->route('userdashboard');
+                }
+            } else {
+                return redirect()->route('open-company')->withInput()->withErrors(['status' => 'Email-Address And Password Are Wrong.']);
+            }
+        }else{
+            return redirect()->route('open-company')->withInput()->withErrors(['status' => 'Please select company first']);
         }
     }
 
