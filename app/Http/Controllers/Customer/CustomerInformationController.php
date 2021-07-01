@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use File;
 use App\Models\CustomerModels\erp_customer_information;
 
 class CustomerInformationController extends Controller
@@ -39,9 +40,9 @@ class CustomerInformationController extends Controller
     public function store(Request $request)
     {
         $imageName = "";
-        if ($request->hasFile('customer_logo')) {
+        if ($request->hasFile('cust_logo')) {
             $current= date('ymd').rand(1,999999).time();
-            $file= $request->file('customer_logo');
+            $file= $request->file('cust_logo');
             $imageName = $current.'.'.$file->getClientOriginalExtension();
             $file->move(public_path('customer_logo'), $imageName);
             if(!empty($request->id)){
@@ -56,10 +57,11 @@ class CustomerInformationController extends Controller
             if ($imageName){
                 $data['customer_logo'] = $imageName; 
             }
-            $data = $request->except(['id', 'user_id', 'created_at', 'updated_at']);
+            $data = $request->except(['id', 'cust_logo','user_id', 'created_at', 'updated_at']);
             erp_customer_information::where('id', $request->id)->update($data);
+            return 'Customer Information updated successfully';
         }else{
-            $data = $request->all();
+            $data = $request->except('cust_logo');
             $data['customer_logo'] = $imageName;
             $data['user_id'] = Auth::user()->id;
             //return $data;
