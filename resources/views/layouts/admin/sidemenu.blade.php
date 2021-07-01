@@ -38,9 +38,9 @@
                     <li class="nav-item"> <a href="{{url('company/company-registration')}}" class="nav-link">Company Registration</a></li>
                     <li class="nav-item"> <a href="{{url('company/maintain-office')}}" class="nav-link">Maintain Office</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-departments')}}" class="nav-link">Departments</a></li>
+                    <li class="nav-item"> <a href="{{url('company/employee-group')}}" class="nav-link">Employee Group</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-calander')}}" class="nav-link">Company Calander</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-shift')}}" class="nav-link">Company Shift</a></li>
-                    <li class="nav-item"> <a href="{{url('company/employee-group')}}" class="nav-link">Employee Group</a></li>
                     <li class="nav-item"> <a href="{{url('company/employee-payscale')}}" class="nav-link">Employee Payscale</a></li>
                     <li class="nav-item"> <a href="{{url('company/employee-jd')}}" class="nav-link">Employee JD's</a></li>
                     <li class="nav-item"> <a href="{{url('company/gazzeted-holiday')}}" class="nav-link">Gazzeted Holiday</a></li>

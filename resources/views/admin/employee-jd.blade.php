@@ -27,23 +27,30 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="department">* Select Department</label>
-                    <select ng-model="jds.department_id" id="department" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
+                    <select ng-model="jds.department_id" id="department" ng-change="getGroups(jds.department_id)"  ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
                     <i class="text-danger" ng-show="!jds.department_id && showError"><small>Please Select Department</small></i>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="department">* Select Employee Group</label>
+                    <select ng-model="jds.group_id" id="employee-group" ng-options="group.id as group.group_name for group in groups" class="form-control">
+                        <option value="">Select Employee Group</option>
+                    </select>
+                    <i class="text-danger" ng-show="!jds.group_id && showError"><small>Please Select Employee Group</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="jd_name">* JD Name</label>
                     <input type="text" ng-model="jds.jd_name" id="jd_name" class="form-control" placeholder="JD Name">
                     <i class="text-danger" ng-show="!jds.jd_name && showError"><small>Please Type JD Name</small></i>
                 </div>
+            </div><br>            
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="attachment">Attachment</label>
                     <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);">
                     <img ng-if="jdDoc" ng-src="<% jdDoc %>" class="img-lg rounded" style-="width:100%; height:200px;">
                 </div>
-            </div><br>            
-            <div class="row">
                 <div class="col">
                     <label for="description">Description</label>
                     <textarea ng-model="jds.description" id="description" class="form-control" cols="30" rows="10" placeholder="Add Description"></textarea>
@@ -80,7 +87,7 @@
                         <td ng-bind="j.jd_name"></td>
                         <td><a href="{{asset('public/employeeJD/<% j.attachment %>')}}" target="_blank" ng-bind="j.attachment"></a></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(j.company_id); getDepartments(j.office_id); editJD(j.id)">Edit</button>
+                            <button class="btn btn-xs btn-info" ng-click="getoffice(j.company_id); getDepartments(j.office_id); editJD(j.id); getGroups(j.department_id)">Edit</button>
                             <button class="btn btn-xs btn-danger" ng-click="deleteJobDescription(j.id)">Delete</button>
                         </td>
                     </tr>
@@ -160,6 +167,15 @@
             $http.get('get-departments/'+office_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.departments = response.data;
+                }
+            });
+        };
+
+        $scope.getGroups = function (dep_id) {
+            $scope.groups = {};
+            $http.get('get-groups/' + dep_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.groups = response.data;
                 }
             });
         };

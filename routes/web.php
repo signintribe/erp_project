@@ -290,10 +290,12 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('getonedept/{deptid}', 'Admin\DepartmentsController@getonedept')->name('delete-department')->middleware('is_admin');
   Route::get('company-calander', 'Admin\CompanyCalenderController@company_calander')->name('company_calander')->middleware('is_admin');
   Route::get('get-calendar/{dept_id}', 'Admin\CompanyCalenderController@get_calendar')->middleware('is_admin');
+  Route::get('edit-calendar/{dept_id}', 'Admin\CompanyCalenderController@edit_calendar');
   Route::resource('maintain-calender', 'Admin\CompanyCalenderController')->middleware('is_admin');
   Route::get('get-departments/{office_id}', 'Admin\CompanyCalenderController@get_departments')->middleware('is_admin');
   Route::get('company-shift', 'Admin\CompanyShiftController@company_shift')->middleware('is_admin');
   Route::get('get-shift/{dept_id}', 'Admin\CompanyShiftController@get_shift')->middleware('is_admin');
+  Route::get('edit-shift/{dept_id}', 'Admin\CompanyShiftController@edit_shift');
   Route::resource('maintain-shift', 'Admin\CompanyShiftController');
   Route::get('employee-group', 'Admin\EmployeeGroupController@employee_group');
   Route::get('get-groups/{dep_id}', 'Admin\EmployeeGroupController@getGroups');

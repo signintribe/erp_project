@@ -111,4 +111,9 @@ class CompanyShiftController extends Controller
     {
         return erp_maintain_shift::where('department_id', $dept_id)->get();
     }
+
+    public function edit_shift($dept_id)
+    {
+        return erp_maintain_shift::where('department_id', $dept_id)->first();
+    }
 }

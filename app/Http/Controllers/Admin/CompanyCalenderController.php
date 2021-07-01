@@ -120,4 +120,9 @@ class CompanyCalenderController extends Controller
     {
         return tblcompany_calender::where('department_id', $dept_id)->get();
     }
+
+    public function edit_calendar($dept_id)
+    {
+        return tblcompany_calender::where('department_id', $dept_id)->first();
+    }
 }

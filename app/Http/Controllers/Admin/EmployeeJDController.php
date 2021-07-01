@@ -58,7 +58,7 @@ class EmployeeJDController extends Controller
             $file->move(public_path('/employeeJD'), $imgname);
         }
         if($request->id){
-            $data = $request->except(['id','jdDoc', 'company_id', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);        
+            $data = $request->except(['id','jdDoc','group_name' ,'company_id', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);        
             $data['attachment'] = $imgname == "" ? $request->attachment : $imgname;
             erp_employee_jd::where('id', $request->id)->update($data);
             return "Employee Job Description Update Successfully";

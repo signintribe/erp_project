@@ -8,6 +8,7 @@ class erp_employee_jd extends Model
 {
     protected $fillable = [
         'department_id',
+        'group_id',
         'jd_name',
         'description',
         'attachment',

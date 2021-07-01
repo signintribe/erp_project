@@ -118,7 +118,7 @@
                         <td ng-bind="p.department_name"></td>
                         <td ng-bind="p.allowance"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(p.company_id); getDepartments(p.office_id); get_calendars(p.department_id); get_shifts(p.department_id); editpayallowance(p.id); getGroups(p.department_id);">Edit</button>
+                            <button class="btn btn-xs btn-info" ng-click="getoffice(p.company_id); getDepartments(p.office_id); getCalendars(p.department_id); getShifts(p.department_id); editpayallowance(p.id); getGroups(p.department_id);">Edit</button>
                             <button class="btn btn-xs btn-danger" ng-click="deletePayAllowance(p.id)">Delete</button>
                         </td>
                     </tr>
@@ -217,14 +217,30 @@
             });
         };
 
+        $scope.getCalendars = function(dept_id){
+            $http.get('edit-calendar/' + dept_id).then(function (response) {
+                if(response.data.length > 0){
+                    $scope.calendars = response.data;
+                }
+            });
+        };
+
+        $scope.getShifts = function(dept_id){
+            $http.get('edit-shift/' +dept_id).then(function (response) {
+                if(response.data.length > 0){
+                    $scope.shifts = response.data;
+                }
+            });
+        };
+
         $scope.editpayallowance = function(id){
             $http.get('maintain-allowance-deducation/'+ id + '/edit').then(function (response) {
                 $scope.pld = response.data[0];
                 $scope.pld.company_id = parseInt($scope.pld.company_id);
                 $scope.pld.office_id = parseInt($scope.pld.office_id);
                 $scope.pld.department_id = parseInt($scope.pld.department_id);
-               // $scope.pld.calendar_id = parseInt($scope.pld.calendar_id);
-                //$scope.pld.shift_id = parseInt($scope.pld.shift_id);
+                $scope.pld.calendar_id = parseInt($scope.pld.calendar_id);
+                $scope.pld.shift_id = parseInt($scope.pld.shift_id);
                 $("#ShowPrint").show();
             });
         }
