@@ -72,7 +72,7 @@
     </div><br>
     <div class="card">
         <div class="card-body">
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Sr#</th>

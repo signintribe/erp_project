@@ -71,7 +71,7 @@
                         <option value="Pak Rupees">Pak Rupees</option>
                     </select>
                 </div><br>
-                 <!-- <div class="col-lg-3 col-md-3 col-sm-3">
+                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Nature of Business</label><br/>
                     <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
                     <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
@@ -91,7 +91,7 @@
                     <input type="checkbox" id="public"/> <label for="public">Public</label><br/>
                     <input type="checkbox" id="partnership"/> <label for="partnership">Partnership</label><br/>
                     <input type="checkbox" id="sole_proprietor"/> <label for="sole_proprietor">Sole Proprietor</label><br/>
-                </div> -->
+                </div>
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">

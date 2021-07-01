@@ -10,6 +10,7 @@ use App\Models\tblemployeeinformations;
 use Auth;
 use DB;
 use File;
+use App\Models\VendorModels\tblcompanydetail;
 
 class EmployeeTaskController extends Controller
 {
@@ -20,7 +21,9 @@ class EmployeeTaskController extends Controller
      */
     public function index()
     {
-        return DB::select('SELECT taskdetails.*, employee.first_name FROM (SELECT * FROM erp_employee_tasks WHERE user_id = '.Auth::user()->id.') AS taskdetails JOIN(SELECT id, first_name FROM tblemployeeinformations) AS employee ON employee.id = taskdetails.employee_id');
+        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+        return DB::select('call sp_getEmployeeTasks(0, '.$company->id.')');
+        //return DB::select('SELECT taskdetails.*, employee.first_name FROM (SELECT * FROM erp_employee_tasks WHERE user_id = '.Auth::user()->id.') AS taskdetails JOIN(SELECT id, first_name FROM tblemployeeinformations) AS employee ON employee.id = taskdetails.employee_id');
 
     }
 

@@ -52,12 +52,13 @@ class PayAllowanceDeductionController extends Controller
      */
     public function store(Request $request)
     {
+        //return $request->all();
         if($request->id){
             $data = $request->except(['id', 'company_id','group_name', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);
             erp_maintain_deduction::where('id', $request->id)->update($data);
             return "Pay, Allownance and Deducation Update Successfully";
         }else{
-            $data = $request->all();
+            $data = $request->except('office_id');
             erp_maintain_deduction::create($data);
         }
         return "Pay, Allownance and Deducation Save Successfully";

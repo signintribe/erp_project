@@ -220,15 +220,15 @@
         $scope.getCalendars = function(dept_id){
             $http.get('edit-calendar/' + dept_id).then(function (response) {
                 if(response.data.length > 0){
-                    $scope.calendars = response.data;
+                   angular.extend($scope.pld, response.data);
                 }
             });
         };
 
         $scope.getShifts = function(dept_id){
-            $http.get('edit-shift/' +dept_id).then(function (response) {
+            $http.get('edit-shift/' + dept_id).then(function (response) {
                 if(response.data.length > 0){
-                    $scope.shifts = response.data;
+                    angular.extend($scope.pld, response.data);
                 }
             });
         };

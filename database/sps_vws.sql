@@ -532,6 +532,98 @@ BEGIN
 END$$
 DELIMITER ;
 
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getVendorAddress`(in userid int(11))
+BEGIN  
+    SELECT
+    vendoraddress.id, vendor.organization_name,
+    address.address_line_1, address.address_line_2, address.address_line_3, address.street, 
+    address.sector, address.city, address.state,address.country, address.postal_code, 
+    address.zip_code
+    FROM(
+      SELECT id, organization_name 
+      FROM erp_vendor_informations WHERE user_id = userid
+    ) AS vendor JOIN(
+      SELECT id, address_id, vendor_id 
+      FROM erp_vendor_addresses
+    ) AS vendoraddress ON vendoraddress.vendor_id = vendor.id JOIN(
+      SELECT * FROM tbladdresses
+    ) AS address ON address.id = vendoraddress.address_id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getVendorContact`(in userid int(11))
+BEGIN  
+    SELECT vendor.organization_name, contact.id, contact.contact_id, contact.social_id,  con.email, soc.website, soc.facebook, con.mobile_number FROM(
+      SELECT id, organization_name, user_id 
+      FROM erp_vendor_informations WHERE user_id = userid
+    ) AS vendor JOIN (
+      SELECT id, vendor_id, contact_id, social_id 
+      FROM erp_vendor_contacts
+    ) AS contact ON contact.vendor_id = vendor.id JOIN(
+      SELECT id, phone_number, mobile_number, fax_number, email, whatsapp FROM tblcontacts
+    ) AS con ON  con.id = contact.contact_id JOIN(
+      SELECT id, website, twitter, instagram, facebook, linkedin, pinterest FROM tblsocialmedias
+    )AS soc ON soc.id = contact.social_id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getVendorContactPerson`(IN `userid` INT(11))
+BEGIN
+SELECT vendor.organization_name, contactperson.id, contactperson.contact_id, contactperson.social_id, contactperson.title, contactperson.first_name, contactperson.last_name, contactperson.picture, contactperson.address_id, con.email, soc.website, soc.facebook, con.mobile_number, address.address_line_1, address.city, address.country, address.state FROM(
+SELECT id, organization_name, user_id
+FROM erp_vendor_informations WHERE user_id = userid
+) AS vendor JOIN (
+SELECT id, vendor_id, contact_id, social_id, address_id, title, first_name, last_name, picture
+FROM erp_vendor_contactpersons
+) AS contactperson ON contactperson.vendor_id = vendor.id JOIN(
+SELECT id, phone_number, mobile_number, fax_number, email, whatsapp FROM tblcontacts
+) AS con ON con.id = contactperson.contact_id JOIN(
+SELECT id, website, twitter, instagram, facebook, linkedin, pinterest FROM tblsocialmedias
+)AS soc ON soc.id = contactperson.social_id JOIN(
+SELECT id, address_line_1, address_line_2, city, state, country, sector FROM tbladdresses
+) as address ON address.id = contactperson.address_id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerDetail`(in userid int(11))
+BEGIN
+SELECT customer.customer_name, contact.id, contact.contact_id, contact.social_id, con.email, soc.website, soc.facebook, con.mobile_number FROM(
+SELECT id, customer_name, user_id
+FROM erp_customer_informations WHERE user_id = userid
+) AS customer JOIN (
+SELECT id, customer_id, contact_id, social_id
+FROM erp_customer_details
+) AS contact ON contact.customer_id = customer.id JOIN(
+SELECT id, phone_number, mobile_number, fax_number, email, whatsapp FROM tblcontacts
+) AS con ON con.id = contact.contact_id JOIN(
+SELECT id, website, twitter, instagram, facebook, linkedin, pinterest FROM tblsocialmedias
+)AS soc ON soc.id = contact.social_id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerContactPerson`(IN `userid` INT(11))
+BEGIN  
+    SELECT customer.customer_name, contactperson.id, contactperson.contact_id, contactperson.social_id, contactperson.title, contactperson.first_name, contactperson.last_name, contactperson.picture, contactperson.address_id, con.email, soc.website, soc.facebook, con.mobile_number, address.address_line_1, address.city, address.country, address.state FROM(
+      SELECT id, customer_name, user_id 
+      FROM erp_customer_informations WHERE user_id = userid
+    ) AS customer JOIN (
+      SELECT id, customer_id, contact_id, social_id, address_id, title, first_name, last_name, picture
+      FROM erp_customer_contactpersons
+    ) AS contactperson ON contactperson.customer_id = customer.id JOIN(
+      SELECT id, phone_number, mobile_number, fax_number, email, whatsapp FROM tblcontacts
+    ) AS con ON  con.id = contactperson.contact_id JOIN(
+      SELECT id, website, twitter, instagram, facebook, linkedin, pinterest FROM tblsocialmedias
+    )AS soc ON soc.id = contactperson.social_id JOIN(
+    SELECT id, address_line_1, address_line_2, city, state, country, sector FROM tbladdresses
+    ) as address ON address.id = contactperson.address_id;
+END$$
+DELIMITER ;
+
 DROP PROCEDURE getAllregistration;
 DELIMITER $$
 CREATE PROCEDURE `getAllregistration`(in userid int(11))
