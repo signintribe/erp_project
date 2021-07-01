@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Home')
+@section('title', 'Open an Existing Company')
 @section('content')
 <script src="https://kit.fontawesome.com/1c0b3bb21d.js" crossorigin="anonymous"></script>
 <div class="content-wrap nopadding">
@@ -42,7 +42,6 @@
                         <ol ng-if="companies" style="padding-left:15px;">
                             <li style="cursor: pointer" ng-click="getCompanyInformation(company.id)" ng-repeat="company in companies" ng-bind="company.company_name"></li>
                         </ol>
-                        <input type="hidden" class="form-control" id="company_id" name="company_id">
                         <div class="row" ng-if="mycompany">
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <p>
@@ -76,7 +75,7 @@
                                 </span>
                                 @enderror
                             </div>
-
+                            <input type="hidden" class="form-control" id="company_id" name="company_id" require>
                             <div class="col_full">
                                 <label for="login-form-password">Password:</label>
                                 <a href="#" class="fright" tabindex="3">Forgot Password?</a>
@@ -137,7 +136,7 @@
                 $scope.mycompany = {};
                 $http.get( 'get-mycompany/' + company_id).then(function (response) {
                     $scope.mycompany = response.data[0];
-                    $("#company_id").val($scope.mycompany);
+                    $("#company_id").val($scope.mycompany.id);
                     $("#loadMore").hide('slow');
                     $scope.companies = {};
                 });
