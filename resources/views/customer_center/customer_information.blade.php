@@ -81,9 +81,14 @@
                     <input type="checkbox" id="sole_proprietor"/> <label for="sole_proprietor">Sole Proprietor</label><br/>
                 </div> -->
             </div><br/>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <button type="button" class="btn btn-sm btn-success float-left" ng-click="save_customerInformation()">Save</button>
+                </div>
+            </div>
         </div>
     </div><br/>
-    <div class="card">
+    <!-- <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -91,7 +96,7 @@
                 </div>
             </div>
         </div>
-    </div><br>
+    </div><br> -->
     <div class="card">
         <div class="card-body table-responsive">
             <table class="table table-bordered">
@@ -118,7 +123,9 @@
                         <td ng-bind="customer.customer_name"></td>
                         <td ng-bind="customer.ntn_no "></td>
                         <td ng-bind="customer.incroporation_no"></td>
-                        <td ng-bind="customer.customer_logo"></td>
+                        <td>
+                            <img ng-src="{{asset('public/customer_logo/<% customer.customer_logo %>')}}" alt="">
+                        </td>
                         <td ng-bind="customer.strn"></td>
                         <td ng-bind="customer.import_license"></td>
                         <td ng-bind="customer.export_license"></td>
@@ -177,7 +184,7 @@
             reader.onload = function (event) {
                 $scope.cuslogo = event.target.result;
                 $scope.$apply(function ($scope) {
-                    $scope.customer.customer_logo = element.files[0];
+                    $scope.customer.cust_logo = element.files[0];
                 });
             };
             reader.readAsDataURL(element.files[0]);

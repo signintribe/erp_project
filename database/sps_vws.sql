@@ -589,6 +589,17 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerAddress`(in userid int(11))
+BEGIN
+SELECT customer.customer_name, address.*  FROM(
+SELECT id, customer_name, user_id
+FROM erp_customer_informations WHERE user_id = userid
+) AS customer JOIN (
+SELECT * FROM erp_customer_addresses) as address;
+END$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerDetail`(in userid int(11))
 BEGIN
 SELECT customer.customer_name, contact.id, contact.contact_id, contact.social_id, con.email, soc.website, soc.facebook, con.mobile_number FROM(
