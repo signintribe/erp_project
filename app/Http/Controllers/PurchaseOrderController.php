@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\erp_purchase_order;
+use App\Models\erp_po_inventory;
 use Auth;
 use DB;
 /**
@@ -45,13 +46,18 @@ class PurchaseOrderController extends Controller{
         //return $request->all();
 
         if($request->id){
-            $data = $request->except(['id', 'user_id', 'created_at', 'updated_at']);
+            $data = $request->except(['id','po_id','product_id', 'user_id', 'created_at', 'updated_at','created_at','updated_at']);
+            $inventory = $request->except('id','po_id','mobile_number','user_id','po_date','goods_date','po_status','shipment_status','total_po','product_item','quantity','unit_price','taxes','discount','total_price','job','payment_mode','chartofaccount_purchase','chartofaccount_payment','address','description','vendor_id','created_at','updated_at');
             erp_purchase_order::where('id', $request->id)->update($data);
+            erp_po_inventory::where('po_id', $request->id)->update($inventory);
             return "Purchase Order Update successfully";
         }else{
-            $data = $request->all();
+            $data = $request->except('product_id');
+            $inventory = $request->except('mobile_number','po_date','goods_date','po_status','shipment_status','total_po','product_item','quantity','unit_price','taxes','discount','total_price','job','payment_mode','chartofaccount_purchase','chartofaccount_payment','address','description','vendor_id');
             $data['user_id'] = Auth::user()->id;
-            erp_purchase_order::create($data);
+            $PO_data = erp_purchase_order::create($data);
+            $inventory['po_id'] = $PO_data->id;            
+            erp_po_inventory::create($inventory);
         }
         return "Purchase Order save successfully";
     }

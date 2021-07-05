@@ -600,6 +600,17 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getproductsinfo`(in userid int(11), in productid int(11))
+BEGIN
+SELECT product.product_name, product.id, price.net_pur_price  FROM(
+SELECT id, product_name, user_id
+FROM tblproduct_informations WHERE user_id = userid AND id = productid
+) AS product JOIN (
+SELECT id, product_id ,net_pur_price FROM tblproduct_pricings)  AS price ON price.product_id = product.id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerDetail`(in userid int(11))
 BEGIN
 SELECT customer.customer_name, contact.id, contact.contact_id, contact.social_id, con.email, soc.website, soc.facebook, con.mobile_number FROM(

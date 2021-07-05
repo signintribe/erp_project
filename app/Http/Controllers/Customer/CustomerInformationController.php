@@ -39,35 +39,39 @@ class CustomerInformationController extends Controller
      */
     public function store(Request $request)
     {
-        $imageName = "";
-        if ($request->hasFile('cust_logo')) {
-            $current= date('ymd').rand(1,999999).time();
-            $file= $request->file('cust_logo');
-            $imageName = $current.'.'.$file->getClientOriginalExtension();
-            $file->move(public_path('customer_logo'), $imageName);
-            if(!empty($request->id)){
-                $this->deleteOldImage($request->customer_logo);
-                $customer = erp_customer_information::where('id', $request->id)->first();
-                $customer->customer_logo = $imageName;
-                $customer->save();
+        //$cus_name = erp_customer_information::where('customer_name', $request->customer_name)->first();
+        if(empty(erp_customer_information::where('customer_name', $request->customer_name)->first())){
+            $imageName = "";
+            if ($request->hasFile('cust_logo')) {
+                $current= date('ymd').rand(1,999999).time();
+                $file= $request->file('cust_logo');
+                $imageName = $current.'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('customer_logo'), $imageName);
+                if(!empty($request->id)){
+                    $this->deleteOldImage($request->customer_logo);
+                    $customer = erp_customer_information::where('id', $request->id)->first();
+                    $customer->customer_logo = $imageName;
+                    $customer->save();
+                }
             }
-        }
-
-        if($request->id){
-            if ($imageName){
-                $data['customer_logo'] = $imageName; 
+            if($request->id){
+                if ($imageName){
+                    $data['customer_logo'] = $imageName; 
+                }
+                $data = $request->except(['id', 'cust_logo','user_id', 'created_at', 'updated_at']);
+                erp_customer_information::where('id', $request->id)->update($data);
+                return 'Customer Information updated successfully';
+            }else{
+                $data = $request->except('cust_logo');
+                $data['customer_logo'] = $imageName;
+                $data['user_id'] = Auth::user()->id;
+                //return $data;
+                erp_customer_information::create($data);
             }
-            $data = $request->except(['id', 'cust_logo','user_id', 'created_at', 'updated_at']);
-            erp_customer_information::where('id', $request->id)->update($data);
-            return 'Customer Information updated successfully';
+            return "Customer Information saved successfully";
         }else{
-            $data = $request->except('cust_logo');
-            $data['customer_logo'] = $imageName;
-            $data['user_id'] = Auth::user()->id;
-            //return $data;
-            erp_customer_information::create($data);
+            return 'Customer Information Already Exists';
         }
-        return "Customer Information saved successfully";
     }
 
 

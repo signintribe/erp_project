@@ -40,22 +40,25 @@ class VendorAddressController extends Controller
      */
     public function store(Request $request)
     {
-
-        if($request->id)
-        {
-        $address = $request->except('id', 'vendor_id','address_id', 'created_at', 'updated_at');
-        $vendorAddress = $request->except('id', 'created_at', 'updated_at', 'address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
-        tbladdress::where('id', $request->address_id)->update($address);
-        erp_vendor_address::where('id', $request->id)->update($vendorAddress);
+        if(empty(erp_vendor_address::where('vendor_id', $request->vendor_id)->first())){
+            if($request->id){
+            $address = $request->except('id', 'vendor_id','address_id', 'created_at', 'updated_at');
+            $vendorAddress = $request->except('id', 'created_at', 'updated_at', 'address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
+            tbladdress::where('id', $request->address_id)->update($address);
+            erp_vendor_address::where('id', $request->id)->update($vendorAddress);
+            return 'Update';
+            }
+            else{
+            $address = $request->except('vendor_id','address_id');
+            $vendorAddress = $request->except('address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
+            $address = tbladdress::create($address);
+            $vendorAddress['address_id'] = $address->id;
+            $vendorAddress = erp_vendor_address::create($vendorAddress);
+            }
+            return 'Save';
+        }else{
+            return 'Vendor Address Already Exists';
         }
-        else{
-        $address = $request->except('vendor_id','address_id');
-        $vendorAddress = $request->except('address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
-        $address = tbladdress::create($address);
-        $vendorAddress['address_id'] = $address->id;
-        $vendorAddress = erp_vendor_address::create($vendorAddress);
-        }
-        return 'Save';
     }
 
     /**
