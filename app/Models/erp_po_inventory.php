@@ -8,7 +8,7 @@ class erp_po_inventory extends Model
 {
     protected $fillable = [
         'product_id',
-        'po_id',
+        'po_id','quantity','unit_price','taxes','discount','total_price','job','product_description',
         'created_at',
         'updated_at'
     ];

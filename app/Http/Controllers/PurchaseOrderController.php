@@ -43,23 +43,64 @@ class PurchaseOrderController extends Controller{
     }
 
     public function savePurchaseOrder(Request $request){
-        //return $request->all();
+      //return $request->all();
 
-        if($request->id){
-            $data = $request->except(['id','po_id','product_id', 'user_id', 'created_at', 'updated_at','created_at','updated_at']);
-            $inventory = $request->except('id','po_id','mobile_number','user_id','po_date','goods_date','po_status','shipment_status','total_po','product_item','quantity','unit_price','taxes','discount','total_price','job','payment_mode','chartofaccount_purchase','chartofaccount_payment','address','description','vendor_id','created_at','updated_at');
-            erp_purchase_order::where('id', $request->id)->update($data);
-            erp_po_inventory::where('po_id', $request->id)->update($inventory);
-            return "Purchase Order Update successfully";
-        }else{
-            $data = $request->except('product_id');
-            $inventory = $request->except('mobile_number','po_date','goods_date','po_status','shipment_status','total_po','product_item','quantity','unit_price','taxes','discount','total_price','job','payment_mode','chartofaccount_purchase','chartofaccount_payment','address','description','vendor_id');
-            $data['user_id'] = Auth::user()->id;
-            $PO_data = erp_purchase_order::create($data);
-            $inventory['po_id'] = $PO_data->id;            
-            erp_po_inventory::create($inventory);
+      $data = json_decode($request->orderDetail,true);
+      if($request->id){
+            erp_po_inventory::where('po_id', $request->id)->delete();
+             erp_purchase_order::where('id', $request->id)->update([
+                'vendor_id' => $request->vendor_id,
+                'po_date' => $request->po_date,
+                'goods_date' => $request->goods_date,
+                'po_status' => $request->po_status,
+                'shipment_status' => $request->shipment_status,
+                'total_po' => $request->total_po,
+                'ship_via' => $request->ship_via,
+                'chartofaccount_purchase' => $request->chartofaccount_purchase,
+                'chartofaccount_payment' => $request->chartofaccount_payment
+            ]);
+        foreach($data as $key=>$value){            
+                erp_po_inventory::create([
+                    'po_id' => $request->id,
+                    'product_id' =>$value['product_id'],                
+                    'quantity' =>$value['quantity'],
+                    'unit_price' =>$value['unit_price'],
+                    'taxes' =>$value['taxes'],
+                    'discount' =>$value['discount'],
+                    'total_price' =>$value['total_price'],
+                    'job' =>$value['job'],
+                    'product_description' =>$value['product_description']
+                ]);
+            }     
+            return 'Update';
+      }else{
+            $po = erp_purchase_order::create([
+                    'vendor_id' => $request->vendor_id,
+                    'user_id' => Auth::user()->id,
+                    'po_date' => $request->po_date,
+                    'goods_date' => $request->goods_date,
+                    'po_status' => $request->po_status,
+                    'shipment_status' => $request->shipment_status,
+                    'total_po' => $request->total_po,
+                    'ship_via' => $request->ship_via,
+                    'chartofaccount_purchase' => $request->chartofaccount_purchase,
+                    'chartofaccount_payment' => $request->chartofaccount_payment
+                ]);
+            foreach($data as $key=>$value){            
+                    erp_po_inventory::create([
+                        'po_id' => $po->id,
+                        'product_id' =>$value['product_id'],                
+                        'quantity' =>$value['quantity'],
+                        'unit_price' =>$value['unit_price'],
+                        'taxes' =>$value['taxes'],
+                        'discount' =>$value['discount'],
+                        'total_price' =>$value['total_price'],
+                        'job' =>$value['job'],
+                        'product_description' =>$value['product_description']
+                    ]);
+                }        
+                return 'Save';
         }
-        return "Purchase Order save successfully";
     }
 
     public function editPurchaseOrder($id){
@@ -75,6 +116,16 @@ class PurchaseOrderController extends Controller{
     public function edit($id)
     {
         return erp_purchase_order::where('id', $id)->first();
+        //return DB::select('call sp_editPurchaseOrderInfo('.Auth::user()->id.','.$id.')');
+        //return DB::select("SELECT po.*, product.product_id, name.product_name FROM (SELECT * FROM erp_purchase_orders where id = ".$id.") AS po JOIN (SELECT id, po_id, product_id FROM erp_po_inventories) AS product on product.po_id = po.id JOIN (SELECT id, product_name FROM tblproduct_informations) AS name on name.id = product.product_id");
+
+        //return erp_purchase_order::where('id', $id)->first();
+    }
+
+    public function editProductInfo($po_id){
+        return DB::select("SELECT po.product_id, po.unit_price, po.quantity, po.taxes, po.discount, po.job, po.product_description, product.product_name FROM (SELECT id, product_id, unit_price, quantity, taxes, discount, job, product_description FROM erp_po_inventories where po_id = ".$po_id.") AS po JOIN (SELECT id, product_name FROM tblproduct_informations) AS product on product.id = po.product_id");
+ 
+        //return erp_po_inventory::where('po_id', $po_id)->get();
     }
 
     /**

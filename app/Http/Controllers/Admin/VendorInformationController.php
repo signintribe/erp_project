@@ -128,4 +128,8 @@ class VendorInformationController extends Controller
         erp_vendor_information::where('id', $id)->delete();
         return "Your record delete permanently";
     }
+
+    public function getVendors($ven_id){
+        return DB::select('call sp_getvendorinfo('.Auth::user()->id.','.$ven_id.')');
+    }
 }

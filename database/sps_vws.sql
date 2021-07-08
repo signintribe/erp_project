@@ -611,6 +611,29 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getvendorinfo`(in userid int(11), in vendorid int(11))
+BEGIN
+SELECT product.product_name, product.id, price.net_pur_price  FROM(
+SELECT id, organization_name, user_id
+FROM erp_vendor_informations WHERE user_id = userid AND id = vendorid
+) AS vendor JOIN (
+SELECT id, vendor_id, ,address_id FROM erp_vendor_addresses)  AS venadd ON venadd.vendor_id = vendor.id
+JOIN(SELECT * FROM tbladdresses) AS address ON address.id = venadd.address_id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_editPurchaseOrderInfo`(in userid int(11), in poid int(11))
+BEGIN
+SELECT po.* , poinventory.po_id, poinventory.product_id, poinventory.quantity, poinventory.unit_price,
+poinventory.taxes, poinventory.discount, poinventory.total_price, poinventory.product_description, poinventory.job FROM(
+SELECT * FROM erp_purchase_orders WHERE user_id = userid AND id = poid
+) AS po JOIN (
+SELECT id, po_id, product_id, quantity,unit_price,taxes,discount,total_price,product_description,job FROM erp_po_inventories)  AS poinventory ON poinventory.po_id = po.id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerDetail`(in userid int(11))
 BEGIN
 SELECT customer.customer_name, contact.id, contact.contact_id, contact.social_id, con.email, soc.website, soc.facebook, con.mobile_number FROM(
