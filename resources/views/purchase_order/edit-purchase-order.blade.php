@@ -65,21 +65,17 @@
                     </div><br/>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="total_po">Purchase Order Total</label>
-                            <input type="text" id="total_po" class="form-control" ng-model="po.total_po" placeholder="Purchase Order Total"/>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
                             <label for="ship_via">Ship Via</label>
                             <input type="text" id="ship_via" class="form-control" ng-model="po.ship_via" placeholder="Ship Via"/>
                         </div>
-                    </div><br/>
-                    <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <label for="chartofaccount_purchase">Chart of Account Purchases</label>
                             <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="po.chartofaccount_purchase">
                                 <option value="">Chart of Account Purchases</option>
                             </select>
                         </div>
+                    </div><br/>
+                    <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <label for="chartofaccount_payment">Chart of Account for Payment</label>
                             <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="po.chartofaccount_payment">
@@ -101,7 +97,7 @@
                     </select>
                 </div>
             </div><br/>
-            <div class="row" ng-if="allproducts" id="add">
+            <div class="row" ng-if="allproducts.length > 0" id="add">
                 <table class="table table-bordered">
                     <thead>
                         <th>Sr#</th>
@@ -129,7 +125,7 @@
                     </tbody>
                 </table>
             </div><br/>
-            <div class="row" ng-if="addToCart" id="show">
+            <div class="row" ng-if="addToCart.length > 0" id="show">
                 <table class="table table-bordered">
                     <thead>
                         <th>Sr#</th>
