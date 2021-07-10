@@ -43,44 +43,45 @@ class CustomerContactController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request->all();
-        if ($request->hasFile('custpicture')) {
-            $current= date('ymd').rand(1,999999).time();
-            $file= $request->file('custpicture');
-            $imageName = $current.'.'.$file->getClientOriginalExtension();
-            $file->move(public_path('customercontactperson_picture'), $imageName);
-            if($request->id){
-                $this->deleteOldImage($request->picture);
+        if(empty(erp_customer_contactpersons::where('customer_id', $request->customer_id)->first())){
+            if ($request->hasFile('custpicture')) {
+                $current= date('ymd').rand(1,999999).time();
+                $file= $request->file('custpicture');
+                $imageName = $current.'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('customercontactperson_picture'), $imageName);
+                if($request->id){
+                    $this->deleteOldImage($request->picture);
+                }
             }
+            if($request->id){
+                $social = $request->except('id', 'custpicture','customer_id','contact_id','social_id','address_id','title','first_name','last_name','picture','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
+                $contact = $request->except('id','customer_id', 'custpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
+                $address = $request->except('id','customer_id','custpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','created_at','updated_at');
+                $contactperson = $request->except('id','website', 'custpicture','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
+                tblsocialmedias::where('id', $request->social_id)->update($social);
+                tblcontact::where('id', $request->contact_id)->update($contact);
+                tbladdress::where('id', $request->address_id)->update($address);
+                $contactperson['picture'] = $imageName;
+                erp_customer_contactpersons::where('id', $request->id)->update($contactperson);
+            }
+            else{
+                $social = $request->except('customer_id','custpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code',);
+                $contact = $request->except('customer_id','custpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code',);
+                $address = $request->except('customer_id','custpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email');
+                $contactperson = $request->except('website','custpicture', 'twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
+                $social = tblsocialmedias::create($social);
+                $contact = tblcontact::create($contact);
+                $address = tbladdress::create($address);
+                $contactperson['social_id'] = $social->id;
+                $contactperson['contact_id'] = $contact->id;
+                $contactperson['address_id'] = $address->id;
+                $contactperson['picture'] = $imageName;
+                $contactperson = erp_customer_contactpersons::create($contactperson);
+            }
+            return "Contact Person Save Successfully";
+        }else{
+            return 'Customer Contact Person Already Exists';
         }
-        if($request->id){
-            $social = $request->except('id', 'custpicture','customer_id','contact_id','social_id','address_id','title','first_name','last_name','picture','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
-            $contact = $request->except('id','customer_id', 'custpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
-            $address = $request->except('id','customer_id','custpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','created_at','updated_at');
-            $contactperson = $request->except('id','website', 'custpicture','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
-            tblsocialmedias::where('id', $request->social_id)->update($social);
-            tblcontact::where('id', $request->contact_id)->update($contact);
-            tbladdress::where('id', $request->address_id)->update($address);
-            $contactperson['picture'] = $imageName;
-            erp_customer_contactpersons::where('id', $request->id)->update($contactperson);
-        }
-        else{
-            $social = $request->except('customer_id','custpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code',);
-            $contact = $request->except('customer_id','custpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code',);
-            $address = $request->except('customer_id','custpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email');
-            $contactperson = $request->except('website','custpicture', 'twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
-            $social = tblsocialmedias::create($social);
-            $contact = tblcontact::create($contact);
-            $address = tbladdress::create($address);
-            $contactperson['social_id'] = $social->id;
-            $contactperson['contact_id'] = $contact->id;
-            $contactperson['address_id'] = $address->id;
-            $contactperson['picture'] = $imageName;
-            $contactperson = erp_customer_contactpersons::create($contactperson);
-        }
-        
-
-        return "Contact Person Save Successfully";
     }
 
     /**

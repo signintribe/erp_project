@@ -40,26 +40,30 @@ class CustomerDetailController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->id){
-            $contact = $request->except('id','customer_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','created_at','updated_at');
-            $customer = $request->except('id','phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest','created_at','updated_at');
-            $social = $request->except('id','customer_id','contact_id','social_id','phone_number','mobile_number','fax_number','whatsapp','email','created_at','updated_at');
-            tblcontact::where('id', $request->contact_id)->update($contact);
-            tblsocialmedias::where('id', $request->social_id)->update($social);
-            erp_customer_detail::where('id', $request->id)->update($customer);
+        if(empty(erp_customer_detail::where('customer_id', $request->customer_id)->first())){
+            if($request->id){
+                $contact = $request->except('id','customer_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','created_at','updated_at');
+                $customer = $request->except('id','phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest','created_at','updated_at');
+                $social = $request->except('id','customer_id','contact_id','social_id','phone_number','mobile_number','fax_number','whatsapp','email','created_at','updated_at');
+                tblcontact::where('id', $request->contact_id)->update($contact);
+                tblsocialmedias::where('id', $request->social_id)->update($social);
+                erp_customer_detail::where('id', $request->id)->update($customer);
+                return "Contact Detail Update Successfully";
+            }
+            else{
+                $contact = $request->except('customer_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest');
+                $customer = $request->except('phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest');
+                $social = $request->except('customer_id','contact_id','social_id','phone_number','mobile_number','fax_number','whatsapp','email');
+                $contact = tblcontact::create($contact);
+                $social = tblsocialmedias::create($social);
+                $customer['contact_id'] = $contact->id;
+                $customer['social_id'] = $social->id;
+                $customer = erp_customer_detail::create($customer);
+            }        
+            return "Contact Detail Save Successfully";
+        }else{
+            return 'Contact Detail ALready Exists';
         }
-        else{
-            $contact = $request->except('customer_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest');
-            $customer = $request->except('phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest');
-            $social = $request->except('customer_id','contact_id','social_id','phone_number','mobile_number','fax_number','whatsapp','email');
-            $contact = tblcontact::create($contact);
-            $social = tblsocialmedias::create($social);
-            $customer['contact_id'] = $contact->id;
-            $customer['social_id'] = $social->id;
-            $customer = erp_customer_detail::create($customer);
-        }
-        
-        return "Customer Detail Save Successfully";
     }
 
     /**

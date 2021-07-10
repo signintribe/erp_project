@@ -39,35 +39,38 @@ class VendorInformationController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request->all();
-        $imageName = "";
-        if ($request->hasFile('org_logo')) {
-            $current= date('ymd').rand(1,999999).time();
-            $file= $request->file('org_logo');
-            $imageName = $current.'.'.$file->getClientOriginalExtension();
-            $file->move(public_path('organization_logo'), $imageName);
-            if(!empty($request->id)){
-                $this->deleteOldImage($request->organization_logo);
-                /* $vendor = erp_vendor_information::where('id', $request->id)->first();
-                $vendor->organization_logo = $imageName;
-                $vendor->save(); */
+        if(empty(erp_vendor_information::where('organization_name', $request->organization_name)->first())){
+            $imageName = "";
+            if ($request->hasFile('org_logo')) {
+                $current= date('ymd').rand(1,999999).time();
+                $file= $request->file('org_logo');
+                $imageName = $current.'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('organization_logo'), $imageName);
+                if(!empty($request->id)){
+                    $this->deleteOldImage($request->organization_logo);
+                    /* $vendor = erp_vendor_information::where('id', $request->id)->first();
+                    $vendor->organization_logo = $imageName;
+                    $vendor->save(); */
+                }
             }
-        }
 
-        if($request->id){
-            $data = $request->except(['id', 'user_id', 'org_logo', 'created_at', 'updated_at']);
-            if ($imageName !=""){
-                $data['organization_logo'] = $imageName; 
+            if($request->id){
+                $data = $request->except(['id', 'user_id', 'org_logo', 'created_at', 'updated_at']);
+                if ($imageName !=""){
+                    $data['organization_logo'] = $imageName; 
+                }
+                erp_vendor_information::where('id', $request->id)->update($data);
+            }else{
+                $data = $request->except(['org_logo']);
+                $data['organization_logo'] = $imageName;
+                $data['user_id'] = Auth::user()->id;
+                //return $data;
+                erp_vendor_information::create($data);
             }
-            erp_vendor_information::where('id', $request->id)->update($data);
+            return "Vendor Information saved successfully";
         }else{
-            $data = $request->except(['org_logo']);
-            $data['organization_logo'] = $imageName;
-            $data['user_id'] = Auth::user()->id;
-            //return $data;
-            erp_vendor_information::create($data);
+            return 'Vendor Already Exist';
         }
-        return "Vendor Information saved successfully";
 
     }
 
@@ -124,5 +127,9 @@ class VendorInformationController extends Controller
     {
         erp_vendor_information::where('id', $id)->delete();
         return "Your record delete permanently";
+    }
+
+    public function getVendors($ven_id){
+        return DB::select('call sp_getvendorinfo('.Auth::user()->id.','.$ven_id.')');
     }
 }

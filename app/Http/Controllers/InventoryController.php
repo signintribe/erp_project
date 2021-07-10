@@ -188,4 +188,8 @@ class InventoryController extends Controller{
         tblproduct_informations::where('id', $id)->delete();
         return 'Inventory Info Delete Permanently';
     }
+
+    public function getProductInfo($pro_id){
+        return DB::select('call sp_getproductsinfo('.Auth::user()->id.','.$pro_id.')');
+    }
 }
