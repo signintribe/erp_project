@@ -27,6 +27,10 @@ Route::get('get-mycompany/{compny_id}', 'ApiController@myCompany');
 Route::get('employee-leave', 'EmployeeController@employee_leave')->name('employee-leave');
 Route::view('open-existing-company','auth.open-company')->name('open-company');
 Route::group(['prefix'=>'hr'], function () {
+  Route::get('pay-allowance-deduction', 'Admin\PayAllowanceDeductionController@pay_allownce');
+  Route::get('employee-payscale', 'Admin\PayScaleController@employee_payscale');
+  Route::get('employee-jd', 'Admin\EmployeeJDController@employee_jd');
+  Route::get('employee-group', 'Admin\EmployeeGroupController@employee_group');
   Route::get('getEmployees', 'Admin\UsersController@getEmployees')->middleware('is_admin');
   Route::get('employee-personal-information', 'Admin\UsersController@index')->name('users')->middleware('is_admin');
   Route::post('SaveUsers', 'Admin\UsersController@SaveUsers')->middleware('is_admin');
@@ -304,13 +308,9 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('get-shift/{dept_id}', 'Admin\CompanyShiftController@get_shift')->middleware('is_admin');
   Route::get('edit-shift/{dept_id}', 'Admin\CompanyShiftController@edit_shift');
   Route::resource('maintain-shift', 'Admin\CompanyShiftController');
-  Route::get('employee-group', 'Admin\EmployeeGroupController@employee_group');
   Route::get('get-groups/{dep_id}', 'Admin\EmployeeGroupController@getGroups');
-  Route::get('employee-payscale', 'Admin\PayScaleController@employee_payscale');
-  Route::get('employee-jd', 'Admin\EmployeeJDController@employee_jd');
   Route::get('gazzeted-holiday', 'Admin\GazzetedHolidayController@gazzeted_holiday');
   Route::get('yearly-leave', 'Admin\YearlyLeaveController@yearly_leave');
-  Route::get('pay-allowance-deduction', 'Admin\PayAllowanceDeductionController@pay_allownce');
   Route::resource('maintain-allowance-deducation', 'Admin\PayAllowanceDeductionController');
   Route::resource('maintain-group', 'Admin\EmployeeGroupController');
   Route::resource('maintain-payscale', 'Admin\PayScaleController');
