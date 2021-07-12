@@ -37,34 +37,6 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group row">
-                        <div class="col">
-                            <label>* Phone Number</label>
-                            <input type="text" ng-model="company.phone_number" class="form-control" placeholder="Phone Number">
-                            <i class="text-danger" ng-show="!company.phone_number && showError"><small>Please Type Phone Number</small></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group row">
-                        <div class="col">
-                            <label>* Mobile Number</label>
-                            <input type="text" ng-model="company.mobile_number" class="form-control" placeholder="Mobile Number">
-                            <i class="text-danger" ng-show="!company.mobile_number && showError"><small>Please Type Mobile Number</small></i>
-                        </div>
-                    </div>
-                </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group row">
-                        <div class="col">
-                            <label>Fax Number</label>
-                            <input type="text" ng-model="company.fax_number" class="form-control" placeholder="Fax Number">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Office Timing</label>
                     <div class="input-group">
                         <div class="input-group">
@@ -86,26 +58,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Email</label>
-                    <div class="input-group">
-                        <div class="input-group">
-                            <input type="email" class="form-control" ng-model="company.email" placeholder="Email">
-                            <div class="input-group-addon input-group-append"><i class="fa fa-envelope input-group-text"></i></div>
-                        </div>
-                    </div>
-                </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Whatsapp</label>
-                    <div class="input-group">
-                        <div class="input-group">
-                            <input type="text" class="form-control" ng-model="company.whatsapp" placeholder="Whatsapp">
-                            <div class="input-group-addon input-group-append"><i class="mdi mdi-whatsapp input-group-text"></i></div>
-                        </div>
-                    </div>
-                </div>
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -113,134 +65,6 @@
                     <textarea ng-model="company.desription" class="form-control" placeholder="Description" rows="3" cols="3"></textarea>
                 </div>
             </div><br><hr/>
-            <h3 class="card-title">Address Detail</h3>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="address_1">* Postal Address Line 1</label>
-                        <input type="text" id="address_1" class="form-control" ng-model="company.address_line_1" placeholder="Postal Address Line 1"/>
-                        <i class="text-danger" ng-show="!company.address_line_1 && showError"><small>Please Type Address Line</small></i>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="address_2">Postal Address Line 2</label>
-                        <input type="text" id="address_2" class="form-control" ng-model="company.address_line_2" placeholder="Postal Address Line 2"/>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="address_3">Postal Address Line 3</label>
-                        <input type="text" id="address_3" class="form-control" ng-model="company.address_line_3" placeholder="Postal Address Line 3"/>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="street">Street</label>
-                        <input type="text" id="street" class="form-control" ng-model="company.street" placeholder="Street"/>
-                    </div>
-                </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="sector">Sector/Mohallah</label>
-                        <input type="text" id="sector" class="form-control" ng-model="company.sector" placeholder="Sector/Mohallah"/>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="country">* Country</label>
-                        <input type="text" id="country" class="form-control" ng-model="company.country" placeholder="Country"/>
-                        <i class="text-danger" ng-show="!company.country && showError"><small>Please Type Country</small></i>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="state">State / Province</label>
-                        <input type="text" id="state" class="form-control" ng-model="company.state" placeholder="State / Province"/>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="city">City</label>
-                        <input type="text" id="city" class="form-control" ng-model="company.city" placeholder="City"/>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="postal-code">Postal Code</label>
-                        <input type="text" id="postal-code" class="form-control" ng-model="company.postal_code" placeholder="Postal Code"/>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                        <label for="zip-code">Zip Code</label>
-                        <input type="text" id="zip-code" class="form-control" ng-model="company.zip_code" placeholder="Zip Code"/>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3"></div>
-                <div class="col-lg-3 col-md-3 col-sm-3"></div>
-            </div>
-            <hr/>
-            <h2 class="card-title">Please Add Your Company Social Media</h2>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Facebook Page</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="company.facebook" placeholder="Facebook Page">
-                        <div class="input-group-addon input-group-append"><i class="fa fa-facebook input-group-text"></i></div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>* Linkedin</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="company.linkedin" placeholder="Linkedin">
-                        <div class="input-group-addon input-group-append"><i class="fa fa-linkedin input-group-text"></i></div>
-                    </div>
-                    <i class="text-danger" ng-show="!company.linkedin && showError"><small>Please Type Linkedin</small></i>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Youtube Channel</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="company.youtube" placeholder="Youtube Channel">
-                        <div class="input-group-addon input-group-append"><i class="fa fa-youtube input-group-text"></i></div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Twitter Page</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="company.twitter" placeholder="Twitter Page">
-                        <div class="input-group-addon input-group-append"><i class="fa fa-twitter input-group-text"></i></div>
-                    </div>
-                </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>* Website</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="company.website" placeholder="Website">
-                        <div class="input-group-addon input-group-append"><i class="fa fa-globe input-group-text"></i></div>
-                    </div>
-                    <i class="text-danger" ng-show="!company.linkedin && showError"><small>Please Type Website</small></i>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="instagram">Instagram</label>
-                    <div class="input-group">
-                        <input type="text" id="instagram" class="form-control" ng-model="company.instagram" placeholder="Instagram"/>
-                        <div class="input-group-addon input-group-append"><i class="fa fa-instagram input-group-text"></i></div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="pinterest">Pinterest</label>
-                    <div class="input-group">
-                        <input type="text" id="pinterest" class="form-control" ng-model="company.pinterest" placeholder="Pinterest"/>
-                        <div class="input-group-addon input-group-append"><i class="fa fa-pinterest input-group-text"></i></div>
-                    </div>
-                </div>
-            </div><br/>
             <button type="submit" id="restrict" class="btn btn-success btn-sm float-right" ng-click="save_companyinfo();">Submit</button>
             <button type="submit" id="updatebtn" class="btn btn-success btn-sm float-right" ng-click="update_companyinfo();">Submit</button>
         </div>
@@ -337,7 +161,7 @@
             });
         };
 
-        $scope.get_companysocial = function (social_id) {
+        /* $scope.get_companysocial = function (social_id) {
             $http.get('getcompanysocial/' + social_id).then(function (response) {
                 if (response.data) {
                     angular.extend($scope.company, response.data);
@@ -359,7 +183,7 @@
                     angular.extend($scope.company, response.data);
                 }
             });
-        };
+        }; */
 
         $scope.check_company = function (company_name) {
             $http.get('check_company/' + company_name).then(function (response) {

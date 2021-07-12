@@ -36,6 +36,14 @@ class CompanyProfileController extends Controller {
         return view('user.company_profile');
     }
 
+    public function comAddressView(){
+        return view('user.company-address');
+    }
+
+    public function comContactView(){
+        return view('user.company-contact');
+    }
+
     public function view_company() {
         return view('user.view-company');
     }

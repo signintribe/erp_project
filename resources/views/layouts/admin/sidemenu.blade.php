@@ -34,7 +34,9 @@
             </a>
             <div class="collapse" id="Child-Companies">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a href="{{url('company/company-profile')}}" class="nav-link">Maintain Company</a></li>
+                    <li class="nav-item"> <a href="{{url('company/company-profile')}}" class="nav-link">Company Profile</a></li>
+                    <li class="nav-item"> <a href="{{url('company/company-address')}}" class="nav-link">Company Address</a></li>
+                    <li class="nav-item"> <a href="{{url('company/company-contact')}}" class="nav-link">Company Contact</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-registration')}}" class="nav-link">Company Registration</a></li>
                     <li class="nav-item"> <a href="{{url('company/maintain-office')}}" class="nav-link">Maintain Office</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-departments')}}" class="nav-link">Departments</a></li>

@@ -54,14 +54,14 @@ class CompanyProfileController extends Controller
         if($request->id){
             $this->update($request);
         }else{
-            $addressdata = $request->except(['facebook', 'linkedin', 'twitter', 'website', 'youtube', 'companyLogo', 'user_id', 'company_name', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
-            $address = tbladdress::create($addressdata);
+            /* $addressdata = $request->except(['facebook', 'linkedin', 'twitter', 'website', 'youtube', 'companyLogo', 'user_id', 'company_name', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
+            $address = tbladdress::create($addressdata); */
         
-            $socialmediadata = $request->except(['address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code', 'companyLogo', 'user_id', 'company_name', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
-            $social = tblsocialmedias::create($socialmediadata);
+            /* $socialmediadata = $request->except(['address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code', 'companyLogo', 'user_id', 'company_name', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
+            $social = tblsocialmedias::create($socialmediadata); */
             
-            $contactdata = $request->except(['address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code', 'companyLogo', 'user_id', 'company_name', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
-            $contact = tblcontact::create($contactdata);
+            /* $contactdata = $request->except(['address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code', 'companyLogo', 'user_id', 'company_name', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
+            $contact = tblcontact::create($contactdata); */
 
             $companydata = $request->except(['phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email','facebook', 'linkedin', 'twitter', 'website', 'youtube', 'address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code']);
             $companydata['address_id'] = $address->id;
