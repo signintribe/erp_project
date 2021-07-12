@@ -837,26 +837,31 @@ BEGIN
       )AS office ON office.company_id = company.id JOIN(
         SELECT id, office_id, department_name 
         FROM tbldepartmens
-      ) AS dept ON dept.office_id = office.id JOIN (
+      ) AS dept ON dept.office_id = office.id JOIN(
+        SELECT id, department_id, group_name 
+        FROM erp_employee_groups
+      ) AS grp ON grp.department_id = dept.id JOIN (
         SELECT * FROM erp_employee_payscales WHERE id = payscale_id
-      ) AS payscale ON payscale.department_id = dept.id;
+      ) AS payscale ON payscale.group_id = grp.id;
     ELSE
       SELECT 
       company.company_name, company.id as company_id, 
       office.office_name, office.id as office_id, 
       dept.department_name, payscale.* FROM (
         SELECT id, company_name 
-        FROM tblcompanydetails 
-        WHERE user_id = userid
+        FROM tblcompanydetails WHERE user_id = userid
       ) AS company JOIN (
         SELECT id, company_id, office_name 
         FROM tblmaintain_offices
       )AS office ON office.company_id = company.id JOIN(
         SELECT id, office_id, department_name 
         FROM tbldepartmens
-      ) AS dept ON dept.office_id = office.id JOIN (
+      ) AS dept ON dept.office_id = office.id JOIN(
+        SELECT id, department_id, group_name 
+        FROM erp_employee_groups
+      ) AS grp ON grp.department_id = dept.id JOIN (
         SELECT * FROM erp_employee_payscales
-      ) AS payscale ON payscale.department_id = dept.id;
+      ) AS payscale ON payscale.group_id = grp.id;
     END IF;
 END$$
 DELIMITER ;

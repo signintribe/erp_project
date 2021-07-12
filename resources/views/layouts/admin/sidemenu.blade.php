@@ -27,6 +27,18 @@
             </a>
         </li> 
         <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Creation-Tier" aria-expanded="false" aria-controls="Creation Tier">
+                <i class="fa fa-building-o menu-icon"></i>
+                <span class="menu-title">Creation Tier</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Creation-Tier">
+                <ul class="nav flex-column sub-menu">
+                    
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#Child-Companies" aria-expanded="false" aria-controls="Employee-Center">
                 <i class="fa fa-building-o menu-icon"></i>
                 <span class="menu-title">Company</span>
@@ -38,14 +50,11 @@
                     <li class="nav-item"> <a href="{{url('company/company-registration')}}" class="nav-link">Company Registration</a></li>
                     <li class="nav-item"> <a href="{{url('company/maintain-office')}}" class="nav-link">Maintain Office</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-departments')}}" class="nav-link">Departments</a></li>
-                    <li class="nav-item"> <a href="{{url('company/employee-group')}}" class="nav-link">Employee Group</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-calander')}}" class="nav-link">Company Calander</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-shift')}}" class="nav-link">Company Shift</a></li>
-                    <li class="nav-item"> <a href="{{url('company/employee-payscale')}}" class="nav-link">Employee Payscale</a></li>
-                    <li class="nav-item"> <a href="{{url('company/employee-jd')}}" class="nav-link">Employee JD's</a></li>
+                    <li class="nav-item"> <a href="{{url('create-chart-account')}}" class="nav-link">Chart of Account</a></li>
                     <li class="nav-item"> <a href="{{url('company/gazzeted-holiday')}}" class="nav-link">Gazzeted Holiday</a></li>
                     <li class="nav-item"> <a href="{{url('company/yearly-leave')}}" class="nav-link">Yearly Leave</a></li>
-                    <li class="nav-item"> <a href="{{url('company/pay-allowance-deduction')}}" class="nav-link">Pay, Allowance, Deduction</a></li>
                 </ul>
             </div>
         </li>
@@ -57,6 +66,10 @@
             </a>
             <div class="collapse" id="Employee-Center">
                 <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('hr/employee-group')}}" class="nav-link">Employee Group</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/employee-payscale')}}" class="nav-link">Employee Payscale</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/employee-jd')}}" class="nav-link">Employee JD's</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/pay-allowance-deduction')}}" class="nav-link">Pay, Allowance, Deduction</a></li>
                     <li class="nav-item"> <a href="{{url('hr/employee-personal-information')}}" class="nav-link">Employee Information </a></li>
                     <li class="nav-item"> <a href="{{url('hr/employees-addresses')}}" class="nav-link">Employee Address</a></li>
                     <li class="nav-item"> <a href="{{url('hr/spouse-detail')}}" class="nav-link">Spouse Detail</a></li>
@@ -258,7 +271,6 @@
             </a>
             <div class="collapse" id="finance">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a href="{{url('create-chart-account')}}" class="nav-link">Chart of Account</a></li>
                     <li class="nav-item"> <a href="{{url('Add-general-Journal-Entry')}}" class="nav-link">General Journal Entries</a></li>
                 </ul>
             </div>
@@ -282,6 +294,12 @@
                     <li class="nav-item"> <a class="nav-link" href="{{url('fixed-asset')}}">Fixed Asset</a></li>
                 </ul>
             </div>
+        </li>
+        <li class="nav-item">
+            <a href="{{url('user-rights-privileges')}}" class="nav-link">
+                <i class="fa fa-user-secret menu-icon"></i>
+                <span class="menu-title">User Rights Privileges</span>
+            </a>
         </li>
 
         <!--        <li class="nav-item">

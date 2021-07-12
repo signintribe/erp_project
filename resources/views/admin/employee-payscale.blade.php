@@ -44,13 +44,13 @@
                     <input type="text" ng-model="payscale.payscale_name" id="payscale_name" class="form-control" placeholder="Payscale Name">
                     <i class="text-danger" ng-show="!payscale.payscale_name && showError"><small>Please Type Group Name</small></i>
                 </div>
+            </div><br>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="initial_pay">* Initial Pay</label>
                     <input type="text" ng-model="payscale.initial_pay" id="initial_pay" class="form-control" placeholder="Initial Pay">
                     <i class="text-danger" ng-show="!payscale.initial_pay && showError"><small>Please Type Initial Pay</small></i>
                 </div>
-            </div><br>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="annual_increments">Anual Payscale</label>
                     <input type="text" ng-model="payscale.annual_increments" id="annual_increments" class="form-control" placeholder="Annual Increments">
@@ -63,12 +63,12 @@
                     <label for="complete_payscale">Complete payscale</label>
                     <input type="text" ng-model="payscale.complete_payscale" id="complete_payscale" class="form-control" placeholder="Complete payscale">
                 </div>
+            </div><br>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="number_stage">No. of Stages</label>
                     <input type="text" ng-model="payscale.number_stage" id="complete_payscale" class="form-control" placeholder="No. of Stages">
                 </div>
-            </div><br>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="implementation_year">Year of Implementation</label>
                     <select ng-model="payscale.implementation_year" id="implementation_year" class="form-control">
@@ -178,7 +178,7 @@
         $scope.payscale = {};
         $scope.app_url = $("#appurl").val();
         $scope.all_companies = function () {
-            $http.get('getcompanyinfo').then(function (response) {
+            $http.get($scope.app_url + 'company/getcompanyinfo').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.companies = response.data;
                 }
@@ -188,7 +188,7 @@
 
         $scope.getoffice = function (company_id) {
             $scope.offices = {};
-            $http.get('getoffice/'+company_id).then(function (response) {
+            $http.get($scope.app_url + 'company/getoffice/'+company_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.offices = response.data;
                 }
@@ -197,7 +197,7 @@
         
         $scope.getDepartments = function (office_id) {
             $scope.departments = {};
-            $http.get('get-departments/'+office_id).then(function (response) {
+            $http.get($scope.app_url + 'company/get-departments/'+office_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.departments = response.data;
                 }
@@ -206,7 +206,7 @@
 
         $scope.getGroups = function (dep_id) {
             $scope.groups = {};
-            $http.get('get-groups/' + dep_id).then(function (response) {
+            $http.get($scope.app_url + 'company/get-groups/' + dep_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.groups = response.data;
                 }
@@ -214,7 +214,7 @@
         };
 
         $scope.get_payscale = function(){
-            $http.get('maintain-payscale').then(function (response) {
+            $http.get($scope.app_url + 'company/maintain-payscale').then(function (response) {
                 if(response.data.length > 0){
                     $scope.payscales = response.data;
                 }
@@ -222,7 +222,7 @@
         }
 
         $scope.editPayscale = function(id){
-            $http.get('maintain-payscale/'+ id + '/edit').then(function (response) {
+            $http.get($scope.app_url + 'company/maintain-payscale/'+ id + '/edit').then(function (response) {
                 $scope.payscale = response.data[0];
                 $scope.payscale.company_id = parseInt($scope.payscale.company_id);
                 $scope.payscale.office_id = parseInt($scope.payscale.office_id);
@@ -245,7 +245,7 @@
                 angular.forEach($scope.payscale, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('maintain-payscale', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post($scope.app_url + 'company/maintain-payscale', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     $scope.get_payscale();
                     swal({
                         title: "Save!",
@@ -268,7 +268,7 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('maintain-payscale/'+id).then(function (response) {
+                $http.delete($scope.app_url + 'company/maintain-payscale/'+id).then(function (response) {
                     $scope.get_payscale();
                     swal("Deleted!", response.data, "success");
                 });
