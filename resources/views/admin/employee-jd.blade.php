@@ -155,7 +155,7 @@
 
         $scope.getoffice = function (company_id) {
             $scope.offices = {};
-            $http.get('getoffice/'+company_id).then(function (response) {
+            $http.get($scope.app_url + 'company/getoffice/'+company_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.offices = response.data;
                 }
@@ -164,7 +164,7 @@
         
         $scope.getDepartments = function (office_id) {
             $scope.departments = {};
-            $http.get('get-departments/'+office_id).then(function (response) {
+            $http.get($scope.app_url + 'company/get-departments/'+office_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.departments = response.data;
                 }
@@ -173,7 +173,7 @@
 
         $scope.getGroups = function (dep_id) {
             $scope.groups = {};
-            $http.get('get-groups/' + dep_id).then(function (response) {
+            $http.get($scope.app_url + 'company/get-groups/' + dep_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.groups = response.data;
                 }
@@ -181,7 +181,7 @@
         };
 
         $scope.get_jds = function(){
-            $http.get('maintain-jds').then(function (response) {
+            $http.get($scope.app_url + 'company/maintain-jds').then(function (response) {
                 if(response.data.length > 0){
                     $scope.alljds = response.data;
                 }
@@ -189,7 +189,7 @@
         }
 
         $scope.editJD = function(id){
-            $http.get('maintain-jds/'+ id + '/edit').then(function (response) {
+            $http.get($scope.app_url + 'company/maintain-jds/'+ id + '/edit').then(function (response) {
                 $scope.jds = response.data[0];
                 $scope.jds.company_id = parseInt($scope.jds.company_id);
                 $scope.jds.office_id = parseInt($scope.jds.office_id);
@@ -211,7 +211,7 @@
                 angular.forEach($scope.jds, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('maintain-jds', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post($scope.app_url + 'company/maintain-jds', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     $scope.get_jds();
                     swal({
                         title: "Save!",
@@ -234,7 +234,7 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('maintain-jds/'+id).then(function (response) {
+                $http.delete($scope.app_url + 'company/maintain-jds/'+id).then(function (response) {
                     $scope.get_jds();
                     swal("Deleted!", response.data, "success");
                 });

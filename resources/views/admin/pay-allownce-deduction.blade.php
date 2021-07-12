@@ -149,7 +149,7 @@
 
         $scope.getoffice = function (company_id) {
             $scope.offices = {};
-            $http.get('getoffice/'+company_id).then(function (response) {
+            $http.get($scope.app_url + 'company/getoffice/'+company_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.offices = response.data;
                 }
@@ -158,7 +158,7 @@
         
         $scope.getDepartments = function (office_id) {
             $scope.departments = {};
-            $http.get('get-departments/'+office_id).then(function (response) {
+            $http.get($scope.app_url + 'company/get-departments/'+office_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.departments = response.data;
                 }
@@ -167,7 +167,7 @@
 
         $scope.getGroups = function (dep_id) {
             $scope.groups = {};
-            $http.get('get-groups/' + dep_id).then(function (response) {
+            $http.get($scope.app_url + 'company/get-groups/' + dep_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.groups = response.data;
                 }
@@ -194,7 +194,7 @@
         }; */
 
         $scope.get_payallowance = function(){
-            $http.get('maintain-allowance-deducation').then(function (response) {
+            $http.get($scope.app_url + 'company/maintain-allowance-deducation').then(function (response) {
                 if(response.data.length > 0){
                     $scope.pays = response.data;
                 }
@@ -202,7 +202,7 @@
         };
 
         $scope.get_calendars = function(dept_id){
-            $http.get('get-calendar/' + dept_id).then(function (response) {
+            $http.get($scope.app_url + 'company/get-calendar/' + dept_id).then(function (response) {
                 if(response.data.length > 0){
                     $scope.calendars = response.data;
                 }
@@ -210,7 +210,7 @@
         };
 
         $scope.get_shifts = function(dept_id){
-            $http.get('get-shift/' +dept_id).then(function (response) {
+            $http.get($scope.app_url + 'company/get-shift/' +dept_id).then(function (response) {
                 if(response.data.length > 0){
                     $scope.shifts = response.data;
                 }
@@ -234,7 +234,7 @@
         };
 
         $scope.editpayallowance = function(id){
-            $http.get('maintain-allowance-deducation/'+ id + '/edit').then(function (response) {
+            $http.get($scope.app_url + 'company/maintain-allowance-deducation/'+ id + '/edit').then(function (response) {
                 $scope.pld = response.data[0];
                 $scope.pld.company_id = parseInt($scope.pld.company_id);
                 $scope.pld.office_id = parseInt($scope.pld.office_id);
@@ -257,7 +257,7 @@
                 angular.forEach($scope.pld, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('maintain-allowance-deducation', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post($scope.app_url + 'company/maintain-allowance-deducation', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     $scope.get_payallowance();
                     swal({
                         title: "Save!",
@@ -280,7 +280,7 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('maintain-allowance-deducation/'+id).then(function (response) {
+                $http.delete($scope.app_url + 'company/maintain-allowance-deducation/'+id).then(function (response) {
                     $scope.get_payallowance();
                     swal("Deleted!", response.data, "success");
                 });

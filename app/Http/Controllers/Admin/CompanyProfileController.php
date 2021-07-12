@@ -52,7 +52,20 @@ class CompanyProfileController extends Controller
     public function store(Request $request)
     {
         if($request->id){
-            $this->update($request);
+            //$this->update($request);
+            if ($request->hasFile('companyLogo')) {
+                $current = date('ymd') . rand(1, 999999) . time();
+                $file = $request->file('companyLogo');
+                $imgname = $current . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('/company_logs'), $imgname);
+                $companydata['company_logo'] = $imgname;
+                $file_path = public_path("company_logs/" . $request->company_logo);
+                File::exists($file_path) ? File::delete($file_path) : '';
+            }    
+            $companydata = $request->except(['id','user_id','companyLogo', 'created_at', 'updated_at']);
+            $companydata['company_logo'] = $imgname;
+            tblcompanydetail::where('id', $request->id)->update($companydata);
+            return 'Company Profile Updated';
         }else{
             /* $addressdata = $request->except(['facebook', 'linkedin', 'twitter', 'website', 'youtube', 'companyLogo', 'user_id', 'company_name', 'phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
             $address = tbladdress::create($addressdata); */
@@ -63,10 +76,11 @@ class CompanyProfileController extends Controller
             /* $contactdata = $request->except(['address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code', 'companyLogo', 'user_id', 'company_name', 'office_timing', 'established', 'address', 'desription', 'company_logo']);
             $contact = tblcontact::create($contactdata); */
 
-            $companydata = $request->except(['phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email','facebook', 'linkedin', 'twitter', 'website', 'youtube', 'address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code']);
-            $companydata['address_id'] = $address->id;
+            $companydata = $request->all();
+            //except(['phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email','facebook', 'linkedin', 'twitter', 'website', 'youtube', 'address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code']);
+            /* $companydata['address_id'] = $address->id;
             $companydata['social_id'] = $social->id;
-            $companydata['contact_id'] = $contact->id;
+            $companydata['contact_id'] = $contact->id; */
             $companydata['user_id'] = Auth::user()->id;
 
             if ($request->hasFile('companyLogo')) {
