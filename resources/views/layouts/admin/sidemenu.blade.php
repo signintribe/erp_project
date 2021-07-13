@@ -26,18 +26,12 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li> 
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#Creation-Tier" aria-expanded="false" aria-controls="Creation Tier">
-                <i class="fa fa-building-o menu-icon"></i>
-                <span class="menu-title">Creation Tier</span>
-                <i class="menu-arrow"></i>
+        <li class="nav-item" style=" background-color: #4b4b4b">
+            <a class="nav-link" href="">
+                <i class="fa fa-list menu-icon"></i>
+                <span class="menu-title" style="font-weight:bold;">Creation Tier</span>
             </a>
-            <div class="collapse" id="Creation-Tier">
-                <ul class="nav flex-column sub-menu">
-                    
-                </ul>
-            </div>
-        </li>
+        </li> 
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#Child-Companies" aria-expanded="false" aria-controls="Employee-Center">
                 <i class="fa fa-building-o menu-icon"></i>
@@ -134,6 +128,48 @@
             </div>
         </li>
         <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#AddLogistics" aria-expanded="false" aria-controls="AddLogistics">
+                <i class="fa fa-bus menu-icon"></i>
+                <span class="menu-title">Logistics</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="AddLogistics">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('add-logistic')}}" class="nav-link">Add Logistics</a></li>
+                    <li class="nav-item"> <a href="{{url('view-logistic')}}" class="nav-link">View Logistics</a></li>
+                    <!-- <li class="nav-item"> <a href="{{url('freight-forward-det')}}" class="nav-link">Freight Forward Det</a></li>
+                    <li class="nav-item"> <a href="{{url('customer-clearance')}}" class="nav-link">Customer Clearance</a></li>
+                    <li class="nav-item"> <a href="{{url('carriage-company')}}" class="nav-link">Carriage Company</a></li>
+                    <li class="nav-item"> <a href="{{url('viewfreightforwarddet')}}" class="nav-link">View Freight Forward Det</a></li>
+                    <li class="nav-item"> <a href="{{url('viewcustomerclearance')}}" class="nav-link">View Customer Clearance</a></li>
+                    <li class="nav-item"> <a href="{{url('viewcarriagecompany')}}" class="nav-link">View Carriage Company</a></li> -->
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#mmform" aria-expanded="false" aria-controls="mmform">
+                <i class="fa fa-cube menu-icon"></i>
+                <span class="menu-title">MM Forms</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="mmform">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('store-requisition')}}" class="nav-link">Store Requisition</a></li>
+                    <li class="nav-item"> <a href="{{url('material-issue')}}" class="nav-link">Material Issue</a></li>
+                    <li class="nav-item"> <a href="{{url('material-returned')}}" class="nav-link">Material Returned</a></li>
+                    <li class="nav-item"> <a href="{{url('view-storerequisition')}}" class="nav-link">View Store Requisition</a></li>
+                    <li class="nav-item"> <a href="{{url('view-materialissue')}}" class="nav-link">View Material Issue</a></li>
+                    <li class="nav-item"> <a href="{{url('view-materialreturned')}}" class="nav-link">View Material Returned</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item" style=" background-color: #4b4b4b">
+            <a class="nav-link" href="">
+                <i class="fa fa-list menu-icon"></i>
+                <span class="menu-title" style="font-weight:bold;">Task Tier</span>
+            </a>
+        </li> 
+        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#Inventory-Center" aria-expanded="false" aria-controls="Inventory-Center">
                 <i class="fa fa-cubes menu-icon"></i>
                 <span class="menu-title">Inventory Center</span>
@@ -188,41 +224,49 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#AddLogistics" aria-expanded="false" aria-controls="AddLogistics">
-                <i class="fa fa-bus menu-icon"></i>
-                <span class="menu-title">Logistics</span>
+            <a class="nav-link" data-toggle="collapse" href="#finance" aria-expanded="false" aria-controls="finance">
+                <i class="mdi mdi-chart-pie menu-icon"></i>
+                <span class="menu-title">Finance</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="AddLogistics">
+            <div class="collapse" id="finance">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a href="{{url('add-logistic')}}" class="nav-link">Add Logistics</a></li>
-                    <li class="nav-item"> <a href="{{url('view-logistic')}}" class="nav-link">View Logistics</a></li>
-                    <!-- <li class="nav-item"> <a href="{{url('freight-forward-det')}}" class="nav-link">Freight Forward Det</a></li>
-                    <li class="nav-item"> <a href="{{url('customer-clearance')}}" class="nav-link">Customer Clearance</a></li>
-                    <li class="nav-item"> <a href="{{url('carriage-company')}}" class="nav-link">Carriage Company</a></li>
-                    <li class="nav-item"> <a href="{{url('viewfreightforwarddet')}}" class="nav-link">View Freight Forward Det</a></li>
-                    <li class="nav-item"> <a href="{{url('viewcustomerclearance')}}" class="nav-link">View Customer Clearance</a></li>
-                    <li class="nav-item"> <a href="{{url('viewcarriagecompany')}}" class="nav-link">View Carriage Company</a></li> -->
+                    <li class="nav-item"> <a href="{{url('Add-general-Journal-Entry')}}" class="nav-link">General Journal Entries</a></li>
                 </ul>
             </div>
         </li>
+        <li class="nav-item" style=" background-color: #4b4b4b">
+            <a class="nav-link" href="">
+                <i class="fa fa-list menu-icon"></i>
+                <span class="menu-title" style="font-weight:bold;">Report Tier</span>
+            </a>
+        </li> 
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#mmform" aria-expanded="false" aria-controls="mmform">
-                <i class="fa fa-cube menu-icon"></i>
-                <span class="menu-title">MM Forms</span>
+            <a class="nav-link" data-toggle="collapse" href="#financeReports" aria-expanded="false" aria-controls="financeReports">
+                <i class="mdi mdi-file menu-icon"></i>
+                <span class="menu-title">Finance Reports</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="mmform">
+            <div class="collapse" id="financeReports">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a href="{{url('store-requisition')}}" class="nav-link">Store Requisition</a></li>
-                    <li class="nav-item"> <a href="{{url('material-issue')}}" class="nav-link">Material Issue</a></li>
-                    <li class="nav-item"> <a href="{{url('material-returned')}}" class="nav-link">Material Returned</a></li>
-                    <li class="nav-item"> <a href="{{url('view-storerequisition')}}" class="nav-link">View Store Requisition</a></li>
-                    <li class="nav-item"> <a href="{{url('view-materialissue')}}" class="nav-link">View Material Issue</a></li>
-                    <li class="nav-item"> <a href="{{url('view-materialreturned')}}" class="nav-link">View Material Returned</a></li>
+                    <li class="nav-item"><a href="{{url('finance-report')}}" class="nav-link">Report Chart Account</a></li>
+                    <li  class="nav-item"><a href="{{url('report-general-journal')}}" class="nav-link">Report General Journal</a></li>
+                    <li  class="nav-item"><a href="{{url('getGeneral-ledger-report')}}" class="nav-link">Report General Ledger</a></li>
+                    <li  class="nav-item"><a href="{{url('Trial-Balance')}}" class="nav-link">Report Trial Balance </a></li>
+                    <!--<li class="nav-item"> <a class="nav-link" href="{{url('balance-sheet')}}">Balance Sheet</a></li>-->
+                    <li class="nav-item"> <a class="nav-link" href="{{url('advance-reports')}}">Advance Report</a></li>
+                    <!--                    <li class="nav-item"> <a class="nav-link" href="{{url('income-statement')}}">Income Statement</a></li>
+                                        <li class="nav-item"> <a class="nav-link" href="{{url('cash-flow')}}">Cash Flow</a></li>-->
+                    <li class="nav-item"> <a class="nav-link" href="{{url('fixed-asset')}}">Fixed Asset</a></li>
                 </ul>
             </div>
         </li>
+        <li class="nav-item" style=" background-color: #4b4b4b">
+            <a class="nav-link" href="">
+                <i class="fa fa-list menu-icon"></i>
+                <span class="menu-title" style="font-weight:bold;">User Auth Tier</span>
+            </a>
+        </li> 
         <!--<li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#HR" aria-expanded="false" aria-controls="HR">
                 <i class="mdi mdi-chart-pie menu-icon"></i>
@@ -265,38 +309,6 @@
                 <span class="menu-title">Complaints</span>
             </a>
         </li>-->
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#finance" aria-expanded="false" aria-controls="finance">
-                <i class="mdi mdi-chart-pie menu-icon"></i>
-                <span class="menu-title">Finance</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="finance">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a href="{{url('Add-general-Journal-Entry')}}" class="nav-link">General Journal Entries</a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#financeReports" aria-expanded="false" aria-controls="financeReports">
-                <i class="mdi mdi-file menu-icon"></i>
-                <span class="menu-title">Finance Reports</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="financeReports">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a href="{{url('finance-report')}}" class="nav-link">Report Chart Account</a></li>
-                    <li  class="nav-item"><a href="{{url('report-general-journal')}}" class="nav-link">Report General Journal</a></li>
-                    <li  class="nav-item"><a href="{{url('getGeneral-ledger-report')}}" class="nav-link">Report General Ledger</a></li>
-                    <li  class="nav-item"><a href="{{url('Trial-Balance')}}" class="nav-link">Report Trial Balance </a></li>
-                    <!--<li class="nav-item"> <a class="nav-link" href="{{url('balance-sheet')}}">Balance Sheet</a></li>-->
-                    <li class="nav-item"> <a class="nav-link" href="{{url('advance-reports')}}">Advance Report</a></li>
-                    <!--                    <li class="nav-item"> <a class="nav-link" href="{{url('income-statement')}}">Income Statement</a></li>
-                                        <li class="nav-item"> <a class="nav-link" href="{{url('cash-flow')}}">Cash Flow</a></li>-->
-                    <li class="nav-item"> <a class="nav-link" href="{{url('fixed-asset')}}">Fixed Asset</a></li>
-                </ul>
-            </div>
-        </li>
         <li class="nav-item">
             <a href="{{url('user-rights-privileges')}}" class="nav-link">
                 <i class="fa fa-user-secret menu-icon"></i>

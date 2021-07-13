@@ -145,7 +145,7 @@
         $scope.jds = {};
         $scope.app_url = $("#appurl").val();
         $scope.all_companies = function () {
-            $http.get('getcompanyinfo').then(function (response) {
+            $http.get($scope.app_url + 'company/getcompanyinfo').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.companies = response.data;
                 }
