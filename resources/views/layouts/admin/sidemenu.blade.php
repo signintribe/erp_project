@@ -26,10 +26,10 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li> 
-        <li class="nav-item" style=" background-color: #4b4b4b">
+        <li class="nav-item" style=" background-color: #2EBD71">
             <a class="nav-link" href="">
-                <i class="fa fa-list menu-icon"></i>
-                <span class="menu-title" style="font-weight:bold;">Creation Tier</span>
+                <i class="fa fa-list menu-icon" style="color:white"></i>
+                <span class="menu-title" style="font-weight:bold; color: white">Creation Tier</span>
             </a>
         </li> 
         <li class="nav-item">
@@ -163,10 +163,10 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item" style=" background-color: #4b4b4b">
+        <li class="nav-item" style=" background-color: #2EBD71">
             <a class="nav-link" href="">
-                <i class="fa fa-list menu-icon"></i>
-                <span class="menu-title" style="font-weight:bold;">Task Tier</span>
+                <i class="fa fa-list menu-icon" style="color:white"></i>
+                <span class="menu-title" style="font-weight:bold; color:white">Task Tier</span>
             </a>
         </li> 
         <li class="nav-item">
@@ -235,10 +235,10 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item" style=" background-color: #4b4b4b">
+        <li class="nav-item" style=" background-color: #2EBD71">
             <a class="nav-link" href="">
-                <i class="fa fa-list menu-icon"></i>
-                <span class="menu-title" style="font-weight:bold;">Report Tier</span>
+                <i class="fa fa-list menu-icon" style="color:white"></i>
+                <span class="menu-title" style="font-weight:bold; color:white">Report Tier</span>
             </a>
         </li> 
         <li class="nav-item">
@@ -261,10 +261,10 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item" style=" background-color: #4b4b4b">
+        <li class="nav-item" style=" background-color: #2EBD71">
             <a class="nav-link" href="">
-                <i class="fa fa-list menu-icon"></i>
-                <span class="menu-title" style="font-weight:bold;">User Auth Tier</span>
+                <i class="fa fa-list menu-icon" style="color:white"></i>
+                <span class="menu-title" style="font-weight:bold; color:white">User Auth Tier</span>
             </a>
         </li> 
         <!--<li class="nav-item">
