@@ -151,9 +151,9 @@
                     $("#companyname").attr('readonly', 'readonly');
                     $("#companyname").attr('disabled', 'disabled');
                     $scope.comLogo = $scope.app_url + 'public/company_logs/' + $scope.company.company_logo;
-                    $scope.get_companysocial($scope.company.social_id);
+                    /* $scope.get_companysocial($scope.company.social_id);
                     $scope.get_companyaddress($scope.company.address_id);
-                    $scope.get_companycontact($scope.company.contact_id);
+                    $scope.get_companycontact($scope.company.contact_id); */
                     $("#restrict").hide();
                     $("#updatebtn").show();
                     $("#ShowPrint").show();
@@ -211,7 +211,7 @@
 
         $scope.save_companyinfo = function () {
             console.log($scope.company);
-            if (!$scope.company.company_name || !$scope.company.phone_number || !$scope.company.mobile_number || !$scope.company.address_line_1 || !$scope.company.country || !$scope.company.linkedin || !$scope.company.website) {
+            if (!$scope.company.company_name) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;
@@ -233,7 +233,7 @@
         };
 
         $scope.update_companyinfo = function () {
-            if (!$scope.company.company_name || !$scope.company.phone_number || !$scope.company.mobile_number || !$scope.company.address_line_1 || !$scope.company.country || !$scope.company.linkedin || !$scope.company.website) {
+            if (!$scope.company.company_name) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;
