@@ -828,7 +828,7 @@ BEGIN
       SELECT 
       company.company_name, company.id as company_id, 
       office.office_name, office.id as office_id, 
-      dept.department_name, payscale.* FROM (
+      dept.department_name, payscale.*, dept.id AS department_id FROM (
         SELECT id, company_name 
         FROM tblcompanydetails
       ) AS company JOIN (
@@ -847,7 +847,7 @@ BEGIN
       SELECT 
       company.company_name, company.id as company_id, 
       office.office_name, office.id as office_id, 
-      dept.department_name, payscale.* FROM (
+      dept.department_name, payscale.*, dept.id AS department_id FROM (
         SELECT id, company_name 
         FROM tblcompanydetails WHERE user_id = userid
       ) AS company JOIN (

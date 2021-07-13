@@ -57,7 +57,7 @@ class PayScaleController extends Controller
             erp_employee_payscale::where('id', $request->id)->update($data);
             return "Employee Payscale Update Successfully";
         }else{
-            $data = $request->except(['company_id', 'office_id']);
+            $data = $request->except(['company_id', 'department_id', 'office_id']);
             $data['status'] = $data['status'] == 'true' ? 1 : 0;
             erp_employee_payscale::create($data);
             return "Employee Payscale Save Successfully";
