@@ -6,7 +6,30 @@
         <div class="card-body">
             <h3 class="card-title">View Inventory</h3>
             <div class="card-body table-responsive">
-                <table class="table table-bordered">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label for="search">Search</label>
+                    <div class="input-group">
+                      <input type="search" autofocus ng-model="barcode" ng-keyup="getInventory(barcode);" class="form-control form-control-lg" placeholder="Type your keywords here">
+                      <div class="input-group-append">
+                          <button type="button" ng-click="getInventory(barcode);" class="btn btn-lg btn-default">
+                              <i class="fa fa-search"></i>
+                          </button>
+                      </div>
+                    </div>
+                    <p ng-if="fillBox" ng-bind="fillBox" class="text text-danger"></p>
+                  </div>
+                </div><br/>
+                <p ng-if="noinventories">
+                  Your search - <strong ng-bind="noinventories"></strong> - did not match any documents. <br>
+
+                  Suggestions: <br>
+
+                  Make sure that all words are spelled correctly. <br>
+                  Try different keywords. <br>
+                  Try more general keywords.
+                </p>
+                <table class="table table-bordered" ng-if="allinventories">
                     <thead>
                         <tr>
                             <th>Sr#</th>
@@ -16,8 +39,8 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody ng-init="getInventoryInfo()">
-                        <tr ng-repeat="data in inventoryinfo">
+                    <tbody>
+                        <tr ng-repeat="data in allinventories">
                             <td ng-bind="$index+1"></td>
                             <td ng-bind="data.category_name" style="text-transform: capitalize;"></td>
                             <td ng-bind="data.product_name" style="text-transform: capitalize;"></td>
@@ -46,6 +69,18 @@
             $http.get('get-inventory').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.inventoryinfo = response.data;
+                }
+            });
+        };
+
+        $scope.getInventory = function (barcode) {
+            $http.get('search-inventory/' + barcode).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.allinventories = response.data;
+                    $scope.noinventories = "";
+                }else{
+                  $scope.noinventories = barcode;
+                  $scope.allinventories = "";
                 }
             });
         };

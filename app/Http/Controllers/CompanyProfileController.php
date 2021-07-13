@@ -48,6 +48,10 @@ class CompanyProfileController extends Controller {
         return view('user.view-company');
     }
 
+    public function comBankDetailView(){
+        return view('user.bank-detail');
+    }
+
     /**
      * 
      * @return type

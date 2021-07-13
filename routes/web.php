@@ -126,6 +126,7 @@ Route::get('add-inventory', 'InventoryController@index')->name('add-inventory');
 Route::get('get-inventory', 'InventoryController@getInventory');
 Route::get('get-inventory-info/{id}', 'InventoryController@editInventory');
 Route::delete('delete-inventory/{id}', 'InventoryController@deleteInventory');
+Route::get('search-inventory/{barcode}', 'InventoryController@searchInventory');
 Route::post('save-inventory', 'InventoryController@saveInventory');
 Route::get('view-inventory', 'InventoryController@view_inventory')->name('view-inventory');
 Route::get('get-stock/{id}', 'InventoryController@getStock');
@@ -277,6 +278,7 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('company-profile', 'CompanyProfileController@index')->name('companyProfile')->middleware('is_admin');
   Route::get('company-address', 'CompanyProfileController@comAddressView');
   Route::get('company-contact', 'CompanyProfileController@comContactView');
+  Route::get('company-bankdetail', 'CompanyProfileController@comBankDetailView');
   Route::get('check_user_approve', 'CompanyProfileController@check_user_approve')->name('checkuserapprove');
   Route::get('check_company/{company_name}', 'CompanyProfileController@check_company')->name('checkuserapprove');
   Route::get('getcompanyinfo', 'CompanyProfileController@getcompanyinfo')->name('getcompanyinfo');
@@ -293,6 +295,7 @@ Route::group(['prefix'=>'company'], function () {
   Route::resource('maintain-company', 'Admin\CompanyProfileController');
   Route::resource('maintain-company-address', 'Admin\CompanyAddressController');
   Route::resource('maintain-company-contact', 'Admin\CompanyContactController');
+  Route::resource('maintain-company-bankdetail', 'Admin\ComBankDetailController');
   Route::get('company-departments', 'Admin\DepartmentsController@index')->name('departments')->middleware('is_admin');
   Route::post('SaveDepartment', 'Admin\DepartmentsController@SaveDepartment')->name('SaveDepartment')->middleware('is_admin');
   Route::get('getdepartments', 'Admin\DepartmentsController@getdepartments')->name('getdepartments')->middleware('is_admin');

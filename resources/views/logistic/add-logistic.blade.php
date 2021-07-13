@@ -7,12 +7,13 @@
             <h3 class="card-title">Organization Information</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="logistic_type">Logistic Type</label>
+                    <label for="logistic_type">Logistic</label>
                     <select id="logistic_type" class="form-control" ng-model="logistic.logistic_type">
-                        <option value="">Logistic Type</option>
+                        <option value="">Logistic</option>
                         <option value="Freight Forward Det">Freight Forward Det</option>
                         <option value="Customer Clearance">Customer Clearance</option>
                         <option value="Carriage Company">Carriage Company</option>
+                        <option value="Courier">courier</option>
                     </select>
                 </div> 
                 <div class="col-lg-3 col-md-3 col-sm-3">
@@ -173,18 +174,19 @@
                     <input type="text" class="form-control" id="instagram" ng-model="logistic.instagram" placeholder="Instagram"/>
                 </div>
             </div><br/>
-        </div>
-    </div><br/>
-    <div class="card">
-        <div class="card-body">
-            <h3 class="card-title">Select product categories and attributes</h3>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <button type="button" class="btn btn-sm btn-success float-right" ng-click="saveLogistic()">Save</button>
                 </div>
             </div>
         </div>
-    </div>
+    </div><br/>
+    <!-- <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Select product categories and attributes</h3>
+            
+        </div>
+    </div> -->
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>

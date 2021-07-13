@@ -6,10 +6,15 @@
         <div class="card-body">
             <h3 class="card-title">Product Information</h3>
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label for="barcode_id">* Barcode Id</label>
+                    <input type="text" class="form-control" id="barcode_id" ng-model="inventory.barcode_id" placeholder="Product Barcode Id"/>
+                    <i class="text-danger" ng-show="!inventory.barcode_id && showError"><small>Please Type Product Barcode Id</small></i>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="product_name">* Name of Product/Service</label>
                     <input type="text" class="form-control" id="product_name" ng-model="inventory.product_name" placeholder="Name of Product/Service"/>
-                    <i class="text-danger" ng-show="!inventory.product_name && showError"><small>Please Type Product Name</small></i>
+                    <i class="text-danger" ng-show="!inventory.product_name && showError"><small>Please Type Product Name</small></i>                
                 </div>
             </div><br/>
             <div class="row">
