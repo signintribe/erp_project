@@ -8,6 +8,7 @@ class tblcompany_bankdetail extends Model
 {
     protected $fillable = [
         'com_id',
+        'bank_name',
         'address_id',
         'contact_id',
         'social_id',

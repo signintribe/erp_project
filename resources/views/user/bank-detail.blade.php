@@ -340,7 +340,7 @@
                 angular.forEach($scope.company, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('maintain-company-contact', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post('maintain-company-bankdetail', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data,
