@@ -22,7 +22,6 @@ class ComBankDetailController extends Controller
     public function index()
     {
         return DB::select('SELECT bankdetail.*,company.company_name, addresses.address_line_1,addresses.address_line_2,addresses.address_line_3,addresses.street,addresses.sector,addresses.city,addresses.state,addresses.country,addresses.postal_code,addresses.zip_code, contacts.phone_number,contacts.mobile_number,contacts.fax_number,contacts.whatsapp,contacts.email, socials.website,socials.twitter,socials.instagram,socials.facebook,socials.linkedin,socials.pinterest,socials.youtube FROM (SELECT * FROM `tblcompany_bankdetails`) AS bankdetail JOIN(SELECT id,address_line_1,address_line_2,address_line_3,street,sector,city,state,country,postal_code,zip_code  FROM tbladdresses) AS addresses ON addresses.id = bankdetail.address_id JOIN(SELECT id,phone_number,mobile_number,fax_number,whatsapp,email FROM tblcontacts) AS contacts ON contacts.id = bankdetail.contact_id JOIN(SELECT id,website,twitter,instagram,facebook,linkedin,pinterest,youtube FROM tblsocialmedias) AS socials ON socials.id = bankdetail.social_id JOIN(SELECT id, company_name FROM tblcompanydetails) as company ON company.id = bankdetail.com_id');
-
     }
 
     /**
@@ -46,10 +45,10 @@ class ComBankDetailController extends Controller
         //return $request->all();
         $company = tblcompanydetail::where('user_id', Auth::user()->id)->first();
         if($request->id){
-            $bankdetail = $request->except('id','com_id','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest','youtube','created_at','updated_at');
-            $address = $request->except('id','com_id','bank_name','phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest','youtube','created_at','updated_at');
-            $contact = $request->except('id','com_id','bank_name','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','website','twitter','instagram','facebook','linkedin','pinterest','youtube','created_at','updated_at');
-            $social = $request->except('id','com_id','bank_name','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email','created_at','updated_at');
+            $bankdetail = $request->except('id','company_name','address_id','contact_id','social_id','com_id','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest','youtube','created_at','updated_at');
+            $address = $request->except('id','com_id','company_name','address_id','contact_id','social_id','bank_name','phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest','youtube','created_at','updated_at');
+            $contact = $request->except('id','com_id','company_name','address_id','contact_id','social_id','bank_name','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','website','twitter','instagram','facebook','linkedin','pinterest','youtube','created_at','updated_at');
+            $social = $request->except('id','com_id','company_name','address_id','contact_id','social_id','bank_name','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email','created_at','updated_at');
             tblcompany_bankdetail::where('id', $request->id)->update($bankdetail);
             tbladdress::where('id', $request->address_id)->update($address);
             tblcontact::where('id', $request->contact_id)->update($contact);
@@ -91,7 +90,15 @@ class ComBankDetailController extends Controller
      */
     public function edit($id)
     {
-        //
+        return DB::select('SELECT bankdetail.*,company.company_name, addresses.address_line_1,addresses.address_line_2,addresses.address_line_3,addresses.street,addresses.sector,addresses.city,addresses.state,addresses.country,addresses.postal_code,addresses.zip_code,
+         contacts.phone_number,contacts.mobile_number,contacts.fax_number,contacts.whatsapp,contacts.email,
+          socials.website,socials.twitter,socials.instagram,socials.facebook,socials.linkedin,socials.pinterest,socials.youtube
+           FROM (SELECT * FROM `tblcompany_bankdetails` where id = '.$id.') AS bankdetail JOIN(
+            SELECT id,address_line_1,address_line_2,address_line_3,street,sector,city,state,country,postal_code,zip_code  FROM tbladdresses) AS addresses ON addresses.id = bankdetail.address_id JOIN(
+            SELECT id,phone_number,mobile_number,fax_number,whatsapp,email FROM tblcontacts) AS contacts ON contacts.id = bankdetail.contact_id JOIN(
+            SELECT id,website,twitter,instagram,facebook,linkedin,pinterest,youtube FROM tblsocialmedias) AS socials ON socials.id = bankdetail.social_id JOIN(
+            SELECT id, company_name FROM tblcompanydetails) as company ON company.id = bankdetail.com_id');
+
     }
 
     /**
@@ -114,6 +121,11 @@ class ComBankDetailController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $bank = tblcompany_bankdetail::where('id', $id)->first();
+        tblcompany_bankdetail::where('id', $bank->id)->delete();
+        tbladdress::where('id', $bank->address_id)->delete();
+        tblcontact::where('id', $bank->contact_id)->delete();
+        tblsocialmedias::where('id', $bank->social_id)->delete();
+        return 'Delete';
     }
 }

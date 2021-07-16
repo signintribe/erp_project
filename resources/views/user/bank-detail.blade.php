@@ -191,15 +191,16 @@
         </div>
     </div><br/>
     <div class="card d-print-none">
-        <div class="card-body" ng-init="get_companycontact();">
+        <div class="card-body" ng-init="get_comBankDetail();">
             <h3 class="card-title">Company Contacts</h3>
             <small class="text text-danger" ng-bind="deletemessage" ng-if="deletemessage"></small>
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Sr#</th>
-                        <th>Company ID</th>
                         <th>Company Name</th>
+                        <th>Bank Name</th>
+                        <th>Bank Address</th>
                         <th>Mobile Number</th>
                         <th>Email</th>
                         <th>Website</th>
@@ -209,8 +210,9 @@
                 <tbody>
                     <tr ng-repeat="company in contacts">
                         <td ng-bind="$index + 1"></td>
-                        <td ng-bind="company.com_id"></td>
                         <td ng-bind="company.company_name"></td>
+                        <td ng-bind="company.bank_name"></td>
+                        <td ng-bind="company.address_line_1"></td>
                         <td ng-bind="company.mobile_number"></td>
                         <td ng-bind="company.email"></td>
                         <td ng-bind="company.website"></td>
@@ -242,7 +244,7 @@
             });
         };
 
-        $scope.get_companycontact = function () {
+        $scope.get_comBankDetail = function () {
             $http.get('maintain-company-bankdetail').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.contacts = response.data;
@@ -262,11 +264,11 @@
             },
             function(){
                 $http.delete('maintain-company-bankdetail/' + id).then(function (response) {
-                    $scope.get_companycontact();
                     if(response.data){
-                        swal("Delete!", response.data.message, "success");
+                        swal("Delete!", response.data, "success");
+                        $scope.get_comBankDetail();
                     }else{
-                        swal("Not Delete!", response.data.message, "error");
+                        swal("Not Delete!", response.data, "error");
                     }
                 });
             });
@@ -346,7 +348,8 @@
                         text: res.data,
                         type: "success"
                     });
-                    $scope.get_companycontact();
+                    $scope.company = {};
+                    $scope.get_comBankDetail();
                 });
             }
         };
