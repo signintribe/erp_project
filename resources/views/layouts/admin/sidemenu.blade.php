@@ -48,6 +48,7 @@
                     <li class="nav-item"> <a href="{{url('company/maintain-office')}}" class="nav-link">Maintain Office</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-departments')}}" class="nav-link">Departments</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-calander')}}" class="nav-link">Company Calander</a></li>
+                    <li class="nav-item"> <a href="{{url('company/employee-group')}}" class="nav-link">Employee Group</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-shift')}}" class="nav-link">Company Shift</a></li>
                     <li class="nav-item"> <a href="{{url('create-chart-account')}}" class="nav-link">Chart of Account</a></li>
                     <li class="nav-item"> <a href="{{url('company/gazzeted-holiday')}}" class="nav-link">Gazzeted Holiday</a></li>
@@ -63,18 +64,18 @@
             </a>
             <div class="collapse" id="Employee-Center">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a href="{{url('hr/employee-group')}}" class="nav-link">Employee Group</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/employee-personal-information')}}" class="nav-link">Employee Information </a></li>
                     <li class="nav-item"> <a href="{{url('hr/employee-payscale')}}" class="nav-link">Employee Payscale</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/pay-emoluments')}}" class="nav-link">Pay and Emoluments</a></li>
                     <li class="nav-item"> <a href="{{url('hr/employee-jd')}}" class="nav-link">Employee JD's</a></li>
                     <li class="nav-item"> <a href="{{url('hr/pay-allowance-deduction')}}" class="nav-link">Pay, Allowance, Deduction</a></li>
-                    <li class="nav-item"> <a href="{{url('hr/employee-personal-information')}}" class="nav-link">Employee Information </a></li>
                     <li class="nav-item"> <a href="{{url('hr/employees-addresses')}}" class="nav-link">Employee Address</a></li>
                     <li class="nav-item"> <a href="{{url('hr/spouse-detail')}}" class="nav-link">Spouse Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/education-detail')}}" class="nav-link">Education Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/certification-detail')}}" class="nav-link">Certification Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/experience-detail')}}" class="nav-link">Experience Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/organizational-assignment')}}" class="nav-link">Organizational Assignment</a></li>
-                    <li class="nav-item"> <a href="{{url('hr/pay-emoluments')}}" class="nav-link">Pay and Emoluments</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/employee-trainings')}}" class="nav-link">Training Info</a></li>
                     <li class="nav-item"> <a href="{{url('hr/employee-bank-detail')}}" class="nav-link">Bank Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/job-description')}}" class="nav-link">Job Description</a></li>
                     <li class="nav-item"> <a href="{{url('hr/tasks')}}" class="nav-link">Task</a></li>

@@ -23,14 +23,15 @@ Auth::routes();
 Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
 Route::get('search-companies/{compny_name}', 'ApiController@searchCompany');
 Route::get('get-mycompany/{compny_id}', 'ApiController@myCompany');
+Route::view('user-rights-privileges', 'admin.user-rights-privileges');
 
 Route::get('employee-leave', 'EmployeeController@employee_leave')->name('employee-leave');
 Route::view('open-existing-company','auth.open-company')->name('open-company');
 Route::group(['prefix'=>'hr'], function () {
   Route::get('pay-allowance-deduction', 'Admin\PayAllowanceDeductionController@pay_allownce');
+  Route::view('employee-trainings', 'employee_center.employee-trainings');
   Route::get('employee-payscale', 'Admin\PayScaleController@employee_payscale');
   Route::get('employee-jd', 'Admin\EmployeeJDController@employee_jd');
-  Route::get('employee-group', 'Admin\EmployeeGroupController@employee_group');
   Route::get('getEmployees', 'Admin\UsersController@getEmployees')->middleware('is_admin');
   Route::get('employee-personal-information', 'Admin\UsersController@index')->name('users')->middleware('is_admin');
   Route::post('SaveUsers', 'Admin\UsersController@SaveUsers')->middleware('is_admin');
@@ -275,6 +276,7 @@ Route::get('get-all-complaints', 'Admin\ComplaintsController@get_all_complaints'
  * User Company Profile Routes
  */
 Route::group(['prefix'=>'company'], function () {
+  Route::get('employee-group', 'Admin\EmployeeGroupController@employee_group');
   Route::get('company-profile', 'CompanyProfileController@index')->name('companyProfile')->middleware('is_admin');
   Route::get('company-address', 'CompanyProfileController@comAddressView');
   Route::get('company-contact', 'CompanyProfileController@comContactView');
