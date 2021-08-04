@@ -1,142 +1,317 @@
 @extends('layouts.admin.master')
-@section('title', 'Add Quotation')
+@section('title', 'Add Quote')
 @section('content')
-<div  ng-app="QuotatoionApp" ng-controller="QuotatoionController" ng-cloak>
+<div  ng-app="QuotationApp" ng-controller="QuotationController" ng-cloak>
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title">Add Quotation</h3>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendorInformation()">
-                    <label for="customer_name">Select Vendor</label>
-                    <select id="customer_name" class="form-control" ng-options="vendor.id as vendor.company_name for vendor in vendorinformations" ng-model="quotation.vendor_name">
+            <h3 class="card-title">Add Quote</h3>
+            <div class="row" ng-init="getCustomerInfo(); getAccounts()">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label for="customer_id">Customer Name</label>
+                    <select id="vendor_id" class="form-control" ng-change="getCustomers(po.customer_id)" ng-options="cus.id as cus.customer_name for cus in customers" ng-model="po.customer_id">
                         <option value="">Select Customer</option>
                     </select>
+                    <table class="table table-bordered table-striped" ng-if="customerinfo">
+                        <tbody ng-repeat="cus in customerinfo">
+                            <tr>
+                                <td ng-bind="cus.customer_name"></td>
+                            </tr>
+                            <tr>
+                             <td ng-bind="cus.address_line_1"></td>
+                            </tr>
+                            <tr>
+                                <td ng-bind="cus.street"></td>
+                            </tr>
+                            <tr>
+                                <td ng-bind="cus.city"></td>
+                                <td ng-bind="cus.zip_code"></td>
+                            </tr>
+                            <tr>
+                                <td ng-bind="cus.country"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="item_name">Item Name</label>
-                    <input type="text" id="item_name" class="form-control" ng-model="quotation.item_name" placeholder="Item Name"/>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label for="po_date">PO Date</label>
+                            <input type="text" id="po_date" class="form-control" datepicker ng-model="po.po_date" placeholder="PO Date"/>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label for="goods_date">Goods through Date</label>
+                            <input type="text" id="goods_date" class="form-control" datepicker ng-model="po.goods_date" placeholder="Goods through Date"/>
+                        </div>
+                    </div><br/>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label for="po_status">PO Status</label>
+                            <select id="po_status" class="form-control" ng-model="po.po_status">
+                                <option value="">Select PO Status</option>
+                                <option value="Active">Active</option>
+                                <option value="In Active">In Active</option>
+                                <option value="Close">Close</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label for="shipment_status">Shipment Status</label>
+                            <select id="shipment_status" class="form-control" ng-model="po.shipment_status">
+                                <option value="">Select Shipment Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Dropped">Dropped</option>
+                            </select>
+                        </div>
+                    </div><br/>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label for="ship_via">Ship Via</label>
+                            <input type="text" id="ship_via" class="form-control" ng-model="po.ship_via" placeholder="Ship Via"/>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label for="chartofaccount_purchase">Chart of Account Purchases</label>
+                            <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="po.chartofaccount_purchase">
+                                <option value="">Chart of Account Purchases</option>
+                            </select>
+                        </div>
+                    </div><br/>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label for="chartofaccount_payment">Chart of Account for Payment</label>
+                            <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="po.chartofaccount_payment">
+                                <option value="">Chart of Account for Payment</option>
+                            </select>
+                        </div>
                 </div>
+            </div><br/>
+        </div>
+    </div><br/>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Product Category</h3>
+            <div class="row" ng-init="getInventoryInfo()">
                 <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="pro_id">Product Name</label>
+                    <select id="pro_id" class="form-control" ng-change="getProductInfo(po.product_id)" ng-options="pro.id as pro.product_name for pro in products" ng-model="po.product_id">
+                        <option value="">Select Product/Item</option>
+                    </select>
+                </div>               
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="quantity">Quantity</label>
-                    <input type="text" id="quantity" class="form-control" ng-model="quotation.quantity" placeholder="Quantity"/>
+                    <input type="text" id="quantity" class="form-control" ng-model="po.quantity" placeholder="Quantity"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="unit_price">Unit Price</label>
-                    <input type="text" id="unit_price" class="form-control" ng-model="quotation.unit_price" placeholder="Unit Price"/>
+                    <input type="text" id="unit_price" class="form-control" ng-model="po.unit_price" placeholder="Unit Price"/>
                 </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="taxes">Taxes</label>
+                    <input type="text" id="taxes" class="form-control" ng-model="po.taxes" placeholder="Taxes"/>
+                </div> -->
             </div><br/>
-            <div class="row">            
-                <div class="col-lg-3 col-sm-3 col-md-3">
+            <div class="row" ng-if="allproducts.length > 0" id="add">
+                <table class="table table-bordered">
+                    <thead>
+                        <th>Sr#</th>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Description</th>
+                        <th>Job</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Tax</th>
+                        <th>Discount</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody ng-repeat="pro in allproducts">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="pro.product_id"></td>
+                        <td ng-bind="pro.product_name"></td>
+                        <td ng-bind="pro.product_description"></td>
+                        <td><input type="text" id="job" class="form-control" ng-model="pro.job" placeholder="Job"/></td>
+                        <td ng-bind="pro.unit_price"></td>
+                        <td><input type="text" id="quantity" class="form-control" ng-model="pro.quantity" placeholder="Quantity"/></td>
+                        <td><input type="text" id="taxes" class="form-control" ng-model="pro.taxes" placeholder="Taxes"/></td>
+                        <td><input type="text" id="discount" class="form-control" ng-model="pro.discount" placeholder="Discount if any"/></td>
+                        <td><button class="btn btn-xs btn-success bill-btn" id="add<%pro.product_id%>" ng-click="addProduct(pro)">Add</button></td>
+                    </tbody>
+                </table>
+            </div><br/>
+            <div class="row" ng-if="addToCart.length > 0" id="show">
+                <table class="table table-bordered">
+                    <thead>
+                        <th>Sr#</th>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Description</th>
+                        <th>Job</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Tax</th>
+                        <th>Discount</th>
+                        <th>Total Price</th>
+                    </thead>
+                    <tbody ng-repeat="cart in addToCart">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="cart.product_id"></td>
+                        <td ng-bind="cart.product_name"></td>
+                        <td ng-bind="cart.product_description"></td>
+                        <td ng-bind="cart.job"></td>
+                        <td ng-bind="cart.unit_price"></td>
+                        <td ng-bind="cart.quantity"></td>
+                        <td ng-bind="cart.taxes"></td>
+                        <td ng-bind="cart.discount"></td>
+                        <td ng-bind="cart.total_price"></td>
+                    </tbody>
+                </table>
+            </div></br>
+            <!-- <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="discount">Discount if any</label>
+                    <input type="text" id="discount" class="form-control" ng-model="po.discount" placeholder="Discount if any"/>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="total_price">Total Price</label>
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="text" class="form-control" readonly ng-model="quotation.total_price" placeholder=" Calculate total price" aria-label="Recipient's username">
+                            <input type="text" class="form-control" readonly ng-model="po.total_price" placeholder="Total Price" aria-label="Recipient's username">
                             <div class="input-group-append">
                             <button class="btn btn-sm btn-success" ng-click="calculate()" type="button">Calculate</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="shipment_status">Shipment Status</label>
-                    <select id="shipment_status" class="form-control" ng-model="quotation.shipment_status">
-                        <option value="">Shipment Status</option>
-                        <option value="0">Pending</option>
-                        <option value="1">Shipped</option>
-                        <option value="2">Dropped</option>
-                    </select>
-                </div>                
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="taxes">Taxes</label>
-                    <input type="text" id="taxes" class="form-control" ng-model="quotation.taxes" placeholder="Taxes"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="discount">Discount if any</label>
-                    <input type="text" id="discount" class="form-control" ng-model="quotation.discount" placeholder="Discount if any"/>
-                </div>
-            </div><br/>
-            <div class="row">            
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label for="address">Address</label>
-                    <textarea id="address" class="form-control" ng-model="quotation.address" placeholder="Address"></textarea>
-                </div>
-            </div><br/>
+            </div> -->
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-sm btn-success float-left" ng-click="save_quotationInformation()">Save</button>
-                </div>
-            </div><br/>
-        </div>
-    </div><br/><!-- 
-    <div class="card">
-        <div class="card-body">
-            <h3 class="card-title">Account Detail</h3>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="payment_mode">Payment Mode</label>
-                    <input type="text" id="payment_mode" class="form-control" ng-model="quotation.payment_mode" placeholder="Payment Mode"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="chartofaccount_purchase">Chart of Account Purchases</label>
-                    <input type="text" id="chartofaccount_purchase" class="form-control" ng-model="quotation.chartofaccount_purchase" placeholder="Chart of Account Purchases"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="chartofaccount_payment">Chart of Account for Payment</label>
-                    <input type="text" id="chartofaccount_payment" class="form-control" ng-model="quotation.chartofaccount_payment" placeholder="Chart of Account for Payment"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="customeraccount_head">Customer Account Head</label>
-                    <input type="text" class="form-control" id="customer_account_head" ng-model="quotation.customer_account_head" placeholder="Customer Account Head"/>
-                </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="paymentaccount_head">Payment Account Head</label>
-                    <input type="text" id="payment_account_head" class="form-control" ng-model="quotation.payment_account_head" placeholder="Payment Account Head"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="inventoryaccount_head">Inventory A/C Head</label>
-                    <input type="text" id="chartofaccount_payment" class="form-control" ng-model="quotation.chartofaccount_payment" placeholder="Chart of Account for Payment"/>
+                    <button type="button" class="btn btn-success btn-sm float-right" ng-click="savePurchaseOrder()">Save</button>
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
+    <input type="hidden" id="appurl" value="<?php echo env('APP_URL') ?>">
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
-    var Quotatoion = angular.module('QuotatoionApp', []);
-    Quotatoion.controller('QuotatoionController', function ($scope, $http) {
-        $scope.quotation = {};
-        $scope.appurl = $("#appurl").val();
+    var Quotation = angular.module('QuotationApp', [], function ($interpolateProvider) {
+        $interpolateProvider.startSymbol('<%');
+        $interpolateProvider.endSymbol('%>');
+    });
 
-        $scope.getVendorInformation = function () {
-            $scope.vendorinformations = {};
-            $http.get('vendor/save-vendor-information').then(function (response) {
+    Quotation.directive('datepicker', function () {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            compile: function () {
+                return {
+                    pre: function (scope, element, attrs, ngModelCtrl) {
+                        var format, dateObj;
+                        format = (!attrs.dpFormat) ? 'yyyy-mm-dd' : attrs.dpFormat;
+                        if (!attrs.initDate && !attrs.dpFormat) {
+                            // If there is no initDate attribute than we will get todays date as the default
+                            dateObj = new Date();
+//                            scope[attrs.ngModel] = dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
+                        } else if (!attrs.initDate) {
+                            // Otherwise set as the init date
+                            scope[attrs.ngModel] = attrs.initDate;
+                        } else {
+                            // I could put some complex logic that changes the order of the date string I
+                            // create from the dateObj based on the format, but I'll leave that for now
+                            // Or I could switch case and limit the types of formats...
+                        }
+                        // Initialize the date-picker
+                        $(element).datepicker({
+                            format: format
+                        }).on('changeDate', function (ev) {
+                            // To me this looks cleaner than adding $apply(); after everything.
+                            scope.$apply(function () {
+                                ngModelCtrl.$setViewValue(ev.format(format));
+                            });
+                        });
+                    }
+                };
+            }
+        };
+    });
+
+    Quotation.controller('QuotationController', function ($scope, $http) {
+        $scope.po = {};
+        $scope.appurl = $("#appurl").val();
+        $scope.getAccounts = function () {
+            var Accounts = $http.get($scope.appurl + 'AllchartofAccount');
+            Accounts.then(function (r) {
+                $scope.Accounts = r.data;
+            });
+        };
+
+        $scope.getCustomerInfo = function () {
+            $scope.customers = {};
+            $http.get('customer/maintain-customer-information').then(function (response) {
                 if (response.data.length > 0) {
-                    $scope.vendorinformations = response.data;
+                    $scope.customers = response.data;
                 }
             });
         };
 
-        $scope.calculate = function(){
-            if(!$scope.quotation.quantity){
-              $scope.quotation.quantity = 0;
-            }
-            if(!$scope.quotation.unit_price){
-                $scope.quotation.unit_price = 0;
-            }
-            $scope.quotation.total_price = parseInt($scope.quotation.quantity) * parseInt($scope.quotation.unit_price);
+        $scope.getCustomers = function (cus_id) {
+            $scope.customerinfo = {};
+            $http.get('customer/get-customer/' + cus_id).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.customerinfo = response.data;
+                }
+            });
+        };
+        
+        $scope.getInventoryInfo = function(){
+            $scope.products = {};
+            $http.get('get-inventory').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.products = response.data;
+                }
+            });
+        };
+        
+        $scope.allproducts = [];
+        $scope.addToCart = [];
+        $scope.getProductInfo = function(pro_id){
+            $http.get('get_pro_info/' + pro_id).then(function (response){
+                $scope.allproducts.push(response.data[0]);
+            });
         };
 
-        $scope.save_quotationInformation = function(){
-            if (!$scope.quotation.vendor_name) {
+        $scope.addProduct = function(pro){
+            if(pro.quantity){
+                $scope.total = parseInt(pro.unit_price) * parseInt(pro.quantity) - parseInt(pro.discount);
+                pro.total_price = $scope.total - parseInt(pro.taxes);
+                $("#show").slideDown('slow');
+                $("#add" + pro.product_id).hide('slow');
+                $scope.addToCart.push(pro);
+                //$scope.po = [].concat($scope.po , $scope.addToCart);
+                //angular.merge($scope.po , $scope.addToCart);
+                //$scope.po = angular.merge($scope.po , $scope.addToCart);
+            }else{
+                alert('Please Add Quantity');
+            }
+        };
+
+        $scope.mergeArray = [];
+        $scope.savePurchaseOrder = function(){
+            /* $scope.mergeArray = [].concat($scope.po , $scope.addToCart);
+            $scope.po = angular.merge($scope.po, $scope.mergeArray); */
+            //$scope.po = angular.merge($scope.po , cart);
+            //$scope.po = angular.merge($scope.po , $scope.addToCart);
+            //$scope.po.push($scope.po);
+             var order = JSON.stringify($scope.addToCart);
+              $scope.po.orderDetail = order;
+            if (!$scope.po.vendor_id) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                console.log($scope.po);
                 var Data = new FormData();
-                angular.forEach($scope.quotation, function (v, k) {
+                angular.forEach($scope.po, function (v, k) {
                     Data.append(k, v);
                 });
                 $http.post('save-quotation-information', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
@@ -145,10 +320,10 @@
                         text: res.data,
                         type: "success"
                     });
-                    $scope.quotation = {};
                 });
             }
         };
+        
     });
 </script>
 @endsection

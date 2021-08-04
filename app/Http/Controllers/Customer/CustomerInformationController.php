@@ -8,6 +8,10 @@ use Auth;
 use DB;
 use File;
 use App\Models\CustomerModels\erp_customer_information;
+use App\Models\CustomerModels\erp_customer_detail;
+use App\Models\tbladdress;
+use App\Models\tblcontact;
+use App\Models\tblsocialmedias;
 
 class CustomerInformationController extends Controller
 {
@@ -58,14 +62,16 @@ class CustomerInformationController extends Controller
                 if ($imageName){
                     $data['customer_logo'] = $imageName; 
                 }
-                $data = $request->except(['id', 'cust_logo','user_id', 'created_at', 'updated_at']);
+                $data = $request->except(['id', 'cust_logo','user_id','created_at', 'updated_at']);
                 erp_customer_information::where('id', $request->id)->update($data);
                 return 'Customer Information updated successfully';
             }else{
+                //$address = $request->except('customer_type','customer_name','ntn_no','incroporation_no','customer_logo','strn','import_license','export_license','chamber_no','currency_dealing','phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest','youtube');
+               // $contact = $request->except('customer_type','customer_name','ntn_no','incroporation_no','customer_logo','strn','import_license','export_license','chamber_no','currency_dealing','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','website','twitter','instagram','facebook','linkedin','pinterest','youtube');
+                //$social = $request->except('customer_type','customer_name','ntn_no','incroporation_no','customer_logo','strn','import_license','export_license','chamber_no','currency_dealing','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email',);
                 $data = $request->except('cust_logo');
                 $data['customer_logo'] = $imageName;
                 $data['user_id'] = Auth::user()->id;
-                //return $data;
                 erp_customer_information::create($data);
             }
             return "Customer Information saved successfully";
@@ -127,5 +133,14 @@ class CustomerInformationController extends Controller
     {
         erp_customer_information::where('id', $id)->delete();
         return "Your record delete permanently";
+    }
+
+    public function getCustomer($cus_id){
+        return DB::SELECT("Select cus.*, add.address_line_1,add.street,add.country,add.city FROM (select * FROM erp_customer_informations where id = '.$cus_id.') as cus JOIN(
+            select * FROM erp_customer_details) as detail ON detail.customer_id = cus.id JOIN(
+                select * FROM erp_customer_addresses) as address on address.customer_id = cus.id JOIN(
+                    select * FROM tblcontacts) as contact ON contact.id = detail.contact_id JOIN(
+                        select * FROM tblsocialmedias) as social ON social.id = detail.social_id JOIN(
+                            select * FROM  tbladdresses) as add ON add.id = address.address_id");
     }
 }
