@@ -43,13 +43,12 @@
                     <li class="nav-item"> <a href="{{url('company/company-profile')}}" class="nav-link">Company Profile</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-address')}}" class="nav-link">Company Address</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-contact')}}" class="nav-link">Company Contact</a></li>
-                    <li class="nav-item"> <a href="{{url('company/company-bankdetail')}}" class="nav-link">Company Bank Detail</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-registration')}}" class="nav-link">Company Registration</a></li>
                     <li class="nav-item"> <a href="{{url('company/maintain-office')}}" class="nav-link">Maintain Office</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-departments')}}" class="nav-link">Departments</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-calander')}}" class="nav-link">Company Calander</a></li>
+                    <li class="nav-item"> <a href="{{url('company/employee-group')}}" class="nav-link">Employee Group</a></li>
                     <li class="nav-item"> <a href="{{url('company/company-shift')}}" class="nav-link">Company Shift</a></li>
-                    <li class="nav-item"> <a href="{{url('create-chart-account')}}" class="nav-link">Chart of Account</a></li>
                     <li class="nav-item"> <a href="{{url('company/gazzeted-holiday')}}" class="nav-link">Gazzeted Holiday</a></li>
                     <li class="nav-item"> <a href="{{url('company/yearly-leave')}}" class="nav-link">Yearly Leave</a></li>
                 </ul>
@@ -63,32 +62,49 @@
             </a>
             <div class="collapse" id="Employee-Center">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a href="{{url('hr/employee-group')}}" class="nav-link">Employee Group</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/employee-personal-information')}}" class="nav-link">Employee Information </a></li>
                     <li class="nav-item"> <a href="{{url('hr/employee-payscale')}}" class="nav-link">Employee Payscale</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/pay-emoluments')}}" class="nav-link">Pay and Emoluments</a></li>
                     <li class="nav-item"> <a href="{{url('hr/employee-jd')}}" class="nav-link">Employee JD's</a></li>
                     <li class="nav-item"> <a href="{{url('hr/pay-allowance-deduction')}}" class="nav-link">Pay, Allowance, Deduction</a></li>
-                    <li class="nav-item"> <a href="{{url('hr/employee-personal-information')}}" class="nav-link">Employee Information </a></li>
                     <li class="nav-item"> <a href="{{url('hr/employees-addresses')}}" class="nav-link">Employee Address</a></li>
                     <li class="nav-item"> <a href="{{url('hr/spouse-detail')}}" class="nav-link">Spouse Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/education-detail')}}" class="nav-link">Education Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/certification-detail')}}" class="nav-link">Certification Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/experience-detail')}}" class="nav-link">Experience Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/organizational-assignment')}}" class="nav-link">Organizational Assignment</a></li>
-                    <li class="nav-item"> <a href="{{url('hr/pay-emoluments')}}" class="nav-link">Pay and Emoluments</a></li>
-                    <li class="nav-item"> <a href="{{url('hr/employee-bank-detail')}}" class="nav-link">Bank Detail</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/timing-info')}}" class="nav-link">Timing Info</a></li>
                     <li class="nav-item"> <a href="{{url('hr/job-description')}}" class="nav-link">Job Description</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/employee-trainings')}}" class="nav-link">Training Info</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/employee-bank-detail')}}" class="nav-link">Bank Detail</a></li>
                     <li class="nav-item"> <a href="{{url('hr/tasks')}}" class="nav-link">Task</a></li>
                     <li class="nav-item"> <a class="nav-link" href="{{url('employee-leave')}}">Employee Leave</a></li>
                 </ul>
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#Vendor-Center" aria-expanded="false" aria-controls="Vendor-Center">
+            <a class="nav-link" data-toggle="collapse" href="#Banking" aria-expanded="false" aria-controls="Banking">
                 <i class="fa fa-building menu-icon"></i>
-                <span class="menu-title">Vendor Center</span>
+                <span class="menu-title">Banking & Finance</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="Vendor-Center">
+            <div class="collapse" id="Banking">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a href="{{url('create-chart-account')}}" class="nav-link">Chart of Account</a></li>
+                    <li class="nav-item"> <a href="{{url('company/company-bankdetail')}}" class="nav-link">Company Bank Detail</a></li>
+                    <li class="nav-item"> <a href="{{url('bank/budget')}}" class="nav-link">Budget</a></li>
+                    <li class="nav-item"> <a href="{{url('bank/tariff')}}" class="nav-link">Tariff</a></li>
+                    <li class="nav-item"> <a href="{{url('bank/Taxes')}}" class="nav-link">Taxes</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Sourcing" aria-expanded="false" aria-controls="Sourcing">
+                <i class="fa fa-industry menu-icon"></i>
+                <span class="menu-title">Sourcing</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Sourcing">
                 <ul class="nav flex-column sub-menu">
                     <!-- <li class="nav-item"> <a href="{{url('vendor/add-vendor')}}" class="nav-link">Add Vendor</a></li>
                     <li class="nav-item"> <a href="{{url('vendor/view-vendor')}}" class="nav-link">View Vendor</a></li> -->
@@ -96,6 +112,8 @@
                     <li class="nav-item"> <a href="{{url('vendor/vendor-address')}}" class="nav-link">Vendor Address</a></li>
                     <li class="nav-item"> <a href="{{url('vendor/vendor-contact')}}" class="nav-link">Vendor Contact</a></li>
                     <li class="nav-item"> <a href="{{url('vendor/vendor-person')}}" class="nav-link">Contact Person</a></li>
+                    <li class="nav-item"> <a href="{{url('vendor/custom-agency')}}" class="nav-link">Custom Agency</a></li>
+                    <li class="nav-item"> <a href="{{url('vendor/other-agency')}}" class="nav-link">Other Agency</a></li>
                 </ul>
             </div>
         </li>

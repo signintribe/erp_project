@@ -66,7 +66,7 @@
                     <label for="pay_scale">Pay Scale</label>
                     <input type="text" class="form-control" id="pay_scale" ng-model="orgassignment.pay_scale" placeholder="Pay Scale"/>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="working_since">Working Since</label>
                     <select ng-model="orgassignment.working_since" class="form-control" id="working_since">
                         <option value="">Select Working Since</option>
@@ -74,7 +74,7 @@
                         <option value="<?php echo $i ?>"><?php echo $i ?></option>
                         <?php } ?>
                     </select>
-                </div>
+                </div> -->
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12" align="right">
