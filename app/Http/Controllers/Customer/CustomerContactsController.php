@@ -40,7 +40,6 @@ class CustomerContactsController extends Controller
      */
     public function store(Request $request)
     {
-        if(empty(erp_customer_contacts::where('customer_id', $request->customer_id)->first())){
             if($request->id){
                // $address = $request->except('id','customer_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','created_at','updated_at','phone_number','mobile_number','fax_number','whatsapp','email');
                 $contact = $request->except('id','customer_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','created_at','updated_at');
@@ -62,9 +61,6 @@ class CustomerContactsController extends Controller
                 $customer = erp_customer_contacts::create($customer);
             }        
             return "Customer Contact Save Successfully";
-        }else{
-            return 'Customer Contact ALready Exists';
-        }
     }
 
     /**

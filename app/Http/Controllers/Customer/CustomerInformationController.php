@@ -136,11 +136,9 @@ class CustomerInformationController extends Controller
     }
 
     public function getCustomer($cus_id){
-        return DB::SELECT("Select cus.*, add.address_line_1,add.street,add.country,add.city FROM (select * FROM erp_customer_informations where id = '.$cus_id.') as cus JOIN(
-            select * FROM erp_customer_details) as detail ON detail.customer_id = cus.id JOIN(
-                select * FROM erp_customer_addresses) as address on address.customer_id = cus.id JOIN(
-                    select * FROM tblcontacts) as contact ON contact.id = detail.contact_id JOIN(
-                        select * FROM tblsocialmedias) as social ON social.id = detail.social_id JOIN(
-                            select * FROM  tbladdresses) as add ON add.id = address.address_id");
+        //return $cus_id;
+        return DB::select("select customers.customer_name, adds.address_line_1,adds.street,adds.country,adds.city FROM (select id, customer_name FROM erp_customer_informations where id = '.$cus_id.') as customers JOIN(
+            select id, address_id, customer_id FROM erp_customer_addresses) as address on address.customer_id = customers.id JOIN(
+            select id, address_line_1, street, country, city FROM  tbladdresses) as adds ON adds.id = address.address_id");
     }
 }

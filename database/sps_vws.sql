@@ -641,7 +641,7 @@ SELECT id, customer_name, user_id
 FROM erp_customer_informations WHERE user_id = userid
 ) AS customer JOIN (
 SELECT id, customer_id, contact_id, social_id
-FROM erp_customer_details
+FROM erp_customer_contacts
 ) AS contact ON contact.customer_id = customer.id JOIN(
 SELECT id, phone_number, mobile_number, fax_number, email, whatsapp FROM tblcontacts
 ) AS con ON con.id = contact.contact_id JOIN(

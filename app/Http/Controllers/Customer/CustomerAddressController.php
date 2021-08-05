@@ -39,27 +39,22 @@ class CustomerAddressController extends Controller
      */
     public function store(Request $request)
     {
-        if(empty(erp_customer_address::where('customer_id', $request->customer_id)->first())){
-            if($request->id)
-            {
+        if($request->id){
             $address = $request->except('id', 'user_id', 'customer_id','address_id', 'created_at', 'updated_at');
             $customerAddress = $request->except('id', 'user_id', 'created_at', 'updated_at', 'address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
             tbladdress::where('id', $request->address_id)->update($address);
             erp_customer_address::where('id', $request->id)->update($customerAddress);
-            return 'Update';
-            }
-            else{
+            return 'Customer Address Updated';
+        }
+        else{
             $address = $request->except('customer_id');
             $customerAddress = $request->except('address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
             $addresses = tbladdress::create($address);
             $customerAddress['address_id'] = $addresses->id;
             $customerAddress['user_id'] = Auth::user()->id;
             $customerAddress = erp_customer_address::create($customerAddress);
-            }
-            return 'Save';
-        }else{
-            return 'Customer Address Already Exists';
         }
+        return 'Cutomer Address Saved';
     }
 
     /**
