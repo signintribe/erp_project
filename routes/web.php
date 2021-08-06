@@ -15,7 +15,10 @@ Route::get('/', function () {
 })->name('loginpage');
 
 Auth::routes();
+Route::get('creation-tier', 'TierController@creation_tier');
+Route::group(['prefix'=>'creation'], function(){
 
+});
 /**
  * Supper Admin Routes
  */

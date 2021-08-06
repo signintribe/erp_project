@@ -1,4 +1,4 @@
-@extends('layouts.admin.newmaster')
+@extends('layouts.admin.creationTier')
 @section('title', 'Dashboard')
 @section('pagetitle', 'Dashboard')
 @section('breadcrumb', 'Dashboard')
