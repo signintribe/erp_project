@@ -127,7 +127,7 @@
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a href="{{url('customer/customer-information')}}" class="nav-link">Customer Information</a></li>
                     <li class="nav-item"> <a href="{{url('customer/customer-address')}}" class="nav-link">Customer Address</a></li>
-                    <li class="nav-item"> <a href="{{url('customer/contact-detail')}}" class="nav-link">Contact Detail</a></li>
+                    <li class="nav-item"> <a href="{{url('customer/contact-detail')}}" class="nav-link">Customer Contact</a></li>
                     <li class="nav-item"> <a href="{{url('customer/customer-contact-person')}}" class="nav-link">Contact Person</a></li>
                 </ul>
             </div>

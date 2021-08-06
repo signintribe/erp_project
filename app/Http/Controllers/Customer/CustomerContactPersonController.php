@@ -13,7 +13,7 @@ use DB;
 Use File;
 use Auth;
 
-class CustomerContactController extends Controller
+class CustomerContactPersonController extends Controller
 {
     /**
      * Display a listing of the resource.

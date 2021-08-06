@@ -131,7 +131,7 @@
                 angular.forEach($scope.contact, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('maintain-customer-detail', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post('maintain-customer-contacts', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data,
@@ -154,7 +154,7 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('maintain-customer-detail/' + id).then(function (response) {
+                $http.delete('maintain-customer-contacts/' + id).then(function (response) {
                     $scope.getDetails();
                     swal("Deleted!", response.data, "success");
                 });
@@ -163,7 +163,7 @@
 
         $scope.getDetails = function(){
             $scope.details = {};
-            $http.get('maintain-customer-detail').then(function (response) {
+            $http.get('maintain-customer-contacts').then(function (response) {
                 if (response.data) {
                     $scope.details = response.data;
                     $scope.details.customer_id = parseInt(response.data.customer_id);
@@ -172,7 +172,7 @@
         };
 
         $scope.editDetail = function (id) {
-            $http.get('maintain-customer-detail/' + id + '/edit').then(function (response) {
+            $http.get('maintain-customer-contacts/' + id + '/edit').then(function (response) {
                 $scope.contact = response.data;
                 $scope.getContact($scope.contact.contact_id);
                 $scope.getSocialMedia($scope.contact.social_id);

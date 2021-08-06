@@ -116,9 +116,9 @@ Route::group(['prefix'=>'customer'], function () {
   Route::get('customer-contact-person', 'CustomerController@customer_contact_person')->name('customer-contact-person');
   Route::resource('maintain-customer-information', 'Customer\CustomerInformationController');
   Route::resource('maintain-customer-address', 'Customer\CustomerAddressController');
-  Route::resource('maintain-customer-detail', 'Customer\CustomerDetailController');
-  Route::resource('maintain-customer-contactperson', 'Customer\CustomerContactController');
-
+  Route::resource('maintain-customer-contacts', 'Customer\CustomerContactsController');
+  Route::resource('maintain-customer-contactperson', 'Customer\CustomerContactPersonController');
+  Route::get('get-customer/{cus_id}', 'Customer\CustomerInformationController@getCustomer');
 });
 /**
  * Inventory Center

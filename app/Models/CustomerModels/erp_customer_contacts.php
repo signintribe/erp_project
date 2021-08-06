@@ -4,7 +4,7 @@ namespace App\Models\CustomerModels;
 
 use Illuminate\Database\Eloquent\Model;
 
-class erp_customer_detail extends Model
+class erp_customer_contacts extends Model
 {
     protected $fillable = [
         'customer_id',

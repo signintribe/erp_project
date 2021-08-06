@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\CustomerModels\erp_customer_detail;
+use App\Models\CustomerModels\erp_customer_contacts;
 use App\Models\tblcontact;
 use App\Models\tblsocialmedias;
 use Auth;
 use DB;
 
-class CustomerDetailController extends Controller
+class CustomerContactsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -40,15 +40,15 @@ class CustomerDetailController extends Controller
      */
     public function store(Request $request)
     {
-        if(empty(erp_customer_detail::where('customer_id', $request->customer_id)->first())){
             if($request->id){
+               // $address = $request->except('id','customer_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','created_at','updated_at','phone_number','mobile_number','fax_number','whatsapp','email');
                 $contact = $request->except('id','customer_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','created_at','updated_at');
                 $customer = $request->except('id','phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest','created_at','updated_at');
                 $social = $request->except('id','customer_id','contact_id','social_id','phone_number','mobile_number','fax_number','whatsapp','email','created_at','updated_at');
                 tblcontact::where('id', $request->contact_id)->update($contact);
                 tblsocialmedias::where('id', $request->social_id)->update($social);
-                erp_customer_detail::where('id', $request->id)->update($customer);
-                return "Contact Detail Update Successfully";
+                erp_customer_contacts::where('id', $request->id)->update($customer);
+                return "Customer Contact Update Successfully";
             }
             else{
                 $contact = $request->except('customer_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest');
@@ -58,12 +58,9 @@ class CustomerDetailController extends Controller
                 $social = tblsocialmedias::create($social);
                 $customer['contact_id'] = $contact->id;
                 $customer['social_id'] = $social->id;
-                $customer = erp_customer_detail::create($customer);
+                $customer = erp_customer_contacts::create($customer);
             }        
-            return "Contact Detail Save Successfully";
-        }else{
-            return 'Contact Detail ALready Exists';
-        }
+            return "Customer Contact Save Successfully";
     }
 
     /**
@@ -85,7 +82,7 @@ class CustomerDetailController extends Controller
      */
     public function edit($id)
     {
-        return erp_customer_detail::where('id', $id)->first();
+        return erp_customer_contacts::where('id', $id)->first();
     }
 
     /**
@@ -108,8 +105,8 @@ class CustomerDetailController extends Controller
      */
     public function destroy($id)
     {
-        $det = erp_customer_detail::where('id', $id)->first();
-        erp_customer_detail::where('id', $id)->delete();
+        $det = erp_customer_contacts::where('id', $id)->first();
+        erp_customer_contacts::where('id', $id)->delete();
         tblcontact::where('id', $det->contact_id)->delete();
         tblsocialmedias::where('id', $det->social_id)->delete();
         return 'Customer Detail Delete Permanently';
