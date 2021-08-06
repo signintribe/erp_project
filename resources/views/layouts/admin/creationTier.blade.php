@@ -149,73 +149,73 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Company Profile</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Company Address</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Company Contact</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Company Registration</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Maintain Office</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Departments</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Company Calander</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Employee Group</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Company Shifts</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Gazzeted Holiday</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Yearly Leave</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Bank Detail</p>
                                         </a>
                                     </li>
@@ -232,85 +232,85 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Employee Information</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Employee Address</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Spouse Detail</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Education Detail</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Certification Detail</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Experience Detail</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Employee Payscale</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Pay and Emoulments</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Employee JD's</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Pay, Allowance, Deduction</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Organization Assignments</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Timing Info</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Task</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Employee Leave</p>
                                         </a>
                                     </li>
@@ -327,86 +327,73 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Employee Information</p>
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Chart of Account</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Employee Address</p>
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Bank Detail</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Spouse Detail</p>
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Budget</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Education Detail</p>
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Tariff</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Certification Detail</p>
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Taxes</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa fa-cube nav-icon"></i>
+                                    <p>
+                                        Matrial Management
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Chart of Account</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Experience Detail</p>
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Bank Detail</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Employee Payscale</p>
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Budget</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Pay and Emoulments</p>
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Tariff</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Employee JD's</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Pay, Allowance, Deduction</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Organization Assignments</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Timing Info</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Task</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Employee Leave</p>
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Taxes</p>
                                         </a>
                                     </li>
                                 </ul>
