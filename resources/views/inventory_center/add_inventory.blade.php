@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Add Inventory')
+@section('pagetitle', 'Add Inventory')
+@section('breadcrumb', 'Add Inventory')
 @section('content')
 <div  ng-app="InventoryApp" ng-controller="InventoryController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Product Information</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="barcode_id">* Barcode Id</label>
@@ -26,10 +30,10 @@
         </div>
     </div><br/>
     <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Select Category</h3>
+        </div>
         <div class="card-body">
-            <div class="row">
-                <label>Select Category</label>
-            </div>
             <div class="row">
                 <div class="col">
                     <div align='center' id="catone"></div>
@@ -123,8 +127,10 @@
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Product Pricing</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-sm-3 col-md-3">
                     <label for="income_tax">Income Tax</label>
@@ -197,8 +203,10 @@
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Vendor Information</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
                 <label for="organization_name">Name of Vendor</label>
@@ -226,8 +234,10 @@
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Stock Availability</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="stockin_hand">Stock in hand</label>
@@ -255,8 +265,10 @@
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body" ng-init="getAccounts()">
+        <div class="card-header">
             <h3 class="card-title">Accounts</h3>
+        </div>
+        <div class="card-body" ng-init="getAccounts()">
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <label>Chart of Account Id Cost of Sales</label>
@@ -293,6 +305,9 @@
         $interpolateProvider.endSymbol('%>');
     });
     Inventory.controller('InventoryController', function ($scope, $http) {
+        $("#mstrial-management").addClass('menu-open');
+        $("#mstrial-management a[href='#']").addClass('active');
+        $("#add-inventory").addClass('active');
         $scope.appurl = $("#appurl").val();
         $scope.getAccounts = function () {
             var Accounts = $http.get($scope.appurl + 'AllchartofAccount');

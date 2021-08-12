@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'View Inventory')
+@section('pagetitle', 'View Inventory')
+@section('breadcrumb', 'View Inventory')
 @section('content')
 <div  ng-app="ViewInventoryApp" ng-controller="ViewInventoryController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">View Inventory</h3>
+        </div>
+        <div class="card-body">
             <div class="card-body table-responsive">
                 <div class="row">
                   <div class="col-lg-6 col-md-6 col-sm-6">
@@ -63,7 +67,9 @@
         $interpolateProvider.endSymbol('%>');
     });
     Inventory.controller('ViewInventoryController', function ($scope, $http) {
-
+        $("#mstrial-management").addClass('menu-open');
+        $("#mstrial-management a[href='#']").addClass('active');
+        $("#view-inventory").addClass('active');
         $scope.getInventoryInfo = function(){
             $scope.inventoryinfo = {};
             $http.get('get-inventory').then(function (response) {

@@ -1,13 +1,12 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Company Profile')
+@section('pagetitle', 'Company Profile')
+@section('breadcrumb', 'Company Profile')
 @section('content')
 <div ng-app="CompanyApp" ng-controller="CompanyController">
     <div class="card" ng-init="editCompany('<?php echo Auth::user()->id; ?>')">
         <div class="card-body">
             <div class="row">
-                <div class="col">
-                    <h2 class="card-title">Please Add Your Company Detail</h2>
-                </div>
                 <div class="col">
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
@@ -49,7 +48,7 @@
                     <div class="form-group row">
                         <div class="col">
                             <label>Company Established</label>
-                            <select class="form-control form-control-lg" ng-model="company.established">
+                            <select class="form-control" ng-model="company.established">
                                 <option value="">Select Year</option>
                                 <?php for ($i = 1950; $i <= date('Y'); $i++) { ?>
                                     <option value="<?php echo $i ?>"><?php echo $i; ?></option>
@@ -112,6 +111,9 @@
         $interpolateProvider.endSymbol('%>');
     });
     CompanyProfile.controller('CompanyController', function ($scope, $http) {
+        $("#company").addClass('menu-open');
+        $("#company a[href='#']").addClass('active');
+        $("#company-profile").addClass('active');
         $scope.company = {};
         $scope.app_url = $('#baseurl').val();
         $scope.get_allcompanyinfo = function () {

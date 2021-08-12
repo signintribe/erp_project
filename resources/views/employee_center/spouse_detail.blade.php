@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Family/Spouse Emergency Contact Person Details')
+@section('pagetitle', 'Family/Spouse Person Details')
+@section('breadcrumb', 'Family/Spouse Person Details')
 @section('content')
 <div  ng-app="SpouseApp" ng-controller="SpouseController" ng-cloak>
     <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Family/Spouse Person Details</h3>
+        </div>
         <div class="card-body">
-            <h3 class="card-title">Family/Spouse Emergency Contact Person Details</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
                     <div class="form-group">
@@ -251,8 +255,10 @@
     </div> -->
     <br>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Spouse Detail</h3>
+        </div>
+        <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -327,6 +333,9 @@
     });
 
     Spouse.controller('SpouseController', function ($scope, $http) {
+        $("#employee").addClass('menu-open');
+        $("#employee a[href='#']").addClass('active');
+        $("#employee-spouse").addClass('active');
         $scope.user = {};
         $scope.appurl = $("#app_url").val();
         $scope.getEmployees = function () {

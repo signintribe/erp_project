@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
-@section('title', 'Add Vendor Information')
+@extends('layouts.admin.creationTier')
+@section('title', 'Add Vendor')
+@section('pagetitle', 'Add Vendor')
+@section('breadcrumb', 'Add Vendor')
 @section('content')
 <div  ng-app="VendorApp" ng-controller="VendorController" ng-cloak>
     <div class="card" ng-init="getVendorInformation()">
+        <div class="card-header">
+            <h3 class="card-title">Add Vendor</h3>
+        </div>
         <div class="card-body">
-            <h3 class="card-title">Organizational Information</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="vendor_type">*Type Of Vendor</label>
@@ -111,6 +115,9 @@
 
 
     Vendor.controller('VendorController', function ($scope, $http) {
+        $("#purchase").addClass('menu-open');
+        $("#purchase a[href='#']").addClass('active');
+        $("#add-vendor").addClass('active');
         $scope.organization = {};
         $scope.appurl = $("#appurl").val();
         $scope.save_vendorInformation = function(){

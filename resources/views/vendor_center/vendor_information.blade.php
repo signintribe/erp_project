@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
-@section('title', 'Vendor Information')
+@extends('layouts.admin.creationTier')
+@section('title', 'Add Vendor')
+@section('pagetitle', 'Add Vendor')
+@section('breadcrumb', 'Add Vendor')
 @section('content')
 <div  ng-app="VendorApp" ng-controller="VendorController" ng-cloak>
     <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Add Vendor</h3>
+        </div>
         <div class="card-body">
-            <h3 class="card-title">Organizational Information</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="organization_name">* Name of Organization</label>
@@ -70,19 +74,17 @@
                     <input type="checkbox" id="sole_proprietor"/> <label for="sole_proprietor">Sole Proprietor</label><br/>
                 </div> -->
             </div><br/>
-        </div>
-    </div><br/>
-    <div class="card">
-        <div class="card-body">
-            <h3 class="card-title">Select product categories and attributes</h3>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_vendorInformation()">Save</button>
                 </div>
             </div>
         </div>
-    </div><br>
+    </div><br/>
     <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">All Vendors</h3>
+        </div>
         <div class="card-body table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -101,7 +103,7 @@
                     <tr ng-repeat="vendor in vendorinformations">
                         <td ng-bind="$index+1"></td>
                         <td>
-                            <img ng-src="{{asset('public/organization_logo/<% vendor.organization_logo %>')}}" alt="">
+                            <img ng-src="{{asset('public/organization_logo/<% vendor.organization_logo %>')}}" alt="" class="img img-sm">
                         </td>
                         <td ng-bind="vendor.organization_name"></td>
                         <td ng-bind="vendor.ntn_no "></td>
@@ -130,6 +132,9 @@
 
 
     Vendor.controller('VendorController', function ($scope, $http) {
+        $("#purchase").addClass('menu-open');
+        $("#purchase a[href='#']").addClass('active');
+        $("#add-vendor").addClass('active');
         $scope.organization = {};
         $scope.appurl = $("#appurl").val();
         $scope.save_vendorInformation = function(){

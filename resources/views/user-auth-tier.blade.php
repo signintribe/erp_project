@@ -1,4 +1,4 @@
-@extends('layouts.admin.creationTier')
+@extends('layouts.admin.userAuthTier')
 @section('title', 'Dashboard')
 @section('pagetitle', 'Dashboard')
 @section('breadcrumb', 'Dashboard')
@@ -16,7 +16,7 @@
     });
 
     AdminDashboard.controller('AdminDashboardController', function ($scope, $http) {
-        
+
     });
 </script>
 @endsection

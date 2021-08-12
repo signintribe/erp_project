@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Organizational Assignment')
+@section('pagetitle', 'Organizational Assignment')
+@section('breadcrumb', 'Organizational Assignment')
 @section('content')
 <div  ng-app="AssignmentApp" ng-controller="AssignmentController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Organizational Assignment</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
                     <label for="select_employee">* Select Employee</label>
@@ -95,8 +99,10 @@
     </div>
     <br>
     <div class="card">
-        <div class ="card-body">
+        <div class="card-header">
             <h3 class="card-title">All Assignments</h3>
+        </div>
+        <div class ="card-body">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -171,6 +177,9 @@
     });
 
     Assignment.controller('AssignmentController', function ($scope, $http) {
+        $("#employee").addClass('menu-open');
+        $("#employee a[href='#']").addClass('active');
+        $("#organizational-assignment").addClass('active');
         $scope.app_url = $("#appurl").val();
         $scope.getEmployees = function () {
             $http.get('getEmployees').then(function (response) {

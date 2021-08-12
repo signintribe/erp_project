@@ -16,6 +16,9 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('creation-tier', 'TierController@creation_tier');
+Route::get('task-tier', 'TierController@task_tier');
+Route::get('report-tier', 'TierController@report_tier');
+Route::get('user-auth-tier', 'TierController@user_auth_tier');
 Route::group(['prefix'=>'creation'], function(){
 
 });
@@ -34,6 +37,7 @@ Route::group(['prefix'=>'hr'], function () {
   Route::get('pay-allowance-deduction', 'Admin\PayAllowanceDeductionController@pay_allownce');
   Route::view('employee-trainings', 'employee_center.employee-trainings');
   Route::get('employee-payscale', 'Admin\PayScaleController@employee_payscale');
+  Route::get('timing-info', 'HrViewsController@timing_info');
   Route::get('employee-jd', 'Admin\EmployeeJDController@employee_jd');
   Route::get('getEmployees', 'Admin\UsersController@getEmployees')->middleware('is_admin');
   Route::get('employee-personal-information', 'Admin\UsersController@index')->name('users')->middleware('is_admin');

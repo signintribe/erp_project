@@ -1,9 +1,11 @@
-@extends('layouts.admin.master')
-@section('title', 'Employee Yearly Leaves')
+@extends('layouts.admin.creationTier')
+@section('title', 'Yearly Leave')
+@section('pagetitle', 'Yearly Leave')
+@section('breadcrumb', 'Yearly Leave'))
 @section('content')
 <div  ng-app="YearlyLeaveApp" ng-controller="YearlyLeaveController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <div class="row">
                 <div class="col">
                     <h3 class="card-title">Add Employee Yearly Leaves</h3>
@@ -12,6 +14,8 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
+        </div>
+        <div class="card-body">
             <div class="row" ng-init="getoffice(0)">
                 <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="company" ng-init="all_companies();">Select Company</label>
@@ -82,8 +86,10 @@
         </div>
     </div><br>
     <div class="card d-print-none">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Get All Gazzeted Holiday</h3>
+        </div>
+        <div class="card-body">
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -121,6 +127,9 @@
     });
 
     YearlyLeave.controller('YearlyLeaveController', function ($scope, $http) {
+        $("#company").addClass('menu-open');
+        $("#company a[href='#']").addClass('active');
+        $("#yearly-leave").addClass('active');
         $scope.yl = {};
         $scope.app_url = $("#appurl").val();
         $scope.all_companies = function () {

@@ -1,12 +1,16 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Categories')
+@section('pagetitle', 'Categories')
+@section('breadcrumb', 'Categories')
 @section('content')
 <link rel="stylesheet" href="{{ asset('public/dashboard/vendors/icheck/skins/all.css')}}">
 <div class="row" ng-app="CategoryApp" ng-controller="CategoryController">
     <div class="col-lg-4 col-md-4 col-sm-4">
         <div class="card">
-            <div class="card-body">
+            <div class="card-header">
                 <h4 class="card-title">Add Category</h4>
+            </div>
+            <div class="card-body">
                 <p class="card-description" ng-if="save_message" ng-bind="save_message"></p>
                 <div class="form-group row">
                     <div class="col">
@@ -53,8 +57,10 @@
     </div>
     <div class="col-lg-8 col-md-8 col-sm-8">
         <div class="card">
-            <div class="card-body">
+            <div class="card-header">
                 <h2 class="card-title">Categories</h2>
+            </div>
+            <div class="card-body">
                 <p class="card-description" ng-if="delete_status" ng-bind="delete_status"></p>
                 <div class="row">
                     <div class="col">
@@ -143,6 +149,9 @@
         $interpolateProvider.endSymbol('%>');
     });
     Categories.controller('CategoryController', function ($scope, $http) {
+        $("#mstrial-management").addClass('menu-open');
+        $("#mstrial-management a[href='#']").addClass('active');
+        $("#add-category").addClass('active');
         $scope.get_allcategories = function () {
             $http.get('get_categories').then(function (response) {
                 if (response.data.length > 0) {

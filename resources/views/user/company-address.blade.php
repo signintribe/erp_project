@@ -1,13 +1,15 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Company Address')
+@section('pagetitle', 'Company Address')
+@section('breadcrumb', 'Company Address')
 @section('content')
 <div ng-app="ComAddressApp" ng-controller="ComAddressController">
     <div class="card">
+        <div class="card-header">
+            <h5 class="caed-title">Please add company address</h5>
+        </div>
         <div class="card-body">
             <div class="row">
-                <div class="col">
-                    <h2 class="card-title">Please Add Your Company Address</h2>
-                </div>
                 <div class="col">
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
@@ -88,8 +90,10 @@
         </div>
     </div><br/>
     <div class="card d-print-none">
-        <div class="card-body" ng-init="get_companyaddress();">
+        <div class="card-header">
             <h3 class="card-title">Company Addresses</h3>
+        </div>
+        <div class="card-body" ng-init="get_companyaddress();">
             <small class="text text-danger" ng-bind="deletemessage" ng-if="deletemessage"></small>
             <table class="table table-bordered">
                 <thead>
@@ -130,6 +134,9 @@
         $interpolateProvider.endSymbol('%>');
     });
     CompanyAddress.controller('ComAddressController', function ($scope, $http) {
+        $("#company").addClass('menu-open');
+        $("#company a[href='#']").addClass('active');
+        $("#company-address").addClass('active');
         $scope.company = {};
         $scope.app_url = $('#baseurl').val();
         $scope.get_allcompanyinfo = function () {

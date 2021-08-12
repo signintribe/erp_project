@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Job Description')
+@section('pagetitle', 'Job Description')
+@section('breadcrumb', 'Job Description')
 @section('content')
 <div  ng-app="JobDescriptiontApp" ng-controller="JobDescriptionController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Job Description</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12" ng-init="getEmployees();">
                     <label for="select_employee">* Select Employee</label>
@@ -41,8 +45,10 @@
     </div>
     <br>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Employee Job Descriptions</h3>
+        </div>
+        <div class="card-body">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -76,6 +82,9 @@
 <script>
     var JobDescription = angular.module('JobDescriptiontApp', []);
     JobDescription.controller('JobDescriptionController', function ($scope, $http) {
+        $("#employee").addClass('menu-open');
+        $("#employee a[href='#']").addClass('active');
+        $("#employee-jd").addClass('active');
         $scope.getEmployees = function () {
             $http.get('getEmployees').then(function (response) {
                 if (response.data.length > 0) {

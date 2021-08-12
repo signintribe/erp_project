@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
-@section('title', 'View Logistic')
+@extends('layouts.admin.creationTier')
+@section('title', 'View Logistics')
+@section('pagetitle', 'View Logistics')
+@section('breadcrumb', 'View Logistics')
 @section('content')
 <div  ng-app="viewLogisticsApp" ng-controller="viewLogisticsController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">View Logistic Info</h3>
+        </div>
+        <div class="card-body">
             <div class="card-body table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -46,6 +50,9 @@
         $interpolateProvider.endSymbol('%>');
     });
     viewLogistics.controller('viewLogisticsController', function ($scope, $http) {
+        $("#sourcing").addClass('menu-open');
+        $("#sourcing a[href='#']").addClass('active');
+        $("#view-logistics").addClass('active');
         $scope.getLogisticInfo = function(){
             $scope.logisticsInfo = {};
             $http.get('get-logistics').then(function (response) {

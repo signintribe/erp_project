@@ -1,12 +1,16 @@
-@extends('layouts.admin.master')
-@section('title', 'Employees Address Detail')
+@extends('layouts.admin.creationTier')
+@section('title', 'Employee Address')
+@section('pagetitle', 'Employee Address')
+@section('breadcrumb', 'Employee Address')
 @section('content')
 <div  ng-app="AddressApp" ng-controller="AddressController" ng-cloak>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="card">
-                <div class="card-body">
+                <div class="card-header">
                     <h3 class="card-title">Address Detail</h3>
+                </div>
+                <div class="card-body">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
                             <div class="form-group">
@@ -105,8 +109,10 @@
                 </div>
             </div><br/>
             <div class="card">
-                <div class="card-body">
+                <div class="card-title">
                     <h3 class="card-title">All Address</h3>
+                </div>
+                <div class="card-body">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -145,6 +151,9 @@
 <script>
     var Address = angular.module('AddressApp', []);
     Address.controller('AddressController', function ($scope, $http) {
+        $("#employee").addClass('menu-open');
+        $("#employee a[href='#']").addClass('active');
+        $("#employee-address").addClass('active');
         $scope.getEmployees = function () {
             $http.get('getEmployees').then(function (response) {
                 if (response.data.length > 0) {

@@ -1,9 +1,11 @@
-@extends('layouts.admin.master')
-@section('title', 'Employee Group')
+@extends('layouts.admin.creationTier')
+@section('title', 'Company Group')
+@section('pagetitle', 'Company Group')
+@section('breadcrumb', 'Company Group')
 @section('content')
 <div  ng-app="GroupApp" ng-controller="GroupController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <div class="row">
                 <div class="col">
                     <h3 class="card-title">Add Employee Group</h3>
@@ -12,6 +14,8 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
+        </div>
+        <div class="card-body">
             <div class="row" ng-init="getoffice(0)">
                 <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="company" ng-init="all_companies();">Select Company</label>
@@ -60,8 +64,10 @@
         </div>
     </div><br>
     <div class="card d-print-none">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Get All Shifts</h3>
+        </div>
+        <div class="card-body">
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -99,6 +105,9 @@
     });
 
     Shifts.controller('GroupController', function ($scope, $http) {
+        $("#company").addClass('menu-open');
+        $("#company a[href='#']").addClass('active');
+        $("#company-group").addClass('active');
         $scope.group = {};
         $scope.app_url = $("#appurl").val();
         $scope.all_companies = function () {

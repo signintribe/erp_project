@@ -1,12 +1,16 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Attributes')
+@section('pagetitle', 'Attributes')
+@section('breadcrumb', 'Attributes')
 @section('content')
 <link rel="stylesheet" href="{{ asset('public/dashboard/vendors/icheck/skins/all.css')}}">
 <div class="row" ng-app="AttributeApp" ng-controller="AttributeController">
     <div class="col-lg-4 col-md-4 col-sm-4">
         <div class="card">
-            <div class="card-body">
+            <div class="card-header">
                 <h4 class="card-title">Add Attribute</h4>
+            </div>
+            <div class="card-body">
                 <p class="card-description" ng-if="save_message" ng-bind="save_message"></p>
                 <div class="form-group row">
                     <div class="col">
@@ -53,6 +57,9 @@
     </div>
     <div class="col-lg-8 col-md-8 col-sm-8">
         <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">All Attribute</h4>
+            </div>
             <div class="card-body table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -90,6 +97,9 @@
 
     
     Attribute.controller('AttributeController', function ($scope, $http) {
+        $("#mstrial-management").addClass('menu-open');
+        $("#mstrial-management a[href='#']").addClass('active');
+        $("#add-attribute").addClass('active');
         $scope.get_allcategories = function () {
             $http.get('product-categories').then(function (response) {
                 if (response.data.length > 0) {

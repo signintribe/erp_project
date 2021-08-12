@@ -49,10 +49,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('creation-tier')}}" class="nav-link active">Creation Tier</a>
+                        <a href="{{url('creation-tier')}}" class="nav-link">Creation Tier</a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('task-tier')}}" class="nav-link">Task Tier</a>
+                        <a href="{{url('task-tier')}}" class="nav-link active">Task Tier</a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
                         <a href="{{url('report-tier')}}" class="nav-link">Report Tier</a>
@@ -146,7 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item" id="company">
+                            <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fa fa-industry"></i>
                                     <p>
@@ -155,81 +155,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{url('company/company-profile')}}" class="nav-link" id="company-profile">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Company Profile</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('company/company-address')}}" class="nav-link" id="company-address">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Company Address</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('company/company-contact')}}" class="nav-link" id="company-contact">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Company Contact</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('company/company-registration')}}" class="nav-link" id="company-registration">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Company Registration</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('company/maintain-office')}}" class="nav-link" id="company-office">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Maintain Office</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('company/company-departments')}}" class="nav-link" id="company-department">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Departments</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('company/company-calander')}}" class="nav-link" id="company-calendar">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Company Calander</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('company/employee-group')}}" class="nav-link" id="company-group">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Employee Group</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('company/company-shift')}}" class="nav-link" id="company-shift">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Company Shifts</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('company/gazzeted-holiday')}}" class="nav-link" id="gazzeted-holiday">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Gazzeted Holiday</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('company/yearly-leave')}}" class="nav-link" id="yearly-leave">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Yearly Leave</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('company/bank-detail')}}" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Bank Detail</p>
-                                        </a>
-                                    </li>
+                                    
                                 </ul>
                             </li>
-                            <li class="nav-item" id="employee">
+                            <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-users nav-icon"></i>
                                     <p>
@@ -239,92 +168,50 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{url('hr/employee-personal-information')}}" class="nav-link" id="employee-info">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Employee Information</p>
+                                            <p>Recrutments</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('hr/employees-addresses')}}" class="nav-link" id="employee-address">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Employee Address</p>
+                                            <p>Apply Leaves</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('hr/spouse-detail')}}" class="nav-link" id="employee-spouse">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Spouse Detail</p>
+                                            <p>Pay Roll</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('hr/education-detail')}}" class="nav-link" id="employee-education">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Education Detail</p>
+                                            <p>Promotions</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('hr/certification-detail')}}" class="nav-link" id="employee-certification">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Certification Detail</p>
+                                            <p>Training</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('hr/experience-detail')}}" class="nav-link" id="employee-experience">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Experience Detail</p>
+                                            <p>Trmination</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('hr/employee-payscale')}}" class="nav-link" id="employee-payscale">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Employee Payscale</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('hr/pay-emoluments')}}" class="nav-link" id="pay-emoluments">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Pay and Emoulments</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('hr/employee-jd')}}" class="nav-link" id="employee-jd">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Employee JD's</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('hr/pay-allowance-deduction')}}" class="nav-link" id="employee-payallowance">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Pay, Allowance, Deduction</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('hr/organizational-assignment')}}" class="nav-link" id="organizational-assignment">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Organization Assignments</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('hr/timing-info')}}" class="nav-link" id="timing-info">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Timing Info</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('hr/tasks')}}" class="nav-link" id="employee-task">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Task</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('employee-leave')}}" class="nav-link" id="employee-leaves">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Employee Leave</p>
+                                            <p>Requestion</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item" id="banking-finance">
+                            <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-university nav-icon"></i>
                                     <p>
@@ -334,38 +221,98 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{url('create-chart-account')}}" class="nav-link" id="chart-account">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Chart of Account</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('company/company-bankdetail')}}" class="nav-link" id="bank-info">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Bank Detail</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('bank/budget')}}" class="nav-link">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Budget</p>
+                                            <p>Bank Recancelation</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('bank/tariff')}}" class="nav-link">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Tariff</p>
+                                            <p>Journal Genral</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('bank/Taxes')}}" class="nav-link">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Budet</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Taxes</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Treiff</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Demand of Funds</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Release of Funds</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Audit</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>IOT</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Receiveable</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Payable</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Asset Management</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Bank 2 Bank Transfer</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Requestion</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
-                            <li class="nav-item" id="mstrial-management">
+                            <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-cube nav-icon"></i>
                                     <p>
@@ -375,33 +322,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{url('categories')}}" class="nav-link" id="add-category">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Add Category</p>
+                                            <p>Store Requestion</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('attributes')}}" class="nav-link" id="add-attribute">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Add Attributes</p>
+                                            <p>Metrial Issue</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('attribute_value')}}" class="nav-link" id="add-attrValue">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Attribute Values</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('add-inventory')}}" class="nav-link" id="add-inventory">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Add Inventory</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('view-inventory')}}" class="nav-link" id="view-inventory">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>View Inventory</p>
+                                            <p>Metrial Return</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -439,9 +374,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <p>Task</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Requestion</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
-                            <li class="nav-item" id="sourcing"> 
+                            <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-bus nav-icon"></i>
                                     <p>
@@ -451,38 +392,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{url('add-logistic')}}" class="nav-link" id="add-logistics">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Quotation</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Requestion</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Tender</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Logistics</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('view-logistic')}}" class="nav-link" id="view-logistics">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>View Logistics</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('sourcing/custom-agency')}}" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Cutom Agency</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('sourcing/other-agency')}}" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Other Agency</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('sourcing/bank-detail')}}" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Bank Detail</p>
-                                        </a>
-                                    </li>
                                 </ul>
                             </li>
-                            <li class="nav-item" id="purchase">
+                            <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-chart-line nav-icon"></i>
                                     <p>
@@ -492,38 +427,44 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{url('vendor/vendor-information')}}" class="nav-link" id="add-vendor">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Vendor Information</p>
+                                            <p>Quotation</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('vendor/vendor-address')}}" class="nav-link">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Vendor Address</p>
+                                            <p>Purchase Order</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('vendor/vendor-contact')}}" class="nav-link">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Vendor Contact</p>
+                                            <p>Receive Inventory</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('vendor/vendor-person')}}" class="nav-link">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Contact Person</p>
+                                            <p>Invoice</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('vendor/bank-detail')}}" class="nav-link">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Bank Detail</p>
+                                            <p>Payment</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Requestion</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item" id="sales">
+                            <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-chart-pie nav-icon"></i>
                                     <p>
@@ -533,33 +474,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{url('customer/customer-information')}}" class="nav-link">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Customer Information</p>
+                                            <p>Quotation</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('customer/customer-address')}}" class="nav-link">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Customer Address</p>
+                                            <p>Sales Order</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('customer/contact-detail')}}" class="nav-link">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Customer Contact</p>
+                                            <p>Despatch Inventory</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('customer/customer-contact-person')}}" class="nav-link">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Contact Person</p>
+                                            <p>Invoice</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('customer/bank-detail')}}" class="nav-link">
+                                        <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Bank Detail</p>
+                                            <p>Receipts</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Requestion</p>
                                         </a>
                                     </li>
                                 </ul>

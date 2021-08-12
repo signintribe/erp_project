@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
-@section('title', 'Tasks')
+@extends('layouts.admin.creationTier')
+@section('title', 'Employee Tast Details')
+@section('pagetitle', 'Employee Tast Details')
+@section('breadcrumb', 'Employee Tast Details')
 @section('content')
 <div  ng-app="TasksApp" ng-controller="TasksController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Tasks Detail</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
                     <div class="form-group">
@@ -110,6 +114,9 @@
         </div>
     </div><br>
     <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Tasks Detail</h3>
+        </div>
         <div class="card-body">
             <table class="table table-bordered">
                 <thead>
@@ -145,6 +152,9 @@
 <script>
     var Tasks = angular.module('TasksApp', []);
     Tasks.controller('TasksController', function ($scope, $http) {
+        $("#employee").addClass('menu-open');
+        $("#employee a[href='#']").addClass('active');
+        $("#employee-task").addClass('active');
         $scope.task = {};
         $scope.getEmployees = function () {
                 $http.get('getEmployees').then(function (response) {

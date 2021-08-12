@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
-@section('title', 'Certification/Training Detail')
+@extends('layouts.admin.creationTier')
+@section('title', 'Certification/Training Details')
+@section('pagetitle', 'Certification/Training Details')
+@section('breadcrumb', 'Certification/Training Details')
 @section('content')
 <div  ng-app="CertificationApp" ng-controller="CertificationController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Certification/Training Detail (If any)</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
                     <label for="select_employee">* Select Employee</label>
@@ -74,8 +78,10 @@
     </div>
     <br>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">All Certification</h3>
+        </div>
+        <div class="card-body">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -149,6 +155,9 @@
     });
 
     Certification.controller('CertificationController', function ($scope, $http) {
+        $("#employee").addClass('menu-open');
+        $("#employee a[href='#']").addClass('active');
+        $("#employee-certification").addClass('active');
         $scope.education = {};
         $scope.getEmployees = function () {
             $http.get('getEmployees').then(function (response) {

@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Add Logistics')
+@section('pagetitle', 'Add Logistics')
+@section('breadcrumb', 'Add Logistics')
 @section('content')
 <div  ng-app="LogisticApp" ng-controller="LogisticController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Organization Information</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="logistic_type">Logistic</label>
@@ -89,8 +93,10 @@
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Address Detail</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="address_line1">Postal Address Line 1</label>
@@ -122,8 +128,10 @@
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Organizational Contact</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="phone_number">Phone Number</label>
@@ -195,6 +203,9 @@
         $interpolateProvider.endSymbol('%>');
     });
     Logistic.controller('LogisticController', function ($scope, $http) {
+        $("#sourcing").addClass('menu-open');
+        $("#sourcing a[href='#']").addClass('active');
+        $("#add-logistics").addClass('active');
         $scope.logistic = {};
 
         $scope.saveLogistic = function(){

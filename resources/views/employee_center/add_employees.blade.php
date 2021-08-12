@@ -1,12 +1,16 @@
-@extends('layouts.admin.master')
-@section('title', 'Users')
+@extends('layouts.admin.creationTier')
+@section('title', 'Employee Information')
+@section('pagetitle', 'Employee Information')
+@section('breadcrumb', 'Employee Information')
 @section('content')
 <div  ng-app="UsersApp" ng-controller="UsersController" ng-cloak>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="card">
-                <div class="card-body">
+                <div class="card-header">
                     <h4 class="card-title">Personal Information</h4>
+                </div>
+                <div class="card-body">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
@@ -235,8 +239,10 @@
                 </div>
             </div><br/>
             <div class="card">
-                <div class="card-body">
+                <div class="card-header">
                     <h3 class="card-title">All Employees</h3>
+                </div>
+                <div class="card-body">
                     <table border="0" class="table table-bordered">
                         <thead>
                             <tr>
@@ -274,6 +280,9 @@
 <script>
     var Users = angular.module('UsersApp', []);
     Users.controller('UsersController', function ($scope, $http) {
+        $("#employee").addClass('menu-open');
+        $("#employee a[href='#']").addClass('active');
+        $("#employee-info").addClass('active');
         $scope.getEmployees = function () {
             $(".loader").html('<div class="square-path-loader"></div>');
             $http.get('getEmployees').then(function (response) {

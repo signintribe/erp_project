@@ -1,9 +1,11 @@
-@extends('layouts.admin.master')
-@section('title', 'Company Registration')
+@extends('layouts.admin.creationTier')
+@section('title', 'Company Office')
+@section('pagetitle', 'Company Office')
+@section('breadcrumb', 'Company Office')
 @section('content')
 <div  ng-app="OfficeApp" ng-controller="OfficeController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <div class="row">
                 <div class="col">
                     <h3 class="card-title">Add Registration</h3>
@@ -12,6 +14,8 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="office-name">* Name of Office</label>
@@ -147,6 +151,9 @@
     </div>
     <br>
     <div class="card d-print-none">
+        <div class="card-header">
+            <h3 class="card-title">Company Offices</h3>
+        </div>
         <div class="card-body">
             <table class="table table-bordered">
                 <thead>
@@ -225,6 +232,9 @@
     });
 
     Company.controller('OfficeController', function ($scope, $http) {
+        $("#company").addClass('menu-open');
+        $("#company a[href='#']").addClass('active');
+        $("#company-office").addClass('active');
         $scope.office = {};
 
         $scope.all_companies = function () {

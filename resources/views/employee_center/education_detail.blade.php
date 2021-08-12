@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Educational Detail')
+@section('pagetitle', 'Educational Detail')
+@section('breadcrumb', 'Educational Detail')
 @section('content')
 <div  ng-app="EducationApp" ng-controller="EducationController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Educational Detail</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
                     <label for="select_employee">Select Employee</label>
@@ -79,8 +83,10 @@
         </div>
     </div> <br>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Education</h3>
+        </div>
+        <div class="card-body">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -115,6 +121,9 @@
 <script>
     var Education = angular.module('EducationApp', []);
     Education.controller('EducationController', function ($scope, $http) {
+        $("#employee").addClass('menu-open');
+        $("#employee a[href='#']").addClass('active');
+        $("#employee-education").addClass('active');
         $scope.getEmployees = function () {
             $http.get('getEmployees').then(function (response) {
                 if (response.data.length > 0) {

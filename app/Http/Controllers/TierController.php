@@ -14,4 +14,19 @@ class TierController extends Controller
     {
         return view('creation-tier');
     }
+
+    public function task_tier()
+    {
+        return view('task-tier');
+    }
+
+    public function report_tier()
+    {
+        return view('report-tier');
+    }
+
+    public function user_auth_tier()
+    {
+        return view('user-auth-tier');
+    }
 }

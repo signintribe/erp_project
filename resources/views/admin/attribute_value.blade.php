@@ -1,12 +1,16 @@
-@extends('layouts.admin.master')
-@section('title', 'Attributes')
+@extends('layouts.admin.creationTier')
+@section('title', 'Attribute Values')
+@section('pagetitle', 'Attribute Values')
+@section('breadcrumb', 'Attribute Values')
 @section('content')
 <link rel="stylesheet" href="{{ asset('public/dashboard/vendors/icheck/skins/all.css')}}">
 <div class="row" ng-app="AttributeValueApp" ng-controller="AttributeValueController">
     <div class="col-lg-4 col-md-4 col-sm-4">
         <div class="card">
+            <div class="">
+                <h4 class="card-title">Add Attribute Values</h4>
+            </div>
             <div class="card-body">
-                <h4 class="card-title">Add Attribute</h4>
                 <p class="card-description" ng-if="save_message" ng-bind="save_message"></p>
                 <div class="form-group row">
                     <div class="col">
@@ -42,6 +46,9 @@
     </div>
     <div class="col-lg-8 col-md-8 col-sm-8">
         <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">All Attribute Values</h4>
+            </div>
             <div class="card-body table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -83,6 +90,9 @@
 
     
     AttributeValue.controller('AttributeValueController', function ($scope, $http) {
+        $("#mstrial-management").addClass('menu-open');
+        $("#mstrial-management a[href='#']").addClass('active');
+        $("#add-attrValue").addClass('active');
         $scope.get_allattributes = function (category_id) {
             $http.get('get-attributes/'+category_id).then(function (response) {
                 if (response.data.length > 0) {

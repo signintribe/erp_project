@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
-@section('title', 'Pay Emoluments')
+@extends('layouts.admin.creationTier')
+@section('title', 'Pay & Emoluments')
+@section('pagetitle', 'Pay & Emoluments')
+@section('breadcrumb', 'Pay & Emoluments')
 @section('content')
 <div  ng-app="EmolumentsApp" ng-controller="EmolumentsController" ng-cloak>
     <div class="card">
+        <div class="card-header">
+            <h3 class="Pay & Emoluments"></h3>
+        </div>
         <div class="card-body">
-            <h3 class="card-title">Pay and Emoluments</h3>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
                     <label for="select_employee">* Select Employee</label>
@@ -46,8 +50,10 @@
     </div>
     <br>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">All Pay and Emoluments</h3>
+        </div>
+        <div class="card-body">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -83,6 +89,9 @@
 <script>
     var Emoluments = angular.module('EmolumentsApp', []);
     Emoluments.controller('EmolumentsController', function ($scope, $http) {
+        $("#employee").addClass('menu-open');
+        $("#employee a[href='#']").addClass('active');
+        $("#pay-emoluments").addClass('active');
         $scope.getEmployees = function () {
             $http.get('getEmployees').then(function (response) {
                 if (response.data.length > 0) {

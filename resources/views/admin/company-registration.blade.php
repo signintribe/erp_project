@@ -1,9 +1,11 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Company Registration')
+@section('pagetitle', 'Company Registration')
+@section('breadcrumb', 'Company Registration')
 @section('content')
 <div  ng-app="RegistrationApp" ng-controller="RegistrationController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <div class="row">
                 <div class="col">
                     <h3 class="card-title">Add Registration</h3>
@@ -12,6 +14,8 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="registration-authority">* Registration Authority</label>
@@ -82,8 +86,10 @@
         </div>
     </div><br/>
     <div class="card d-print-none">
-        <div class="card-body" ng-init="allcompany_registrations()">
+        <div class="card-header">
             <h3 class="card-title">All Registration</h3>
+        </div>
+        <div class="card-body" ng-init="allcompany_registrations()">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -158,6 +164,9 @@
     });
 
     Company.controller('RegistrationController', function ($scope, $http) {
+        $("#company").addClass('menu-open');
+        $("#company a[href='#']").addClass('active');
+        $("#company-registration").addClass('active');
         $scope.registration = {};
 
         $scope.all_companies = function () {

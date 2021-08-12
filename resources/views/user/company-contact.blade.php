@@ -1,9 +1,11 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Company Contact')
+@section('pagetitle', 'Company Contact')
+@section('breadcrumb', 'Company Contact')
 @section('content')
 <div ng-app="ComContactApp" ng-controller="ComContactController">
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <div class="row">
                 <div class="col">
                     <h2 class="card-title">Please Add Your Company Contact</h2>
@@ -11,7 +13,9 @@
                 <div class="col">
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
-            </div>            
+            </div>  
+        </div>
+        <div class="card-body">          
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Email</label>
@@ -107,9 +111,11 @@
         </div>
     </div><br/>
     <div class="card d-print-none">
-        <div class="card-body" ng-init="get_companycontact();">
+        <div class="card-header">
             <h3 class="card-title">Company Contacts</h3>
-            <small class="text text-danger" ng-bind="deletemessage" ng-if="deletemessage"></small>
+        </div>
+        <div class="card-body" ng-init="get_companycontact();">
+            <small class="text text-danger" ng-bind="deletemessage" ng-if="deletemessage"></small><br/>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -148,6 +154,9 @@
         $interpolateProvider.endSymbol('%>');
     });
     CompanyContact.controller('ComContactController', function ($scope, $http) {
+        $("#company").addClass('menu-open');
+        $("#company a[href='#']").addClass('active');
+        $("#company-contact").addClass('active');
         $scope.company = {};
         $scope.app_url = $('#baseurl').val();
         $scope.get_allcompanyinfo = function () {

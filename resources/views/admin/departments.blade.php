@@ -1,9 +1,11 @@
-@extends('layouts.admin.master')
-@section('title', 'Departments')
+@extends('layouts.admin.creationTier')
+@section('title', 'Company Departments')
+@section('pagetitle', 'Company Departments')
+@section('breadcrumb', 'Company Departments')
 @section('content')
 <div  ng-app="DepartmentsApp" ng-controller="DepartmentsController" ng-cloak>
     <div class="card">
-        <div class="card-body" ng-init="get_companyinfo()">
+        <div class="card-header">
             <div class="row">
                 <div class="col">
                     <h3 class="card-title">Add Department</h3>
@@ -12,6 +14,8 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
+        </div>
+        <div class="card-body" ng-init="get_companyinfo()">
             <div class="row" ng-init="getoffice(0)">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="office">* Select Office</label>
@@ -214,8 +218,10 @@
         </div>
     </div><br>
     <div class="card d-print-none">
-        <div class="card-body" ng-init="get_departments();">
+        <div class="card-header">
             <h3 class="card-title">All Departments</h3>
+        </div>
+        <div class="card-body" ng-init="get_departments();">
             <table class="table table-bordered" style="font-size: 12px;">
                 <tr>
                     <th>Sr#</th>
@@ -283,6 +289,9 @@
     });
 
     Departments.controller('DepartmentsController', function ($scope, $http) {
+        $("#company").addClass('menu-open');
+        $("#company a[href='#']").addClass('active');
+        $("#company-department").addClass('active');
         $scope.get_companyinfo = function () {
             $http.get('getcompanyinfo').then(function (response) {
                 if (response.data.length > 0) {

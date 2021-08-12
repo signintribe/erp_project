@@ -1,9 +1,11 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Bank Detail')
+@section('pagetitle', 'Bank Detail')
+@section('breadcrumb', 'Bank Detail')
 @section('content')
 <div ng-app="BankDetailApp" ng-controller="BankDetailController">
 <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <div class="row">
                 <div class="col">
                     <h2 class="card-title">Please Add Your Company Bank Info</h2>
@@ -12,6 +14,8 @@
                     <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
                 </div>
             </div>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
@@ -191,8 +195,10 @@
         </div>
     </div><br/>
     <div class="card d-print-none">
-        <div class="card-body" ng-init="get_comBankDetail();">
+        <div class="card-header">
             <h3 class="card-title">Company Contacts</h3>
+        </div>
+        <div class="card-body" ng-init="get_comBankDetail();">
             <small class="text text-danger" ng-bind="deletemessage" ng-if="deletemessage"></small>
             <table class="table table-bordered">
                 <thead>
@@ -234,6 +240,9 @@
         $interpolateProvider.endSymbol('%>');
     });
     BankDetail.controller('BankDetailController', function ($scope, $http) {
+        $("#banking-finance").addClass('menu-open');
+        $("#banking-finance a[href='#']").addClass('active');
+        $("#bank-info").addClass('active');
         $scope.company = {};
         $scope.app_url = $('#baseurl').val();
         $scope.get_allcompanyinfo = function () {

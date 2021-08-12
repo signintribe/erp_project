@@ -1,7 +1,7 @@
 @extends('layouts.admin.creationTier')
-@section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
-@section('breadcrumb', 'Dashboard')
+@section('title', 'Employees Timing Info')
+@section('pagetitle', 'Employees Timing Info')
+@section('breadcrumb', 'Employees Timing Info')
 @section('content')
 <div ng-app="AdminDashboardApp" ng-controller="AdminDashboardController">
     
@@ -16,7 +16,9 @@
     });
 
     AdminDashboard.controller('AdminDashboardController', function ($scope, $http) {
-        
+        $("#employee").addClass('menu-open');
+        $("#employee a[href='#']").addClass('active');
+        $("#timing-info").addClass('active');
     });
 </script>
 @endsection
