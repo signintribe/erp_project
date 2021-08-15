@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Customer Information')
+@section('pagetitle', 'Customer Information')
+@section('breadcrumb', 'Customer Information')
 @section('content')
 <div  ng-app="CustomerApp" ng-controller="CustomerController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Customer Information</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <label for="customer_type">* Type of Customer</label>
@@ -98,6 +102,9 @@
         </div>
     </div><br> -->
     <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Customer Information</h3>
+        </div>
         <div class="card-body table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -153,6 +160,9 @@
 
 
     Customer.controller('CustomerController', function ($scope, $http) {
+        $("#sales").addClass('menu-open');
+        $("#sales a[href='#']").addClass('active');
+        $("#customer-info").addClass('active');
         $scope.customer = {};
         $scope.appurl = $("#appurl").val();
         $scope.save_customerInformation = function(){

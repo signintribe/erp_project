@@ -32,6 +32,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <link rel="stylesheet" href="{{asset('public/plugins/dropzone/min/dropzone.min.css')}}">
         <!-- Theme style -->
         <link rel="stylesheet" href="{{asset('public/dist/css/adminlte.min.css')}}">
+        <!-- Sweet Alert -->
+        <link href="{{ asset('public/css/sweetalert.css')}}" rel="stylesheet">
         <style>
             .nav-sidebar a{
                 font-size: 14px;
@@ -498,19 +500,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('vendor/vendor-address')}}" class="nav-link">
+                                        <a href="{{url('vendor/vendor-address')}}" class="nav-link" id="vendor-address">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Vendor Address</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('vendor/vendor-contact')}}" class="nav-link">
+                                        <a href="{{url('vendor/vendor-contact')}}" class="nav-link" id="vendor-contact">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Vendor Contact</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('vendor/vendor-person')}}" class="nav-link">
+                                        <a href="{{url('vendor/vendor-person')}}" class="nav-link" id="vendor-person">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Contact Person</p>
                                         </a>
@@ -533,25 +535,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{url('customer/customer-information')}}" class="nav-link">
+                                        <a href="{{url('customer/customer-information')}}" class="nav-link" id="customer-info">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Customer Information</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('customer/customer-address')}}" class="nav-link">
+                                        <a href="{{url('customer/customer-address')}}" class="nav-link" id="customer-address">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Customer Address</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('customer/contact-detail')}}" class="nav-link">
+                                        <a href="{{url('customer/contact-detail')}}" class="nav-link" id="customer-contact">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Customer Contact</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('customer/customer-contact-person')}}" class="nav-link">
+                                        <a href="{{url('customer/customer-contact-person')}}" class="nav-link" id="customer-contact-person">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Contact Person</p>
                                         </a>
@@ -654,5 +656,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{asset('public/dist/js/demo.js')}}"></script>
         <!-- AdminLTE App -->
         <script src="{{asset('public/dist/js/adminlte.min.js')}}"></script>
+        <script src="https://use.fontawesome.com/9eb69fc173.js"></script>
+        <script src="{{ asset('public/js/sweetalert.min.js')}}"></script>
     </body>
 </html>

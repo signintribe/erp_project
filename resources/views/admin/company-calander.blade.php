@@ -49,7 +49,7 @@
             <div class="row">                
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="fiscal">Fiscal/Financial</label>
-                    <input type="text" ng-model="calander.fiscal_financial" id="fiscal" class="form-control" placeholder="Fiscal/Financial">
+                    <input type="text" ng-model="calander.fiscal_financial" datepicker id="fiscal" class="form-control" placeholder="Fiscal/Financial">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="calander_year">Calander Year</label>
@@ -62,11 +62,25 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="calander_start">Calander Start Date</label>
-                    <input type="text" ng-model="calander.calender_start_date" datepicker id="calander_start" class="form-control" placeholder="Calander Start">
+                    <div class="form-group">
+                    <div class="input-group date" id="start_date" data-target-input="nearest">
+                        <input type="text" placeholder="Start Date" ng-model="calander.calender_start_date" class="form-control datetimepicker-input" data-target="#start_date"/>
+                        <div class="input-group-append" data-target="#start_date" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="calander_end">Calander End Date</label>
-                    <input type="text" ng-model="calander.calender_end_date" datepicker id="calander_end" class="form-control" placeholder="Calander End">
+                    <div class="form-group">
+                    <div class="input-group date" id="end_date" data-target-input="nearest">
+                        <input type="text" placeholder="End Date" ng-model="calander.calender_end_date" class="form-control datetimepicker-input" data-target="#end_date"/>
+                        <div class="input-group-append" data-target="#end_date" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div><br>
             <div class="row">                
@@ -94,7 +108,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="working_hours_week">Working Hours in a week</label>
-                    <input type="text" ng-model="calander.daysin_week" id="working_hours_week" class="form-control" placeholder="Working Hours in a week">
+                    <input type="text" ng-model="calander.hoursin_week" id="working_hours_week" class="form-control" placeholder="Working Hours in a week">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="working_hours_months">Working Hours in a month</label>
@@ -136,7 +150,7 @@
                         <td ng-bind="calendar.calender_start_date"></td>
                         <td ng-bind="calendar.calender_end_date"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="editCalendar(calendar.id)">Edit</button>
+                            <button class="btn btn-xs btn-info" ng-click="editCalendar(calendar.id, calendar.office_id)">Edit</button>
                             <button class="btn btn-xs btn-danger" ng-click="deleteCalendar(calendar.id)">Delete</button>
                         </td>
                     </tr>
@@ -152,44 +166,16 @@
         $interpolateProvider.startSymbol('<%');
         $interpolateProvider.endSymbol('%>');
     });
-
-    OrderList.directive('datepicker', function () {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            compile: function () {
-                return {
-                    pre: function (scope, element, attrs, ngModelCtrl) {
-                        var format, dateObj;
-                        format = (!attrs.dpFormat) ? 'yyyy-mm-dd' : attrs.dpFormat;
-                        if (!attrs.initDate && !attrs.dpFormat) {
-                            // If there is no initDate attribute than we will get todays date as the default
-                            dateObj = new Date();
-//                            scope[attrs.ngModel] = dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
-                        } else if (!attrs.initDate) {
-                            // Otherwise set as the init date
-                            scope[attrs.ngModel] = attrs.initDate;
-                        } else {
-                            // I could put some complex logic that changes the order of the date string I
-                            // create from the dateObj based on the format, but I'll leave that for now
-                            // Or I could switch case and limit the types of formats...
-                        }
-                        // Initialize the date-picker
-                        $(element).datepicker({
-                            format: format
-                        }).on('changeDate', function (ev) {
-                            // To me this looks cleaner than adding $apply(); after everything.
-                            scope.$apply(function () {
-                                ngModelCtrl.$setViewValue(ev.format(format));
-                            });
-                        });
-                    }
-                };
-            }
-        };
-    });
-
     OrderList.controller('CalanderController', function ($scope, $http) {
+        //Date picker
+        $('#start_date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+
+        $('#end_date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+
         $("#company").addClass('menu-open');
         $("#company a[href='#']").addClass('active');
         $("#company-calendar").addClass('active');
@@ -238,8 +224,9 @@
             });
         }
 
-        $scope.editCalendar = function(id){
+        $scope.editCalendar = function(id, office_id){
             $http.get('maintain-calender/'+ id + '/edit').then(function (response) {
+                $scope.getDepartments(office_id);
                 $scope.calander = response.data[0];
                 $scope.calander.office_id = parseInt($scope.calander.office_id);
                 $scope.calander.department_id = parseInt($scope.calander.department_id);
@@ -249,10 +236,12 @@
 
 
         $scope.save_calender = function () {
+            $scope.calander.calender_start_date = $("#start_date input").val();
+            $scope.calander.calender_end_date = $("#end_date input").val();
             if (!$scope.calander.department_id || !$scope.calander.calender_name) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
-                    return !this.value;
+                return !this.value;
                 }).addClass("has-error");
             } else {
                 var Data = new FormData();

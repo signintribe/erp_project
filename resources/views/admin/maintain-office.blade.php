@@ -44,8 +44,14 @@
                     <label for="office-scope">Office Scope</label>
                     <input type="text" id="expiry-date" class="form-control" placeholder="Office Scope" ng-model="office.scope_office"/>
                 </div>
-            </div><hr/>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
             <h3 class="card-title">Address Information</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="postal-address-1">Postal Address Line 1</label>
@@ -87,8 +93,14 @@
                     <label for="zip-code">Zip Code</label>
                     <input type="text" id="zip-code" class="form-control" placeholder="Zip Code" ng-model="office.zip_code"/>                    
                 </div>
-            </div><hr>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
             <h3 class="card-title">Contact Information</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="phone_number">Phone Number</label>
@@ -112,8 +124,14 @@
                     <label for="email">Email</label>
                     <input type="text" class="form-control" id="email" placeholder="Email" ng-model="office.email">
                 </div>
-            </div><hr>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
             <h3 class="card-title">Social Media</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="website">Website</label>

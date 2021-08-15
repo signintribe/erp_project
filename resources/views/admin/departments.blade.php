@@ -39,10 +39,11 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Department Status</label><br>
-                    <span class="form-control">
-                        <input type="checkbox" id="dept_status" ng-model="dept.department_status" placeholder="Department Status"/>
-                        <label for="dept_status">Status</label>
-                    </span>
+                    <select ng-model="dept.department_status" class="form-control">
+                        <option value="">Select Status</label> 
+                        <option value="1">Opened</option> 
+                        <option value="0">Closed</option>
+                    </select>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group row">
@@ -84,7 +85,6 @@
                     <div class="input-group">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="dept.whatsapp" placeholder="Whatsapp">
-                            <div class="input-group-addon input-group-append"><i class="mdi mdi-whatsapp input-group-text"></i></div>
                         </div>
                     </div>
                 </div>
@@ -94,8 +94,14 @@
                     <label for="description">Description</label>
                     <textarea id="description" ng-model="dept.description" class="form-control" placeholder="Description" cols="5" rows="5"></textarea>
                 </div>
-            </div><hr>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
             <h3 class="card-title">Address Detail</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
@@ -166,8 +172,13 @@
                 <div class="col-lg-3 col-md-3 col-sm-3"></div>
                 <div class="col-lg-3 col-md-3 col-sm-3"></div>
             </div>
-            <hr/>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
             <h2 class="card-title">Please Add Your Social Media</h2>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Facebook Page</label>
@@ -228,6 +239,7 @@
                     <th>Company Name</th>
                     <th>Office Name</th>
                     <th>Department Name</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
                 <tr ng-repeat="dept in departments">
@@ -235,6 +247,10 @@
                     <td ng-bind="dept.company_name"></td>
                     <td ng-bind="dept.office_name"></td>
                     <td ng-bind="dept.department_name"></td>
+                    <td>
+                        <span class="text text-success" ng-if="dept.department_status == 1">Opened</span>
+                        <span class="text text-danger" ng-if="dept.department_status == 0">Closed</span>
+                    </td>
                     <td>
                         <button class="btn btn-xs btn-info" ng-click="getoffice(dept.company_id); editDept(dept.id)">Edit</button>
                         <button class="btn btn-xs btn-danger" ng-click="deleteDept(dept.id)">Delete</button>
@@ -312,7 +328,7 @@
             $http.get('getonedept/' + id).then(function (response) {
                 if (response.data) {
                     $scope.dept = response.data[0];
-                    $scope.dept.department_status = response.data[0].department_status == 1 ? true : false;
+                    $scope.dept.department_status = String(response.data[0].department_status);
                     $scope.get_companysocial($scope.dept.social_id);
                     $scope.get_companyaddress($scope.dept.address_id);
                     $scope.get_companycontact($scope.dept.contact_id);

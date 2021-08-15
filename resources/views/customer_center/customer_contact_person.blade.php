@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Customer Contact Person')
+@section('pagetitle', 'Customer Contact Person')
+@section('breadcrumb', 'Customer Contact Person')
 @section('content')
 <div  ng-app="PersonApp" ng-controller="PersonController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Customer Contact Person</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="customer_name" ng-init="getCustomers();">*Name of Customer</label>
@@ -124,6 +128,9 @@
         </div>
     </div><br>
     <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Customer Contact Person</h3>
+        </div>
         <div class="card-body table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -165,6 +172,9 @@
         $interpolateProvider.endSymbol('%>');
     });
     OrgContact.controller('PersonController', function ($scope, $http) {
+        $("#sales").addClass('menu-open');
+        $("#sales a[href='#']").addClass('active');
+        $("#customer-contact-person").addClass('active');
         $scope.contactperson = {};
         $scope.appurl = $("#app_url").val();
         $scope.getCustomers = function () {

@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.creationTier')
 @section('title', 'Vendor Address')
+@section('pagetitle', 'Vendor Address')
+@section('breadcrumb', 'Vendor Address')
 @section('content')
 <div  ng-app="OrgAddressApp" ng-controller="OrgAddressController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Organizationals Address</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors();">
                     <label for="organization_name">* Name of Organization</label>
@@ -92,8 +96,10 @@
         </div>
    </div><br>
     <div class="card">
-        <div class="card-body table-responsive">
+        <div class="card-header">
             <h3 class="card-title">All Address</h3>
+        </div>
+        <div class="card-body table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -137,6 +143,9 @@
 <script>
     var Address = angular.module('OrgAddressApp', []);
     Address.controller('OrgAddressController', function ($scope, $http) {
+        $("#purchase").addClass('menu-open');
+        $("#purchase a[href='#']").addClass('active');
+        $("#vendor-address").addClass('active');
         $scope.appurl = $("#app_url").val();
         $scope.getVendors = function () {
             $scope.vendorinformations = {};
