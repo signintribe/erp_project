@@ -142,7 +142,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             with font-awesome or any other icon font library -->
                             <li class="nav-item">
                                 <a href="{{url('adminhome')}}" class="nav-link">
-                                <i class="nav-icon fa fa-tachometer-alt" aria-hidden="true"></i>
+                                <i class="nav-icon fa fa-dashboard" aria-hidden="true"></i>
                                     <p>
                                         Dashboard
                                     </p>
@@ -224,9 +224,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('company/bank-detail')}}" class="nav-link">
+                                        <a href="{{url('company/company-bank-detail')}}" class="nav-link" id="company-bank">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Bank Detail</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{url('company/company-contact-person')}}" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Contact Person</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -322,6 +328,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <a href="{{url('employee-leave')}}" class="nav-link" id="employee-leaves">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Employee Leave</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{url('hr/employee-contact-person')}}" class="nav-link" id="employee-leaves">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Contact Person</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{url('hr/employee-bank-detail')}}" class="nav-link" id="employee-leaves">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Bank Detail</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -518,9 +536,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('vendor/bank-detail')}}" class="nav-link">
+                                        <a href="{{url('vendor/vendor-bank-detail')}}" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Bank Detail</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{url('vendor/vvendor-contact-person')}}" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Contact Person</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -559,9 +583,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('customer/bank-detail')}}" class="nav-link">
+                                        <a href="{{url('customer/customer-bank-detail')}}" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Bank Detail</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{url('customer/customer-contact-pserson')}}" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Contact Person</p>
                                         </a>
                                     </li>
                                 </ul>

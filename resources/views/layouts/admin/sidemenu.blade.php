@@ -51,6 +51,8 @@
                     <li class="nav-item"> <a href="{{url('company/company-shift')}}" class="nav-link">Company Shift</a></li>
                     <li class="nav-item"> <a href="{{url('company/gazzeted-holiday')}}" class="nav-link">Gazzeted Holiday</a></li>
                     <li class="nav-item"> <a href="{{url('company/yearly-leave')}}" class="nav-link">Yearly Leave</a></li>
+                    <li class="nav-item"> <a href="{{url('company/company-contact-person')}}" class="nav-link">Contact Person</a></li>
+                    <li class="nav-item"> <a href="{{url('company/bank-detail')}}" class="nav-link">Bank Detail</a></li>
                 </ul>
             </div>
         </li>
@@ -77,6 +79,7 @@
                     <li class="nav-item"> <a href="{{url('hr/job-description')}}" class="nav-link">Job Description</a></li>
                     <li class="nav-item"> <a href="{{url('hr/employee-trainings')}}" class="nav-link">Training Info</a></li>
                     <li class="nav-item"> <a href="{{url('hr/employee-bank-detail')}}" class="nav-link">Bank Detail</a></li>
+                    <li class="nav-item"> <a href="{{url('hr/employee-contact-person')}}" class="nav-link">Contact Person</a></li>
                     <li class="nav-item"> <a href="{{url('hr/tasks')}}" class="nav-link">Task</a></li>
                     <li class="nav-item"> <a class="nav-link" href="{{url('employee-leave')}}">Employee Leave</a></li>
                 </ul>
@@ -129,6 +132,7 @@
                     <li class="nav-item"> <a href="{{url('customer/customer-address')}}" class="nav-link">Customer Address</a></li>
                     <li class="nav-item"> <a href="{{url('customer/contact-detail')}}" class="nav-link">Customer Contact</a></li>
                     <li class="nav-item"> <a href="{{url('customer/customer-contact-person')}}" class="nav-link">Contact Person</a></li>
+                    <li class="nav-item"> <a href="{{url('customer/customer-bank-detail')}}" class="nav-link">Bank Detail</a></li>
                 </ul>
             </div>
         </li>

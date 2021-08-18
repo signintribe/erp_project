@@ -44,4 +44,8 @@ class CompaniesController extends Controller {
         return view('admin.your_company_profile');
     }
 
+    public function bank_detail()
+    {
+        return view('company.bank-detail');
+    }
 }

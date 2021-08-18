@@ -323,6 +323,7 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('get-groups/{dep_id}', 'Admin\EmployeeGroupController@getGroups');
   Route::get('gazzeted-holiday', 'Admin\GazzetedHolidayController@gazzeted_holiday');
   Route::get('yearly-leave', 'Admin\YearlyLeaveController@yearly_leave');
+  Route::get('company-bank-detail', 'Admin\CompaniesController@bank_detail');
   Route::resource('maintain-allowance-deducation', 'Admin\PayAllowanceDeductionController');
   Route::resource('maintain-group', 'Admin\EmployeeGroupController');
   Route::resource('maintain-payscale', 'Admin\PayScaleController');
