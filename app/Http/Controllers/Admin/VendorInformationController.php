@@ -132,4 +132,9 @@ class VendorInformationController extends Controller
     public function getVendors($ven_id){
         return DB::select('call sp_getvendorinfo('.Auth::user()->id.','.$ven_id.')');
     }
+
+    public function vendorBankDetail()
+    {
+        return view('vendor_center.vendor-bank-detail');
+    }
 }

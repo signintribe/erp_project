@@ -1,10 +1,19 @@
-@extends('layouts.admin.master')
-@section('title', 'Edit Logistics')
+@extends('layouts.admin.creationTier')
+@section('title', 'View Logistics')
+@section('pagetitle', 'View Logistics')
+@section('breadcrumb', 'View Logistics')
 @section('content')
 <div  ng-app="EditLogisticApp" ng-controller="EditLogisticController" ng-cloak>
     <div class="card" ng-init="editlogisticInfo({{$id}}); logistic{{$id}}">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Edit Logistic Information</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <img ng-if="catimage" ng-src="<% catimage %>" class="img img-responsive" style="width: 100px; height: 100px;"/>
+                </div>
+            </div><br/>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="logistic_type">Logistic Type</label>
@@ -26,7 +35,6 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Organizational Logo:</label>
                     <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);"><br/>
-                    <img ng-if="catimage" ng-src="<% catimage %>" class="img img-responsive" style="width: 100%; height: 200px;"/>
                 </div>
             </div><br/>
             <div class="row">
@@ -88,8 +96,10 @@
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Address Detail</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="address_line1">Postal Address Line 1</label>
@@ -121,8 +131,10 @@
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Organizational Contact</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="phone_number">Phone Number</label>
@@ -173,18 +185,21 @@
                     <input type="text" class="form-control" id="instagram" ng-model="logistic.instagram" placeholder="Instagram"/>
                 </div>
             </div><br/>
-        </div>
-    </div><br/>
-    <div class="card">
-        <div class="card-body">
-            <h3 class="card-title">Select product categories and attributes</h3>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <button type="button" class="btn btn-sm btn-success float-right" ng-click="saveLogistic()">Save</button>
                 </div>
             </div>
         </div>
-    </div>
+    </div><br/>
+    <!-- <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Select product categories and attributes</h3>
+        </div>
+        <div class="card-body">
+            
+        </div>
+    </div> -->
     <input type="hidden" id="appurl" value="<?php echo env('APP_URL') ?>">
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
@@ -194,6 +209,10 @@
         $interpolateProvider.endSymbol('%>');
     });
     EditLogistic.controller('EditLogisticController', function ($scope, $http) {
+        $("#sourcing").addClass('menu-open');
+        $("#sourcing a[href='#']").addClass('active');
+        $("#view-logistics").addClass('active');
+
         $scope.logistic = {};
         $scope.appurl = $("#appurl").val();
         $scope.saveLogistic = function(){
@@ -207,7 +226,7 @@
                 angular.forEach($scope.logistic, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post($scope.appurl + 'save-logistic', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post($scope.appurl + 'sourcing/save-logistic', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data,
@@ -230,7 +249,7 @@
         };
 
         $scope.editlogisticInfo = function (id) {
-            $http.get($scope.appurl + 'edit-logistic-info/' + id).then(function (response) {
+            $http.get($scope.appurl + 'sourcing/edit-logistic-info/' + id).then(function (response) {
                 $scope.logistic = response.data[0];
                 /* $scope.logistic.logistic_type = parseInt(response.data[0].logistic_type);
                 $scope.logistic.currency_dealing = parseInt(response.data[0].currency_dealing); */
@@ -242,21 +261,21 @@
         };
 
         $scope.editAddress = function (address_id) {
-            $http.get($scope.appurl + 'get-log-address/' + address_id).then(function (response) {
+            $http.get($scope.appurl + 'sourcing/get-log-address/' + address_id).then(function (response) {
                 angular.extend($scope.logistic, response.data[0]);
                 //console.log($scope.inventory);
             });
         };
 
         $scope.editContact = function (contact_id) {
-            $http.get($scope.appurl + 'get-log-contact/' + contact_id).then(function (response) {
+            $http.get($scope.appurl + 'sourcing/get-log-contact/' + contact_id).then(function (response) {
                 angular.extend($scope.logistic, response.data[0]);
                 //console.log($scope.inventory);
             });
         };
 
         $scope.editSocial = function (social_id) {
-            $http.get($scope.appurl + 'get-log-social/' + social_id).then(function (response) {
+            $http.get($scope.appurl + 'sourcing/get-log-social/' + social_id).then(function (response) {
                 angular.extend($scope.logistic, response.data[0]);
                 //console.log($scope.inventory);
             });

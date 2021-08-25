@@ -85,6 +85,7 @@ Route::group(['prefix'=>'vendor'], function () {
   Route::get('vendor-person', 'VendorController@contact_person')->name('organization-contact-person');
   Route::resource('maintain-vendor-information', 'Admin\VendorInformationController');
   Route::get('get-vendor/{ven_id}', 'Admin\VendorInformationController@getVendors');
+  Route::get('vendor-bank-detail', 'Admin\VendorInformationController@vendorBankDetail');
   Route::resource('maintain-vendor-contact', 'Vendor\VendorContactController');
   Route::resource('maintain-vendor-contactperson', 'Vendor\ContactPersonController');
   Route::resource('maintain-vendor-address', 'Admin\VendorAddressController');
@@ -126,6 +127,7 @@ Route::group(['prefix'=>'customer'], function () {
   Route::resource('maintain-customer-contacts', 'Customer\CustomerContactsController');
   Route::resource('maintain-customer-contactperson', 'Customer\CustomerContactPersonController');
   Route::get('get-customer/{cus_id}', 'Customer\CustomerInformationController@getCustomer');
+  Route::get('customer-bank-detail', 'CustomerController@customerBankDetail');
 });
 /**
  * Inventory Center
@@ -182,23 +184,26 @@ Route::get('view-sales-order', 'SalesController@view_sales_order')->name('view-s
 /**
  * Logistics Section
  */
-Route::get('freight-forward-det', 'LogisticsController@index')->name('freight-forward-det');
-Route::get('add-logistic', 'LogisticsController@index');
-Route::post('save-logistic', 'LogisticsController@saveLogistic');
-Route::get('get-logistics', 'LogisticsController@getLogistics');
-Route::get('edit-logistic/{id}', 'LogisticsController@viewEdit');
-Route::get('edit-logistic-info/{id}', 'LogisticsController@editLogistic');
-Route::delete('delete-logistic/{id}', 'LogisticsController@destroy');
-Route::get('get-log-address/{address_id}', 'FreightForwardDetController@getAddress');
-Route::get('get-log-contact/{contact_id}', 'FreightForwardDetController@getContact');
-Route::get('get-log-social/{social_id}', 'FreightForwardDetController@getSocial');
-Route::get('view-logistic', 'LogisticsController@viewLogistics');
-/* Route::resource('save-freightforward-det', 'FreightForwardDetController');
-Route::get('edit-ff-det/{id}', 'FreightForwardDetController@editFfdet');
-Route::get('get-ffdet-info/{id}', 'FreightForwardDetController@getFFDetInfo');
-Route::get('get-address/{address_id}', 'FreightForwardDetController@getAddress');
-Route::get('get-contact/{contact_id}', 'FreightForwardDetController@getContact');
-Route::get('get-social/{social_id}', 'FreightForwardDetController@getSocial'); */
+Route::group(['prefix'=>'sourcing'], function(){
+  Route::get('freight-forward-det', 'LogisticsController@index')->name('freight-forward-det');
+  Route::get('add-logistic', 'LogisticsController@index');
+  Route::get('sourcing-bank-detail', 'LogisticsController@sourcingBankDetail');
+  Route::post('save-logistic', 'LogisticsController@saveLogistic');
+  Route::get('get-logistics', 'LogisticsController@getLogistics');
+  Route::get('edit-logistic/{id}', 'LogisticsController@viewEdit');
+  Route::get('edit-logistic-info/{id}', 'LogisticsController@editLogistic');
+  Route::delete('delete-logistic/{id}', 'LogisticsController@destroy');
+  Route::get('get-log-address/{address_id}', 'FreightForwardDetController@getAddress');
+  Route::get('get-log-contact/{contact_id}', 'FreightForwardDetController@getContact');
+  Route::get('get-log-social/{social_id}', 'FreightForwardDetController@getSocial');
+  Route::get('view-logistic', 'LogisticsController@viewLogistics');
+  /* Route::resource('save-freightforward-det', 'FreightForwardDetController');
+  Route::get('edit-ff-det/{id}', 'FreightForwardDetController@editFfdet');
+  Route::get('get-ffdet-info/{id}', 'FreightForwardDetController@getFFDetInfo');
+  Route::get('get-address/{address_id}', 'FreightForwardDetController@getAddress');
+  Route::get('get-contact/{contact_id}', 'FreightForwardDetController@getContact');
+  Route::get('get-social/{social_id}', 'FreightForwardDetController@getSocial'); */
+});
 
 /* Route::resource('save-cus-clearance', 'CustomerClearanceController');
 Route::get('edit-cus-clearance/{id}', 'CustomerClearanceController@editCusClearance');
@@ -324,6 +329,7 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('gazzeted-holiday', 'Admin\GazzetedHolidayController@gazzeted_holiday');
   Route::get('yearly-leave', 'Admin\YearlyLeaveController@yearly_leave');
   Route::get('company-bank-detail', 'Admin\CompaniesController@bank_detail');
+  Route::get('company-contact-person', 'Admin\CompaniesController@companyContactPerson');
   Route::resource('maintain-allowance-deducation', 'Admin\PayAllowanceDeductionController');
   Route::resource('maintain-group', 'Admin\EmployeeGroupController');
   Route::resource('maintain-payscale', 'Admin\PayScaleController');
@@ -332,6 +338,8 @@ Route::group(['prefix'=>'company'], function () {
   Route::resource('maintain-leaves', 'Admin\YearlyLeaveController');
 
 });
+
+
 /**
  * Company portfolio
  */
@@ -340,6 +348,9 @@ Route::get('delete_portfolio_image/{image_id}', 'CompanyPortfolioController@dele
 Route::get('getcompanyportfolio', 'CompanyPortfolioController@getcompanyportfolio')->name('getcompanyportfolio')->middleware('is_vendor');
 Route::get('edit_portfolio_image/{portfolio_id}', 'CompanyPortfolioController@edit_portfolio_image')->name('edit_portfolio_image')->middleware('is_vendor');
 Route::post('SaveCompanyPortfolio', 'CompanyPortfolioController@SaveCompanyPortfolio')->name('SaveCompanyPortfolio')->middleware('is_vendor');
+
+Route::resource('manage-banks', 'ActorBankController');
+Route::get('get-bank-info/{actor}', 'ActorBankController@getBankInfo');
 
 /**
  * Customer Queries

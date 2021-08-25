@@ -48,4 +48,9 @@ class CompaniesController extends Controller {
     {
         return view('company.bank-detail');
     }
+
+    public function companyContactPerson()
+    {
+        return view('company.company-contact-person');
+    }
 }

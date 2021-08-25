@@ -12,26 +12,30 @@
            <div class="row">
                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getBanksDetail()">
                    <label for="bank_id">Select Bank</label>
-                   <select ng-model="bank.bank_id" ng-options="b.id as b.bank_name for b in banks" id="bank_id" class="form-control">
+                   <select ng-model="bank.bank_id" ng-options="b.id as b.bank_name for b in banks" ng-change="getCompanyid(b)" id="bank_id" class="form-control">
                        <option value="">Select Bank</option>
                    </select>
+                   <i class="text-danger" ng-show="!bank.bank_id && showError"><small>Please select bank</small></i>
                </div>
                <div class="col-lg-3 col-md-3 col-sm-3">
                    <label for="account_title">Account Title</label>
-                   <input type="text" name="bank.account_title" placeholder="Account Title" id="account_title" class="form-control">
+                   <input type="text" ng-model="bank.account_title" placeholder="Account Title" id="account_title" class="form-control">
+                   <i class="text-danger" ng-show="!bank.account_title && showError"><small>Please type account title</small></i>
                </div>
                <div class="col-lg-3 col-md-3 col-sm-3">
                    <label for="account_number">Account Number</label>
-                   <input type="text" name="bank.account_number" placeholder="Account Number" id="account_number" class="form-control">
+                   <input type="text" ng-model="bank.account_number" placeholder="Account Number" id="account_number" class="form-control">
+                   <i class="text-danger" ng-show="!bank.account_number && showError"><small>Please type account number</small></i>
                </div>
                <div class="col-lg-3 col-md-3 col-sm-3">
                    <label for="iban">IBAN Number</label>
-                   <input type="text" name="bank.iban" placeholder="IBAN Number" id="iban" class="form-control">
+                   <input type="text" ng-model="bank.iban" placeholder="IBAN Number" id="iban" class="form-control">
+                   <i class="text-danger" ng-show="!bank.iban && showError"><small>Please type IBAN Number</small></i>
                </div>
            </div><br/>
            <div class="row">
                <div class="col">
-                   <button class="btn btn-sm btn-success float-right"> <i class="fa fa-save"></i> Save</button>
+                   <button class="btn btn-sm btn-success float-right" ng-click="saveBank()"> <i class="fa fa-save"></i> Save</button>
                </div>
            </div>
        </div>
@@ -54,20 +58,27 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                <tbody ng-init="getBanksInfo();">
+                    <tr ng-repeat="info in bankinfo">
+                        <td ng-bind="$index+1"></td>
+                        <td ng-bind="info.bank_name"></td>
+                        <td ng-bind="info.account_title"></td>
+                        <td ng-bind="info.account_number"></td>
+                        <td ng-bind="info.iban"></td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info" ng-click="editBank(info.id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteBank(info.id)">Delete</button>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
+            <input type="hidden" value="<?php echo session('company_id'); ?>" id="actor_id">
         </div>
     </div>
 </div>
+<input type="hidden" id="appurl" value="<?php echo env('APP_URL'); ?>">
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var Company = angular.module('BankApp', [], function ($interpolateProvider) {
@@ -80,7 +91,8 @@
         $("#company").addClass('menu-open');
         $("#company a[href='#']").addClass('active');
         $("#company-bank").addClass('active');
-        $scope.office = {};
+        $scope.url = $("#appurl").val();
+        $scope.bank = {};
 
         $scope.getBanksDetail = function () {
             $http.get('maintain-company-bankdetail').then(function (response) {
@@ -90,42 +102,23 @@
             });
         };
 
-        $scope.editOffice = function (id) {
-            $http.get('office-settings/' + id + '/edit').then(function (response) {
-                $scope.office = response.data;
-                $scope.office.office_status = $scope.office.office_status == 1 ? true : false;
-                $scope.get_companysocial($scope.office.social_id);
-                $scope.get_companyaddress($scope.office.address_id);
-                $scope.get_companycontact($scope.office.contact_id);
+        $scope.getBanksInfo = function () {
+            $http.get($scope.url + 'get-bank-info/company').then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.bankinfo = response.data;
+                }
+            });
+        };
+
+        $scope.editBank = function (id) {
+            $http.get($scope.url + 'manage-banks/' + id + '/edit').then(function (response) {
+                $scope.bank = response.data;
+                $scope.bank.bank_id = parseInt(response.data.bank_id);
                 $("#ShowPrint").show();
             });
         };
-
-        $scope.get_companysocial = function (social_id) {
-            $http.get('getcompanysocial/' + social_id).then(function (response) {
-                if (response.data) {
-                    angular.extend($scope.office, response.data);
-                }
-            });
-        };
-
-        $scope.get_companyaddress = function (address_id) {
-            $http.get('getcompanyaddress/' + address_id).then(function (response) {
-                if (response.data) {
-                    angular.extend($scope.office, response.data);
-                }
-            });
-        };
-
-        $scope.get_companycontact = function (contact_id) {
-            $http.get('getcompanycontact/' + contact_id).then(function (response) {
-                if (response.data) {
-                    angular.extend($scope.office, response.data);
-                }
-            });
-        };
         
-        $scope.deleteOffice = function (office_id) {
+        $scope.deleteBank = function (bank_id) {
             swal({
                 title: "Are you sure?",
                 text: "Your will not be able to recover this record!",
@@ -136,43 +129,36 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('office-settings/' + office_id).then(function (response) {
-                    $scope.getalloffice();
+                $http.delete($scope.url + 'manage-banks/' + bank_id).then(function (response) {
+                    $scope.getBanksInfo();
                     swal("Deleted!", response.data, "success");
                 });
             });
         };
 
-        $scope.save_companyoffice = function () {
-            if (!$scope.office.office_name) {
+        $scope.saveBank = function () {
+            $scope.bank.actor_name = 'company';
+            $scope.bank.actor_id = $("#actor_id").val();
+            if (!$scope.bank.bank_id || !$scope.bank.account_title || !$scope.bank.account_number || !$scope.bank.iban) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;
                 }).addClass("has-error");
             } else {
                 var Data = new FormData();
-                angular.forEach($scope.office, function (v, k) {
+                angular.forEach($scope.bank, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('office-settings', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post($scope.url + 'manage-banks', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data,
                         type: "success"
                     });
-                    $scope.office = {};
-                    $scope.getalloffice();
+                    $scope.bank = {};
+                    $scope.getBanksInfo();
                 });
             }
-        };
-
-        $scope.getalloffice = function () {
-            $scope.alloffice = {};
-            $http.get('office-settings').then(function (response) {
-                if (response.data.length > 0) {
-                    $scope.alloffice = response.data;
-                }
-            });
         };
     });
 </script>

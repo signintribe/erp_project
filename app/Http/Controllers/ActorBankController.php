@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\VendorModels\tblcompany_bankdetail;
+use App\Models\VendorModels\tblcompanydetail;
+use App\Models\erp_actor_bank;
+use Auth;
+use DB;
 class ActorBankController extends Controller
 {
     /**
@@ -34,7 +38,21 @@ class ActorBankController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->id){
+            $data = $request->except(['id', 'created_at', 'updated_at', 'bank_name', 'actor_name', 'company_id']);
+            erp_actor_bank::where('id', $request->id)->update($data);
+        }else{
+            //$chk = erp_actor_bank::where('actor_id', $request->actor_id)->where('bank_id', $request->bank_id)->first();
+            //if(empty($chk)){
+                $data = $request->all();
+                $cid = tblcompany_bankdetail::select('com_id')->where('id', $request->bank_id)->first();
+                $data['company_id'] = $cid->com_id; 
+                erp_actor_bank::create($data);
+            //}else{
+                //return "The bank info already exist";
+            //}
+        }
+        return "Your bank information save successfully";
     }
 
     /**
@@ -56,7 +74,7 @@ class ActorBankController extends Controller
      */
     public function edit($id)
     {
-        //
+        return erp_actor_bank::where('id', $id)->first();
     }
 
     /**
@@ -79,6 +97,13 @@ class ActorBankController extends Controller
      */
     public function destroy($id)
     {
-        //
+        erp_actor_bank::where('id', $id)->delete();
+        return "Bank information delete permanently";
+    }
+
+    public function getBankInfo($actor)
+    {
+        $cid = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+        return DB::select("SELECT bank.bank_name, actorbank.* FROM(SELECT * FROM erp_actor_banks WHERE company_id = ".$cid->id." AND actor_name = '".$actor."') AS actorbank JOIN(SELECT id, bank_name FROM tblcompany_bankdetails) AS bank ON bank.id = actorbank.bank_id");
     }
 }

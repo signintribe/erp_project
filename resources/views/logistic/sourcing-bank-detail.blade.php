@@ -10,9 +10,9 @@
        </div>
        <div class="card-body">
            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
-                    <label for="select_employee">Select Employee</label>
-                    <select class="form-control" id="select_employee" ng-options="user.id as user.first_name for user in Users" ng-model="bank.actor_id">
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getLogisticInfo();">
+                    <label for="select_employee">Select Organization</label>
+                    <select class="form-control" id="select_employee" ng-options="user.id as user.organization_name for user in Users" ng-model="bank.actor_id">
                         <option value="">Select Employee</option>
                     </select>
                     <i class="text-danger" ng-show="!bank.actor_id && showError"><small>Please Select Employee</small></i>
@@ -97,14 +97,14 @@
 
     
     Company.controller('BankController', function ($scope, $http) {
-        $("#employee").addClass('menu-open');
-        $("#employee a[href='#']").addClass('active');
-        $("#employee-banks").addClass('active');
+        $("#sourcing").addClass('menu-open');
+        $("#sourcing a[href='#']").addClass('active');
+        $("#sourcing-banks").addClass('active');
         $scope.url = $("#appurl").val();
         $scope.bank = {};
 
-        $scope.getEmployees = function () {
-            $http.get('getEmployees').then(function (response) {
+        $scope.getLogisticInfo = function(){
+            $http.get('get-logistics').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.Users = response.data;
                 }
@@ -120,7 +120,7 @@
         };
 
         $scope.getBanksInfo = function () {
-            $http.get($scope.url + 'get-bank-info/employee').then(function (response) {
+            $http.get($scope.url + 'get-bank-info/sourcing').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.bankinfo = response.data;
                 }
@@ -154,7 +154,7 @@
         };
 
         $scope.saveBank = function () {
-            $scope.bank.actor_name = 'employee';
+            $scope.bank.actor_name = 'sourcing';
             if (!$scope.bank.bank_id || !$scope.bank.account_title || !$scope.bank.account_number || !$scope.bank.iban) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {

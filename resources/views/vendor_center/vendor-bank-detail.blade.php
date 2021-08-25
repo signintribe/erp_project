@@ -10,12 +10,12 @@
        </div>
        <div class="card-body">
            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
-                    <label for="select_employee">Select Employee</label>
-                    <select class="form-control" id="select_employee" ng-options="user.id as user.first_name for user in Users" ng-model="bank.actor_id">
-                        <option value="">Select Employee</option>
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
+                    <label for="organization_name">* Name of Organization</label>
+                    <select class="form-control"  ng-options="vendor.id as vendor.organization_name for vendor in vendorinformations" ng-model="bank.actor_id">
+                        <option value="">Select Organization Name</option>
                     </select>
-                    <i class="text-danger" ng-show="!bank.actor_id && showError"><small>Please Select Employee</small></i>
+                    <i class="text-danger" ng-show="!bank.actor_id && showError"><small>Please Enter Organization</small></i>
                 </div>
                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getBanksDetail()">
                    <label for="bank_id">Select Bank</label>
@@ -97,16 +97,17 @@
 
     
     Company.controller('BankController', function ($scope, $http) {
-        $("#employee").addClass('menu-open');
-        $("#employee a[href='#']").addClass('active');
-        $("#employee-banks").addClass('active');
+        $("#purchase").addClass('menu-open');
+        $("#purchase a[href='#']").addClass('active');
+        $("#vendor-banks").addClass('active');
         $scope.url = $("#appurl").val();
         $scope.bank = {};
 
-        $scope.getEmployees = function () {
-            $http.get('getEmployees').then(function (response) {
+        $scope.getVendors = function () {
+            $scope.vendorinformations = {};
+            $http.get('maintain-vendor-information').then(function (response) {
                 if (response.data.length > 0) {
-                    $scope.Users = response.data;
+                    $scope.vendorinformations = response.data;
                 }
             });
         };
@@ -120,7 +121,7 @@
         };
 
         $scope.getBanksInfo = function () {
-            $http.get($scope.url + 'get-bank-info/employee').then(function (response) {
+            $http.get($scope.url + 'get-bank-info/vendor').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.bankinfo = response.data;
                 }
@@ -154,7 +155,7 @@
         };
 
         $scope.saveBank = function () {
-            $scope.bank.actor_name = 'employee';
+            $scope.bank.actor_name = 'vendor';
             if (!$scope.bank.bank_id || !$scope.bank.account_title || !$scope.bank.account_number || !$scope.bank.iban) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {

@@ -11,9 +11,9 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="logistic_type">Logistic</label>
+                    <label for="logistic_type">Select Logistic</label>
                     <select id="logistic_type" class="form-control" ng-model="logistic.logistic_type">
-                        <option value="">Logistic</option>
+                        <option value="">Select Logistic</option>
                         <option value="Freight Forward Det">Freight Forward Det</option>
                         <option value="Customer Clearance">Customer Clearance</option>
                         <option value="Carriage Company">Carriage Company</option>

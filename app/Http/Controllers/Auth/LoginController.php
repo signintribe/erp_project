@@ -45,6 +45,7 @@ use AuthenticatesUsers;
                 return redirect()->route('open-company')->withInput()->withErrors(['status' => 'You are not registered in this company']);
             }
             if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+                session(['company_id' => $input['company_id']]);
                 if (auth()->user()->is_admin == 1) {
                     return redirect()->route('adminhome');
                 } else if (auth()->user()->is_admin == 0) {

@@ -34,4 +34,9 @@ class CustomerController extends Controller {
     public function customer_contact_person(){
         return view('customer_center.customer_contact_person');
     }
+
+    public function customerBankDetail()
+    {
+        return view('customer_center.customer-bank-detail');
+    }
 }

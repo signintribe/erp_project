@@ -148,4 +148,9 @@ class LogisticsController extends Controller {
         return view('logistic.view-carriage-company');
     } */
 
+    public function sourcingBankDetail()
+    {
+        return view('logistic.sourcing-bank-detail');
+    }
+
 }
