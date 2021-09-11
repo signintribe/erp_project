@@ -16,13 +16,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
-                    <label for="organization_name">* Name of Organization</label>
-                    <select class="form-control"  ng-options="vendor.id as vendor.organization_name for vendor in vendorinformations" ng-model="contactperson.actor_id">
-                        <option value="">Select Organization Name</option>
-                    </select>
-                    <i class="text-danger" ng-show="!contactperson.actor_id && showError"><small>Please Enter Organization</small></i>
-                </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="title">Title</label>
                     <input type="text" class="form-control" id="title" ng-model="contactperson.title" placeholder="Title"/>
@@ -35,14 +28,14 @@
                     <label for="last_name">Last Name</label>
                     <input type="text" class="form-control" id="last_name" ng-model="contactperson.last_name" placeholder="Last Name"/>
                 </div>
-            </div><br/>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                         <label for="cat-img">Picture</label>
                         <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);" >
                     </div>
                 </div>
+            </div><br/>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="whatsapp">Whatsapp</label>
                     <input type="text" class="form-control" id="whatsapp" ng-model="contactperson.whatsapp" placeholder="Whatsapp"/>
@@ -55,12 +48,12 @@
                     <label for="mobile_number">Mobile Number</label>
                     <input type="text" class="form-control" id="mobile_number" ng-model="contactperson.mobile_number" placeholder="Mobile Number"/>
                 </div>
-            </div><br/>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="fax_number">Fax Number</label>
                     <input type="text" class="form-control" id="fax_number" ng-model="contactperson.fax_number" placeholder="Fax Number"/>
                 </div>
+            </div><br/>
+            <div class="row">
                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="website">Website</label>
                     <input type="text" class="form-control" id="website" ng-model="contactperson.website" placeholder="Website"/>
@@ -73,12 +66,12 @@
                     <label for="instagram">Instagram</label>
                     <input type="text" class="form-control" id="instagram" ng-model="contactperson.instagram" placeholder="Instagram"/>
                 </div>
-            </div><br/>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="linkedin">Linkedin</label>
                     <input type="text" class="form-control" id="linkedin" ng-model="contactperson.linkedin" placeholder="Linkedin"/>
                 </div>
+            </div><br/>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="twitter">Twitter</label>
                     <input type="text" class="form-control" id="twitter" ng-model="contactperson.twitter" placeholder="Twitter"/>
@@ -170,7 +163,7 @@
             </table>
         </div>
     </div>
-   <input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
+   <input type="hidden" value="<?php echo session('company_id'); ?>" id="actor_id">
    <input type="hidden" id="appurl" value="<?php echo env('APP_URL'); ?>">
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
@@ -182,23 +175,15 @@
 
     
     Company.controller('CompanyController', function ($scope, $http) {
-        $("#purchase").addClass('menu-open');
-        $("#purchase a[href='#']").addClass('active');
-        $("#purchase-contact-person").addClass('active');
+        $("#company").addClass('menu-open');
+        $("#company a[href='#']").addClass('active');
+        $("#company-contact-person").addClass('active');
         $scope.url = $("#appurl").val();
 
-        $scope.getVendors = function () {
-            $scope.vendorinformations = {};
-            $http.get('maintain-vendor-information').then(function (response) {
-                if (response.data.length > 0) {
-                    $scope.vendorinformations = response.data;
-                }
-            });
-        };
-
         $scope.save_contactPerson = function(){
-            $scope.contactperson.company_id = $("#company_id").val();
-            $scope.contactperson.actor_name = 'vendor';
+            $scope.contactperson.actor_id = $("#actor_id").val();
+            $scope.contactperson.company_id = $("#actor_id").val();
+            $scope.contactperson.actor_name = 'company';
             if (!$scope.contactperson.actor_id) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
@@ -223,7 +208,7 @@
 
         $scope.getContactPersons = function () {
             $scope.contactpersons = {};
-            $http.get($scope.url + 'get-company-info/vendor/'+ $("#company_id").val()).then(function (response) {
+            $http.get($scope.url + 'get-company-info/company/'+ $("#actor_id").val()).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.contactpersons = response.data;
                 }

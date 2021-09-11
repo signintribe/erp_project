@@ -35,13 +35,13 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <label for="company-name">Type your company name</label>
-                        <input type="text" ng-keyup="searchCompany(company_name);" ng-model="company_name" id="company-name" class="form-control" placeholder="Type your company name">
+                        <input type="text" ng-keyup="searchCompany(company_name);" tabindex="1" autofocus ng-model="company_name" id="company-name" class="form-control" placeholder="Type your company name">
                         <ul ng-if="nomore" style="padding-left:15px;">
                             <li ng-bind="nomore"></li>
                         </ul>
                         <ol ng-if="companies" style="padding-left:15px;">
                             <li style="cursor: pointer" ng-click="getCompanyInformation(company.id)" ng-repeat="company in companies" ng-bind="company.company_name"></li>
-                        </ol>
+                        </ol><br/>
                         <div class="row" ng-if="mycompany">
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <p>
@@ -68,7 +68,7 @@
                             @enderror
                             <div class="col_full">
                                 <label for="login-form-username">Username:</label>
-                                <input id="email" type="email" tabindex="1" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                <input id="email" type="email" tabindex="2" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -78,8 +78,8 @@
                             <input type="hidden" class="form-control" id="company_id" name="company_id" require>
                             <div class="col_full">
                                 <label for="login-form-password">Password:</label>
-                                <a href="#" class="fright" tabindex="3">Forgot Password?</a>
-                                <input id="password" type="password" tabindex="2" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <a href="#" class="fright" tabindex="4">Forgot Password?</a>
+                                <input id="password" type="password" tabindex="3" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -89,8 +89,8 @@
                             </div>
 
                             <div class="col_full nobottommargin">
-                                <button class="button button-3d button-black nomargin" tabindex="4" id="login-form-submit" name="login-form-submit" value="login">Open</button>
-                                <a class="button button-3d button-red nomargin" tabindex="5" href="<?php echo env('APP_URL'); ?>">Back to home</a>
+                                <button class="button button-3d button-black nomargin" tabindex="5" id="login-form-submit" name="login-form-submit" value="login">Open</button>
+                                <a class="button button-3d button-red nomargin" tabindex="6" href="<?php echo env('APP_URL'); ?>">Back to home</a>
                             </div>
                         </form>
                     </div>

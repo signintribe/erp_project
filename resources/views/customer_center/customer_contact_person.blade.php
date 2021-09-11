@@ -1,21 +1,27 @@
 @extends('layouts.admin.creationTier')
-@section('title', 'Customer Contact Person')
-@section('pagetitle', 'Customer Contact Person')
-@section('breadcrumb', 'Customer Contact Person')
+@section('title', 'Contact Person')
+@section('pagetitle', 'Contact Person')
+@section('breadcrumb', 'Contact Person')
 @section('content')
-<div  ng-app="PersonApp" ng-controller="PersonController" ng-cloak>
-    <div class="card">
+<div  ng-app="CompanyApp" ng-controller="CompanyController" ng-cloak>
+<div class="card">
         <div class="card-header">
-            <h3 class="card-title">Customer Contact Person</h3>
+            <h3 class="card-title">Contact Person</h3>
+            <a href="#viewContactPerson" class="float-right">View Details</a>
         </div>
         <div class="card-body">
             <div class="row">
+                <div class="col">
+                    <img ng-if="catimg" ng-src="<% catimg %>" class="img img-thumbnail" style="width:200px; height:200px;">
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="customer_name" ng-init="getCustomers();">*Name of Customer</label>
-                    <select class="form-control" id="customer_name" ng-options="customer.id as customer.customer_name for customer in customerinformations" ng-model="contactperson.customer_id">
+                    <label for="customer_name" ng-init="getCustomers();">* Name of Customer</label>
+                    <select class="form-control" id="customer_name" ng-options="customer.id as customer.customer_name for customer in customerinformations" ng-model="contactperson.actor_id">
                         <option value="">Select Customer Name</option>
                     </select>
-                    <i class="text-danger" ng-show="!contactperson.customer_id && showError"><small>Please Select Customer</small></i>
+                    <i class="text-danger" ng-show="!contactperson.actor_id && showError"><small>Please Select Customer</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="title">Title</label>
@@ -35,7 +41,6 @@
                     <div class="form-group">
                         <label for="cat-img">Picture</label>
                         <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);" >
-                        <img ng-if="catimg" ng-src="<% catimg %>" class="img img-thumbnail" style-="width:100%; height:200px;">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
@@ -90,8 +95,10 @@
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Address detail of contact person</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="address_line1">Postal Address Line 1</label>
@@ -129,33 +136,33 @@
     </div><br>
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Customer Contact Person</h3>
+            <h3 class="card-title" id="viewContactPerson">Contact Person</h3>
         </div>
         <div class="card-body table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Sr#</th>
-                        <th>Organization Name</th>
-                        <th>Title</th>
                         <th>First Name</th>
                         <th>Email</th>
                         <th>Mobile Number</th>
+                        <th>Phone Number</th>
+                        <th>Whatsapp Number</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody ng-init="getContactPersons()">
-                    <tr ng-repeat="customer in contactpersons">
+                    <tr ng-repeat="contact in contactpersons">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="customer.customer_name"></td>
-                        <td ng-bind="customer.title "></td>
-                        <td ng-bind="customer.first_name"></td>
-                        <td ng-bind="customer.email"></td>
-                        <td ng-bind="customer.mobile_number"></td>
+                        <td ng-bind="contact.first_name"></td>
+                        <td ng-bind="contact.email"></td>
+                        <td ng-bind="contact.mobile_number"></td>
+                        <td ng-bind="contact.phone_number"></td>
+                        <td ng-bind="contact.whatsapp"></td>
                         <td>
                             <div class="btn-group">
-                                <button class="btn btn-xs btn-info" ng-click="editContactPerson(customer.id)">Edit</button>
-                                <button class="btn btn-xs btn-danger" ng-click="deleteContactPerson(customer.id)">Delete</button>
+                                <button class="btn btn-xs btn-info" ng-click="editContactPerson(contact.id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteContactPerson(contact.id)">Delete</button>
                             </div>
                         </td>
                     </tr>
@@ -163,20 +170,23 @@
             </table>
         </div>
     </div>
-    <input type="hidden" id="app_url" value="<?php echo env('APP_URL'); ?>">
+   <input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
+   <input type="hidden" id="appurl" value="<?php echo env('APP_URL'); ?>">
 </div>
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
-    var OrgContact = angular.module('PersonApp', [], function ($interpolateProvider) {
+    var Company = angular.module('CompanyApp', [], function ($interpolateProvider) {
         $interpolateProvider.startSymbol('<%');
         $interpolateProvider.endSymbol('%>');
     });
-    OrgContact.controller('PersonController', function ($scope, $http) {
+
+    
+    Company.controller('CompanyController', function ($scope, $http) {
         $("#sales").addClass('menu-open');
         $("#sales a[href='#']").addClass('active');
         $("#customer-contact-person").addClass('active');
-        $scope.contactperson = {};
-        $scope.appurl = $("#app_url").val();
+        $scope.url = $("#appurl").val();
+
         $scope.getCustomers = function () {
             $scope.customerinformations = {};
             $http.get('maintain-customer-information').then(function (response) {
@@ -185,8 +195,11 @@
                 }
             });
         };
+
         $scope.save_contactPerson = function(){
-            if (!$scope.contactperson.customer_id) {
+            $scope.contactperson.company_id = $("#company_id").val();
+            $scope.contactperson.actor_name = 'customer';
+            if (!$scope.contactperson.actor_id) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;
@@ -196,7 +209,7 @@
                 angular.forEach($scope.contactperson, function (v, k) {
                     Data.append(k, v);
                 });
-                $http.post('maintain-customer-contactperson', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                $http.post($scope.url + 'manage-contactperson', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     swal({
                         title: "Save!",
                         text: res.data,
@@ -208,12 +221,21 @@
             }
         };
 
+        $scope.getContactPersons = function () {
+            $scope.contactpersons = {};
+            $http.get($scope.url + 'get-company-info/customer/'+ $("#company_id").val()).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.contactpersons = response.data;
+                }
+            });
+        };
+
         $scope.readUrl = function (element) {
             var reader = new FileReader();//rightbennerimage
             reader.onload = function (event) {
                 $scope.catimg = event.target.result;
                 $scope.$apply(function ($scope) {
-                    $scope.contactperson.custpicture = element.files[0];
+                    $scope.contactperson.userpicture = element.files[0];
                 });
             };
             reader.readAsDataURL(element.files[0]);
@@ -230,35 +252,25 @@
                 closeOnConfirm: false
             },
             function(){
-                $http.delete('maintain-customer-contactperson/' + id).then(function (response) {
+                $http.delete($scope.url + 'manage-contactperson/' + id).then(function (response) {
                     $scope.getContactPersons();
                     swal("Deleted!", response.data, "success");
                 });
             });
         };
 
-        $scope.getContactPersons = function(){
-            $scope.contactpersons = {};
-            $http.get('maintain-customer-contactperson').then(function (response) {
-                if (response.data) {
-                    $scope.contactpersons = response.data;
-                    $scope.contactpersons.customer_id = parseInt(response.data.customer_id);
-                }
-            });
-        };
-
         $scope.editContactPerson = function (id) {
-            $http.get('maintain-customer-contactperson/' + id + '/edit').then(function (response) {
+            $http.get($scope.url + 'manage-contactperson/' + id + '/edit').then(function (response) {
                 $scope.contactperson = response.data;
                 $scope.getContact($scope.contactperson.contact_id);
                 $scope.getSocialMedia($scope.contactperson.social_id);
                 $scope.getAddress($scope.contactperson.address_id);
-                $scope.catimg = $scope.appurl +"public/customercontactperson_picture/" + $scope.contactperson.picture;
+                $scope.catimg = $scope.url +"public/contactperson_picture/" + $scope.contactperson.picture;
             });
         };
 
         $scope.getContact = function(contact_id){
-            $http.get($scope.appurl+'getContact/' + contact_id).then(function (response) {
+            $http.get($scope.url+'getContact/' + contact_id).then(function (response) {
                 if (response.data) {
                     angular.extend($scope.contactperson, response.data);
                 }
@@ -266,7 +278,7 @@
         };
 
         $scope.getSocialMedia = function(social_id){
-            $http.get($scope.appurl+'getSocialMedia/' + social_id).then(function (response) {
+            $http.get($scope.url+'getSocialMedia/' + social_id).then(function (response) {
                 if (response.data) {
                     angular.extend($scope.contactperson, response.data);
                 }
@@ -274,7 +286,7 @@
         };
 
         $scope.getAddress = function(address_id){
-            $http.get($scope.appurl+'getAddress/' + address_id).then(function (response) {
+            $http.get($scope.url+'getAddress/' + address_id).then(function (response) {
                 if (response.data) {
                     angular.extend($scope.contactperson, response.data);
                 }

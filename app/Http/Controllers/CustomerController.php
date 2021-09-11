@@ -39,4 +39,9 @@ class CustomerController extends Controller {
     {
         return view('customer_center.customer-bank-detail');
     }
+
+    public function customerRegistration()
+    {
+        return view('customer_center.customer-registration');
+    }
 }

@@ -68,4 +68,9 @@ class EmployeeController extends Controller {
         return view('employee_center.employee_leave');
     }
 
+    public function employeeContactPerson()
+    {
+        return view('employee_center.employee-contact-person');
+    }
+
 }

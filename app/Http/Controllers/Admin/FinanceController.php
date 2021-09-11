@@ -43,11 +43,12 @@ class FinanceController extends Controller {
 
     // save category in database
     public function save_category(Request $r) {
-//        return $r->all();
+        //return $r->all();
         if ($r->id) {
             return $this->update_category($r);
         } else {
-            $category = new tblaccountcategories;
+            //$category = $r->except(['credit', 'date', 'debit', 'ParentcategoryId']);
+            $category = new tblaccountcategories();
             $category->AccountId = $r->AccountId;
             $category->CategoryName = $r->CategoryName;
             $category->AccountDescription = $r->AccountDescription;
@@ -56,8 +57,16 @@ class FinanceController extends Controller {
             $category->save();
             $this->CreateAssociation($category->id, $r->ParentcategoryId);
             DB::statement("call define_productline()");
+            $gle = $r->except(['AccountId', 'AccountDescription', 'CategoryName', 'ParentcategoryId']);
+            if(!empty($gle)){
+                $gle['account_Id'] = $category->id;
+                $gle['description'] = $r->AccountDescription;
+                $gle['created_by'] = Auth::user()->id;
+                tblgeneralentries::create($gle);
+            }
             return 'Saved successfully';
         }
+
     }
 
     public function CreateAssociation($id, $ParentcategoryId) {
@@ -181,6 +190,11 @@ class FinanceController extends Controller {
             }
         endforeach;
         return $r->all();
+    }
+
+    public function defineUserAccount()
+    {
+        return view('Finance.user-chart-account');
     }
 
 }

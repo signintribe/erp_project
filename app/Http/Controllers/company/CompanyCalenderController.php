@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\company;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -30,12 +30,12 @@ class CompanyCalenderController extends Controller
     }
 
     public function company_calander(){
-        return view('admin.company-calander');
+        return view('company.company-calander');
 
     }
 
     public function editCalender($id){
-        return view('admin.edit-company-calender', compact('id'));
+        return view('company.edit-company-calender', compact('id'));
     }
     /**
      * Show the form for creating a new resource.

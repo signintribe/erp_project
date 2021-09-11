@@ -52,6 +52,16 @@ class CompanyProfileController extends Controller {
         return view('user.bank-detail');
     }
 
+    public function authortyLists()
+    {
+        return view('company.authorty-lists');
+    }
+
+    public function authorityContactPerson()
+    {
+        return view('company.authority-contact-person');
+    }
+
     /**
      * 
      * @return type
@@ -158,4 +168,8 @@ class CompanyProfileController extends Controller {
         return tblcontact::select('phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email')->where('id', $contact_id)->first();
     }
 
+    public function bankContactPerson()
+    {
+        return view('company.bank-contact-person');
+    }
 }

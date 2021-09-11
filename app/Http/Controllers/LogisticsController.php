@@ -153,4 +153,14 @@ class LogisticsController extends Controller {
         return view('logistic.sourcing-bank-detail');
     }
 
+    public function sourcingContactPerson()
+    {
+        return view('logistic.sourcing-contact-person');
+    }
+
+    public function sourcingRegistration()
+    {
+        return view('logistic.sourcing-registration');
+    }
+
 }

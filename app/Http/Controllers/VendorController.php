@@ -44,4 +44,8 @@ class VendorController extends Controller {
         return view('vendor_center.contact_person');
     }
 
+    public function vendorRegistration()
+    {
+        return view('vendor_center.vendor-registration');
+    }
 }

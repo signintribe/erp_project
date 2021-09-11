@@ -16,12 +16,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
-                    <label for="organization_name">* Name of Organization</label>
-                    <select class="form-control"  ng-options="vendor.id as vendor.organization_name for vendor in vendorinformations" ng-model="contactperson.actor_id">
-                        <option value="">Select Organization Name</option>
-                    </select>
-                    <i class="text-danger" ng-show="!contactperson.actor_id && showError"><small>Please Enter Organization</small></i>
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="allcompany_registrations()">
+                   <label for="bank_id">Select Authorities</label>
+                   <select ng-model="contactperson.actor_id" ng-options="a.id as a.authority_name for a in allregistration" id="bank_id" class="form-control">
+                       <option value="">Select Authorities</option>
+                   </select>
+                   <i class="text-danger" ng-show="!contactperson.actor_id && showError"><small>Please select bank</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="title">Title</label>
@@ -182,23 +182,23 @@
 
     
     Company.controller('CompanyController', function ($scope, $http) {
-        $("#purchase").addClass('menu-open');
-        $("#purchase a[href='#']").addClass('active');
-        $("#purchase-contact-person").addClass('active');
+        $("#authorities").addClass('menu-open');
+        $("#authorities a[href='#']").addClass('active');
+        $("#authorities-contact-person").addClass('active');
         $scope.url = $("#appurl").val();
 
-        $scope.getVendors = function () {
-            $scope.vendorinformations = {};
-            $http.get('maintain-vendor-information').then(function (response) {
+        $scope.allcompany_registrations = function () {
+            $scope.allregistration = {};
+            $http.get($scope.url + 'manage-authorities').then(function (response) {
                 if (response.data.length > 0) {
-                    $scope.vendorinformations = response.data;
+                    $scope.allregistration = response.data;
                 }
             });
         };
 
         $scope.save_contactPerson = function(){
             $scope.contactperson.company_id = $("#company_id").val();
-            $scope.contactperson.actor_name = 'vendor';
+            $scope.contactperson.actor_name = 'authorities';
             if (!$scope.contactperson.actor_id) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
@@ -223,7 +223,7 @@
 
         $scope.getContactPersons = function () {
             $scope.contactpersons = {};
-            $http.get($scope.url + 'get-company-info/vendor/'+ $("#company_id").val()).then(function (response) {
+            $http.get($scope.url + 'get-company-info/authorities/'+ $("#company_id").val()).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.contactpersons = response.data;
                 }

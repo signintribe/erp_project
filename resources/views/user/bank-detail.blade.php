@@ -94,12 +94,10 @@
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <h2 class="card-title">Please Add Your Company Bank Contact</h2>
-                </div>
-            </div>            
+        <div class="card-header">
+            <h2 class="card-title">Please Add Your Company Bank Contact</h2>
+        </div>
+        <div class="card-body">          
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Email</label>

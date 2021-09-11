@@ -181,4 +181,9 @@ class UsersController extends Controller {
 
     }
 
+    public function employeesRegistration()
+    {
+        return view('employee_center.employees-registration');
+    }
+
 }

@@ -19,14 +19,14 @@ Route::get('creation-tier', 'TierController@creation_tier');
 Route::get('task-tier', 'TierController@task_tier');
 Route::get('report-tier', 'TierController@report_tier');
 Route::get('user-auth-tier', 'TierController@user_auth_tier');
-Route::group(['prefix'=>'creation'], function(){
+Route::resource('manage-registration' , 'Admin\CompanyRegistrationController');
+Route::resource('manage-authorities', 'company\AuthoritiesController');
 
-});
 /**
  * Supper Admin Routes
  */
 
-Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
+//Route::get('employee-bank-detail', 'EmployeeController@employee_bank_detail')->name('employee-bank-detail');
 Route::get('search-companies/{compny_name}', 'ApiController@searchCompany');
 Route::get('get-mycompany/{compny_id}', 'ApiController@myCompany');
 Route::view('user-rights-privileges', 'admin.user-rights-privileges');
@@ -41,6 +41,7 @@ Route::group(['prefix'=>'hr'], function () {
   Route::get('employee-jd', 'Admin\EmployeeJDController@employee_jd');
   Route::get('getEmployees', 'Admin\UsersController@getEmployees')->middleware('is_admin');
   Route::get('employee-personal-information', 'Admin\UsersController@index')->name('users')->middleware('is_admin');
+  Route::get('employees-registration', 'Admin\UsersController@employeesRegistration');
   Route::post('SaveUsers', 'Admin\UsersController@SaveUsers')->middleware('is_admin');
   Route::get('editEmployee/{id}', 'Admin\UsersController@editEmployeeInfo');
   Route::get('editContact/{con_id}', 'Admin\UsersController@editContact');
@@ -67,7 +68,14 @@ Route::group(['prefix'=>'hr'], function () {
   Route::get('tasks', 'EmployeeController@tasks')->name('tasks');
   Route::resource('maintain-emp-tasks', 'Admin\EmployeeTaskController');
   Route::get('get-task-assigned-details/{assigned_id}', 'Admin\EmployeeTaskController@taskAssignedDetail');
+  Route::get('employee-contact-person', 'EmployeeController@employeeContactPerson');
 });
+
+
+Route::group(['prefix'=>'bank'], function () {
+  Route::get('bank-contact-person', 'CompanyProfileController@bankContactPerson');
+});
+
 
 /**
  * Vendor Center
@@ -83,11 +91,11 @@ Route::group(['prefix'=>'vendor'], function () {
   Route::get('vendor-address', 'VendorController@organization_address')->name('organization-address');
   Route::get('vendor-contact', 'VendorController@organization_contact')->name('organization-contact');
   Route::get('vendor-person', 'VendorController@contact_person')->name('organization-contact-person');
+  Route::get('vendor-registration', 'VendorController@vendorRegistration');
   Route::resource('maintain-vendor-information', 'Admin\VendorInformationController');
   Route::get('get-vendor/{ven_id}', 'Admin\VendorInformationController@getVendors');
   Route::get('vendor-bank-detail', 'Admin\VendorInformationController@vendorBankDetail');
   Route::resource('maintain-vendor-contact', 'Vendor\VendorContactController');
-  Route::resource('maintain-vendor-contactperson', 'Vendor\ContactPersonController');
   Route::resource('maintain-vendor-address', 'Admin\VendorAddressController');
   
 });
@@ -122,10 +130,11 @@ Route::group(['prefix'=>'customer'], function () {
   Route::get('customer-address', 'CustomerController@customer_address')->name('customer-address');
   Route::get('contact-detail', 'CustomerController@contact_detail')->name('contact-detail');
   Route::get('customer-contact-person', 'CustomerController@customer_contact_person')->name('customer-contact-person');
+  Route::get('customer-registration', 'CustomerController@customerRegistration');
   Route::resource('maintain-customer-information', 'Customer\CustomerInformationController');
   Route::resource('maintain-customer-address', 'Customer\CustomerAddressController');
   Route::resource('maintain-customer-contacts', 'Customer\CustomerContactsController');
-  Route::resource('maintain-customer-contactperson', 'Customer\CustomerContactPersonController');
+  //Route::resource('maintain-customer-contactperson', 'Customer\CustomerContactPersonController');
   Route::get('get-customer/{cus_id}', 'Customer\CustomerInformationController@getCustomer');
   Route::get('customer-bank-detail', 'CustomerController@customerBankDetail');
 });
@@ -197,6 +206,8 @@ Route::group(['prefix'=>'sourcing'], function(){
   Route::get('get-log-contact/{contact_id}', 'FreightForwardDetController@getContact');
   Route::get('get-log-social/{social_id}', 'FreightForwardDetController@getSocial');
   Route::get('view-logistic', 'LogisticsController@viewLogistics');
+  Route::get('sourcing-contact-person', 'LogisticsController@sourcingContactPerson');
+  Route::get('sourcing-registration', 'LogisticsController@sourcingRegistration');
   /* Route::resource('save-freightforward-det', 'FreightForwardDetController');
   Route::get('edit-ff-det/{id}', 'FreightForwardDetController@editFfdet');
   Route::get('get-ffdet-info/{id}', 'FreightForwardDetController@getFFDetInfo');
@@ -291,6 +302,8 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('employee-group', 'Admin\EmployeeGroupController@employee_group');
   Route::get('company-profile', 'CompanyProfileController@index')->name('companyProfile')->middleware('is_admin');
   Route::get('company-address', 'CompanyProfileController@comAddressView');
+  Route::get('authorty-lists', 'CompanyProfileController@authortyLists');
+  Route::get('authority-contact-person', 'CompanyProfileController@authorityContactPerson');
   Route::get('company-contact', 'CompanyProfileController@comContactView');
   Route::get('company-bankdetail', 'CompanyProfileController@comBankDetailView');
   Route::get('check_user_approve', 'CompanyProfileController@check_user_approve')->name('checkuserapprove');
@@ -303,7 +316,6 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('view-company', 'CompanyProfileController@view_company')->name('view-company');
   Route::get('company-registration' , 'Admin\CompanyRegistrationController@view_registration');
   Route::get('maintain-office' , 'Admin\OfficeController@maintain_office');
-  Route::resource('registration-company' , 'Admin\CompanyRegistrationController');
   Route::resource('office-settings' , 'Admin\OfficeController');
   Route::get('getoffice/{company_id}' , 'Admin\OfficeController@getoffice');
   Route::resource('maintain-company', 'Admin\CompanyProfileController');
@@ -316,11 +328,11 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('getdeps', 'Admin\DepartmentsController@getDepts');
   Route::get('delete-department/{deptid}', 'Admin\DepartmentsController@delete_department')->name('delete-department')->middleware('is_admin');
   Route::get('getonedept/{deptid}', 'Admin\DepartmentsController@getonedept')->name('delete-department')->middleware('is_admin');
-  Route::get('company-calander', 'Admin\CompanyCalenderController@company_calander')->name('company_calander')->middleware('is_admin');
-  Route::get('get-calendar/{dept_id}', 'Admin\CompanyCalenderController@get_calendar')->middleware('is_admin');
-  Route::get('edit-calendar/{dept_id}', 'Admin\CompanyCalenderController@edit_calendar');
-  Route::resource('maintain-calender', 'Admin\CompanyCalenderController')->middleware('is_admin');
-  Route::get('get-departments/{office_id}', 'Admin\CompanyCalenderController@get_departments')->middleware('is_admin');
+  Route::get('company-calander', 'company\CompanyCalenderController@company_calander')->name('company_calander')->middleware('is_admin');
+  Route::get('get-calendar/{dept_id}', 'company\CompanyCalenderController@get_calendar')->middleware('is_admin');
+  Route::get('edit-calendar/{dept_id}', 'company\CompanyCalenderController@edit_calendar');
+  Route::resource('maintain-calender', 'company\CompanyCalenderController')->middleware('is_admin');
+  Route::get('get-departments/{office_id}', 'company\CompanyCalenderController@get_departments')->middleware('is_admin');
   Route::get('company-shift', 'Admin\CompanyShiftController@company_shift')->middleware('is_admin');
   Route::get('get-shift/{dept_id}', 'Admin\CompanyShiftController@get_shift')->middleware('is_admin');
   Route::get('edit-shift/{dept_id}', 'Admin\CompanyShiftController@edit_shift');
@@ -339,7 +351,6 @@ Route::group(['prefix'=>'company'], function () {
 
 });
 
-
 /**
  * Company portfolio
  */
@@ -351,6 +362,10 @@ Route::post('SaveCompanyPortfolio', 'CompanyPortfolioController@SaveCompanyPortf
 
 Route::resource('manage-banks', 'ActorBankController');
 Route::get('get-bank-info/{actor}', 'ActorBankController@getBankInfo');
+
+Route::resource('manage-contactperson', 'ActorContactPersonController');
+Route::get('get-company-info/{actor}/{company_id}', 'ActorContactPersonController@getCompanyInfo');
+
 
 /**
  * Customer Queries
@@ -377,7 +392,11 @@ Route::get('/redirect', 'FacebookLoginController@redirect');
 Route::get('/callback', 'FacebookLoginController@callback');
 
 Route::get('create-chart-account', 'Admin\FinanceController@defineAccount');
+Route::get('user-chart-account', 'Admin\FinanceController@defineUserAccount');
 Route::get('getAccountCategories/{id}', 'Globall\CategoriesController@getAccountCategories');
+//Get categories on user chart of account page
+Route::get('get-account-categories', 'Globall\CategoriesController@get_account_categories');
+
 Route::post('save-account', 'Admin\FinanceController@save_category');
 Route::get('delete-account-category/{id}','Admin\FinanceController@delete_category');
 Route::get('Add-general-Journal-Entry', 'Admin\FinanceController@generalJournalEntry');

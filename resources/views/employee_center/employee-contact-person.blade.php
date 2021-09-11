@@ -16,12 +16,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
-                    <label for="organization_name">* Name of Organization</label>
-                    <select class="form-control"  ng-options="vendor.id as vendor.organization_name for vendor in vendorinformations" ng-model="contactperson.actor_id">
-                        <option value="">Select Organization Name</option>
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getEmployees();">
+                    <label for="select_employee">Select Employee</label>
+                    <select class="form-control" id="select_employee" ng-options="user.id as user.first_name for user in Users" ng-model="contactperson.actor_id">
+                        <option value="">Select Employee</option>
                     </select>
-                    <i class="text-danger" ng-show="!contactperson.actor_id && showError"><small>Please Enter Organization</small></i>
+                    <i class="text-danger" ng-show="!contactperson.actor_id && showError"><small>Please Select Employee</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="title">Title</label>
@@ -182,23 +182,22 @@
 
     
     Company.controller('CompanyController', function ($scope, $http) {
-        $("#purchase").addClass('menu-open');
-        $("#purchase a[href='#']").addClass('active');
-        $("#purchase-contact-person").addClass('active');
+        $("#employee").addClass('menu-open');
+        $("#employee a[href='#']").addClass('active');
+        $("#employee-contact-person").addClass('active');
         $scope.url = $("#appurl").val();
 
-        $scope.getVendors = function () {
-            $scope.vendorinformations = {};
-            $http.get('maintain-vendor-information').then(function (response) {
+        $scope.getEmployees = function () {
+            $http.get('getEmployees').then(function (response) {
                 if (response.data.length > 0) {
-                    $scope.vendorinformations = response.data;
+                    $scope.Users = response.data;
                 }
             });
         };
 
         $scope.save_contactPerson = function(){
             $scope.contactperson.company_id = $("#company_id").val();
-            $scope.contactperson.actor_name = 'vendor';
+            $scope.contactperson.actor_name = 'employee';
             if (!$scope.contactperson.actor_id) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
@@ -223,7 +222,7 @@
 
         $scope.getContactPersons = function () {
             $scope.contactpersons = {};
-            $http.get($scope.url + 'get-company-info/vendor/'+ $("#company_id").val()).then(function (response) {
+            $http.get($scope.url + 'get-company-info/employee/'+ $("#company_id").val()).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.contactpersons = response.data;
                 }

@@ -29,6 +29,17 @@ class CategoriesController extends Controller {
         return $category = DB::select("call get_account_categories(" . $id . ")");
     }
 
+    public function get_account_categories()
+    {
+        $cat = DB::select('SELECT * FROM tblaccountcategories WHERE id IN (SELECT CategoryChildId FROM tblaccountparentchildassociations WHERE CategoryParentId IN(2,3))');
+        $arr = array();
+        foreach ($cat as $key => $value) {
+            $child = DB::select('SELECT * FROM tblaccountcategories WHERE id IN (SELECT CategoryChildId FROM tblaccountparentchildassociations WHERE CategoryParentId = '.$value->id.')');
+            $arr[$value->CategoryName] = $child;
+        }
+        return $arr;
+    }
+
     // save category in database
     public function save_category(Request $r) {
         if ($r->id) {
