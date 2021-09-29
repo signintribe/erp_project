@@ -19,6 +19,8 @@
                                 <i class="text-danger" ng-show="!Category.AccountId && showError"><small>Please type account ID</small></i>
                             </div>
                         </div>
+                    <!-- </div>
+                    <div class="row"> -->
                         <div class="col">
                             <div class="form-group" id="CategoryName">
                                 <label>Account Name</label>  
@@ -35,12 +37,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="opening_balance">Opening Balance</label>
-                        </div>
-                    </div>
-                    <div class="row">
+                </div>
+            </div>
+            <div class="card" id="openingBalance">
+                <div class="card-header">
+                    <h3 class="card-title">Opening Balance</h3>
+                </div>
+                <div class="card-body">
+                     <div class="row">
                         <div class="col">
                             <input type="number" ng-model="Category.credit" class="form-control" placeholder="Credit Amount">
                         </div>
@@ -59,11 +63,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="Save-button">
-                        <button class="btn btn-success btn-md pull-right" ng-click="save_category()">
-                            <i class="fa fa-save"></i> <span ng-bind="SaveLabel"></span>
-                        </button> 
                     </div> 
                 </div>
                 <!-- /.box-body -->
@@ -71,7 +70,7 @@
             <!-- /.box -->
         </div>
         <div class="col-lg-7 col-md-7 col-sm-7">
-           <div class="card" style="height: 491px;">
+           <div class="card" style="height: 520px;">
                 <div class="card-header">
                     <div class="row">
                         <div class="col">
@@ -84,7 +83,7 @@
                 </div>
                <div class="card-body">
                    <div class="row">
-                       <div class="col" style="overflow-y: scroll; height: 450px;">
+                       <div class="col" style="overflow-y: scroll; height: 430px;">
                             <i class="text-danger" ng-show="!Category.ParentcategoryId && showError"><small>Please select account type</small></i>
                             <div ng-repeat="(key, value) in allcats">
                                 <strong ng-bind="key"></strong><br/>
@@ -100,6 +99,11 @@
                        </div>
                        <div class="col">
                            <p ng-bind="selectedCate.AccountDescription"></p>
+                           <div id="Save-button">
+                                <button class="btn btn-success btn-md pull-right" ng-click="save_category()">
+                                    <i class="fa fa-save" id="savebtn"></i> <span ng-bind="SaveLabel"></span>
+                                </button> 
+                            </div>
                        </div>
                    </div>
                </div>
@@ -118,20 +122,24 @@
                             <thead>
                                 <tr>
                                     <th>Sr#</th>
+                                    <th>Account ID</th>
                                     <th>Account Name</th>
                                     <th>Parent Account</th>
+                                    <th>Account Created</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="acc in Accounts">
                                     <td ng-bind="$index+1"></td>
+                                    <td ng-bind="acc.AccountId"></td>
                                     <td ng-bind="acc.CategoryName"></td>
                                     <td ng-bind="acc.ParentCategory"></td>
+                                    <td ng-bind="acc.created_at"></td>
                                     <td>
                                         <div class="btn-group">
-                                            <button class="btn btn-xs btn-info" ng-click="editAccount(acc.id)">Edit</button>
-                                            <button class="btn btn-xs btn-danger" ng-click="deleteAccount(acc.id);">Delete</button>
+                                            <button class="btn btn-info btn-xs" ng-click="editAccount(acc)">Edit</button>
+                                            <button class="btn btn-danger btn-xs" ng-click="delete_category(acc.id)">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -189,18 +197,18 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#savebtn").removeClass('fa-save').addClass('fa-spinner fa-pulse');
                 $scope.Category.date = $("#account_date input").val();
                 if (!$scope.Category.ParentcategoryId) {
                     $scope.Category.ParentcategoryId = 1;
                 }
                 $("#CategoryName").removeClass('has-error');
-                $http.post('save-account', $scope.Category)
-                        .then(function (res) {
-                            var button = $compile(angular.element('<button class="btn btn-success btn-xs" ng-click="save_category()"><i class="fa fa-save"></i> Save</button>'))($scope);
-                            $("#Save-button").html(button);
-                            $scope.savemessage = res.data;
-                            $scope.resetscope();
-                        });
+                $http.post('save-account', $scope.Category).then(function (res) {
+                    //var button = $compile(angular.element('<button class="btn btn-success float-right btn-md" ng-click="save_category()"><i class="fa fa-save" id="savebtn"></i> Save</button>'))($scope);
+                    $("#savebtn").removeClass('fa-spinner fa-pulse').addClass('fa-save');
+                    swal("Save!", res.data, "success");
+                    $scope.resetscope();
+                });
             }
         };
 
@@ -222,6 +230,12 @@
             $scope.Category.ParentcategoryId = id;
             console.log($scope.Category);
         };
+
+        $scope.editAccount = function(account){
+            $scope.Category = account;
+            $("#openingBalance").hide();
+        };
+
         $scope.getchield = function (id, objid) {
             var brows = $("#brows" + objid).attr('brows');
             if (typeof brows === "undefined") {
@@ -255,12 +269,21 @@
             val.product_category = parseInt(val.product_category);
         };
         $scope.delete_category = function (id) {
-            var delete_category = $http.get('delete-account-category/' + id);
-            delete_category.then(function (result) {
-                var button = $compile(angular.element('<button class="btn btn-success btn-xs pull-right" ng-click="save_category()"><i class="fa fa-save"></i> Save</button>'))($scope);
-                $("#Save-button").html(button);
-                $scope.showmessage = result.data;
-                $scope.resetscope();
+            swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this record!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            },
+            function(){
+                var delete_category = $http.get('delete-account-category/' + id);
+                delete_category.then(function (result) {
+                    swal("Deleted!", result.data, "success");
+                    $scope.resetscope();
+                });
             });
         };
     });

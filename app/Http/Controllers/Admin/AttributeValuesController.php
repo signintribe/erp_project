@@ -57,7 +57,7 @@ class AttributeValuesController extends Controller
             $values = $request->except(['id', 'user_id']);
             erp_attribute_value::where('id', $request->id)->update($values);
         }else{
-            $values = $request->all();
+            $values = $request->except(['category_id']);
             $values['user_id'] = Auth::user()->id;
             erp_attribute_value::create($values);
         }

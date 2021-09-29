@@ -490,8 +490,8 @@ DROP PROCEDURE getGLAccount;
 DELIMITER $$
 CREATE PROCEDURE `getGLAccount`()
 BEGIN  
-    SELECT category.id, category.CategoryName, parent.ParentCategory FROM (
-        SELECT id, CategoryName 
+    SELECT category.id, category.AccountId, category.CategoryName, parent.ParentCategory, category.created_at FROM (
+        SELECT id, AccountId, CategoryName, created_at 
         FROM tblaccountcategories WHERE product_category = 1
     ) AS category JOIN (
         SELECT id, CategoryParentId, CategoryChildId 

@@ -63,23 +63,23 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="calander_start">Calander Start Date</label>
                     <div class="form-group">
-                    <div class="input-group date" id="start_date" data-target-input="nearest">
-                        <input type="text" placeholder="Start Date" ng-model="calander.calender_start_date" class="form-control datetimepicker-input" data-target="#start_date"/>
-                        <div class="input-group-append" data-target="#start_date" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        <div class="input-group date" id="start_date" data-target-input="nearest">
+                            <input type="text" placeholder="Start Date" ng-model="calander.calender_start_date" class="form-control datetimepicker-input" data-target="#start_date"/>
+                            <div class="input-group-append" data-target="#start_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="calander_end">Calander End Date</label>
                     <div class="form-group">
-                    <div class="input-group date" id="end_date" data-target-input="nearest">
-                        <input type="text" placeholder="End Date" ng-model="calander.calender_end_date" class="form-control datetimepicker-input" data-target="#end_date"/>
-                        <div class="input-group-append" data-target="#end_date" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        <div class="input-group date" id="end_date" data-target-input="nearest">
+                            <input type="text" placeholder="End Date" ng-model="calander.calender_end_date" class="form-control datetimepicker-input" data-target="#end_date"/>
+                            <div class="input-group-append" data-target="#end_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div><br>

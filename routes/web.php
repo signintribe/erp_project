@@ -74,6 +74,13 @@ Route::group(['prefix'=>'hr'], function () {
 
 Route::group(['prefix'=>'bank'], function () {
   Route::get('bank-contact-person', 'CompanyProfileController@bankContactPerson');
+  Route::get('budget', 'company\CompanyBudgetController@budget');
+  Route::post('save-budget', 'company\CompanyBudgetController@saveBudget');
+  Route::get('delete-budget/{budget_id}', 'company\CompanyBudgetController@deleteBudget');
+  Route::get('get-accounts-budget', 'company\CompanyBudgetController@getAccountBudget');
+  Route::get('get-budget-detail', 'company\CompanyBudgetController@getBudgetDetail');
+  Route::get('Taxes', 'company\CompanyTaxController@taxesView');
+  Route::resource('manage-tax', 'company\CompanyTaxController');
 });
 
 
@@ -411,7 +418,7 @@ Route::post('get-General-ledger-report', 'Admin\FinanceReportController@Generalj
 Route::get('Trial-Balance', 'Admin\FinanceReportController@TrialBalance');
 Route::post('TrialBalance-report', 'Admin\FinanceReportController@TrialBalanceReportData');
 Route::get('balance-sheet', 'Admin\FinanceReportController@BalanceSheet');
-//Route::get('income-statement', 'Admin\FinanceReportController@income_statement');
+Route::get('income-statement', 'Admin\FinanceReportController@income_statement');
 //Route::get('cash-flow', 'Admin\FinanceReportController@cash_flow');
 Route::get('advance-reports', 'Admin\FinanceReportController@advance_reports');
 Route::get('fixed-asset', 'Admin\FinanceReportController@fixed_asset');

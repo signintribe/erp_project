@@ -1,32 +1,45 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.taskTier')
 @section('title', 'General Journal Entry')
-<link rel="stylesheet" href="{{asset('theme/plugins/datepicker/datepicker3.css')}}">
+@section('pagetitle', 'General Journal Entry')
+@section('breadcrumb', 'General Journal Entry')
+@section('content')
 <style>
     .hover-li:hover{
         cursor: pointer;
         background-color: #ccc;
     }
 </style>
-@section('content')
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" ng-app="MyApp" ng-controller="CategoryController" ng-init="resetscope()">
-    <section class="content">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                       <!--  <button class="btn btn-info btn-xs" ng-click="(Entries.Data.push({}))"><i class="fa fa-plus"></i> Add Other</button><br/><br/> -->
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4">
+<div ng-app="MyApp" ng-controller="CategoryController" ng-init="resetscope()">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <!--  <button class="btn btn-info btn-xs" ng-click="(Entries.Data.push({}))"><i class="fa fa-plus"></i> Add Other</button><br/><br/> -->
+                    <div class="row" ng-if="saveMessage">
+                        <div class="col">
+                            <div class="alert alert-success">
+                                <span ng-bind="saveMessage"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group">
+                                <label>Date</label>
                                 <div class="form-group">
-                                    <label>Date</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" datepicker placeholder="To Date" ng-model="Entries.date"/>
+                                    <div class="input-group date" id="entry_date" data-target-input="nearest">
+                                        <input type="text" placeholder="Date" class="form-control datetimepicker-input" data-target="#entry_date"/>
+                                        <div class="input-group-append" data-target="#entry_date" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div><br/>
-                        <table class="table table-bordered table-responsive table-striped">
+                        </div>
+                    </div><br/>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>GL Account</th>
@@ -39,15 +52,15 @@
                             <tbody>
                                 <tr ng-repeat="Entry in Entries.Data">
                                     <td>
-                                        <div class="btn-group dropdown form-group" role="group" style="width:100%;" ng-init="(Entry.CategoryName = 'Select Account')">
-                                            <button type="button" class="btn filter-button" id="drop-box"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 33px;width: 100%;">
-                                                <span class="filter-button-text" style="font-size: 12px;" ng-bind="Entry.CategoryName"></span>
+                                        <div class="btn-group dropdown" role="group" style="width:100%;" ng-init="(Entry.CategoryName = 'Select Account')">
+                                            <button type="button" class="btn btn-secondary dropdown-toggle" id="drop-box"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="filter-button-text" ng-bind="Entry.CategoryName"></span>
                                                 <span style="float: right;margin: 10px;" class="caret"></span>
                                             </button>
-                                            <ul class="dropdown-menu" aria-labelledby="drop-box" style="width:100%;">
+                                            <ul class="dropdown-menu" aria-labelledby="drop-box">
                                                 <input type="search" class="form-control input-sm" ng-model="filtername" placeholder="Account Name">
-                                                <li style="line-height: 20px; padding: 6px; font-size: 12px; border-bottom: solid 1px #ccc;" ng-click="(Entry.CategoryName = 'Select Account');(Entry.account_Id = '')"> <a role="button">Select Account</a></li>     
-                                                <li class="hover-li" style="padding: 6px; font-size: 12px; border-bottom: solid 1px #ccc;" ng-repeat="o in Accounts| filter : {CategoryName:filtername}" ng-click="(Entry.CategoryName = o.CategoryName);(Entry.account_Id = o.id)"><a role="button" ng-bind="o.CategoryName + '=>' + o.ParentCategory "></a></li>     
+                                                <li class="dropdown-item" ng-click="(Entry.CategoryName = 'Select Account');(Entry.account_Id = '')"> <a role="button">Select Account</a></li>     
+                                                <li class="hover-li dropdown-item" style="" ng-repeat="o in Accounts| filter : {CategoryName:filtername}" ng-click="(Entry.CategoryName = o.CategoryName);(Entry.account_Id = o.id)"><a role="button" ng-bind="o.CategoryName + '=>' + o.ParentCategory "></a></li>     
                                             </ul>
                                         </div>
                                     </td>
@@ -60,16 +73,14 @@
                                     <td colspan="2" class="text-right">Totals</td>
                                     <td class="text-right" ng-bind="TotalDebit"></td>
                                     <td class="text-right" ng-bind="TotalCredit"></td>
-                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td class="text-right" colspan="2">Out Of Balance</td>
                                     <td class="text-right" ng-bind="((TotalDebit) - (TotalCredit))"></td>
                                     <td></td>
-                                    <td></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-right" colspan="5"><button class="btn btn-success btn-md" ng-click="SaveEntries()" ng-if="(Entries.date) && (TotalCredit) && (TotalDebit) && !((TotalDebit) - (TotalCredit))"><i class="fa fa-save"></i> Save</button></td>
+                                    <td class="text-right" colspan="5"><button class="btn btn-success btn-md" ng-click="SaveEntries()" ng-if="(TotalCredit) && (TotalDebit) && !((TotalDebit) - (TotalCredit))"><i class="fa fa-save"></i> Save</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -77,54 +88,21 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </div>
 <!-- /.content-wrapper -->
 <script src="{{ asset('public/js/angular.min.js')}}" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.2/angular-sanitize.min.js">
 </script>
-<script src="{{ asset('theme/plugins/datepicker/bootstrap-datepicker.js')}}"></script>
 <script>
     var Finance = angular.module('MyApp', [], function ($interpolateProvider) {
         $interpolateProvider.startSymbol('<%');
         $interpolateProvider.endSymbol('%>');
     });
-    Finance.directive('datepicker', function () {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            compile: function () {
-                return {
-                    pre: function (scope, element, attrs, ngModelCtrl) {
-                        var format, dateObj;
-                        format = (!attrs.dpFormat) ? 'yyyy-mm-dd' : attrs.dpFormat;
-                        if (!attrs.initDate && !attrs.dpFormat) {
-                            // If there is no initDate attribute than we will get todays date as the default
-                            dateObj = new Date();
-//                            scope[attrs.ngModel] = dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
-                        } else if (!attrs.initDate) {
-                            // Otherwise set as the init date
-                            scope[attrs.ngModel] = attrs.initDate;
-                        } else {
-                            // I could put some complex logic that changes the order of the date string I
-                            // create from the dateObj based on the format, but I'll leave that for now
-                            // Or I could switch case and limit the types of formats...
-                        }
-                        // Initialize the date-picker
-                        $(element).datepicker({
-                            format: format
-                        }).on('changeDate', function (ev) {
-                            // To me this looks cleaner than adding $apply(); after everything.
-                            scope.$apply(function () {
-                                ngModelCtrl.$setViewValue(ev.format(format));
-                            });
-                        });
-                    }
-                };
-            }
-        };
-    });
     Finance.controller('CategoryController', function ($scope, $http, $compile, $filter) {
+        $('#entry_date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
         $scope.CategoryName = "";
         $scope.resetscope = function () {
             $scope.Accounts = [];
@@ -164,9 +142,13 @@
         };
 
         $scope.SaveEntries = function () {
+            $scope.Entries.date = $("#entry_date input").val();
             $http.post('Save-General-Entries', $scope.Entries).then(function (res) {
-                $scope.Entries = {};
-                $scope.Entries.Data = [{}, {}, {}, {}, {}];
+                if(res.data.status == true){
+                    $scope.Entries = {};
+                    $scope.Entries.Data = [{}, {}];
+                    $scope.saveMessage = res.data.message;
+                }
             });
         };
 

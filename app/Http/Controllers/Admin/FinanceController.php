@@ -166,7 +166,13 @@ class FinanceController extends Controller {
 
     function AllchartofAccount() {
 //        return DB::select("call getAccounts()");
-        return $Accounts = DB::select('call getGLAccount()');
+        $Accounts = DB::select('call getGLAccount()');
+        $NewAccounts = array();
+        foreach ($Accounts as $key => $value) {
+            $value->AccountId = (int)$value->AccountId;
+            $NewAccounts[] = $value;
+        }
+        return $NewAccounts;
     }
 
     function SaveGeneralEntries(Request $r) {
@@ -189,7 +195,10 @@ class FinanceController extends Controller {
 //                }
             }
         endforeach;
-        return $r->all();
+        return response()->json([
+            'status'=>true,
+            'message'=>"Entry Save Successfully"
+        ]);
     }
 
     public function defineUserAccount()

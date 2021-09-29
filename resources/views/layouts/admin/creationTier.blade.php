@@ -401,19 +401,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('bank/budget')}}" class="nav-link">
+                                        <a href="{{url('bank/budget')}}" class="nav-link" id="budget">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Budget</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a href="{{url('bank/tariff')}}" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Tariff</p>
                                         </a>
-                                    </li>
+                                    </li> -->
                                     <li class="nav-item">
-                                        <a href="{{url('bank/Taxes')}}" class="nav-link">
+                                        <a href="{{url('bank/Taxes')}}" class="nav-link" id="taxes">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Taxes</p>
                                         </a>
@@ -713,7 +713,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- jQuery -->
         <script src="{{asset('public/plugins/jquery/jquery.min.js')}}"></script>
         <!-- Bootstrap 4 -->
-        <script src="{{asset('public/public/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{asset('public/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
         <!-- jQuery -->
         <!-- Select2 -->

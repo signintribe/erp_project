@@ -10,15 +10,15 @@
             <div class="card-header">
                 <h4 class="card-title">Add Category</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body" ng-init="get_allcategories(0)">
                 <p class="card-description" ng-if="save_message" ng-bind="save_message"></p>
-                <div class="form-group row">
-                    <div class="col">
-                        <label>* Category Name:</label>
-                        <input type="text" class="form-control" placeholder="Category Name" ng-model="category.category_name"/>
-                        <i class="text-danger" ng-show="!category.category_name && showError"><small>Please Type Category Name</small></i>
-                    </div>
-                </div>
+                <label>* Category Name:</label>
+                <input type="text" class="form-control" placeholder="Category Name" ng-model="category.category_name"/>
+                <i class="text-danger" ng-show="!category.category_name && showError"><small>Please Type Category Name</small></i><br/>
+                <label>Parent Category:</label>
+                <select class="form-control" ng-options="cat.id as cat.category_name for cat in categories" ng-model="category.parent_id">
+                    <option value="">Select Parent Category</option>
+                </select><br/>
                 <!-- <div class="form-group row">
                     <div class="col">
                         <label>Measurement:</label>
@@ -26,32 +26,12 @@
                         <small class="text text-muted">Add category measurement if add 3rd level category</small>
                     </div>
                 </div> -->
-                <div class="form-group row">
-                    <div class="col">
-                        <label>Category Description:</label>
-                        <textarea class="form-control" placeholder="Category Description" ng-model="category.category_description" rows="5" cols="5"></textarea>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col">
-                        <label>Category Image:</label>
-                        <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);"><br/>
-                        <img ng-if="catimage" ng-src="<% catimage %>" class="img img-responsive" style="width: 100%; height: 200px;"/>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col" ng-init="get_allcategories()">
-                        <label>Parent Category:</label>
-                        <select class="form-control" ng-options="cat.id as cat.category_name for cat in categories" ng-model="category.parent_id">
-                            <option value="">Select Parent Category</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col">
-                        <button type="submit" class="btn btn-success btn-sm" ng-click="save_category()">Submit</button>
-                    </div>
-                </div>
+                <label>Category Description:</label>
+                <textarea class="form-control" placeholder="Category Description" ng-model="category.category_description" rows="3" cols="3"></textarea><br/>
+                <label>Category Image:</label>
+                <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);"><br/>
+                <img ng-if="catimage" ng-src="<% catimage %>" class="img img-responsive" style="width: 100%; height: 200px;"/>
+                <button type="submit" class="btn btn-success btn-sm" ng-click="save_category()">Submit</button>
             </div>
         </div>
     </div>
@@ -152,8 +132,8 @@
         $("#mstrial-management").addClass('menu-open');
         $("#mstrial-management a[href='#']").addClass('active');
         $("#add-category").addClass('active');
-        $scope.get_allcategories = function () {
-            $http.get('get_categories').then(function (response) {
+        $scope.get_allcategories = function (cat_id) {
+            $http.get('get_categories/' + cat_id).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.categories = response.data;
                 }

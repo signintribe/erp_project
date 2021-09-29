@@ -7,7 +7,7 @@
 <div class="row" ng-app="AttributeValueApp" ng-controller="AttributeValueController">
     <div class="col-lg-4 col-md-4 col-sm-4">
         <div class="card">
-            <div class="">
+            <div class="card-header">
                 <h4 class="card-title">Add Attribute Values</h4>
             </div>
             <div class="card-body">

@@ -211,8 +211,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item" id="banking-finance">
+                                <a href="#" class="nav-link" id="banking-open">
                                     <i class="fa fa-university nav-icon"></i>
                                     <p>
                                         Banking & Finance
@@ -220,6 +220,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
+                                    <li class="nav-item" id="financial-report">
+                                        <a href="#" class="nav-link" id="report-open">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Financial Reports
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="{{url('finance-report')}}" class="nav-link" id="chart-account">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <p>Chart of Account</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="{{url('report-general-journal')}}" class="nav-link" id="general-journal">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>General Journal</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="{{url('getGeneral-ledger-report')}}" class="nav-link" id="general-ledger">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>General Ledger</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="{{url('Trial-Balance')}}" class="nav-link" id="trial-balance">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>Trial Balance</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="{{url('advance-reports')}}" class="nav-link" id="advance-reports">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>Advance Report</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
@@ -575,7 +616,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- jQuery -->
         <script src="{{asset('public/plugins/jquery/jquery.min.js')}}"></script>
         <!-- Bootstrap 4 -->
-        <script src="{{asset('public/public/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{asset('public/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
         <!-- jQuery -->
         <!-- Select2 -->

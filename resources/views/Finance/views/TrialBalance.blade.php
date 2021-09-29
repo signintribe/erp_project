@@ -1,69 +1,83 @@
-@extends('layouts.admin.master')
-@section('title', 'Report General Journal Entry')
+@extends('layouts.admin.reportTier')
+@section('title', 'Report Trial Balance')
+@section('pagetitle', 'Report Trial Balance')
+@section('breadcrumb', 'Report Trial Balance')
 @section('content')
 <link rel="stylesheet" href="{{asset('theme/plugins/datepicker/datepicker3.css')}}">
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" ng-app="ReportGeneralJournalApp" ng-controller="ReportGeneralJournalController">
-    <section class="content">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row d-print-none">
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" datepicker placeholder="Date From" ng-model="filters.datefrom"/>
+<div ng-app="ReportGeneralJournalApp" ng-controller="ReportGeneralJournalController">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row d-print-none">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <div class="input-group date" id="start_date" data-target-input="nearest">
+                                    <input type="text" placeholder="Start Date" class="form-control datetimepicker-input" data-target="#start_date"/>
+                                    <div class="input-group-append" data-target="#start_date" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" datepicker placeholder="Date To" ng-model="filters.dateto"/>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <div class="input-group date" id="end_date" data-target-input="nearest">
+                                    <input type="text" placeholder="End Date" class="form-control datetimepicker-input" data-target="#end_date"/>
+                                    <div class="input-group-append" data-target="#end_date" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-6">
-                                <button class="btn btn-md btn-info" ng-click="getData()"><i class="fa fa-search"></i> Search</button>
-                                <button class="btn btn-md btn-primary" onclick="exportTableToExcel('tblData',{{Date('Ymdhms')}})">Export Excel</button>
-                                <button class="btn btn-md btn-secondary" onclick="window.print();">Print</button>
-                            </div>
-                        </div><br/>
-                        <div class="row d-none d-print-block">
-                            <div class="col">
-                                <h3>Name of Company</h3>
-                            </div>
-                        </div><br/>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="tblData">
-                                <thead>
-                                    <tr>
-                                        <th>Account Id</th>
-                                        <th>Name of Account</th>
-                                        <th>Debit Amt</th>
-                                        <th>Credit Amt</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="Account in Accounts" ng-init="calculateDEbitCredit(Account)">
-                                        <td ng-bind="Account.AccountId"></td>
-                                        <td ng-bind="Account.CategoryName"></td>
-                                        <td><p ng-if="Account.Total > 0" ng-bind="Account.Total"></p></td>
-                                        <td><p ng-if="Account.Total < 0" ng-bind="(Account.Total * -1)"></p></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"></td>
-                                        <td ng-bind="TotalDebit"></td>
-                                        <td ng-bind="TotalCredit"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br/>
-                            <div align="center" class="d-none d-print-block">
-                                <strong>Address : </strong> | 
-                                <strong>Phone Number : </strong> | 
-                                <strong>Email Address : </strong> | 
-                                <strong>Website : </strong>
-                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <button class="btn btn-md btn-info" ng-click="getData()"><i class="fa fa-search"></i> Search</button>
+                            <button class="btn btn-md btn-primary" onclick="exportTableToExcel('tblData',{{Date('Ymdhms')}})">Export Excel</button>
+                            <button class="btn btn-md btn-secondary" onclick="window.print();">Print</button>
+                        </div>
+                    </div><br/>
+                    <div class="row d-none d-print-block">
+                        <div class="col">
+                            <h3>Name of Company</h3>
+                        </div>
+                    </div><br/>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="tblData">
+                            <thead>
+                                <tr>
+                                    <th>Account Id</th>
+                                    <th>Name of Account</th>
+                                    <th>Debit Amt</th>
+                                    <th>Credit Amt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="Account in Accounts" ng-init="calculateDEbitCredit(Account)">
+                                    <td ng-bind="Account.AccountId"></td>
+                                    <td ng-bind="Account.CategoryName"></td>
+                                    <td><p ng-if="Account.Total > 0" ng-bind="Account.Total"></p></td>
+                                    <td><p ng-if="Account.Total < 0" ng-bind="(Account.Total * -1)"></p></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td ng-bind="TotalDebit"></td>
+                                    <td ng-bind="TotalCredit"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <div align="center" class="d-none d-print-block">
+                            <strong>Address : </strong> | 
+                            <strong>Phone Number : </strong> | 
+                            <strong>Email Address : </strong> | 
+                            <strong>Website : </strong>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
     <!--</form>-->
     <!-- /.content -->
 </div>
@@ -113,11 +127,25 @@
     });
 
     TrialBalanceReport.controller('ReportGeneralJournalController', function ($scope, $http, $filter) {
+        $("#banking-finance").addClass('menu-open');
+        $("#financial-report").addClass('menu-open');
+        $("#banking-open").addClass('active');
+        $("#report-open").addClass('active');
+        $("#trial-balance").addClass('active');
+        $('#start_date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+
+        $('#end_date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
         $scope.filters = {};
         $scope.TotalDebit = 0;
         $scope.TotalCredit = 0;
         $scope.Accounts = [];
         $scope.getData = function () {
+            $scope.filters.datefrom = $("#start_date input").val();
+            $scope.filters.dateto = $("#end_date input").val();
             $scope.TotalDebit = 0;
             $scope.TotalCredit = 0;
             $scope.Accounts = [];
