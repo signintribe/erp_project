@@ -19,7 +19,7 @@ class CompanyAddressController extends Controller
      */
     public function index()
     {
-        return DB::select('SELECT company.*, cominfo.company_name, address.address_line_1,  address.address_line_2, address.address_line_3, address.street, address.sector, address.country, address.state, address.city FROM (SELECT * FROM tblcompany_addresses) AS company JOIN (SELECT id, company_name FROM tblcompanydetails) AS cominfo ON cominfo.id = company.com_id JOIN (SELECT id, address_line_1, address_line_2, address_line_3, street, sector, country, state, city FROM tbladdresses) AS address on address.id = company.address_id');
+        return DB::select('SELECT company.*, cominfo.company_name, address.address_line_1,  address.address_line_2, address.address_line_3, address.street, address.sector, address.country, address.state, address.city FROM (SELECT * FROM tblcompany_addresses) AS company JOIN (SELECT id, company_name FROM tblcompanydetails WHERE user_id = '.Auth::user()->id.') AS cominfo ON cominfo.id = company.com_id JOIN (SELECT id, address_line_1, address_line_2, address_line_3, street, sector, country, state, city FROM tbladdresses) AS address on address.id = company.address_id');
     }
 
     /**
@@ -47,7 +47,7 @@ class CompanyAddressController extends Controller
             $data = $request->except('id','com_id','address_id','company_name');
             $comadd = $request->except('id', 'address_line_1', 'foreign_key','company_name', 'address_line_2', 'address_line_3', 'street', 'sector', 'country', 'state', 'city','postal_code', 'zip_code', 'created_at', 'updated_at');
             tbladdress::where('id', $request->address_id)->update($data);
-            tblcompany_address::where('id', $request->id)->update($comadd);
+            //tblcompany_address::where('id', $request->id)->update($comadd);
             return 'Update';
         }else{
             $data = $request->all();
@@ -78,7 +78,7 @@ class CompanyAddressController extends Controller
      */
     public function edit($id)
     {
-        return DB::select('SELECT company.*, cominfo.company_name, address.address_line_1,  address.address_line_2, address.address_line_3, address.street, address.sector, address.country, address.state, address.city FROM (SELECT * FROM tblcompany_addresses where id = '.$id.') AS company JOIN (SELECT id, company_name FROM tblcompanydetails) AS cominfo ON cominfo.id = company.com_id JOIN (SELECT id, address_line_1, address_line_2, address_line_3, street, sector, country, state, city FROM tbladdresses) AS address on address.id = company.address_id');
+        return DB::select('SELECT company.*, cominfo.company_name, address.address_line_1,  address.address_line_2, address.address_line_3, address.street, address.sector, address.country, address.state, address.city, address.zip_code, address.postal_code FROM (SELECT * FROM tblcompany_addresses where id = '.$id.') AS company JOIN (SELECT id, company_name FROM tblcompanydetails WHERE user_id='.Auth::user()->id.') AS cominfo ON cominfo.id = company.com_id JOIN (SELECT id, address_line_1, address_line_2, address_line_3, street, sector, country, state, city, postal_code, zip_code FROM tbladdresses) AS address on address.id = company.address_id');
     }
 
     /**
@@ -105,6 +105,6 @@ class CompanyAddressController extends Controller
         //return $data;
         tblcompany_address::where('id', $data->id)->delete();
         tbladdress::where('id', $data->address_id)->delete();
-        return 'Delete Successful';
+        return response()->json(['status'=>true, 'message'=>'Delete Successful']);
     }
 }

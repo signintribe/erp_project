@@ -35,7 +35,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Office Status</label><br>
                     <span class="form-control">
-                        <input type="checkbox" id="office-status" ng-model="office.office_status"/> <label for="office-status">Status</label>
+                        <input type="checkbox" id="office-status" ng-model="office.office_status"/> <label for="office-status">Opened</label>
                     </span>
                 </div>
             </div><br/>
@@ -162,7 +162,7 @@
             </div><br>
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-sm btn-success" ng-click="save_companyoffice()">Save</button>
+                    <button class="btn btn-md btn-success" ng-click="save_companyoffice()"> <i class="fa fa-save" id="loader"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -197,8 +197,10 @@
                             <p ng-if="office.office_status == 1" class="text text-success">Opened</p>
                         </td>
                         <td>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteOffice(office.id);">Delete</button>
-                            <button class="btn btn-xs btn-info" ng-click="editOffice(office.id);">Edit</button>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-danger" ng-click="deleteOffice(office.id);">Delete</button>
+                                <button class="btn btn-xs btn-info" ng-click="editOffice(office.id);">Edit</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -323,6 +325,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-pulse fa-fw');
                 var Data = new FormData();
                 angular.forEach($scope.office, function (v, k) {
                     Data.append(k, v);
@@ -333,6 +336,7 @@
                         text: res.data,
                         type: "success"
                     });
+                    $("#loader").removeClass('fa-spinner fa-pulse fa-fw').addClass('fa-save');
                     $scope.office = {};
                     $scope.getalloffice();
                 });

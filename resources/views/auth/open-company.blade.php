@@ -35,7 +35,17 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <label for="company-name">Type your company name</label>
-                        <input type="text" ng-keyup="searchCompany(company_name);" ng-model="company_name" id="company-name" class="form-control" placeholder="Type your company name">
+                        <input type="text" ng-keyup="searchCompany(company_name);" ng-model="company_name" id="company-name" class="form-control" placeholder="Type your company name"><br/>
+                        @error('selectcompany')
+                        <div class="alert alert-danger" role="alert" style="padding: 3px 0px 3px 9px;">
+                            <p>{{ $message }}</p>
+                        </div>
+                        @enderror
+                        @error('nocompany')
+                        <div class="alert alert-danger" role="alert" style="padding: 3px 0px 3px 9px;">
+                            <p>{{ $message }}</p>
+                        </div>
+                        @enderror
                         <ul ng-if="nomore" style="padding-left:15px;">
                             <li ng-bind="nomore"></li>
                         </ul>
@@ -61,16 +71,11 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
-                            @error('status')
-                            <div class="alert alert-danger" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                            @enderror
                             <div class="col_full">
                                 <label for="login-form-username">Username:</label>
                                 <input id="email" type="email" tabindex="1" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                 @error('email')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
@@ -82,7 +87,7 @@
                                 <input id="password" type="password" tabindex="2" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                                 @error('password')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror

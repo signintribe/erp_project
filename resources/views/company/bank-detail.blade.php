@@ -35,7 +35,7 @@
            </div><br/>
            <div class="row">
                <div class="col">
-                   <button class="btn btn-sm btn-success float-right" ng-click="saveBank()"> <i class="fa fa-save"></i> Save</button>
+                   <button class="btn btn-md btn-success float-right" ng-click="saveBank()"> <i id="loader" class="fa fa-save"></i> Save</button>
                </div>
            </div>
        </div>
@@ -145,6 +145,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-fw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.bank, function (v, k) {
                     Data.append(k, v);
@@ -155,6 +156,7 @@
                         text: res.data,
                         type: "success"
                     });
+                    $("#loader").removeClass('fa-spinner fa-fw fa-pulse').addClass('fa-save');
                     $scope.bank = {};
                     $scope.getBanksInfo();
                 });

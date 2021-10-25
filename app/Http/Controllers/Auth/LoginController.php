@@ -41,23 +41,27 @@ use AuthenticatesUsers;
         $input = $request->all();
         if($input['company_id']){
             $user = User::where('email', $input['email'])->first();
-            if(empty(tblcompanydetail::where('id', $input['company_id'])->where('user_id', $user->id)->first())){
-                return redirect()->route('open-company')->withInput()->withErrors(['status' => 'You are not registered in this company']);
-            }
-            if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
-                session(['company_id' => $input['company_id']]);
-                if (auth()->user()->is_admin == 1) {
-                    return redirect()->route('adminhome');
-                } else if (auth()->user()->is_admin == 0) {
-                    return redirect()->route('home');
-                }else if(auth()->user()->is_admin == 2){
-                    return redirect()->route('userdashboard');
+            if(empty($user)){
+                return redirect()->route('open-company')->withInput()->withErrors(['email' => 'This email is not registered']);
+            }else{
+                if(empty(tblcompanydetail::where('id', $input['company_id'])->where('user_id', $user->id)->first())){
+                    return redirect()->route('open-company')->withInput()->withErrors(['nocompany' => 'You are not registered in this company']);
                 }
-            } else {
-                return redirect()->route('open-company')->withInput()->withErrors(['status' => 'Email-Address And Password Are Wrong.']);
+                if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+                    session(['company_id' => $input['company_id']]);
+                    if (auth()->user()->is_admin == 1) {
+                        return redirect()->route('adminhome');
+                    } else if (auth()->user()->is_admin == 0) {
+                        return redirect()->route('home');
+                    }else if(auth()->user()->is_admin == 2){
+                        return redirect()->route('userdashboard');
+                    }
+                } else {
+                    return redirect()->route('open-company')->withInput()->withErrors(['password' => 'Email-Address Or Password Are Wrong.']);
+                }
             }
         }else{
-            return redirect()->route('open-company')->withInput()->withErrors(['status' => 'Please select company first']);
+            return redirect()->route('open-company')->withInput()->withErrors(['selectcompany' => 'Please select company first']);
         }
     }
 

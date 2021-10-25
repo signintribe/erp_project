@@ -21,7 +21,13 @@ class ComBankDetailController extends Controller
      */
     public function index()
     {
-        return DB::select('SELECT bankdetail.*,company.company_name, addresses.address_line_1,addresses.address_line_2,addresses.address_line_3,addresses.street,addresses.sector,addresses.city,addresses.state,addresses.country,addresses.postal_code,addresses.zip_code, contacts.phone_number,contacts.mobile_number,contacts.fax_number,contacts.whatsapp,contacts.email, socials.website,socials.twitter,socials.instagram,socials.facebook,socials.linkedin,socials.pinterest,socials.youtube FROM (SELECT * FROM `tblcompany_bankdetails`) AS bankdetail JOIN(SELECT id,address_line_1,address_line_2,address_line_3,street,sector,city,state,country,postal_code,zip_code  FROM tbladdresses) AS addresses ON addresses.id = bankdetail.address_id JOIN(SELECT id,phone_number,mobile_number,fax_number,whatsapp,email FROM tblcontacts) AS contacts ON contacts.id = bankdetail.contact_id JOIN(SELECT id,website,twitter,instagram,facebook,linkedin,pinterest,youtube FROM tblsocialmedias) AS socials ON socials.id = bankdetail.social_id JOIN(SELECT id, company_name FROM tblcompanydetails) as company ON company.id = bankdetail.com_id');
+        $banks = DB::select('SELECT bankdetail.*,company.company_name, addresses.address_line_1,addresses.address_line_2,addresses.address_line_3,addresses.street,addresses.sector,addresses.city,addresses.state,addresses.country,addresses.postal_code,addresses.zip_code, contacts.phone_number,contacts.mobile_number,contacts.fax_number,contacts.whatsapp,contacts.email, socials.website,socials.twitter,socials.instagram,socials.facebook,socials.linkedin,socials.pinterest,socials.youtube FROM (SELECT * FROM `tblcompany_bankdetails`) AS bankdetail JOIN(SELECT id,address_line_1,address_line_2,address_line_3,street,sector,city,state,country,postal_code,zip_code  FROM tbladdresses) AS addresses ON addresses.id = bankdetail.address_id JOIN(SELECT id,phone_number,mobile_number,fax_number,whatsapp,email FROM tblcontacts) AS contacts ON contacts.id = bankdetail.contact_id JOIN(SELECT id,website,twitter,instagram,facebook,linkedin,pinterest,youtube FROM tblsocialmedias) AS socials ON socials.id = bankdetail.social_id JOIN(SELECT id, company_name FROM tblcompanydetails WHERE user_id = '.Auth::user()->id.') as company ON company.id = bankdetail.com_id');
+        $newbanks = array();
+        foreach ($banks as $key => $value) {
+            $value->id = (int)$value->id;
+            $newbanks[] = $value;
+        }
+        return $newbanks;
     }
 
     /**

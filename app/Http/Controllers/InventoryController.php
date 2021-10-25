@@ -160,7 +160,7 @@ class InventoryController extends Controller{
     }
 
     public function searchInventory($barcode){
-        return DB::select('SELECT inventory.*, cat.category_name, ven.organization_name FROM (SELECT * FROM `tblproduct_informations` WHERE barcode_id LIKE "'.$barcode.'%" OR id = "'.$barcode.'" limit 10) AS inventory JOIN(SELECT id, category_name FROM tblcategories) AS cat ON cat.id = inventory.category_id JOIN(SELECT id, product_id, vendor_name FROM tblproduct_vendors) AS vendors ON vendors.product_id = inventory.id JOIN(SELECT id, organization_name FROM erp_vendor_informations) AS ven ON ven.id = vendors.vendor_name');
+        return DB::select('SELECT inventory.*, cat.category_name, ven.organization_name FROM (SELECT * FROM `tblproduct_informations` WHERE barcode_id LIKE "'.$barcode.'%" OR product_name LIKE "'.$barcode.'%" limit 10) AS inventory JOIN(SELECT id, category_name FROM tblcategories) AS cat ON cat.id = inventory.category_id JOIN(SELECT id, product_id, vendor_name FROM tblproduct_vendors) AS vendors ON vendors.product_id = inventory.id JOIN(SELECT id, organization_name FROM erp_vendor_informations) AS ven ON ven.id = vendors.vendor_name');
     }
 
     /**

@@ -117,7 +117,7 @@
             </div><br>
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-sm btn-success" ng-click="save_calender()">Save</button>
+                    <button class="btn btn-md btn-success" ng-click="save_calender()"> <i class="fa fa-save" id="loader"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -150,8 +150,10 @@
                         <td ng-bind="calendar.calender_start_date"></td>
                         <td ng-bind="calendar.calender_end_date"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="editCalendar(calendar.id, calendar.office_id)">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteCalendar(calendar.id)">Delete</button>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info" ng-click="editCalendar(calendar.id, calendar.office_id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteCalendar(calendar.id)">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -244,6 +246,7 @@
                 return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-fw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.calander, function (v, k) {
                     Data.append(k, v);
@@ -255,6 +258,7 @@
                         text: res.data,
                         type: "success"
                     });
+                    $("#loader").removeClass('fa-spinner fa-fw fa-pulse').addClass('fa-save');
                     $scope.calander = {};
                 });
             }

@@ -20,7 +20,7 @@ class CompanyContactController extends Controller
      */
     public function index()
     {
-        return DB::select('SELECT company.*, cominfo.company_name, contact.phone_number, contact.mobile_number, contact.fax_number, contact.whatsapp, contact.email,  social.website, social.twitter, social.instagram, social.facebook, social.linkedin, social.pinterest FROM (SELECT * FROM tblcompany_contacts) AS company JOIN (SELECT id, company_name FROM tblcompanydetails) AS cominfo ON cominfo.id = company.com_id JOIN (SELECT id, phone_number,mobile_number,fax_number,whatsapp,email FROM tblcontacts) AS contact on contact.id = company.contact_id JOIN (SELECT id , website, twitter, instagram, facebook, linkedin, pinterest FROM tblsocialmedias) AS social ON social.id = company.social_id');
+        return DB::select('SELECT company.*, cominfo.company_name, contact.phone_number, contact.mobile_number, contact.fax_number, contact.whatsapp, contact.email,  social.website, social.twitter, social.instagram, social.facebook, social.linkedin, social.pinterest FROM (SELECT * FROM tblcompany_contacts) AS company JOIN (SELECT id, company_name FROM tblcompanydetails WHERE user_id = '.Auth::user()->id.') AS cominfo ON cominfo.id = company.com_id JOIN (SELECT id, phone_number,mobile_number,fax_number,whatsapp,email FROM tblcontacts) AS contact on contact.id = company.contact_id JOIN (SELECT id , website, twitter, instagram, facebook, linkedin, pinterest FROM tblsocialmedias) AS social ON social.id = company.social_id');
     }
 
     /**
@@ -83,7 +83,7 @@ class CompanyContactController extends Controller
      */
     public function edit($id)
     {
-        return DB::select('SELECT company.*, cominfo.company_name, contact.phone_number, contact.mobile_number, contact.fax_number, contact.whatsapp, contact.email,  social.website, social.twitter, social.instagram, social.facebook, social.linkedin, social.pinterest FROM (SELECT * FROM tblcompany_contacts where id = '.$id.') AS company JOIN (SELECT id, company_name FROM tblcompanydetails) AS cominfo ON cominfo.id = company.com_id JOIN (SELECT id, phone_number,mobile_number,fax_number,whatsapp,email FROM tblcontacts) AS contact on contact.id = company.contact_id JOIN (SELECT id , website, twitter, instagram, facebook, linkedin, pinterest FROM tblsocialmedias) AS social ON social.id = company.social_id');
+        return DB::select('SELECT company.*, cominfo.company_name, contact.phone_number, contact.mobile_number, contact.fax_number, contact.whatsapp, contact.email,  social.website, social.twitter, social.instagram, social.facebook, social.linkedin, social.pinterest FROM (SELECT * FROM tblcompany_contacts where id = '.$id.') AS company JOIN (SELECT id, company_name FROM tblcompanydetails user_id = '.Auth::user()->id.') AS cominfo ON cominfo.id = company.com_id JOIN (SELECT id, phone_number,mobile_number,fax_number,whatsapp,email FROM tblcontacts) AS contact on contact.id = company.contact_id JOIN (SELECT id , website, twitter, instagram, facebook, linkedin, pinterest FROM tblsocialmedias) AS social ON social.id = company.social_id');
 
     }
 

@@ -64,8 +64,8 @@
                     <textarea ng-model="company.desription" class="form-control" placeholder="Description" rows="3" cols="3"></textarea>
                 </div>
             </div><br><hr/>
-            <button type="submit" id="restrict" class="btn btn-success btn-sm float-right" ng-click="save_companyinfo();">Submit</button>
-            <button type="submit" id="updatebtn" class="btn btn-success btn-sm float-right" ng-click="update_companyinfo();">Submit</button>
+            <!-- <button type="submit" id="restrict" class="btn btn-success btn-sm float-right" ng-click="save_companyinfo();">Submit</button> -->
+            <button type="submit" id="updatebtn" class="btn btn-success btn-sm float-right" ng-click="update_companyinfo();"> <i id="loader" class="fa fa-save"></i> Submit</button>
         </div>
     </div><br/>
 <!-- <div class="card d-print-none">
@@ -241,6 +241,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-pulse fa-fw');
                 var Data = new FormData();
                 angular.forEach($scope.company, function (v, k) {
                     Data.append(k, v);
@@ -252,6 +253,7 @@
                         text: res.data,
                         type: "success"
                     });
+                    $("#loader").removeClass('fa-spinner fa-pulse fa-fw').addClass('fa-save');
                     $scope.get_allcompanyinfo();
                     /* $("#restrict").show();
                     $("#updatebtn").hide(); */

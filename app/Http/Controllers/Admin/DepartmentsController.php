@@ -48,7 +48,6 @@ class DepartmentsController extends Controller {
             $adderss = tbladdress::where('id', $request->address_id)->update($addr);
             $contact = tblcontact::where('id', $request->contact_id)->update($cont);
             $sm = tblsocialmedias::where('id', $request->social_id)->update($soc);
-            $dept['department_status'] = $request->department_status == 'true' ? 1 : 0;
             tbldepartmen::where('id', $request->id)->update($dept);
         }else{
             $addr = $request->except(['office_id','department_name','description','start_date','department_scope','department_status','address_id','contact_id','social_id','phone_number', 'mobile_number', 'fax_number', 'whatsapp', 'email', 'website', 'twitter', 'instagram', 'facebook', 'linkedin', 'pinterest']); 
@@ -61,7 +60,6 @@ class DepartmentsController extends Controller {
             $dept['address_id'] = $adderss->id;
             $dept['contact_id'] = $contact->id;
             $dept['social_id'] = $sm->id;
-            $dept['department_status'] = $request->department_status == 'true' ? 1 : 0;
             tbldepartmen::create($dept);
         }
         return "Department Save Successfully";

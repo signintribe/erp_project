@@ -29,4 +29,9 @@ class TierController extends Controller
     {
         return view('user-auth-tier');
     }
+
+    public function requestion()
+    {
+        return view('store-requestion');
+    }
 }

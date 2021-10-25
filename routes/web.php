@@ -16,6 +16,9 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('creation-tier', 'TierController@creation_tier');
+Route::get('requestion', 'TierController@requestion');
+Route::resource('maintain-requestions', 'RequestionController');
+Route::get('change-request-status/{request_id}/{status}', 'RequestionController@changeStatus');
 Route::get('task-tier', 'TierController@task_tier');
 Route::get('report-tier', 'TierController@report_tier');
 Route::get('user-auth-tier', 'TierController@user_auth_tier');
@@ -167,18 +170,19 @@ Route::get('edit-inventory/{id}', 'InventoryController@editAddInventory');
 /**
  * Purchase Order Section
 */
-Route::get('add-purchase-order', 'PurchaseOrderController@index')->name('add-purchase-order');
-Route::post('save-purchase-order', 'PurchaseOrderController@savePurchaseOrder');
-Route::get('get-purchase-order-info', 'PurchaseOrderController@getpurchaseOrder');
-Route::get('edit-purchase-order/{id}', 'PurchaseOrderController@editPurchaseOrder');
-Route::get('edit-purchaseorder/{id}', 'PurchaseOrderController@edit');
-Route::get('edit_pro_info/{po_id}', 'PurchaseOrderController@editProductInfo');
-Route::delete('delete-purchase-order/{id}', 'PurchaseOrderController@destroy');
-Route::get('add-purchase-receive', 'PurchaseOrderController@add_purchase_receive')->name('add-purchase-order');
-Route::get('view-purchase-order', 'PurchaseOrderController@view_purchase_order')->name('view-purchase-order');
-Route::get('view-purchase-receive', 'PurchaseOrderController@view_purchase_receive')->name('view-purchase-receive');
-Route::get('get_pro_info/{pro_id}', 'InventoryController@getProductInfo');
-
+Route::group(['prefix'=>'purchases'], function () {
+  Route::get('add-purchase-order', 'PurchaseOrderController@index')->name('add-purchase-order');
+  Route::post('save-purchase-order', 'PurchaseOrderController@savePurchaseOrder');
+  Route::get('get-purchase-order-info', 'PurchaseOrderController@getpurchaseOrder');
+  Route::get('edit-purchase-order/{id}', 'PurchaseOrderController@editPurchaseOrder');
+  Route::get('edit-purchaseorder/{id}', 'PurchaseOrderController@edit');
+  Route::get('edit_pro_info/{po_id}', 'PurchaseOrderController@editProductInfo');
+  Route::delete('delete-purchase-order/{id}', 'PurchaseOrderController@destroy');
+  Route::get('add-purchase-receive', 'PurchaseOrderController@add_purchase_receive')->name('add-purchase-order');
+  Route::get('view-purchase-order', 'PurchaseOrderController@view_purchase_order')->name('view-purchase-order');
+  Route::get('view-purchase-receive', 'PurchaseOrderController@view_purchase_receive')->name('view-purchase-receive');
+  Route::get('get_pro_info/{pro_id}', 'InventoryController@getProductInfo');
+});
 /**
  * Quotation Section
 */
@@ -193,8 +197,10 @@ Route::get('view-quotations', 'QuotationController@view_quotations')->name('view
 /**
  * Sales Section
  */
-Route::get('add-sales-order', 'SalesController@index')->name('add-sales-order');
-Route::get('view-sales-order', 'SalesController@view_sales_order')->name('view-sales-order');
+Route::group(['prefix'=>'sales'], function(){
+  Route::get('add-sales-order', 'SalesController@index')->name('add-sales-order');
+  Route::get('view-sales-order', 'SalesController@view_sales_order')->name('view-sales-order');
+});
 
 
 /**

@@ -100,6 +100,9 @@
         $interpolateProvider.endSymbol('%>');
     });
     Finance.controller('CategoryController', function ($scope, $http, $compile, $filter) {
+        $("#banking-finance").addClass('menu-open');
+        $("#banking-finance a[href='#']").addClass('active');
+        $("#add-gl").addClass('active');
         $('#entry_date').datetimepicker({
             format: 'YYYY-MM-DD'
         });

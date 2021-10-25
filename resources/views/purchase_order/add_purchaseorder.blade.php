@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.taskTier')
 @section('title', 'Add Purchase Order')
+@section('pagetitle', 'Add Purchase Order')
+@section('breadcrumb', 'Add Purchase Order')
 @section('content')
-<div  ng-app="POApp" ng-controller="POController" ng-cloak>
+<div ng-app="POApp" ng-controller="POController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Add Purchase Order</h3>
+        </div>
+        <div class="card-body">
             <div class="row" ng-init="getVendorInfo(); getAccounts()">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="vendor_id">Vendor Name</label>
@@ -82,13 +86,17 @@
                                 <option value="">Chart of Account for Payment</option>
                             </select>
                         </div>
+                        <div class="col"></div>
+                    </div>
                 </div>
             </div><br/>
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Product Category</h3>
+        </div>
+        <div class="card-body">
             <div class="row" ng-init="getInventoryInfo()">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="pro_id">Product Name</label>
@@ -235,6 +243,9 @@
     });
 
     PO.controller('POController', function ($scope, $http) {
+        $("#purchases").addClass('menu-open');
+        $("#purchases a[href='#']").addClass('active');
+        $("#purchase-order").addClass('active');
         $scope.po = {};
         $scope.appurl = $("#appurl").val();
         $scope.getAccounts = function () {

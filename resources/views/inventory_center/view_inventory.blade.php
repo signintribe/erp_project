@@ -4,17 +4,17 @@
 @section('breadcrumb', 'View Inventory')
 @section('content')
 <div  ng-app="ViewInventoryApp" ng-controller="ViewInventoryController" ng-cloak>
-    <div class="card">
+    <div class="card" ng-init="getInventoryInfo();">
         <div class="card-header">
             <h3 class="card-title">View Inventory</h3>
         </div>
         <div class="card-body">
-            <div class="card-body table-responsive">
+            <div class="card-body">
                 <div class="row">
                   <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="search">Search</label>
                     <div class="input-group">
-                      <input type="search" autofocus ng-model="barcode" ng-keyup="getInventory(barcode);" class="form-control form-control-lg" placeholder="Type your keywords here">
+                      <input type="search" autofocus ng-model="barcode" ng-keyup="getInventory(barcode);" class="form-control form-control-lg" placeholder="Search By Name or BARCODE">
                       <div class="input-group-append">
                           <button type="button" ng-click="getInventory(barcode);" class="btn btn-lg btn-default">
                               <i class="fa fa-search"></i>
@@ -33,29 +33,33 @@
                   Try different keywords. <br>
                   Try more general keywords.
                 </p>
-                <table class="table table-bordered" ng-if="allinventories">
-                    <thead>
-                        <tr>
-                            <th>Sr#</th>
-                            <th>Category Name</th>
-                            <th>Product Name</th>
-                            <th>Vendor Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="data in allinventories">
-                            <td ng-bind="$index+1"></td>
-                            <td ng-bind="data.category_name" style="text-transform: capitalize;"></td>
-                            <td ng-bind="data.product_name" style="text-transform: capitalize;"></td>
-                            <td ng-bind="data.organization_name" style="text-transform: capitalize;"></td>
-                            <td>
-                                <a class="btn btn-xs btn-info" href="edit-inventory/<% data.id %>">Edit</a>
-                                <button class="btn btn-xs btn-danger" ng-click="deleteInventoryInfo(data.id)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered" ng-if="allinventories">
+                        <thead>
+                            <tr>
+                                <th>Sr#</th>
+                                <th>Barcode ID</th>
+                                <th>Category Name</th>
+                                <th>Product Name</th>
+                                <th>Vendor Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="data in allinventories">
+                                <td ng-bind="$index+1"></td>
+                                <td ng-bind="data.barcode_id"></td>
+                                <td ng-bind="data.category_name" style="text-transform: capitalize;"></td>
+                                <td ng-bind="data.product_name" style="text-transform: capitalize;"></td>
+                                <td ng-bind="data.organization_name" style="text-transform: capitalize;"></td>
+                                <td>
+                                    <a class="btn btn-xs btn-info" href="edit-inventory/<% data.id %>">Edit</a>
+                                    <button class="btn btn-xs btn-danger" ng-click="deleteInventoryInfo(data.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -74,7 +78,7 @@
             $scope.inventoryinfo = {};
             $http.get('get-inventory').then(function (response) {
                 if (response.data.length > 0) {
-                    $scope.inventoryinfo = response.data;
+                    $scope.allinventories = response.data;
                 }
             });
         };

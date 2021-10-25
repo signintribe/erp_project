@@ -1,10 +1,14 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.taskTier')
 @section('title', 'Add Sales Order')
+@section('pagetitle', 'Add Sales Order')
+@section('breadcrumb', 'Add Sales Order')
 @section('content')
 <div  ng-app="SalesOrderApp" ng-controller="SalesOrderController" ng-cloak>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Add Sales Order</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="customer_name">Select Customer</label>
@@ -94,8 +98,10 @@
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Account Detail</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="payment_mode">Payment Mode</label>
@@ -127,8 +133,10 @@
         </div>
     </div><br/>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Apply to pending quotation</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3"></div>
                 <div class="col-lg-3 col-md-3 col-sm-3"></div>
@@ -142,7 +150,9 @@
 <script>
     var SalesOrder = angular.module('SalesOrderApp', []);
     SalesOrder.controller('SalesOrderController', function ($scope, $http) {
-
+        $("#sales").addClass('menu-open');
+        $("#sales a[href='#']").addClass('active');
+        $("#sales-order").addClass('active');
     });
 </script>
 @endsection

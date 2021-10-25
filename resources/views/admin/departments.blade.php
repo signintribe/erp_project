@@ -225,7 +225,7 @@
                     </div>
                 </div>
             </div><hr/>
-            <button type="button" class="btn btn-sm btn-success" ng-click="save_department()"><i class="fa fa-save"></i> Save</button>
+            <button type="button" class="btn btn-md btn-success" ng-click="save_department()"><i id="loader" class="fa fa-save"></i> Save</button>
         </div>
     </div><br>
     <div class="card d-print-none">
@@ -233,7 +233,7 @@
             <h3 class="card-title">All Departments</h3>
         </div>
         <div class="card-body" ng-init="get_departments();">
-            <table class="table table-bordered" style="font-size: 12px;">
+            <table class="table table-bordered">
                 <tr>
                     <th>Sr#</th>
                     <th>Company Name</th>
@@ -252,8 +252,10 @@
                         <span class="text text-danger" ng-if="dept.department_status == 0">Closed</span>
                     </td>
                     <td>
-                        <button class="btn btn-xs btn-info" ng-click="getoffice(dept.company_id); editDept(dept.id)">Edit</button>
-                        <button class="btn btn-xs btn-danger" ng-click="deleteDept(dept.id)">Delete</button>
+                        <div class="btn-group">
+                            <button class="btn btn-xs btn-info" ng-click="getoffice(dept.company_id); editDept(dept.id)">Edit</button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteDept(dept.id)">Delete</button>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -396,13 +398,13 @@
         
         $scope.dept = {};
         $scope.save_department = function () {
-            console.log($scope.dept);
             if (!$scope.dept.office_id || !$scope.dept.department_name || !$scope.dept.address_line_1 || !$scope.dept.country || !$scope.dept.phone_number || !$scope.dept.mobile_number) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-fw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.dept, function (v, k) {
                     Data.append(k, v);
@@ -413,6 +415,7 @@
                         text: res.data,
                         type: "success"
                     });
+                    $("#loader").removeClass('fa-spinner fa-fw fa-pulse').addClass('fa-save');
                     $scope.dept = {};
                     $scope.get_departments();
                 });

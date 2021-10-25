@@ -152,7 +152,7 @@
     </div><br/>
     <div class="card">
         <div class="card-body">
-            <button type="submit" id="restrict" class="btn btn-success btn-md float-right" ng-click="save_companyinfo();">Submit</button>
+            <button type="submit" id="restrict" class="btn btn-success btn-md float-right" ng-click="save_companyinfo();"><i id="loader" class="fa fa-save"></i> Submit</button>
         </div>
     </div>
 </div>

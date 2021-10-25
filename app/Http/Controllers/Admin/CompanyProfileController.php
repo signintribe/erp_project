@@ -53,6 +53,7 @@ class CompanyProfileController extends Controller
     {
         if($request->id){
             //$this->update($request);
+            $companydata = $request->except(['id','user_id','companyLogo', 'created_at', 'updated_at']);
             if ($request->hasFile('companyLogo')) {
                 $current = date('ymd') . rand(1, 999999) . time();
                 $file = $request->file('companyLogo');
@@ -61,9 +62,8 @@ class CompanyProfileController extends Controller
                 $companydata['company_logo'] = $imgname;
                 $file_path = public_path("company_logs/" . $request->company_logo);
                 File::exists($file_path) ? File::delete($file_path) : '';
+                $companydata['company_logo'] = $imgname;
             }    
-            $companydata = $request->except(['id','user_id','companyLogo', 'created_at', 'updated_at']);
-            $companydata['company_logo'] = $imgname;
             tblcompanydetail::where('id', $request->id)->update($companydata);
             return 'Company Profile Updated';
         }else{

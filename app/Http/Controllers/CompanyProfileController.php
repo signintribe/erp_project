@@ -77,6 +77,7 @@ class CompanyProfileController extends Controller {
      * Save company information
      */
     public function SaveCompany(Request $request) {
+        return $request->all();
         $company = tblcompanydetail::where('id', $request->id)->first();
         if (empty($company)) {
             if ($request->hasFile('companyLogo')) {

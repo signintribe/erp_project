@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div><br/>
-            <button type="submit" id="restrict" class="btn btn-success btn-sm float-right" ng-click="save_comContactInfo();">Submit</button>
+            <button type="submit" id="restrict" class="btn btn-success btn-md float-right" ng-click="save_comContactInfo();"> <i class="fa fa-save" id="loader"></i> Submit</button>
             <!-- <button type="submit" id="updatebtn" class="btn btn-success btn-sm float-right" ng-click="update_companyinfo();">Submit</button> -->
         </div>
     </div><br/>
@@ -120,7 +120,6 @@
                 <thead>
                     <tr>
                         <th>Sr#</th>
-                        <th>Company ID</th>
                         <th>Company Name</th>
                         <th>Mobile Number</th>
                         <th>Email</th>
@@ -131,14 +130,15 @@
                 <tbody>
                     <tr ng-repeat="company in contacts">
                         <td ng-bind="$index + 1"></td>
-                        <td ng-bind="company.com_id"></td>
                         <td ng-bind="company.company_name"></td>
                         <td ng-bind="company.mobile_number"></td>
                         <td ng-bind="company.email"></td>
                         <td ng-bind="company.website"></td>
                         <td>
-                            <button class="btn btn-info btn-xs" ng-click="editComContact(company.id)">Edit</button>
-                            <button class="btn btn-danger btn-xs" ng-click="deleteComContact(company.id)">Delete</button>
+                            <div class="btn-group">
+                                <button class="btn btn-info btn-xs" ng-click="editComContact(company.id)">Edit</button>
+                                <button class="btn btn-danger btn-xs" ng-click="deleteComContact(company.id)">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -261,11 +261,13 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-fw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.company, function (v, k) {
                     Data.append(k, v);
                 });
                 $http.post('maintain-company-contact', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    $("#loader").removeClass('fa-spinner fa-fw fa-pulse').addClass('fa-save');
                     swal({
                         title: "Save!",
                         text: res.data,

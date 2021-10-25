@@ -170,7 +170,7 @@
             </div><br/>
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-sm btn-success" ng-click="save_companyregistration();">Save</button>
+                    <button class="btn btn-md btn-success" ng-click="save_companyregistration();"> <i id="loader" class="fa fa-save"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -287,6 +287,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-pulse fa-fw');
                 var Data = new FormData();
                 angular.forEach($scope.authority, function (v, k) {
                     Data.append(k, v);
@@ -299,6 +300,7 @@
                     });
                     $scope.authority = {};
                     $scope.allcompany_registrations();
+                    $("#loader").removeClass('fa-spinner fa-pulse fa-fw').addClass('fa-save');
                 });
             }
         };

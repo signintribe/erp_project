@@ -1313,10 +1313,10 @@ DROP PROCEDURE `sp_getinventoryinfo`;
 DELIMITER $$
 CREATE PROCEDURE `sp_getinventoryinfo`(IN `userid` INT(11))
 BEGIN
-    SELECT inventory.id, cats.category_name,  inventory.product_name, 
+    SELECT inventory.id, cats.category_name,  inventory.barcode_id, inventory.product_name, 
     vend.organization_name, date(inventory.created_at) AS created_date
     FROM (
-       SELECT id, category_id, product_name, user_id, created_at 
+       SELECT id, barcode_id, category_id, product_name, user_id, created_at 
       FROM tblproduct_informations WHERE user_id = userid
     ) AS inventory JOIN (
       SELECT id, vendor_name, product_id

@@ -22,7 +22,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label>* User Type</label>
-                                <select class="form-control form-control-lg" ng-model="user.user_type">
+                                <select class="form-control" ng-model="user.user_type">
                                     <option value="">Select User Type</option>
                                     <option value="1">Administrator</option>
                                     <option value="2">Employee</option>

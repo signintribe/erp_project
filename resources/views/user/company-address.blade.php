@@ -85,7 +85,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-3"></div>
             </div>
             <hr/><br/>
-            <button type="submit" id="restrict" class="btn btn-success btn-sm float-right" ng-click="save_comAddressInfo();">Submit</button>
+            <button type="submit" id="restrict" class="btn btn-success btn-md float-right" ng-click="save_comAddressInfo();"> <i class="fa fa-save" id="loader"></i> Submit</button>
             <!-- <button type="submit" id="updatebtn" class="btn btn-success btn-sm float-right" ng-click="update_companyinfo();">Submit</button> -->
         </div>
     </div><br/>
@@ -99,7 +99,6 @@
                 <thead>
                     <tr>
                         <th>Sr#</th>
-                        <th>Company ID</th>
                         <th>Company Name</th>
                         <th>Street</th>
                         <th>City</th>
@@ -110,7 +109,6 @@
                 <tbody>
                     <tr ng-repeat="company in addresses">
                         <td ng-bind="$index + 1"></td>
-                        <td ng-bind="company.com_id"></td>
                         <td ng-bind="company.company_name"></td>
                         <td ng-bind="company.street"></td>
                         <td ng-bind="company.city"></td>
@@ -127,6 +125,7 @@
     </div>
 </div>
 <input type="hidden" id="baseurl" value="<?php echo env('APP_URL'); ?>">
+<input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var CompanyAddress = angular.module('ComAddressApp', [], function ($interpolateProvider) {
@@ -140,6 +139,7 @@
         $scope.company = {};
         $scope.app_url = $('#baseurl').val();
         $scope.get_allcompanyinfo = function () {
+            $scope.companies = {};
             $http.get('getcompanyinfo').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.companies = response.data;
@@ -148,6 +148,7 @@
         };
 
         $scope.get_companyaddress = function () {
+            $scope.addresses = {};
             $http.get('maintain-company-address').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.addresses = response.data;
@@ -156,6 +157,7 @@
         };
 
         $scope.deleteComAddress = function (id) {
+           
             swal({
                 title: "Are you sure?",
                 text: "Your will not be able to recover this record! ",
@@ -167,8 +169,8 @@
             },
             function(){
                 $http.delete('maintain-company-address/' + id).then(function (response) {
-                    $scope.get_allcompanyinfo();
-                    if(response.data.status === 0){
+                    $scope.get_companyaddress();
+                    if(response.data.status == true){
                         swal("Delete!", response.data.message, "success");
                     }else{
                         swal("Not Delete!", response.data.message, "error");
@@ -193,17 +195,20 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-pulse fa-fw');
                 var Data = new FormData();
                 angular.forEach($scope.company, function (v, k) {
                     Data.append(k, v);
                 });
                 $http.post('maintain-company-address', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    $scope.get_companyaddress();
                     swal({
                         title: "Save!",
                         text: res.data,
                         type: "success"
                     });
-                    $scope.get_allcompanyinfo();
+                    $scope.company = {};
+                    $("#loader").removeClass('fa-spinner fa-pulse fa-fw').addClass('fa-save');
                 });
             }
         };

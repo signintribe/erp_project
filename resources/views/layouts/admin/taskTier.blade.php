@@ -38,6 +38,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             .nav-sidebar a{
                 font-size: 14px;
             }
+
+            [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+                display: none !important;
+            }
         </style>
     </head>
     <body class="hold-transition sidebar-mini">
@@ -160,8 +164,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item" id="hr">
+                                <a href="#" class="nav-link" id="hr-active">
                                     <i class="fa fa-users nav-icon"></i>
                                     <p>
                                         Human Resource
@@ -206,15 +210,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="requestion?dept_id=1" class="nav-link" id="hr-requestion">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Requestion</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item" id="banking-finance">
+                                <a href="#" class="nav-link" id="banking-finance-active">
                                     <i class="fa fa-university nav-icon"></i>
                                     <p>
                                         Banking & Finance
@@ -223,99 +227,99 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Bank Detail</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Bank Recancelation</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('Add-general-Journal-Entry')}}" class="nav-link">
+                                        <a href="{{url('Add-general-Journal-Entry')}}" class="nav-link" id="add-gl">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Journal Genral</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Budet</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Taxes</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Treiff</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Demand of Funds</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Release of Funds</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Audit</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>IOT</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Receiveable</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Payable</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Asset Management</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Bank 2 Bank Transfer</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="requestion?dept_id=2" class="nav-link" id="banking-finance-requestion">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Requestion</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item" id="mm">
+                                <a href="#" class="nav-link" id="mm-active">
                                     <i class="fa fa-cube nav-icon"></i>
                                     <p>
                                         Matrial Management
@@ -324,9 +328,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="requestion?dept_id=3" class="nav-link" id="mm-requestion">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Store Requestion</p>
+                                            <p>Requestion</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -343,8 +347,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item" id="ps">
+                                <a href="#" class="nav-link" id="ps-active">
                                     <i class="fa fa-calendar nav-icon"></i>
                                     <p>
                                         Project System
@@ -377,15 +381,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="requestion?dept_id=4" class="nav-link" id="ps-requestion">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Requestion</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item" id="sorc">
+                                <a href="#" class="nav-link" id="sorc-active">
                                     <i class="fa fa-bus nav-icon"></i>
                                     <p>
                                         Scourcing
@@ -400,7 +404,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="requestion?dept_id=5" class="nav-link" id="sorc-requestion">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Requestion</p>
                                         </a>
@@ -419,8 +423,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item" id="purchases">
+                                <a href="#" class="nav-link" id="purchases-active">
                                     <i class="fa fa-chart-line nav-icon"></i>
                                     <p>
                                         Purchases
@@ -429,45 +433,45 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Quotation</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="purchases/add-purchase-order" class="nav-link" id="purchase-order">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Purchase Order</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Receive Inventory</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Invoice</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Payment</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="requestion?dept_id=6" class="nav-link" id="purchases-requestion">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Requestion</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item" id="sales">
+                                <a href="#" class="nav-link" id="sales-active">
                                     <i class="fa fa-chart-pie nav-icon"></i>
                                     <p>
                                         Sales
@@ -476,37 +480,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Quotation</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{url('sales/add-sales-order')}}" class="nav-link" id="sales-order">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Sales Order</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Despatch Inventory</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Invoice</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Receipts</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="requestion?dept_id=7" class="nav-link" id="sales-requestion">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Requestion</p>
                                         </a>

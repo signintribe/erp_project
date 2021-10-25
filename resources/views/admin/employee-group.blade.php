@@ -10,7 +10,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col">
-                            <h3 class="card-title">Add Employee Group</h3>
+                            <h3 class="card-title">Add Employee Groups</h3>
                         </div>
                         <div class="col">
                             <button class="btn btn-xs btn-primary float-right" style="display:none" onclick="window.print();" id="ShowPrint">Print / Print PDF</button>
@@ -29,19 +29,19 @@
                             <label for="office">Select Office</label>
                             <select ng-model="group.office_id" ng-change="getDepartments(group.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
                                 <option value="">Select Office</option>
-                            </select>
+                            </select><br/>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <label for="department">* Select Department</label>
                             <select ng-model="group.department_id" id="department" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                                 <option value="">Select Department</option>
                             </select>
-                            <i class="text-danger" ng-show="!group.department_id && showError"><small>Please Select Department</small></i>
+                            <i class="text-danger" ng-show="!group.department_id && showError"><small>Please Select Department</small></i><br/>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <label for="group_name">* Group Name</label>
                             <input type="text" ng-model="group.group_name" id="group_name" class="form-control" placeholder="Group Name">
-                            <i class="text-danger" ng-show="!group.group_name && showError"><small>Please Type Group Name</small></i>
+                            <i class="text-danger" ng-show="!group.group_name && showError"><small>Please Type Group Name</small></i><br/>
                         </div>
                     </div><br><!-- 
                     <div class="row">
@@ -60,7 +60,7 @@
                     </div><br>
                     <div class="row">
                         <div class="col">
-                            <button class="btn btn-sm btn-success" ng-click="save_group()">Save</button>
+                            <button class="btn btn-md btn-success" ng-click="save_group()"> <i id="loader" class="fa fa-save"></i> Save</button>
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                     <h3 class="card-title">Get All Shifts</h3>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-sm table-striped">
                         <thead>
                             <tr>
                                 <th>Sr#</th>
@@ -91,8 +91,10 @@
                                 <td ng-bind="g.department_name"></td>
                                 <td ng-bind="g.group_name"></td>
                                 <td>
-                                    <button class="btn btn-xs btn-info" ng-click="getoffice(g.company_id); getDepartments(g.office_id); editGroup(g.id)">Edit</button>
-                                    <button class="btn btn-xs btn-danger" ng-click="deleteEmployeeGroup(g.id)">Delete</button>
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs btn-info" ng-click="getoffice(g.company_id); getDepartments(g.office_id); editGroup(g.id)">Edit</button>
+                                        <button class="btn btn-xs btn-danger" ng-click="deleteEmployeeGroup(g.id)">Delete</button>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -169,12 +171,14 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-fw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.group, function (v, k) {
                     Data.append(k, v);
                 });
                 $http.post($scope.app_url + 'company/maintain-group', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     $scope.get_groups();
+                    $("#loader").removeClass('fa-spinner fa-fw fa-pulse').addClass('fa-save');
                     swal({
                         title: "Save!",
                         text: res.data,
