@@ -188,7 +188,6 @@
         };
 
         $scope.getCompanyTaxes = function () {
-            $scope.contactpersons = {};
             $http.get('manage-tax/'+ $("#company_id").val()).then(function (response) {
                 if (response.data.status == true) {
                     $scope.Taxes = response.data.data;

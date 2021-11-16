@@ -14,7 +14,7 @@ CREATE PROCEDURE `sp_categories`(in categoryid int)
 BEGIN
     IF categoryid <=> 0 THEN
         SELECT child.id, child.category_id as category_id, 
-        child.category_name, parent.id as parent_id, parent.category_id as parent_category_id, 
+        child.category_name, child.category_image, parent.id as parent_id, parent.category_id as parent_category_id, 
         parent.category_name as parent_category
         FROM (
           SELECT 
@@ -22,7 +22,7 @@ BEGIN
           FROM tblcategoryassociations
         ) as asso LEFT JOIN(
           SELECT 
-          id, category_id, category_name 
+          id, category_id, category_name, category_image 
           FROM tblcategories
         )as child ON child.id = asso.child_id JOIN (
           SELECT 
@@ -31,7 +31,7 @@ BEGIN
         ) as parent ON parent.id = asso.parent_id ORDER BY child.category_name ASC;
     ELSE
         SELECT child.id, child.category_id as category_id, child.category_description, 
-        child.category_name, parent.id as parent_id, 
+        child.category_name, child.category_image, parent.id as parent_id, 
         parent.category_id as parent_category_id, 
         parent.category_name as parent_category
         FROM (
@@ -40,7 +40,7 @@ BEGIN
           FROM tblcategoryassociations
         ) as asso JOIN(
           SELECT 
-          id, category_id, category_name, category_description 
+          id, category_id, category_name, category_description, category_image 
           FROM tblcategories
         ) as child ON child.id = asso.child_id JOIN (
           SELECT
@@ -318,7 +318,8 @@ DELIMITER $$
 CREATE PROCEDURE `sp_getchildcategories`(in parentid int(11))
 BEGIN
    SELECT 
-    cat.id, asso.parent_id, cat.category_id, cat.category_name, cat.product_category 
+    cat.id, asso.parent_id, cat.category_id, cat.category_name, cat.product_category,
+    cat.category_image, cat.category_description
     FROM (
       SELECT 
       id, child_id, parent_id 
@@ -326,7 +327,7 @@ BEGIN
       WHERE parent_id = parentid
     ) AS asso JOIN (
       SELECT 
-      id, category_id, category_name, product_category 
+      id, category_id, category_name, product_category, category_image, category_description
       FROM tblcategories
     ) AS cat ON cat.id = asso.child_id ORDER BY cat.category_name ASC;
 END$$

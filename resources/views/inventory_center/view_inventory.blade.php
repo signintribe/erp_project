@@ -14,9 +14,9 @@
                   <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="search">Search</label>
                     <div class="input-group">
-                      <input type="search" autofocus ng-model="barcode" ng-keyup="getInventory(barcode);" class="form-control form-control-lg" placeholder="Search By Name or BARCODE">
+                      <input type="search" autofocus ng-model="barcode" ng-keyup="getInventory(barcode);" class="form-control" placeholder="Search By Name or BARCODE">
                       <div class="input-group-append">
-                          <button type="button" ng-click="getInventory(barcode);" class="btn btn-lg btn-default">
+                          <button type="button" ng-click="getInventory(barcode);" class="btn btn-md btn-default">
                               <i class="fa fa-search"></i>
                           </button>
                       </div>

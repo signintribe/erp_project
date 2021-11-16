@@ -36,36 +36,50 @@
                     </select>
                     <i class="text-danger" ng-show="!gh.department_id && showError"><small>Please Select Department</small></i>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="group_id">* Select Employee Group</label>
                     <select ng-model="gh.group_id" id="employee-group" ng-options="group.id as group.group_name for group in groups" class="form-control">
                         <option value="">Select Employee Group</option>
                     </select>
                     <i class="text-danger" ng-show="!gh.group_id && showError"><small>Please Select Employee Group</small></i>
-                </div>
+                </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="holiday_name">* Holiday Name</label>
                     <input type="text" ng-model="gh.holiday_name" id="holiday_name" class="form-control" placeholder="Holiday Name">
                     <i class="text-danger" ng-show="!gh.holiday_name && showError"><small>Please Type Holiday Name</small></i>
                 </div>
-            </div><br>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="holiday_event">Holiday Event</label>
                     <input type="text" class="form-control" id="holiday_event" ng-model="gh.holiday_event" placeholder="Holiday Event">
                 </div>
+            </div><br>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="start_date">Start Date</label>
-                    <input type="text" class="form-control" id="start_date" ng-model="gh.start_date" datepicker placeholder="Start Date">
+                    <div class="form-group">
+                        <div class="input-group date" class="" id="start_date" data-target-input="nearest">
+                            <input type="text" placeholder="Start Date" ng-model="gh.start_date" class="form-control datetimepicker-input" data-target="#start_date"/>
+                            <div class="input-group-append" data-target="#start_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="end_date">End Date</label>
-                    <input type="text" class="form-control" id="end_date" ng-model="gh.end_date" datepicker placeholder="End Date">
+                    <div class="form-group">
+                        <div class="input-group date" class="" id="end_date" data-target-input="nearest">
+                            <input type="text" placeholder="End Date" ng-model="gh.end_date" class="form-control datetimepicker-input" data-target="#end_date"/>
+                            <div class="input-group-append" data-target="#end_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div><br>
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-sm btn-success" ng-click="save_holiday()">Save</button>
+                    <button class="btn btn-sm btn-success" ng-click="save_holiday()"> <i class="fa fa-save" id="loader"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -98,8 +112,10 @@
                         <td ng-bind="h.start_date"></td>
                         <td ng-bind="h.end_date"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(h.company_id); getDepartments(h.office_id); editHoliday(h.id); getGroups(h.department_id)">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteGazHoliday(h.id)">Delete</button>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info" ng-click="getoffice(h.company_id); getDepartments(h.office_id); editHoliday(h.id); getGroups(h.department_id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteGazHoliday(h.id)">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -115,47 +131,16 @@
         $interpolateProvider.endSymbol('%>');
     });
 
-    GH.directive('datepicker', function () {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            compile: function () {
-                return {
-                    pre: function (scope, element, attrs, ngModelCtrl) {
-                        var format, dateObj;
-                        format = (!attrs.dpFormat) ? 'yyyy-mm-dd' : attrs.dpFormat;
-                        if (!attrs.initDate && !attrs.dpFormat) {
-                            // If there is no initDate attribute than we will get todays date as the default
-                            dateObj = new Date();
-//                            scope[attrs.ngModel] = dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
-                        } else if (!attrs.initDate) {
-                            // Otherwise set as the init date
-                            scope[attrs.ngModel] = attrs.initDate;
-                        } else {
-                            // I could put some complex logic that changes the order of the date string I
-                            // create from the dateObj based on the format, but I'll leave that for now
-                            // Or I could switch case and limit the types of formats...
-                        }
-                        // Initialize the date-picker
-                        $(element).datepicker({
-                            format: format
-                        }).on('changeDate', function (ev) {
-                            // To me this looks cleaner than adding $apply(); after everything.
-                            scope.$apply(function () {
-                                ngModelCtrl.$setViewValue(ev.format(format));
-                            });
-                        });
-                    }
-                };
-            }
-        };
-    });
-
-
     GH.controller('GHController', function ($scope, $http) {
         $("#company").addClass('menu-open');
         $("#company a[href='#']").addClass('active');
         $("#gazzeted-holiday").addClass('active');
+        $('#end_date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+        $('#start_date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
         $scope.gh = {};
         $scope.app_url = $("#appurl").val();
         $scope.all_companies = function () {
@@ -220,6 +205,9 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $scope.gh.start_date = $('#start_date input').val();
+                $scope.gh.end_date = $('#end_date input').val();
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-fw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.gh, function (v, k) {
                     Data.append(k, v);
@@ -231,6 +219,7 @@
                         text: res.data,
                         type: "success"
                     });
+                    $("#loader").removeClass('fa-spinner fa-fw fa-pulse').addClass('fa-save');
                     $scope.gh = {};
                 });
             }

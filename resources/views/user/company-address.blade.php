@@ -85,7 +85,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-3"></div>
             </div>
             <hr/><br/>
-            <button type="submit" id="restrict" class="btn btn-success btn-md float-right" ng-click="save_comAddressInfo();"> <i class="fa fa-save" id="loader"></i> Submit</button>
+            <button type="submit" id="restrict" class="btn btn-success btn-sm float-right" ng-click="save_comAddressInfo();"> <i class="fa fa-save" id="loader"></i> Submit</button>
             <!-- <button type="submit" id="updatebtn" class="btn btn-success btn-sm float-right" ng-click="update_companyinfo();">Submit</button> -->
         </div>
     </div><br/>

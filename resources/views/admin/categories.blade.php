@@ -4,8 +4,9 @@
 @section('breadcrumb', 'Categories')
 @section('content')
 <link rel="stylesheet" href="{{ asset('public/dashboard/vendors/icheck/skins/all.css')}}">
-<div class="row" ng-app="CategoryApp" ng-controller="CategoryController">
-    <div class="col-lg-4 col-md-4 col-sm-4">
+<div ng-app="CategoryApp" ng-controller="CategoryController">
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-3">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Add Category</h4>
@@ -30,12 +31,12 @@
                 <textarea class="form-control" placeholder="Category Description" ng-model="category.category_description" rows="3" cols="3"></textarea><br/>
                 <label>Category Image:</label>
                 <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);"><br/>
-                <img ng-if="catimage" ng-src="<% catimage %>" class="img img-responsive" style="width: 100%; height: 200px;"/>
-                <button type="submit" class="btn btn-success btn-sm" ng-click="save_category()">Submit</button>
+                <img ng-if="catimage" ng-src="<% catimage %>" class="img img-responsive" style="width: 100%; height: 150px;"/><br/><br/>
+                <button type="submit" class="btn btn-success btn-sm" ng-click="save_category()"> <i id="loader" class="fa fa-save"></i> Submit</button>
             </div>
         </div>
     </div>
-    <div class="col-lg-8 col-md-8 col-sm-8">
+    <div class="col-lg-9 col-md-9 col-sm-9">
         <div class="card">
             <div class="card-header">
                 <h2 class="card-title">Categories</h2>
@@ -52,6 +53,10 @@
                                     <%cats.category_name%>
                                     <i class="input-helper"></i>
                                 </label>
+                                <div class="btn-group">
+                                    <button class="btn btn-info btn-xs" ng-click="get_category(cats.id)">Edit</button>
+                                    <button class="btn btn-danger btn-xs" ng-click="delete_category(cats.id)">Delete</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -64,6 +69,10 @@
                                     <%catsone.category_name%>
                                     <i class="input-helper"></i>
                                 </label>
+                                <div class="btn-group">
+                                    <button class="btn btn-info btn-xs" ng-click="get_category(catsone.id)">Edit</button>
+                                    <button class="btn btn-danger btn-xs" ng-click="delete_category(catsone.id)">Delete</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -76,6 +85,10 @@
                                     <%catstwo.category_name%>
                                     <i class="input-helper"></i>
                                 </label>
+                                <div class="btn-group">
+                                    <button class="btn btn-info btn-xs" ng-click="get_category(catstwo.id)">Edit</button>
+                                    <button class="btn btn-danger btn-xs" ng-click="delete_category(catstwo.id)">Delete</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -88,6 +101,10 @@
                                     <%catsthree.category_name%>
                                     <i class="input-helper"></i>
                                 </label>
+                                <div class="btn-group">
+                                    <button class="btn btn-info btn-xs" ng-click="get_category(catsthree.id)">Edit</button>
+                                    <button class="btn btn-danger btn-xs" ng-click="delete_category(catsthree.id)">Delete</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -100,6 +117,10 @@
                                     <%catsfour.category_name%>
                                     <i class="input-helper"></i>
                                 </label>
+                                <div class="btn-group">
+                                    <button class="btn btn-info btn-xs" ng-click="get_category(catsfour.id)">Edit</button>
+                                    <button class="btn btn-danger btn-xs" ng-click="delete_category(catsfour.id)">Delete</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -112,6 +133,10 @@
                                     <%catsfive.category_name%>
                                     <i class="input-helper"></i>
                                 </label>
+                                <div class="btn-group">
+                                    <button class="btn btn-info btn-xs" ng-click="get_category(catsfive.id)">Edit</button>
+                                    <button class="btn btn-danger btn-xs" ng-click="delete_category(catsfive.id)">Delete</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -120,8 +145,8 @@
         </div>
     </div>
 </div>
+</div>
 <script src="{{ asset('public/dashboard/js/iCheck.js')}}"></script>
-@endsection
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var Categories = angular.module('CategoryApp', [], function ($interpolateProvider) {
@@ -139,20 +164,14 @@
                 }
             });
         };
-
-        $scope.readUrl = function (element) {
-            var reader = new FileReader();//rightbennerimage
-            reader.onload = function (event) {
-                $scope.catimage = event.target.result;
-                $scope.$apply(function ($scope) {
-                    $scope.category.category_image = element.files[0];
-                });
-            };
-            reader.readAsDataURL(element.files[0]);
-        };
         
         $scope.get_categorywithitsparents = function (parent_id) {
             $scope.categorywithparents = {};
+            $scope.categoryiesone = {};
+            $scope.categoryiestwo = {};
+            $scope.categoryiesthree = {};
+            $scope.categoryiesfour = {};
+            $scope.categoryiesfive = {};
             $("#catone").html('<div class="square-path-loader"></div>');
             $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
                 if (response.data.length > 0) {
@@ -167,6 +186,9 @@
         $scope.get_categoriesone = function (parent_id) {
             $scope.categoryiesone = {};
             $scope.categoryiestwo = {};
+            $scope.categoryiesthree = {};
+            $scope.categoryiesfour = {};
+            $scope.categoryiesfive = {};
             $("#cattwo").html('<div class="square-path-loader"></div>');
             $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
                 if (response.data.length > 0) {
@@ -180,6 +202,9 @@
 
         $scope.get_categoriestwo = function (parent_id) {
             $scope.categoryiestwo = {};
+            $scope.categoryiesthree = {};
+            $scope.categoryiesfour = {};
+            $scope.categoryiesfive = {};
             $("#catthree").html('<div class="square-path-loader"></div>');
             $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
                 if (response.data.length > 0) {
@@ -193,6 +218,8 @@
 
         $scope.get_categoriesthree = function (parent_id) {
             $scope.categoryiesthree = {};
+            $scope.categoryiesfour = {};
+            $scope.categoryiesfive = {};
             $("#catfour").html('<div class="square-path-loader"></div>');
             $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
                 if (response.data.length > 0) {
@@ -206,6 +233,7 @@
 
         $scope.get_categoriesfour = function (parent_id) {
             $scope.categoryiesfour = {};
+            $scope.categoryiesfive = {};
             $("#catfive").html('<div class="square-path-loader"></div>');
             $http.get('get-categorywithitsparents/' + parent_id).then(function (response) {
                 if (response.data.length > 0) {
@@ -233,7 +261,23 @@
         $scope.get_category = function (category_id) {
             $http.get('get_categories/' + category_id).then(function (response) {
                 $scope.category = response.data[0];
+                if($scope.category.category_image){
+                    $scope.catimage = 'public/category_images/' + $scope.category.category_image;
+                }else{
+                    $scope.catimage = "";
+                }
             });
+        };
+
+        $scope.readUrl = function (element) {
+            var reader = new FileReader();//rightbennerimage
+            reader.onload = function (event) {
+                $scope.catimage = event.target.result;
+                $scope.$apply(function ($scope) {
+                    $scope.category.categoryimage = element.files[0];
+                });
+            };
+            reader.readAsDataURL(element.files[0]);
         };
 
         $scope.delete_category = function (category_id) {
@@ -248,6 +292,7 @@
             }, function () {
                 $http.get('delete_category/' + category_id).then(function (response) {
                     $scope.get_allcategories(0);
+                    $scope.get_categorywithitsparents(1);
                     swal("Deleted!", response.data, "success");
                 });
             });
@@ -262,16 +307,20 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-fw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.category, function (v, k) {
                     Data.append(k, v);
                 });
                 $http.post('save_category', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                     $scope.save_message = res.data;
+                    swal('Success', res.data, 'success');
                     $scope.category = {};
+                    $("#loader").removeClass('fa-spinner fa-fw fa-pulse').addClass('fa-save');
                     $scope.get_allcategories(0);
                 });
             }
         };
     });
 </script>
+@endsection

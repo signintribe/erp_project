@@ -35,7 +35,7 @@
            </div><br/>
            <div class="row">
                <div class="col">
-                   <button class="btn btn-md btn-success float-right" ng-click="saveBank()"> <i id="loader" class="fa fa-save"></i> Save</button>
+                   <button class="btn btn-sm btn-success float-right" ng-click="saveBank()"> <i id="loader" class="fa fa-save"></i> Save</button>
                </div>
            </div>
        </div>

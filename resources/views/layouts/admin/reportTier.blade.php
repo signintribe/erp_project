@@ -36,6 +36,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             .nav-sidebar a{
                 font-size: 14px;
             }
+            [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+                display: none !important;
+            }
         </style>
     </head>
     <body class="hold-transition sidebar-mini">

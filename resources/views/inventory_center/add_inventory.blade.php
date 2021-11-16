@@ -41,7 +41,7 @@
                         <div class="form-check form-check-primary" ng-repeat="cats in categorywithparents">
                             <label class="form-check-label" style="text-transform: capitalize">
                                 <input type="radio" class="form-check-input" ng-model="inventory.category_id" ng-value="cats.id" ng-click="get_categoriesone(cats.id)">
-                                    <% cats.category_name %>
+                                    <span ng-bind="cats.category_name"></span>
                                 <i class="input-helper"></i>
                             </label>
                         </div>
@@ -53,7 +53,7 @@
                         <div class="form-check form-check-warning" ng-repeat="catsone in categoryiesone">
                             <label class="form-check-label" style="text-transform: capitalize">
                                 <input type="radio" class="form-check-input" ng-model="inventory.category_id" ng-value="catsone.id" ng-click="get_categoriestwo(catsone.id)">
-                                <%catsone.category_name%>
+                                <span ng-bind="catsone.category_name"></span>
                                 <i class="input-helper"></i>
                             </label>
                         </div>
@@ -65,7 +65,7 @@
                         <div class="form-check form-check-success" ng-repeat="catstwo in categoryiestwo">
                             <label class="form-check-label" style="text-transform: capitalize">
                                 <input type="radio" class="form-check-input" ng-model="inventory.category_id"  ng-value="catstwo.id" ng-click="get_categoriesthree(catstwo.id)">
-                                <%catstwo.category_name%>
+                                <span ng-bind="catstwo.category_name"></span>
                                 <i class="input-helper"></i>
                             </label>
                         </div>
@@ -77,7 +77,7 @@
                         <div class="form-check form-check-success" ng-repeat="catsthree in categoryiesthree">
                             <label class="form-check-label" style="text-transform: capitalize">
                                 <input type="radio" class="form-check-input" ng-model="inventory.category_id"  ng-value="catsthree.id" ng-click="get_categoriesfour(catsthree.id)">
-                                <label for="" ng-bind="catsthree.category_name"></label>
+                                <span ng-bind="catsthree.category_name"></span>
                                 <i class="input-helper"></i>
                             </label>
                         </div>
@@ -89,7 +89,7 @@
                         <div class="form-check form-check-success" ng-repeat="catsfour in categoryiesfour">
                             <label class="form-check-label" style="text-transform: capitalize">
                                 <input type="radio" class="form-check-input" ng-model="inventory.category_id"  ng-value="catsfour.id" ng-click="get_categoriesfive(catsfour.id)">
-                                <%catsfour.category_name%>
+                                <span ng-bind="catsfour.category_name"></span>
                                 <i class="input-helper"></i>
                             </label>
                         </div>
@@ -101,7 +101,7 @@
                         <div class="form-check form-check-success" ng-repeat="catsfive in categoryiesfive">
                             <label class="form-check-label" style="text-transform: capitalize">
                                 <input type="radio" class="form-check-input" ng-model="inventory.category_id"  ng-value="catsfive.id" ng-click="get_categoriessix(catsfive.id)">
-                                <%catsfive.category_name%>
+                                <span ng-bind="catsfive.category_name"></span>
                                 <i class="input-helper"></i>
                             </label>
                         </div>
@@ -131,6 +131,13 @@
             <h3 class="card-title">Product Pricing</h3>
         </div>
         <div class="card-body">
+            <div class="row" ng-init="getCompanyTaxes();">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <select ng-model="inventory.tax_id" class="form-control" ng-change="selectedTax()" ng-options="tax.id as tax.authority_name for tax in Taxes">
+                        <option value="">Select Tax</option>
+                    </select>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-3 col-sm-3 col-md-3">
                     <label for="income_tax">Income Tax</label>
@@ -298,6 +305,7 @@
     </div>
 </div>
 <input type="hidden" id="appurl" value="<?php echo env('APP_URL') ?>">
+<input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var Inventory = angular.module('InventoryApp', [], function ($interpolateProvider) {
@@ -314,6 +322,9 @@
             Accounts.then(function (r) {
                 $scope.Accounts = r.data;
             });
+        };
+        $scope.selectedTax = function(tax){
+            console.log(tax);
         };
         $scope.inventory = {};
         $scope.calculate = function(){
@@ -385,6 +396,14 @@
             $http.get($scope.appurl + 'vendor/maintain-vendor-information').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.vendorinformations = response.data;
+                }
+            });
+        };
+
+        $scope.getCompanyTaxes = function () {
+            $http.get('bank/manage-tax/'+ $("#company_id").val()).then(function (response) {
+                if (response.data.status == true) {
+                    $scope.Taxes = response.data.data;
                 }
             });
         };

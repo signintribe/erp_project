@@ -162,7 +162,7 @@
             </div><br>
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-md btn-success" ng-click="save_companyoffice()"> <i class="fa fa-save" id="loader"></i> Save</button>
+                    <button class="btn btn-sm btn-success" ng-click="save_companyoffice()"> <i class="fa fa-save" id="loader"></i> Save</button>
                 </div>
             </div>
         </div>

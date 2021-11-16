@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col">
-                        <button type="submit" class="btn btn-success btn-sm" ng-click="save_attributevalueInfo()">Submit</button>
+                        <button type="submit" class="btn btn-success btn-sm" ng-click="save_attributevalueInfo()"> <i class="fa fa-save" id='loader'></i> Submit</button>
                     </div>
                 </div>
             </div>
@@ -109,6 +109,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-fw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.value, function (v, k) {
                     Data.append(k, v);
@@ -119,6 +120,7 @@
                         text: res.data.message,
                         type: "success"
                     });
+                    $("#loader").removeClass('fa-spinner fa-fw fa-pulse').addClass('fa-save');
                     $scope.value = {};
                    $scope.getAttributeValueInfo();
                 });

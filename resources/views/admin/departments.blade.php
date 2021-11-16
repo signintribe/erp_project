@@ -225,7 +225,7 @@
                     </div>
                 </div>
             </div><hr/>
-            <button type="button" class="btn btn-md btn-success" ng-click="save_department()"><i id="loader" class="fa fa-save"></i> Save</button>
+            <button type="button" class="btn btn-sm btn-success" ng-click="save_department()"><i id="loader" class="fa fa-save"></i> Save</button>
         </div>
     </div><br>
     <div class="card d-print-none">

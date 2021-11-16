@@ -20,6 +20,11 @@
         <link rel="shortcut icon" href="{{ asset('public/dashboard/images/favicon.png') }}" />
         <!-- Sweet Alert -->
         <link href="{{ asset('public/css/sweetalert.css')}}" rel="stylesheet">
+        <style>
+             [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+                display: none !important;
+            }
+        </style>
     </head>
     <body>
         <div class="container-scroller">

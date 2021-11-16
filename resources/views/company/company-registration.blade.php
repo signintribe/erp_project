@@ -73,7 +73,7 @@
             </div><br/>
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-md btn-success" ng-click="save_companyregistration();"> <i id="loader" class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-sm btn-success" ng-click="save_companyregistration();"> <i id="loader" class="fa fa-save"></i> Save</button>
                 </div>
             </div>
         </div>

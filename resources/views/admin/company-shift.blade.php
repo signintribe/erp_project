@@ -82,7 +82,7 @@
             </div><br>
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-sm btn-success" ng-click="save_shifts()">Save</button>
+                    <button class="btn btn-sm btn-success" ng-click="save_shifts()"><i id="loader" class="fa fa-save"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -115,8 +115,10 @@
                         <td ng-bind="s.shift_start_time"></td>
                         <td ng-bind="s.shift_end_time"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(s.company_id); getDepartments(s.office_id); editShift(s.id)">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteShifts(s.id)">Delete</button>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info" ng-click="getoffice(s.company_id); getDepartments(s.office_id); editShift(s.id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteShifts(s.id)">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -191,6 +193,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-fw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.shift, function (v, k) {
                     Data.append(k, v);
@@ -202,6 +205,7 @@
                         text: res.data,
                         type: "success"
                     });
+                    $("#loader").removeClass('fa-spinner fa-fw fa-pulse').addClass('fa-save');
                     $scope.get_shifts();
                 });
             }

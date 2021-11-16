@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Models\tblcategory;
 use App\Models\tblcategoryassociation;
 use DB;
+use File;
 
 /**
  * Description of CategoryController
@@ -37,25 +38,30 @@ class CategoryController extends Controller {
     public function get_parent_categories() {
         
     }
+    public function deleteOldImage($image)
+    {
+        $file_path = public_path("category_images/" . $image);
+        File::exists($file_path) ? File::delete($file_path) : '';
+    }
 
     public function save_category(Request $request) {
         $imgname = "";
-        if ($request->hasFile('category_image')) {
+        if ($request->hasFile('categoryimage')) {
             $current = date('ymd') . rand(1, 999999) . time();
-            $file = $request->file('category_image');
+            $file = $request->file('categoryimage');
             $imgname = $current . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('/category_images'), $imgname);
             if($request->id){
-                $this->deleteOldImage($request->picture);
+                $this->deleteOldImage($request->category_image);
             }
         }
         if ($request->id) {
-            $catdata = $request->except(['id', 'parent_id', 'category_image']);
+            $catdata = $request->except(['id', 'parent_id', 'category_image', 'category_id', 'parent_category_id', 'parent_category', 'categoryimage']);
             $catdata['category_image'] = $imgname;
             tblcategory::where('id', $request->id)->update($catdata);
             tblcategoryassociation::where('child_id', $request->id)->delete();
             tblcategoryassociation::create([
-                'child_id' => $cat->id,
+                'child_id' => $request->id,
                 'parent_id' => $request->parent_id ? $request->parent_id : 1
             ]);
         } else {

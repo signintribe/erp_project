@@ -67,13 +67,13 @@
                     </div>
                     <i class="text-danger" ng-show="!company.linkedin && showError"><small>Please Type Linkedin</small></i>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Youtube Channel</label>
                     <div class="input-group">
                         <input type="text" class="form-control" ng-model="company.youtube" placeholder="Youtube Channel">
                         <div class="input-group-addon input-group-append"><i class="fa fa-youtube input-group-text"></i></div>
                     </div>
-                </div>
+                </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Twitter Page</label>
                     <div class="input-group">
@@ -81,8 +81,6 @@
                         <div class="input-group-addon input-group-append"><i class="fa fa-twitter input-group-text"></i></div>
                     </div>
                 </div>
-            </div><br/>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>* Website</label>
                     <div class="input-group">
@@ -91,6 +89,8 @@
                     </div>
                     <i class="text-danger" ng-show="!company.linkedin && showError"><small>Please Type Website</small></i>
                 </div>
+            </div><br/>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="instagram">Instagram</label>
                     <div class="input-group">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div><br/>
-            <button type="submit" id="restrict" class="btn btn-success btn-md float-right" ng-click="save_comContactInfo();"> <i class="fa fa-save" id="loader"></i> Submit</button>
+            <button type="submit" id="restrict" class="btn btn-success btn-sm float-right" ng-click="save_comContactInfo();"> <i class="fa fa-save" id="loader"></i> Submit</button>
             <!-- <button type="submit" id="updatebtn" class="btn btn-success btn-sm float-right" ng-click="update_companyinfo();">Submit</button> -->
         </div>
     </div><br/>
