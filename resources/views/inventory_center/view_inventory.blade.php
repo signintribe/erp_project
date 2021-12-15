@@ -39,9 +39,8 @@
                             <tr>
                                 <th>Sr#</th>
                                 <th>Barcode ID</th>
-                                <th>Category Name</th>
                                 <th>Product Name</th>
-                                <th>Vendor Name</th>
+                                <th>Product Description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -49,9 +48,8 @@
                             <tr ng-repeat="data in allinventories">
                                 <td ng-bind="$index+1"></td>
                                 <td ng-bind="data.barcode_id"></td>
-                                <td ng-bind="data.category_name" style="text-transform: capitalize;"></td>
                                 <td ng-bind="data.product_name" style="text-transform: capitalize;"></td>
-                                <td ng-bind="data.organization_name" style="text-transform: capitalize;"></td>
+                                <td ng-bind="data.product_description" style="text-transform: capitalize;"></td>
                                 <td>
                                     <a class="btn btn-xs btn-info" href="edit-inventory/<% data.id %>">Edit</a>
                                     <button class="btn btn-xs btn-danger" ng-click="deleteInventoryInfo(data.id)">Delete</button>

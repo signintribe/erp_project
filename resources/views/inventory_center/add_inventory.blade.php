@@ -108,6 +108,13 @@
                     </div>
                 </div>
             </div><br/>
+            <div class="row">
+                <div class="col">
+                    <p class="lead" ng-if="!categorywithparents">
+                        Please add categories first
+                    </p>
+                </div>
+            </div>
             <div class="row" ng-if="attributes">
                 <div class="col-lg-12 col-sm-12 col-md-12">
                     <label>Select Attributes</label>
@@ -133,80 +140,73 @@
         <div class="card-body">
             <div class="row" ng-init="getCompanyTaxes();">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <select ng-model="inventory.tax_id" class="form-control" ng-change="selectedTax()" ng-options="tax.id as tax.authority_name for tax in Taxes">
-                        <option value="">Select Tax</option>
+                    <label for="cost_price">Unit Cost</label>
+                    <input type="number" class="form-control" id="cost_price" ng-model="inventory.cost_price" placeholder="Unit Cost"/>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="delivery_charges">Delivery Charges</label>
+                    <input type="number" class="form-control" id="delivery_charges" ng-model="inventory.delivery_charges" placeholder="Delivery Charges"/>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="carriage_charges">Carriage Inward Charges</label>
+                    <input type="number" class="form-control" id="carriage_charges" ng-model="inventory.carriage_inward_charges" placeholder="Carriage Inward Charges"/>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Gross Price</label>
+                    <p ng-bind="inventory.delivery_charges + inventory.cost_price + inventory.carriage_inward_charges" class="form-control"></p>
+                </div>
+            </div><br/>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-sm table-bordered">
+                        <tr>
+                            <th>Authority Name</th>
+                            <th>Tax Nature</th>
+                            <th>Tax Rate</th>
+                            <th>Tax Levid</th>
+                            <th>Action</th>
+                        </tr>
+                        <tr ng-repeat="tx in Taxes">
+                            <td ng-bind="tx.authority_name"></td>
+                            <td ng-bind="tx.tax_nature"></td>
+                            <td ng-bind="tx.tax_percentage"></td>
+                            <td ng-bind="tx.tax_levid"></td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-success btn-addtax" id="addtax<% tx.id %>" ng-click="selectedTax(tx.id, tx.tax_percentage)">Add</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn btn-xs btn-warning" ng-click="cancelTax()">Cancel</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div><br/>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="profit-selection">Profit Type</label>
+                    <select ng-model="inventory.profit_type" class="form-control">
+                        <option value="">Select Profit Type</option>
+                        <option value="percent">%age</option>
+                        <option value="amount">Amount</option>
                     </select>
                 </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="profit">Profit</label>
+                    <input type="number" ng-model="inventory.profit" class="form-control" placeholder="Add profit in % or amount" ng-keyup="addProfit();">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="purchase_price">Purchase Price</label>
+                    <input type="text" ng-model="inventory.purchase_price" id="purchase_price" readonly class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="sale-price">Sale Price</label>
+                    <input type="number" ng-model="inventory.sale_price" readonly class="form-control">
+                </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="income_tax">Income Tax</label>
-                    <input type="text" class="form-control" id="income_tax" ng-model="inventory.income_tax" placeholder="Income Tax"/>
-                </div>
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="withholding_tax">Withholding Tax</label>
-                    <input type="text" class="form-control" id="withholding_tax" ng-model="inventory.withholding_tax" placeholder="Withholding Tax"/>
-                </div>
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="sales_tax">Sales Tax</label>
-                    <input type="text" class="form-control" id="sales_tax" ng-model="inventory.sales_tax" placeholder="Sales Tax"/>
-                </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="fed">FED</label>
-                    <input type="text" class="form-control" id="fed" ng-model="inventory.fed" placeholder="FED"/>
-                </div>
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="import_duty">Import Duty</label>
-                    <input type="text" class="form-control" id="import_duty" ng-model="inventory.import_duty" placeholder="Import Duty"/>
-                </div>
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="tax_adjustment">Tax Adjustment</label>
-                    <input type="text" class="form-control" id="tax_adjustment" ng-model="inventory.tax_adjustment" placeholder="Tax Adjustment"/>
-                </div>
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="tax_exemption">Tax Exemption</label>
-                    <input type="text" class="form-control" id="tax_exemption" ng-model="inventory.tax_exemption" placeholder="Tax Exemption"/>
-                </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="delivery_charges">Delivery Charges</label>
-                    <input type="text" class="form-control" id="delivery_charges" ng-model="inventory.delivery_charges" placeholder="Delivery Charges"/>
-                </div>
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="gross_price">Gross Purchase Price</label>
-                    <input type="text" class="form-control" id="gross_price" ng-model="inventory.gross_pur_price" placeholder="Gross Purchase Price"/>
-                </div>
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="carriage_charges">Carriage Inward Charges</label>
-                    <input type="text" class="form-control" id="carriage_charges" ng-model="inventory.carriage_inward_charges" placeholder="Carriage Inward Charges"/>
-                </div>
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="octri_taxes">Octri and Taxes</label>
-                    <input type="text" class="form-control" id="octri_taxes" ng-model="inventory.octri_taxes" placeholder="Octri and Taxes"/>
-                </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="text" class="form-control" readonly ng-model="inventory.net_pur_price" placeholder="Net Purchase Price at Godown" aria-label="Recipient's username">
-                            <div class="input-group-append">
-                            <button class="btn btn-sm btn-success" ng-click="calculate()" type="button">Calculate</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div><br/>
-            <!-- <div class="row">
-                <div class="col-lg-3 col-sm-3 col-md-3">
-                    <label for="net_price">Net Purchase Price at Godown</label>
-                    <input type="text" class="form-control" id="net_price"  readonly ng-model="inventory.net_pur_price" placeholder="Net Purchase Price at Godown"/>
-                    <button ng-click="calculate()">Calculate</button>
-                </div>
-            </div><br/> -->
         </div>
     </div><br/>
     <div class="card">
@@ -298,7 +298,7 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-success btn-sm float-right" ng-click="saveInventory()">Save</button>
+                    <button type="button" class="btn btn-success btn-sm float-right" ng-click="saveInventory()"><i class="fa fa-save" id="loader"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -323,51 +323,62 @@
                 $scope.Accounts = r.data;
             });
         };
-        $scope.selectedTax = function(tax){
-            console.log(tax);
-        };
         $scope.inventory = {};
-        $scope.calculate = function(){
-            if(!$scope.inventory.income_tax){
-              $scope.inventory.income_tax = 0;
+        $scope.inventory.purchase_price = 0;
+        $scope.inventory.cost_price = 0; 
+        $scope.inventory.carriage_inward_charges = 0; 
+        $scope.inventory.delivery_charges = 0;
+        $scope.addProfit = function(){
+            if(!$scope.inventory.profit_type){
+                swal('Warning', 'Please select profit type and add gross price first', 'warning');
+            }else{
+                if($scope.inventory.profit_type == 'percent'){
+                    if($scope.inventory.purchase_price == 0){
+                        $scope.inventory.purchase_price = $scope.inventory.delivery_charges + $scope.inventory.cost_price + $scope.inventory.carriage_inward_charges;
+                    }
+                    $scope.inventory.sale_price = 0;
+                    $scope.profit = $scope.inventory.purchase_price * $scope.inventory.profit/100;
+                    $scope.inventory.sale_price = $scope.profit + $scope.inventory.purchase_price;
+                }else if($scope.inventory.profit_type == 'amount'){
+                    if($scope.purchase_price == 0){
+                        $scope.purchase_price = $scope.inventory.cost_price + $scope.inventory.carriage_inward_charges + $scope.inventory.delivery_charges;
+                    }
+                    $scope.inventory.sale_price = 0;
+                    $scope.inventory.sale_price = $scope.inventory.profit + $scope.inventory.purchase_price;
+                }
             }
-            if(!$scope.inventory.withholding_tax){
-                $scope.inventory.withholding_tax = 0;
-            }
-            if(!$scope.inventory.sales_tax){
-                $scope.inventory.sales_tax = 0;
-            }
-            if(!$scope.inventory.fed){
-                $scope.inventory.fed = 0;
-            }
-            if(!$scope.inventory.import_duty){
-                $scope.inventory.import_duty = 0;
-            }
-            if(!$scope.inventory.tax_adjustment){
-                $scope.inventory.tax_adjustment = 0;
-            }
-            if(!$scope.inventory.tax_exemption){
-                $scope.inventory.tax_exemption = 0;
-            }
-            if(!$scope.inventory.delivery_charges){
-                $scope.inventory.delivery_charges = 0;
-            }
-            if(!$scope.inventory.gross_pur_price){
-                $scope.inventory.gross_pur_price = 0;
-            }
-            if(!$scope.inventory.carriage_inward_charges){
-                $scope.inventory.carriage_inward_charges = 0;
-            }
-            if(!$scope.inventory.octri_taxes){
-                $scope.inventory.octri_taxes = 0;
-            }
-            $scope.inventory.net_pur_price = parseInt($scope.inventory.income_tax) + parseInt($scope.inventory.withholding_tax) + 
-            parseInt($scope.inventory.sales_tax) + parseInt($scope.inventory.fed) + parseInt($scope.inventory.import_duty) +
-            parseInt($scope.inventory.tax_adjustment) + parseInt($scope.inventory.tax_exemption) + parseInt($scope.inventory.delivery_charges) +             
-            parseInt($scope.inventory.gross_pur_price) + parseInt($scope.inventory.carriage_inward_charges) + parseInt($scope.inventory.octri_taxes);            
         };
+        $scope.alltaxes = [];
+        $scope.selectedTax = function(taxid, tax){
+            if($scope.inventory.cost_price){
+                $scope.gross_price = $scope.inventory.delivery_charges + $scope.inventory.cost_price + $scope.inventory.carriage_inward_charges;
+                tax_amount = $scope.gross_price * tax / 100;
+                if($scope.inventory.purchase_price == 0){
+                    $scope.inventory.purchase_price += tax_amount + $scope.gross_price;
+                }else{
+                    $scope.inventory.purchase_price += tax_amount;
+                }
+                $("#addtax"+taxid).hide();
+                $scope.alltaxes.push(taxid);
+                console.log($scope.alltaxes);
+            }else{
+                swal('Warning', 'Please add gross price first', 'warning');
+            }
+        };
+
+        $scope.cancelTax = function(taxid, tax){
+            if($scope.inventory.purchase_price != 0){
+                $scope.gross_price = $scope.inventory.delivery_charges + $scope.inventory.cost_price + $scope.inventory.carriage_inward_charges;
+                //var tax_amount = $scope.gross_price * tax / 100;
+                $scope.inventory.purchase_price = $scope.gross_price;
+                $scope.alltaxes = [];
+                $(".btn-addtax").show();
+            }
+        }
+
         $scope.saveInventory = function(){
             $scope.inventory.attributes = JSON.stringify($scope.attrvals);
+            $scope.inventory.taxes_included = JSON.stringify($scope.alltaxes);
             console.log($scope.inventory);
             if (!$scope.inventory.product_name) {
                 $scope.showError = true;
@@ -375,6 +386,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.inventory, function (v, k) {
                     Data.append(k, v);
@@ -386,6 +398,8 @@
                         type: "success"
                     });
                     $scope.inventory = {};
+                    $scope.alltaxes = [];
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

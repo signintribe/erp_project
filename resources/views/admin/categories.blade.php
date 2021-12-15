@@ -4,7 +4,7 @@
 @section('breadcrumb', 'Categories')
 @section('content')
 <link rel="stylesheet" href="{{ asset('public/dashboard/vendors/icheck/skins/all.css')}}">
-<div ng-app="CategoryApp" ng-controller="CategoryController">
+<div ng-app="CategoryApp" ng-controller="CategoryController" ng-cloak>
 <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-3">
         <div class="card">
@@ -318,6 +318,7 @@
                     $scope.category = {};
                     $("#loader").removeClass('fa-spinner fa-fw fa-pulse').addClass('fa-save');
                     $scope.get_allcategories(0);
+                    $scope.get_allcategories(1);
                 });
             }
         };

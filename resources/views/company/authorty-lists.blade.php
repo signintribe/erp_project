@@ -238,7 +238,7 @@
 
         $scope.allcompany_registrations = function () {
             $scope.allregistration = {};
-            $http.get($scope.url + 'manage-authorities').then(function (response) {
+            $http.get($scope.url + 'manage-authorities/'+$("#company_id").val()).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.allregistration = response.data;
                 }

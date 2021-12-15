@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ProjectSystem;
 
 use Illuminate\Database\Eloquent\Model;
 
-class tblproduct_pricing extends Model
+class ErpActivity extends Model
 {
     protected $guarded = [];
 }

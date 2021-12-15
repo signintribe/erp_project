@@ -470,8 +470,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item" id="ps-open">
+                                <a href="#" class="nav-link" id="ps-active">
                                     <i class="fa fa-calendar nav-icon"></i>
                                     <p>
                                         Project System
@@ -480,25 +480,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{url('project-system/create-projects')}}" class="nav-link" id="create-project">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Projects</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{url('project-system/create-activities')}}" class="nav-link" id="create-activities">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Activities</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{url('project-system/create-phases')}}" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Phases</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{url('project-system/create-tasks')}}" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Task</p>
                                         </a>

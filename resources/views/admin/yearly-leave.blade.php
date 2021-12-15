@@ -184,6 +184,7 @@
                 $scope.yl.company_id = parseInt($scope.yl.company_id);
                 $scope.yl.office_id = parseInt($scope.yl.office_id);
                 $scope.yl.department_id = parseInt($scope.yl.department_id);
+                $scope.yl.group_id = parseInt($scope.yl.group_id);
                 $("#ShowPrint").show();
             });
         }

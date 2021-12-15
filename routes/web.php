@@ -165,6 +165,7 @@ Route::get('get-vendor/{id}', 'InventoryController@getVendor');
 Route::get('get-category/{id}', 'InventoryController@getCategory');
 Route::get('get-attribute/{id}', 'InventoryController@getAttribute');
 Route::get('get-selected-atts/{id}', 'InventoryController@selectedAttribute');
+Route::get('get-seleted-taxes/{id}', 'InventoryController@seletedTaxes');
 Route::get('edit-inventory/{id}', 'InventoryController@editAddInventory');
 
 /**
@@ -364,6 +365,13 @@ Route::group(['prefix'=>'company'], function () {
 
 });
 
+
+Route::group(['prefix'=>'project-system'], function(){
+  Route::resource('create-projects', 'ProjectSystem\CreateProjectsController');
+  Route::resource('create-phases', 'ProjectSystem\CreatePhasesController');
+  Route::resource('create-activities', 'ProjectSystem\CreateActivitiesControllerr');
+});
+
 /**
  * Company portfolio
  */
@@ -440,3 +448,5 @@ Route::get('user-types', 'Admin\PrivilegesController@types')->name('Types Data')
 Route::get('sub-menu', function () {
     return view('admin.sub_menu');
 })->name('loginpage');
+
+

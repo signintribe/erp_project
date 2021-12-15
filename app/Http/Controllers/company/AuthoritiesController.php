@@ -74,7 +74,7 @@ class AuthoritiesController extends Controller
      */
     public function show($id)
     {
-        //
+        return DB::select('SELECT authority.*, company.company_name, address.address_line_1, address.city FROM (SELECT * FROM erp_authorities WHERE company_id = '.$id.') AS authority JOIN(SELECT id, company_name FROM tblcompanydetails) AS company ON company.id = authority.company_id JOIN(SELECT id, address_line_1, city FROM tbladdresses) AS address ON address.id = authority.address_id');
     }
 
     /**
