@@ -176,6 +176,27 @@
                 }
             });
         };
+        
+        $scope.loadMoreActivities = function(){
+            $("#loader-activities").addClass('fa fa-spinner fa-fw fa-3x fa-pulse');
+            var arr = {
+                'offset':$scope.offset,
+                'limit':$scope.limit,
+                'company_id': $("#company_id").val()
+            };
+            $http.get('create-activities/'+ JSON.stringify(arr)).then(function (response) {
+                if (response.data.data.length > 0) {
+                    $scope.allactivities = $scope.allactivities.concat(response.data.data);
+                    $scope.offset += $scope.limit;
+                    $("#loader-activities").removeClass("fa fa-spinner fa-fw fa-3x fa-pulse");
+                    $("#loadmore-activities-btn").show('slow');
+                }else{
+                    $("#loadmore-activities-btn").hide('slow');
+                    $scope.nomoreactivities = "There is no data";
+                    $("#loader-activities").removeClass("fa fa-spinner fa-fw fa-3x fa-pulse");
+                }
+            });
+        };
 
         $scope.loadMore = function(){
             $("#loadmore-btn i").addClass('fa-fw fa-pulse');

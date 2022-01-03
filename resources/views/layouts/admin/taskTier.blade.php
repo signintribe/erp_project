@@ -146,7 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             with font-awesome or any other icon font library -->
                             <li class="nav-item">
                                 <a href="{{url('adminhome')}}" class="nav-link">
-                                <i class="nav-icon fa fa-tachometer-alt" aria-hidden="true"></i>
+                                <i class="nav-icon fa fa-dashboard" aria-hidden="true"></i>
                                     <p>
                                         Dashboard
                                     </p>
@@ -357,27 +357,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{url('project-system/assign-task')}}" class="nav-link" id="assign-tasks">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Projects</p>
+                                            <p>Add Tasks</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{url('project-system/view-assigned-task')}}" class="nav-link" id="assigned-tasks">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Activities</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Phases</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Task</p>
+                                            <p>View Tasks</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">

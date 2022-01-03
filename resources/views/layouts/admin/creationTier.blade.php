@@ -134,7 +134,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <img src="{{asset('public/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
                         </div>
                         <div class="info">
-                            <a href="#" class="d-block"><?php echo Auth::user()->name ?></a>
+                            <a href="#" class="d-block"><?php echo Auth::user()->name; ?></a>
                         </div>
                     </div>
 
@@ -492,13 +492,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('project-system/create-phases')}}" class="nav-link">
+                                        <a href="{{url('project-system/create-phases')}}" class="nav-link" id="create-phases">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Phases</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('project-system/create-tasks')}}" class="nav-link">
+                                        <a href="{{url('project-system/create-tasks')}}" class="nav-link" id="create-tasks">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Task</p>
                                         </a>

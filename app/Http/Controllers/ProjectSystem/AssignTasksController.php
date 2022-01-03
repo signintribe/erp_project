@@ -4,20 +4,13 @@ namespace App\Http\Controllers\ProjectSystem;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\ProjectSystem\ErpProject;
-use App\Models\ProjectSystem\ErpActivity;
-class CreateProjectsController extends Controller
+use App\Models\ProjectSystem\ErpTasksAssignedDetail;
+use DB;
+class AssignTasksController extends Controller
 {
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct() {
         $this->middleware('auth');
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -25,9 +18,13 @@ class CreateProjectsController extends Controller
      */
     public function index()
     {
-        return view('project-system.projects');
+        return view('project-system.assign-tasks');
     }
 
+    public function view_assigned_tasks()
+    {
+        return view('project-system.view-assigned-tasks');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -46,16 +43,11 @@ class CreateProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->id){
-            $data = $request->except('company_id', 'created_at', 'updated_at', 'id');
-            ErpProject::where('id', $request->id)->update($data);
-        }else{
-            $project = $request->all();
-            ErpProject::create($project);
-        }
+        $data = $request->except(['phase_id', 'activity_id', 'project_id', 'office_id', 'department_id']);
+        ErpTasksAssignedDetail::create($data);
         return response()->json([
             'status' => true,
-            'message' => 'Project Information Save Successfull'
+            'message' => "Save"
         ]);
     }
 
@@ -65,13 +57,13 @@ class CreateProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($arr)
+    public function show($array)
     {
-        $data = json_decode($arr,true);
-        $projects = ErpProject::where('company_id', $data['company_id'])->skip($data['offset'])->take($data['limit'])->get();
+        $data = json_decode($array, true);
+        $assignedTasks = DB::select('call getAssignedTasks('.$data['company_id'].', '.$data['offset'].', '.$data['limit'].')');
         return response()->json([
             'status' => true,
-            'data' => $projects
+            'data' => $assignedTasks
         ]);
     }
 
@@ -83,11 +75,7 @@ class CreateProjectsController extends Controller
      */
     public function edit($id)
     {
-        $project = ErpProject::where('id', $id)->where('company_id', session('company_id'))->first();
-        return response()->json([
-            'status'=>true,
-            'data'=>$project
-        ]);
+        //
     }
 
     /**
@@ -110,18 +98,10 @@ class CreateProjectsController extends Controller
      */
     public function destroy($id)
     {
-        $chk = ErpActivity::where('project_id', $id)->first();
-        if(!empty($chk)){
-            return response()->json([
-                'status' => false,
-                'message' => "Please delete its project of activities"
-            ]);
-        }else{
-            ErpProject::where('id', $id)->delete();
-            return response()->json([
-                'status' => true,
-                'message' => "Project information delete successfully"
-            ]);
-        }
+        ErpTasksAssignedDetail::where('id', $id)->delete();
+        return response()->json([
+            'status'=>true,
+            'message'=>'Assigned Task Delete Permanently'
+        ]);
     }
 }

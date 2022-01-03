@@ -78,7 +78,7 @@ class CreateActivitiesControllerr extends Controller
      */
     public function edit($id)
     {
-        $activity = ErpActivity::where('id', $id)->first();
+        $activity = ErpActivity::where('id', $id)->where('company_id', session('company_id'))->first();
         return response()->json([
             'status' => true,
             'message' => 'Activity',
@@ -110,6 +110,15 @@ class CreateActivitiesControllerr extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Activity of project delete permannently'
+        ]);
+    }
+
+    public function get_project_activities($project_id, $company_id)
+    {
+        $activities = ErpActivity::where('project_id', $project_id)->where('company_id', $company_id)->get();
+        return response()->json([
+            'status' => true,
+            'data' => $activities
         ]);
     }
 }

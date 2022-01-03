@@ -369,7 +369,13 @@ Route::group(['prefix'=>'company'], function () {
 Route::group(['prefix'=>'project-system'], function(){
   Route::resource('create-projects', 'ProjectSystem\CreateProjectsController');
   Route::resource('create-phases', 'ProjectSystem\CreatePhasesController');
+  Route::resource('create-tasks', 'ProjectSystem\CreateTasksController');
   Route::resource('create-activities', 'ProjectSystem\CreateActivitiesControllerr');
+  Route::resource('assign-task', 'ProjectSystem\AssignTasksController');
+  Route::get('view-assigned-task', 'ProjectSystem\AssignTasksController@view_assigned_tasks');
+  Route::get('get-project-activities/{project_id}/{company_id}', 'ProjectSystem\CreateActivitiesControllerr@get_project_activities');
+  Route::get('get-activity-phases/{activity_id}/{company_id}', 'ProjectSystem\CreatePhasesController@get_activity_phases');
+  Route::get('get-phases-tasks/{task_id}/{company_id}', 'ProjectSystem\CreateTasksController@get_phases_tasks');
 });
 
 /**
