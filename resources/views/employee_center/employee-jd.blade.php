@@ -61,10 +61,20 @@
                 </div>
             </div><br>
             <div class="row">
-                <div class="col">
-                    <button class="btn btn-sm btn-success" ng-click="save_jds()">Save</button>
+                <div class="col-lg-12 col-md-12 col-sm-12" align="right">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="{{url('hr/pay-emoluments')}}" data-toggle="tooltip" data-placement="left" title="Previous" class="btn btn-sm btn-primary">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                        <button type="button" class="btn btn-sm btn-success" ng-click="save_jds()" data-toggle="tooltip" data-placement="bottom" title="Save">
+                            <i class="fa fa-save" id="loader"></i> Save
+                        </button>
+                        <a href="{{url('hr/pay-allowance-deduction')}}" type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Next">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </div>        
         </div>
     </div><br>
     <div class="card d-print-none">
@@ -79,6 +89,7 @@
                         <th>Company Name</th>
                         <th>Office Name</th>
                         <th>Department Name</th>
+                        <th>Group Name</th>
                         <th>JD Name</th>
                         <th>Attachment</th>
                         <th>Action</th>
@@ -90,10 +101,11 @@
                         <td ng-bind="j.company_name"></td>
                         <td ng-bind="j.office_name"></td>
                         <td ng-bind="j.department_name"></td>
+                        <td ng-bind="j.group_name"></td>
                         <td ng-bind="j.jd_name"></td>
                         <td><a href="{{asset('public/employeeJD/<% j.attachment %>')}}" target="_blank" ng-bind="j.attachment"></a></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(j.company_id); getDepartments(j.office_id); editJD(j.id); getGroups(j.department_id)">Edit</button>
+                            <button class="btn btn-xs btn-info" ng-click="getoffice(j.company_id); getDepartments(j.office_id);  getGroups(j.department_id); editJD(j.id);">Edit</button>
                             <button class="btn btn-xs btn-danger" ng-click="deleteJobDescription(j.id)">Delete</button>
                         </td>
                     </tr>
@@ -203,6 +215,7 @@
                 $scope.jds.company_id = parseInt($scope.jds.company_id);
                 $scope.jds.office_id = parseInt($scope.jds.office_id);
                 $scope.jds.department_id = parseInt($scope.jds.department_id);
+                $scope.jds.group_id = parseInt($scope.jds.group_id);
                 //$scope.jdDoc = $scope.appurl + "public/employeeJD/" + $scope.jds.attachment;
                 $("#ShowPrint").show();
             });
@@ -216,6 +229,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.jds, function (v, k) {
                     Data.append(k, v);
@@ -228,6 +242,7 @@
                         type: "success"
                     });
                     $scope.jds = {};
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

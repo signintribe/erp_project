@@ -22,12 +22,12 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label>* User Type</label>
-                                <select class="form-control" ng-model="user.user_type">
+                                <select class="form-control" ng-model="user.is_admin">
                                     <option value="">Select User Type</option>
                                     <option value="1">Administrator</option>
                                     <option value="2">Employee</option>
                                 </select>
-                                <i class="text-danger" ng-show="!user.user_type && showError"><small>Please User Type</small></i>
+                                <i class="text-danger" ng-show="!user.is_admin && showError"><small>Please User Type</small></i>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
@@ -141,8 +141,10 @@
                 </div>
             </div><br/>
             <div class="card">
-                <div class="card-body">
+                <div class="card-header">
                     <h3 class="card-title">Contact Information</h3>
+                </div>
+                <div class="card-body">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
@@ -216,7 +218,7 @@
                                 <input type="text" class="form-control" ng-model="user.pinterest" placeholder="Pinterest"/>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="col-lg-3 col-md-3 col-sm-3" id="onEdit">
                             <div class="form-group">
                                 <label>Password:</label>
                                 <input type="password" class="form-control" ng-model="user.password" placeholder="Password"/>
@@ -227,11 +229,11 @@
                     <div class="form-group row">
                         <div class="col-lg-12 col-md-12 col-sm-12" align="right">
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-sm btn-info" ng-click="save_user()" data-toggle="tooltip" data-placement="bottom" title="Save">
-                                    <i class="fa fa-save"></i>
+                                <button type="button" class="btn btn-sm btn-success" ng-click="save_user()" data-toggle="tooltip" data-placement="bottom" title="Save">
+                                    <i id="loader" class="fa fa-save"></i> Save
                                 </button>
                                 <a href="{{url('hr/employees-addresses')}}" data-toggle="tooltip" data-placement="top" title="Next" type="button" class="btn btn-sm btn-primary">
-                                    <i class="mdi mdi-arrow-right"></i>
+                                    <i class="fa fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
@@ -305,12 +307,14 @@
         //        };
         $scope.user = {};
         $scope.save_user = function () {
-            if (!$scope.user.first_name || !$scope.user.father_name || !$scope.user.password || !$scope.user.user_type || !$scope.user.gender) {
+            if (!$scope.user.first_name || !$scope.user.father_name || !$scope.user.password || !$scope.user.is_admin || !$scope.user.gender) {
                 $scope.showError = true;
+                alert($scope.user.password);
                 jQuery("input.required").filter(function () {
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.user, function (v, k) {
                     Data.append(k, v);
@@ -322,16 +326,21 @@
                         type: "success"
                     });
                     $scope.user = {};
+                    $("#onEdit").show();
                     $scope.getEmployees();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };
 
         $scope.editEmployeeInfo = function(id){
             $http.get('editEmployee/'+ id).then(function (response) {
-                $scope.user = response.data;
-                $scope.editContactInfo(response.data.contact_id);
-                $scope.editSocialInfo(response.data.social_id);
+                $("#onEdit").hide();
+                $scope.user = response.data[0];
+                $scope.user.password = "OnEdit";
+                $scope.user.is_admin = String($scope.user.is_admin);
+                $scope.editContactInfo($scope.user.contact_id);
+                $scope.editSocialInfo($scope.user.social_id);
                 $("#ShowPrint").show();
             });
         };

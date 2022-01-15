@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>APP - @yield('title')</title>
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- Google Font: Source Sans Pro -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
         <!-- Font Awesome Icons -->
@@ -573,7 +573,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <p>Vendor Information</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a href="{{url('vendor/vendor-address')}}" class="nav-link" id="vendor-address">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Vendor Address</p>
@@ -584,7 +584,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Vendor Contact</p>
                                         </a>
-                                    </li>
+                                    </li> -->
                                     <li class="nav-item">
                                         <a href="{{url('vendor/vendor-person')}}" class="nav-link" id="purchase-contact-person">
                                             <i class="fa fa-caret-right nav-icon"></i>

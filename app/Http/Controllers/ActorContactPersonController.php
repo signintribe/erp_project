@@ -52,10 +52,10 @@ class ActorContactPersonController extends Controller
                 }
             }
             if($request->id){
-                $social = $request->except('id', 'company_id', 'userpicture', 'actor_id', 'actor_name', 'contact_id','social_id','address_id','title','first_name','last_name','picture','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
+                $social = $request->except('id', 'wechat', 'company_id', 'userpicture', 'actor_id', 'actor_name', 'contact_id','social_id','address_id','title','first_name','last_name','picture','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
                 $contact = $request->except('id', 'company_id', 'userpicture', 'actor_id', 'actor_name', 'contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
-                $address = $request->except('id', 'company_id', 'userpicture', 'actor_id', 'actor_name', 'contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','created_at','updated_at');
-                $contactperson = $request->except('id','userpicture', 'website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
+                $address = $request->except('id', 'wechat', 'company_id', 'userpicture', 'actor_id', 'actor_name', 'contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','created_at','updated_at');
+                $contactperson = $request->except('id', 'wechat', 'userpicture', 'website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
                 tblsocialmedias::where('id', $request->social_id)->update($social);
                 tblcontact::where('id', $request->contact_id)->update($contact);
                 tbladdress::where('id', $request->address_id)->update($address);
@@ -64,10 +64,10 @@ class ActorContactPersonController extends Controller
                 }
                 erp_contact_people::where('id', $request->id)->update($contactperson);
             }else{
-                $social = $request->except('actor_id', 'actor_name', 'userpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code',);
+                $social = $request->except('actor_id', 'wechat', 'actor_name', 'userpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code',);
                 $contact = $request->except('actor_id', 'actor_name', 'userpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code',);
-                $address = $request->except('actor_id', 'actor_name', 'userpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email');
-                $contactperson = $request->except('website','userpicture','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
+                $address = $request->except('actor_id', 'wechat', 'actor_name', 'userpicture','contact_id','social_id','address_id','title','first_name','last_name','picture','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email');
+                $contactperson = $request->except('website', 'wechat', 'userpicture','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
                 $social = tblsocialmedias::create($social);
                 $contact = tblcontact::create($contact);
                 $address = tbladdress::create($address);
@@ -133,12 +133,16 @@ class ActorContactPersonController extends Controller
      */
     public function destroy($id)
     {
-        $contact = erp_contact_people::where('id', $id)->first();
-        erp_contact_people::where('id', $id)->delete();
-        tblsocialmedias::where('id', $contact->social_id)->delete();
-        tblcontact::where('id', $contact->contact_id)->delete();
-        tbladdress::where('id', $contact->address_id)->delete();
-        return "Your Contact Person Delete";
+        try{
+            $contact = erp_contact_people::where('id', $id)->first();
+            erp_contact_people::where('id', $id)->delete();
+            tblsocialmedias::where('id', $contact->social_id)->delete();
+            tblcontact::where('id', $contact->contact_id)->delete();
+            tbladdress::where('id', $contact->address_id)->delete();
+            return response()->json(['status' => true, 'message' => 'Contact Person Detail Delete Permanently']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 68)]);
+        }
     }
 
     public function getCompanyInfo($actor_name, $company_id)

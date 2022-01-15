@@ -44,7 +44,7 @@
            </div>
            <div class="row">
                <div class="col">
-                   <button class="btn btn-sm btn-success float-right" ng-click="saveBank()"> <i class="fa fa-save"></i> Save</button>
+                   <button class="btn btn-sm btn-success float-right" ng-click="saveBank()"> <i class="fa fa-save" id="loader"></i> Save</button>
                </div>
            </div>
        </div>
@@ -132,6 +132,7 @@
             $http.get($scope.url + 'manage-banks/' + id + '/edit').then(function (response) {
                 $scope.bank = response.data;
                 $scope.bank.bank_id = parseInt(response.data.bank_id);
+                $scope.bank.actor_id = parseInt(response.data.actor_id);
                 $("#ShowPrint").show();
             });
         };
@@ -162,6 +163,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.bank, function (v, k) {
                     Data.append(k, v);
@@ -174,6 +176,7 @@
                     });
                     $scope.bank = {};
                     $scope.getBanksInfo();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

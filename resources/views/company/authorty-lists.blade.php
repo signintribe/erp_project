@@ -170,7 +170,7 @@
             </div><br/>
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-md btn-success" ng-click="save_companyregistration();"> <i id="loader" class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-sm btn-success" ng-click="save_companyregistration();"> <i id="loader" class="fa fa-save"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -208,6 +208,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <p class="text-center" id="record-loader"></p>
             </div>
         </div>
     </div>
@@ -238,9 +239,13 @@
 
         $scope.allcompany_registrations = function () {
             $scope.allregistration = {};
+            $("#record-loader").html('<i class="fa fa-spinner fa-sw fa-3x fa-pulse"></i>');
             $http.get($scope.url + 'manage-authorities/'+$("#company_id").val()).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.allregistration = response.data;
+                    $("#record-loader").empty();
+                }else{
+                    $("#record-loader").empty();
                 }
             });
         };
@@ -317,8 +322,12 @@
             },
             function(){
                 $http.delete($scope.url + 'manage-authorities/'+id).then(function (response) {
-                    $scope.allcompany_registrations();
-                    swal("Deleted!", response.data, "success");
+                    if(response.data.status == true){
+                        $scope.allcompany_registrations();
+                        swal("Deleted!", response.data.message, "success");
+                    }else{
+                        swal("Not Deleted!", response.data.message, "error");
+                    }
                 });
             });
         };

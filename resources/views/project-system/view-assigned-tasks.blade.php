@@ -118,12 +118,23 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
+                                        <p ng-click="selectNewTask()" style="cursor: pointer">
+                                            <span ng-bind="task.project_name"></span> &nbsp; <i class="fa fa-chevron-circle-right"></i> &nbsp; 
+                                            <span ng-bind="task.activity_name"></span> &nbsp; <i class="fa fa-chevron-circle-right"></i> &nbsp; 
+                                            <span ng-bind="task.phase_name"></span> &nbsp; <i class="fa fa-chevron-circle-right"></i> &nbsp; 
+                                            <span ng-bind="task.task_name"></span> &nbsp; &nbsp; &nbsp;
+                                            <span>Edit</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row" style="display:none" id="newTask">
+                                    <div class="col">
                                         <div class="card">
                                             <div class="card-header">
                                                 <h3 class="card-title">Select Project</h3>
                                             </div>
                                             <div class="card-body" style="height:400px; overflow-y:scroll">
-                                                <i class="text-danger" ng-show="!tasks.project_id && showError"><small>Please select Project</small></i><br/>
+                                                <i class="text-danger" ng-show="!tasks.project_id && showError"><small>Please select Project</small></i>
                                                 <div class="form-group clearfix" ng-repeat="proj in allProjects">
                                                     <div class="icheck-primary d-inline">
                                                         <input type="radio" id="radioPrimary<% proj.id %>" name="project" ng-click="getActivities(proj.id);" ng-model="task.project_id" ng-value="proj.id">
@@ -160,7 +171,7 @@
                                                 <h3 class="card-title">Select Phases</h3>
                                             </div>
                                             <div class="card-body" style="height:400px; overflow-y:scroll">
-                                                <div class="form-group clearfix" ng-if="phases" ng-repeat="phs in phases">
+                                                <div class="form-group clearfix" ng-repeat="phs in phases">
                                                     <div class="icheck-primary d-inline">
                                                         <input type="radio" id="phases<% phs.id %>" name="phase" ng-click="getPhasesTasks(phs.id)" ng-model="task.phase_id" ng-value="phs.id">
                                                         <label for="phases<% phs.id %>" ng-bind="phs.phase_name"></label>
@@ -188,7 +199,7 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <button class="btn btn-md btn-success float-right" id="save-btn" ng-click="assignTask()"><i id="save-loader" class="fa fa-save"></i> Save</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -243,6 +254,63 @@
             });
         };
 
+        $scope.selectNewTask = function(){
+            $("#newTask").slideToggle('slow');
+        };
+
+        $scope.editTask = function(task){
+            $scope.task = task;
+            $scope.task.group_id = parseInt(task.group_id);
+            $scope.task.department_id = parseInt(task.department_id);
+            $scope.task.office_id = parseInt(task.office_id);
+            $scope.task.assign_employee_id = parseInt(task.assign_employee_id);
+            $scope.task.reported_employee_id = parseInt(task.reported_employee_id);
+            $scope.task.supervise_employee_id = parseInt(task.supervise_employee_id);
+            $scope.getDeptAndOffice($scope.task.group_id);
+            $scope.getActivities(task.project_id);
+            $scope.getActivityPhases(task.activity_id);
+            $scope.getPhasesTasks(task.phase_id);
+        };
+
+        $scope.getActivities = function(project_id){
+            //$scope.task.activity_id = 0;
+            $http.get('get-project-activities/'+ project_id + '/' + $("#company_id").val()).then(function (response) {
+                if (response.data.data.length > 0) {
+                    $scope.activities = response.data.data;
+                    /* $scope.phases = {};
+                    $scope.tasks = {}; */
+                    $scope.nomoreactivity = "";
+                }else{
+                    $scope.nomoreactivity = "There is no activities";
+                }
+            });
+        };
+
+        $scope.getActivityPhases = function(activity_id){
+            //$scope.task.phase_id = 0;
+            $http.get('get-activity-phases/'+ activity_id + '/' + $("#company_id").val()).then(function (response) {
+                if (response.data.data.length > 0) {
+                    $scope.phases = response.data.data;
+                    $scope.tasks = {};
+                    $scope.nomorephase = "";
+                }else{
+                    $scope.nomorephase = "There is no phases";
+                }
+            });
+        };
+
+        $scope.getPhasesTasks = function(phase_id){
+            //$scope.task.task_id = 0;
+            $http.get('get-phases-tasks/'+ phase_id + '/' + $("#company_id").val()).then(function (response) {
+                if (response.data.data.length > 0) {
+                    $scope.tasks = response.data.data;
+                    $scope.nomoretask ="";
+                }else{
+                    $scope.nomoretask = "There is no tasks";
+                }
+            });
+        };
+
         $scope.getProjects = function(){
             $("#loader").addClass('fa fa-spinner fa-fw fa-3x fa-pulse');
             $scope.offset = 0;
@@ -284,10 +352,16 @@
             });
         };
 
-        $scope.editTask = function(task){
-            $scope.task = task;
-            $scope.task.group_id = parseInt(task.group_id);
-            $scope.getDeptAndOffice($scope.task.group_id);
+        $scope.getDeptAndOffice = function (group_id) {
+            $scope.groups = {};
+            $http.get($("#app_url").val() + 'project-system/get-department-office/' + group_id).then(function (response) {
+                if (response.data.data.length > 0) {
+                    $scope.getDepartments(response.data.data[0].office_id);
+                    $scope.getGroups(response.data.data[0].department_id);
+                    $scope.task.office_id = response.data.data[0].office_id;
+                    $scope.task.department_id = response.data.data[0].department_id;
+                }
+            });
         };
 
         $scope.getassignedtasks = function(){
@@ -354,6 +428,39 @@
                     }
                 });
             });
+        };
+
+        $scope.assignTask = function(){
+            if(!$scope.task.office_id || !$scope.task.department_id || !$scope.task.department_id || !$scope.task.assign_employee_id || !$scope.task.group_id || !$scope.task.project_id){
+                $scope.showError = true;
+                jQuery("input.required").filter(function () {
+                    return !this.value;
+                }).addClass("has-error");
+            }else{
+                $(".btn-success i").removeClass('fa-save').addClass('fa-spinner fa-fw fa-pulse');
+                $scope.task.assignment_date = $("#assignmentdate input").val();
+                $scope.task.company_id = $("#company_id").val();
+                $scope.appurl = $("#appurl").val();
+                var Data = new FormData();
+                angular.forEach($scope.task, function (v, k) {
+                    Data.append(k, v);
+                });
+                $http.post('assign-task', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+                    if(res.data.status == true){
+                        swal({
+                            title: "Save!",
+                            text: res.data.message,
+                            type: "success"
+                        });
+                        $scope.task = {};
+                        $scope.activities = {};
+                        $scope.phases = {};
+                        $scope.tasks = {};
+                        $scope.resetscope();
+                        $(".btn-success i").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
+                    }
+                });
+            }
         };
     });
 </script>

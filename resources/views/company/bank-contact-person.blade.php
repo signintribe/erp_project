@@ -129,7 +129,7 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_contactPerson()">Save</button>
+                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_contactPerson()"> <i class="fa fa-save" id="loader"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -204,6 +204,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.contactperson, function (v, k) {
                     Data.append(k, v);
@@ -216,6 +217,7 @@
                     });
                     $scope.contactperson = {};
                     $scope.getContactPersons();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };
@@ -264,7 +266,10 @@
                 $scope.getContact($scope.contactperson.contact_id);
                 $scope.getSocialMedia($scope.contactperson.social_id);
                 $scope.getAddress($scope.contactperson.address_id);
-                $scope.catimg = $scope.url +"public/contactperson_picture/" + $scope.contactperson.picture;
+                $scope.contactperson.actor_id = parseInt($scope.contactperson.actor_id);
+                if($scope.contactperson.picture){
+                    $scope.catimg = $scope.url +"public/contactperson_picture/" + $scope.contactperson.picture;
+                }
             });
         };
 

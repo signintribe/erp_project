@@ -129,7 +129,7 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_contactPerson()">Save</button>
+                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_contactPerson()"> <i id="loader" class="fa fa-save"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -168,6 +168,7 @@
                     </tr>
                 </tbody>
             </table>
+            <p class="text-center" id="table-loader"></p>
         </div>
     </div>
    <input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
@@ -205,6 +206,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.contactperson, function (v, k) {
                     Data.append(k, v);
@@ -217,15 +219,18 @@
                     });
                     $scope.contactperson = {};
                     $scope.getContactPersons();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };
 
         $scope.getContactPersons = function () {
             $scope.contactpersons = {};
+            $("#table-loader").html('<i class="fa fa-spinner fa-sw fa-3x fa-pulse"></i>');
             $http.get($scope.url + 'get-company-info/authorities/'+ $("#company_id").val()).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.contactpersons = response.data;
+                    $("#table-loader").html('');
                 }
             });
         };

@@ -43,8 +43,13 @@ class AssignTasksController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['phase_id', 'activity_id', 'project_id', 'office_id', 'department_id']);
-        ErpTasksAssignedDetail::create($data);
+        if($request->id){
+            $data = $request->except(['$$hashKey', 'activity_name', 'assign_emp_name', 'created_at', 'id', 'phase_name', 'project_name', 'reported_emp_name', 'supervisor_name', 'task_name', 'updated_at', 'phase_id', 'activity_id', 'project_id', 'office_id', 'department_id']);
+            ErpTasksAssignedDetail::where('id', $request->id)->update($data);
+        }else{
+            $data = $request->except(['phase_id', 'activity_id', 'project_id', 'office_id', 'department_id']);
+            ErpTasksAssignedDetail::create($data);
+        }
         return response()->json([
             'status' => true,
             'message' => "Save"
@@ -102,6 +107,15 @@ class AssignTasksController extends Controller
         return response()->json([
             'status'=>true,
             'message'=>'Assigned Task Delete Permanently'
+        ]);
+    }
+
+    public function get_department_office($group_id)
+    {
+        $data = DB::select('SELECT groups.department_id, groups.group_name, dept.office_id, dept.department_name FROM (SELECT id, department_id, group_name FROM erp_employee_groups WHERE id = '.$group_id.') AS groups JOIN(SELECT id, office_id, department_name FROM tbldepartmens) AS dept ON dept.id = groups.department_id');
+        return response()->json([
+            'status' => true,
+            'data' => $data
         ]);
     }
 }

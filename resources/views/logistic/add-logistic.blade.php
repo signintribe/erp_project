@@ -13,52 +13,26 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="logistic_type">Select Logistic</label>
                     <select id="logistic_type" class="form-control" ng-model="logistic.logistic_type">
-                        <option value="">Select Logistic</option>
+                        <option value="">* Select Logistic</option>
                         <option value="Freight Forward Det">Freight Forward Det</option>
                         <option value="Customer Clearance">Customer Clearance</option>
                         <option value="Carriage Company">Carriage Company</option>
                         <option value="Courier">courier</option>
                     </select>
+                    <i class="text-danger" ng-show="!logistic.logistic_type && showError"><small>Please Select Logistic Type</small></i>
                 </div> 
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="organization_name">Name of Organization</label>
+                    <label for="organization_name">* Name of Organization</label>
                     <input type="text" class="form-control" id="organization_name" ng-model="logistic.organization_name" placeholder="Name of Organization"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="incroporation_no">Incroporation/License No.</label>
-                    <input type="text" class="form-control" id="incroporation_no" ng-model="logistic.incroporation_no" placeholder="Incroporation/License No."/>
+                    <i class="text-danger" ng-show="!logistic.organization_name && showError"><small>Please Type Org Name</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Organizational Logo:</label>
                     <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);"><br/>
                     <img ng-if="catimage" ng-src="<% catimage %>" class="img img-responsive" style="width: 100%; height: 200px;"/>
                 </div>
-            </div><br/>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="strn">STRN</label>
-                    <input type="text" class="form-control" id="strn" ng-model="logistic.strn" placeholder="STRN"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="import_license">Import License No.</label>
-                    <input type="text" class="form-control" id="import_license" ng-model="logistic.import_license" placeholder="Import License No."/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="export_license">Export License No.</label>
-                    <input type="text" class="form-control" id="export_license" ng-model="logistic.export_license" placeholder="Export License No."/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="chamber_no"><abbr title="Chamber of Commerce License No.">CC License No.</abbr></label>
-                    <input type="text" class="form-control" id="chamber_no" ng-model="logistic.chamber_no" placeholder="Chamber of Commerce License No."/>
-                </div>
-            </div><br/>
-            <div class="row">            
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="ntn_no">NTN</label>
-                    <input type="text" class="form-control" id="ntn_no" ng-model="logistic.ntn_no" placeholder="NTN"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="currency">*Currency in Dealing</label>
+                    <label for="currency">Currency in Dealing</label>
                     <select class="form-control" id="currency" ng-model="logistic.currency_dealing">
                         <option value="">Select Currency Type</option>
                         <option value="Dollar">Dollar</option>
@@ -67,28 +41,7 @@
                         <option value="Pounds">Pounds</option>
                         <option value="Pak Rupees">Pak Rupees</option>
                     </select>
-                </div><br><!-- 
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Nature of Business</label><br/>
-                    <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
-                    <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
-                    <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Sub Nature of Business</label><br/>
-                    <input type="checkbox" id="exporter"/> <label for="exporter">Exporter</label><br/>
-                    <input type="checkbox" id="importer"/> <label for="importer">Importer</label><br/>
-                    <input type="checkbox" id="contractor"/> <label for="contractor">Contractor</label><br/>
-                    <input type="checkbox" id="retailer"/> <label for="retriler">Retailer</label><br/>
-                    <input type="checkbox" id="whole_seller"/> <label for="whole_saller">Whole Seller</label><br/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Type of Business</label><br/>
-                    <input type="checkbox" id="private"/> <label for="private">Private limited company</label><br/>
-                    <input type="checkbox" id="public"/> <label for="public">Public</label><br/>
-                    <input type="checkbox" id="partnership"/> <label for="partnership">Partnership</label><br/>
-                    <input type="checkbox" id="sole_proprietor"/> <label for="sole_proprietor">Sole Proprietor</label><br/>
-                </div> -->
             </div><br/>
         </div>
     </div><br/>
@@ -184,11 +137,12 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="saveLogistic()">Save</button>
+                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="saveLogistic()"><i class="fa fa-save" id="loader"></i> Save</button>
                 </div>
             </div>
         </div>
     </div><br/>
+    <input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
     <!-- <div class="card">
         <div class="card-body">
             <h3 class="card-title">Select product categories and attributes</h3>
@@ -209,12 +163,14 @@
         $scope.logistic = {};
 
         $scope.saveLogistic = function(){
-            if (!$scope.logistic.organization_name) {
+            if (!$scope.logistic.organization_name || !$scope.logistic.logistic_type) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $scope.logistic.company_id = $("#company_id").val();
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.logistic, function (v, k) {
                     Data.append(k, v);
@@ -226,6 +182,7 @@
                         type: "success"
                     });
                     $scope.logistic = {};
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

@@ -49,31 +49,61 @@
                 </div>
             </div><br>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col">
+                    <h5>Shift Timing</h5>
+                </div>
+            </div><br/>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <label for="start_time">Shift Start Timing</label>
                     <input type="text" ng-model="shift.shift_start_time" id="start_time" class="form-control" placeholder="Shift Start Timing">
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <label for="end_time">Shift End Timing</label>
-                    <input type="text" ng-model="shift.shift_end_time" id="end_time" class="form-control" placeholder="Shift End Timing">
+                    <input type="text" ng-model="shift.shift_end_time" id="end_time" ng-blur="totalShiftHours()" class="form-control" placeholder="Shift End Timing">
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <label for="shift_hours">Total Shift Hours</label>
+                    <p class="form-control" id="totalHours"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h5>Break Timing</h5>
+                </div>
+            </div><br/>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <label for="mealstart_time">Meal Break Start Timing</label>
                     <input type="text" ng-model="shift.mealbreak_start_time" id="mealstart_time" class="form-control" placeholder="Meal Break Start Timing">
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <label for="mealend_time">Meal Break End Timing</label>
-                    <input type="text" ng-model="shift.mealbreak_end_time" id="mealend_time" class="form-control" placeholder="Meal Break End Timing">
+                    <input type="text" ng-model="shift.mealbreak_end_time" ng-blur="totalMealBrake()" id="mealend_time" class="form-control" placeholder="Meal Break End Timing">
                 </div>
-            </div><br>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <label for="totalmeal_hours">Meal break Time</label>
+                    <p class="form-control" id="totalmeal_hours"></p>
+                </div>
+            </div><br/>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <label for="teastart_time">Tea Break Start Timing</label>
                     <input type="text" ng-model="shift.teabreak_start_time" id="teastart_time" class="form-control" placeholder="Tea Break Start Timing">
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <label for="teaend_time">Teak Break End Timing</label>
-                    <input type="text" ng-model="shift.teabreak_end_time" id="teaend_time" class="form-control" placeholder="Teak Break End Timing">
+                    <input type="text" ng-model="shift.teabreak_end_time" ng-blur="totalTeaBreak()" id="teaend_time" class="form-control" placeholder="Teak Break End Timing">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <label for="totaltea_hours">Tea break Time</label>
+                    <p class="form-control" id="totaltea_hours"></p>
+                </div>
+            </div><br/>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="total_breakhours">Total Break Hours</label>
+                    <p class="form-control"  ng-bind="TotalBreakHours"></p>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="total_workinghours">Total Working Hours</label>
@@ -140,6 +170,30 @@
         $("#company-shift").addClass('active');
         $scope.shift = {};
         $scope.app_url = $("#appurl").val();
+
+        $scope.totalShiftHours = function(){
+            var hours = parseInt($("#end_time").val().split(':')[0], 10) - parseInt($("#start_time").val().split(':')[0], 10);
+            if(hours < 0) hours = 24 + hours;
+            $("#totalHours").text(hours);
+            $scope.totalShiftHours = hours;
+        };
+        $scope.MealBreakTime = 0;
+        $scope.totalMealBrake = function(){
+            var hours = parseInt($("#mealend_time").val().split(':')[0], 10) - parseInt($("#mealstart_time").val().split(':')[0], 10);
+            if(hours < 0) hours = 24 + hours;
+            $("#totalmeal_hours").text(hours);
+            $scope.MealBreakTime = hours;
+        };
+        $scope.TeaBreakTime = 0;
+        $scope.totalTeaBreak = function(){
+            var hours = parseInt($("#teaend_time").val().split(':')[0], 10) - parseInt($("#teastart_time").val().split(':')[0], 10);
+            if(hours < 0) hours = 24 + hours;
+            $("#totaltea_hours").text(hours);
+            $scope.TeaBreakTime = hours;
+            $scope.TotalBreakHours = $scope.MealBreakTime + $scope.TeaBreakTime;
+            $scope.shift.total_workinhours = $scope.totalShiftHours - $scope.TotalBreakHours;
+        };
+
         $scope.all_companies = function () {
             $http.get('getcompanyinfo').then(function (response) {
                 if (response.data.length > 0) {
@@ -182,6 +236,23 @@
                 $scope.shift.office_id = parseInt($scope.shift.office_id);
                 $scope.shift.department_id = parseInt($scope.shift.department_id);
                 $("#ShowPrint").show();
+                //Total Shift Time
+                var totalShiftHours = parseInt($scope.shift.shift_end_time.split(':')[0], 10) - parseInt($scope.shift.shift_start_time.split(':')[0], 10);
+                if(totalShiftHours < 0) totalShiftHours = 24 + totalShiftHours;
+                $("#totalHours").text(totalShiftHours);
+                $scope.totalShiftHours = totalShiftHours;
+                //Total Meal Break Time
+                var MealBreakTime = parseInt($scope.shift.mealbreak_end_time.split(':')[0], 10) - parseInt($scope.shift.mealbreak_start_time.split(':')[0], 10);
+                if(MealBreakTime < 0) MealBreakTime = 24 + MealBreakTime;
+                $("#totalmeal_hours").text(MealBreakTime);
+                $scope.MealBreakTime = MealBreakTime;
+                //Total Working Hours and tea time
+                var TeaBreakTime = parseInt($scope.shift.teabreak_end_time.split(':')[0], 10) - parseInt($scope.shift.teabreak_start_time.split(':')[0], 10);
+                if(TeaBreakTime < 0) TeaBreakTime = 24 + TeaBreakTime;
+                $("#totaltea_hours").text(TeaBreakTime);
+                $scope.TeaBreakTime = TeaBreakTime;
+                $scope.TotalBreakHours = $scope.MealBreakTime + $scope.TeaBreakTime;
+                $scope.shift.total_workinhours = $scope.totalShiftHours - $scope.TotalBreakHours;
             });
         }
 

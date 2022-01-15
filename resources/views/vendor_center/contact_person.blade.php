@@ -129,7 +129,7 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_contactPerson()">Save</button>
+                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_contactPerson()"> <i class="fa fa-save" id="loader"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -205,6 +205,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.contactperson, function (v, k) {
                     Data.append(k, v);
@@ -217,6 +218,7 @@
                     });
                     $scope.contactperson = {};
                     $scope.getContactPersons();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };
@@ -253,8 +255,12 @@
             },
             function(){
                 $http.delete($scope.url + 'manage-contactperson/' + id).then(function (response) {
-                    $scope.getContactPersons();
-                    swal("Deleted!", response.data, "success");
+                    if(response.data.status == true){
+                        $scope.getContactPersons();
+                        swal("Deleted!", response.data.message, "success");
+                    }else{
+                        swal("Not Deleted!", response.data.message, "error");
+                    }
                 });
             });
         };

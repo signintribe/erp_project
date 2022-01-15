@@ -42,7 +42,7 @@ class EmployeeOrganizationAssignmentController extends Controller
     public function store(Request $request)
     {
         if($request->id){
-            $data = $request->except(['id','office_id', 'user_id', 'updated_at', 'created_at']);
+            $data = $request->except(['id', 'department_name', 'first_name', 'last_name', 'middle_name', 'sup_name', 'office_id', 'user_id', 'updated_at', 'created_at']);
             erp_employee_assignment::where('id', $request->id)->update($data);
             return "Employee assignment update successfully";
         }else{
@@ -72,7 +72,8 @@ class EmployeeOrganizationAssignmentController extends Controller
      */
     public function edit($id)
     {
-        return erp_employee_assignment::where('id', $id)->first();
+        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
+        return DB::select('call sp_getEmployeeOrgAssignment('.$id.', '.$company->id.')');
     }
 
     /**

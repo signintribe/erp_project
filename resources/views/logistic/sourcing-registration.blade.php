@@ -80,7 +80,7 @@
             </div><br/>
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-sm btn-success" ng-click="save_companyregistration();">Save</button>
+                    <button class="btn btn-sm btn-success" ng-click="save_companyregistration();"> <i class="fa fa-save" id="loader"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -158,7 +158,7 @@
         };
 
         $scope.getLogisticInfo = function(){
-            $http.get('get-logistics').then(function (response) {
+            $http.get('get-logistics/'+$("#company_id").val()).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.Users = response.data;
                 }
@@ -194,6 +194,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.registration, function (v, k) {
                     Data.append(k, v);
@@ -206,6 +207,7 @@
                     });
                     $scope.registration = {};
                     $scope.allcompany_registrations();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };
@@ -233,8 +235,12 @@
             },
             function(){
                 $http.delete($scope.appurl + 'manage-registration/'+id).then(function (response) {
-                    $scope.allcompany_registrations();
-                    swal("Deleted!", response.data, "success");
+                    if(response.data.status == true){
+                        $scope.allcompany_registrations();
+                        swal("Deleted!", response.data.message, "success");
+                    }else{
+                        swal("Not Deleted!", response.data.message, "error");
+                    }
                 });
             });
         };

@@ -108,10 +108,15 @@ class AuthoritiesController extends Controller
      */
     public function destroy($id)
     {
-        $authority = erp_authority::where('id', $id)->first();
-        tbladdress::where('id', $authority->address_id)->delete();
-        tblcontact::where('id', $authority->contact_id)->delete();
-        tblsocialmedias::where('id', $authority->social_id)->delete(); 
-        erp_authority::where('id', $id)->delete();
+        try {
+            $authority = erp_authority::where('id', $id)->first();
+            tbladdress::where('id', $authority->address_id)->delete();
+            tblcontact::where('id', $authority->contact_id)->delete();
+            tblsocialmedias::where('id', $authority->social_id)->delete(); 
+            erp_authority::where('id', $id)->delete();
+            return response()->json(['status' => true, 'message' => 'Authority List Delete Permanently']);
+          } catch (\Illuminate\Database\QueryException $e) {
+              return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 68)]);
+          }
     }
 }

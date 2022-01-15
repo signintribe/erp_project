@@ -24,11 +24,25 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label class="start_date">Start Date</label>
-                    <input type="text" class="form-control" id="start_date" datepicker ng-model="education.start_date" placeholder="Start Date"/>
+                    <div class="form-group">
+                        <div class="input-group date" id="start_date" data-target-input="nearest">
+                            <input type="text" placeholder="Start Date" ng-model="education.start_date" class="form-control datetimepicker-input" data-target="#start_date"/>
+                            <div class="input-group-append" data-target="#start_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label class="end_date">End Date</label>
-                    <input type="text" class="form-control" id="end_date" datepicker ng-model="education.end_date" placeholder="End Date"/>
+                    <div class="form-group">
+                        <div class="input-group date" id="end_date" data-target-input="nearest">
+                            <input type="text" placeholder="End Date" ng-model="education.end_date" class="form-control datetimepicker-input" data-target="#end_date"/>
+                            <div class="input-group-append" data-target="#end_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div><br/>
             <div class="row">
@@ -63,13 +77,13 @@
                 <div class="col-lg-12 col-md-12 col-sm-12" align="right">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <a href="{{url('hr/education-detail')}}" data-toggle="tooltip" data-placement="left" title="Previous" class="btn btn-sm btn-primary">
-                            <i class="mdi mdi-arrow-left"></i>
+                            <i class="fa fa-arrow-left"></i>
                         </a>
                         <button type="button" class="btn btn-sm btn-success" ng-click="save_certification()" data-toggle="tooltip" data-placement="bottom" title="Save">
-                            <i class="fa fa-save"></i>
+                            <i class="fa fa-save" id="loader"></i> Save
                         </button>
                         <a href="{{url('hr/experience-detail')}}" type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Next">
-                            <i class="mdi mdi-arrow-right"></i>
+                            <i class="fa fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -155,6 +169,14 @@
     });
 
     Certification.controller('CertificationController', function ($scope, $http) {
+        $('#start_date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+
+        $('#end_date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+
         $("#employee").addClass('menu-open');
         $("#employee a[href='#']").addClass('active');
         $("#employee-certification").addClass('active');
@@ -170,6 +192,7 @@
         $scope.editCertification = function (id) {
             $http.get('maintain-employee-certification/' + id + '/edit').then(function (response) {
                 $scope.education = response.data;
+                $scope.education.employee_id = parseInt($scope.education.employee_id);
             });
         };
         
@@ -207,6 +230,9 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $scope.education.start_date = $("#start_date input").val();
+                $scope.education.end_date = $("#end_date input").val();
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.education, function (v, k) {
                     Data.append(k, v);
@@ -219,6 +245,7 @@
                     });
                     $scope.education = {};
                     $scope.getCertification();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

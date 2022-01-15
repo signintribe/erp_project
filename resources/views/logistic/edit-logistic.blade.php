@@ -29,36 +29,8 @@
                     <input type="text" class="form-control" id="organization_name" ng-model="logistic.organization_name" placeholder="Name of Organization"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="incroporation_no">Incroporation/License No.</label>
-                    <input type="text" class="form-control" id="incroporation_no" ng-model="logistic.incroporation_no" placeholder="Incroporation/License No."/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Organizational Logo:</label>
                     <input type="file" class="form-control" onchange="angular.element(this).scope().readUrl(this);"><br/>
-                </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="strn">STRN</label>
-                    <input type="text" class="form-control" id="strn" ng-model="logistic.strn" placeholder="STRN"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="import_license">Import License No.</label>
-                    <input type="text" class="form-control" id="import_license" ng-model="logistic.import_license" placeholder="Import License No."/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="export_license">Export License No.</label>
-                    <input type="text" class="form-control" id="export_license" ng-model="logistic.export_license" placeholder="Export License No."/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="chamber_no"><abbr title="Chamber of Commerce License No.">CC License No.</abbr></label>
-                    <input type="text" class="form-control" id="chamber_no" ng-model="logistic.chamber_no" placeholder="Chamber of Commerce License No."/>
-                </div>
-            </div><br/>
-            <div class="row">            
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="ntn_no">NTN</label>
-                    <input type="text" class="form-control" id="ntn_no" ng-model="logistic.ntn_no" placeholder="NTN"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="currency">*Currency in Dealing</label>
@@ -70,28 +42,7 @@
                         <option value="Pounds">Pounds</option>
                         <option value="Pak Rupees">Pak Rupees</option>
                     </select>
-                </div><br><!-- 
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Nature of Business</label><br/>
-                    <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
-                    <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
-                    <input type="checkbox" id="manufacturer"/> <label for="manufacturer">Manufacturer</label><br/>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Sub Nature of Business</label><br/>
-                    <input type="checkbox" id="exporter"/> <label for="exporter">Exporter</label><br/>
-                    <input type="checkbox" id="importer"/> <label for="importer">Importer</label><br/>
-                    <input type="checkbox" id="contractor"/> <label for="contractor">Contractor</label><br/>
-                    <input type="checkbox" id="retailer"/> <label for="retriler">Retailer</label><br/>
-                    <input type="checkbox" id="whole_seller"/> <label for="whole_saller">Whole Seller</label><br/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label>Type of Business</label><br/>
-                    <input type="checkbox" id="private"/> <label for="private">Private limited company</label><br/>
-                    <input type="checkbox" id="public"/> <label for="public">Public</label><br/>
-                    <input type="checkbox" id="partnership"/> <label for="partnership">Partnership</label><br/>
-                    <input type="checkbox" id="sole_proprietor"/> <label for="sole_proprietor">Sole Proprietor</label><br/>
-                </div> -->
             </div><br/>
         </div>
     </div><br/>
@@ -187,7 +138,7 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="saveLogistic()">Save</button>
+                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="saveLogistic()"> <i class="fa fa-save" id="loader"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -222,6 +173,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.logistic, function (v, k) {
                     Data.append(k, v);
@@ -232,7 +184,7 @@
                         text: res.data,
                         type: "success"
                     });
-                    $scope.logistic = {};
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };
@@ -251,9 +203,9 @@
         $scope.editlogisticInfo = function (id) {
             $http.get($scope.appurl + 'sourcing/edit-logistic-info/' + id).then(function (response) {
                 $scope.logistic = response.data[0];
-                /* $scope.logistic.logistic_type = parseInt(response.data[0].logistic_type);
-                $scope.logistic.currency_dealing = parseInt(response.data[0].currency_dealing); */
-                $scope.catimage = $scope.appurl +  "public/organization_logo/" + $scope.logistic.organization_logo;
+                if($scope.logistic.organization_logo){
+                    $scope.catimage = $scope.appurl +  "public/organization_logo/" + $scope.logistic.organization_logo;
+                }
                 $scope.editAddress($scope.logistic.address_id);
                 $scope.editContact($scope.logistic.contact_id);
                 $scope.editSocial($scope.logistic.social_id);

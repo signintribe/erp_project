@@ -49,9 +49,13 @@
             <div class="row">                
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="fiscal">Fiscal/Financial</label>
-                    <input type="text" ng-model="calander.fiscal_financial" datepicker id="fiscal" class="form-control" placeholder="Fiscal/Financial">
+                    <select ng-model="calander.fiscal_financial" id="fiscal" class="form-control">
+                        <option value="">Select Fiscal / Financial</option>
+                        <option value="Fiscal">Fiscal</option>
+                        <option value="Financial">Financial</option>
+                    </select>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="calander_year">Calander Year</label>
                     <select ng-model="calander.calender_year" id="calander_year" class="form-control" placeholder="Calander Year">
                         <option value="">Select Year</option>
@@ -59,7 +63,7 @@
                             <option value="{{ $i }}">{{ $i }}</option>
                         @endfor
                     </select>
-                </div>
+                </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="calander_start">Calander Start Date</label>
                     <div class="form-group">
@@ -83,7 +87,7 @@
                     </div>
                 </div>
             </div><br>
-            <div class="row">                
+            <!-- <div class="row">                
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="total_month">Total Month</label>
                     <input type="text" ng-model="calander.total_month" id="total_month" class="form-control" placeholder="Total Month">
@@ -114,7 +118,7 @@
                     <label for="working_hours_months">Working Hours in a month</label>
                     <input type="text" ng-model="calander.daysin_month" id="working_hours_months" class="form-control" placeholder="Working Hours in a month">
                 </div>
-            </div><br>
+            </div><br> -->
             <div class="row">
                 <div class="col">
                     <button class="btn btn-sm btn-success" ng-click="save_calender()"> <i class="fa fa-save" id="loader"></i> Save</button>
@@ -227,11 +231,12 @@
         }
 
         $scope.editCalendar = function(id, office_id){
+            $scope.getDepartments(office_id);
             $http.get('maintain-calender/'+ id + '/edit').then(function (response) {
-                $scope.getDepartments(office_id);
                 $scope.calander = response.data[0];
-                $scope.calander.office_id = parseInt($scope.calander.office_id);
-                $scope.calander.department_id = parseInt($scope.calander.department_id);
+                $scope.calander.office_id = parseInt(response.data[0].office_id);
+                $scope.calander.department_id = parseInt(response.data[0].department_id);
+                //alert($scope.calander.department_id);
                 $("#ShowPrint").show();
             });
         }

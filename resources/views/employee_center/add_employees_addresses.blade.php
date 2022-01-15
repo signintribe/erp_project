@@ -95,13 +95,13 @@
                         <div class="col-lg-12 col-md-12 col-sm-12" align="right">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <a href="{{url('hr/employee-personal-information')}}" data-toggle="tooltip" data-placement="left" title="Previous" class="btn btn-sm btn-primary">
-                                    <i class="mdi mdi-arrow-left"></i>
+                                    <i class="fa fa-arrow-left"></i>
                                 </a>
                                 <button type="button" class="btn btn-sm btn-success" ng-click="save_address()" data-toggle="tooltip" data-placement="bottom" title="Save">
-                                    <i class="fa fa-save"></i>
+                                    <i class="fa fa-save" id="loader"></i> Save
                                 </button>
                                 <a href="{{url('hr/spouse-detail')}}" type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Next">
-                                    <i class="mdi mdi-arrow-right"></i>
+                                    <i class="fa fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                 </div>
             </div><br/>
             <div class="card">
-                <div class="card-title">
+                <div class="card-header">
                     <h3 class="card-title">All Address</h3>
                 </div>
                 <div class="card-body">
@@ -129,7 +129,7 @@
                         <tbody ng-init="getAddress(0)">
                             <tr ng-repeat="addr in Addresses">
                                 <td ng-bind="$index+1"></td>
-                                <td ng-bind="addr.employee_name"></td>
+                                <td ng-bind="addr.first_name + ' ' + addr.last_name"></td>
                                 <td ng-bind="addr.street"></td>
                                 <td ng-bind="addr.sector"></td>
                                 <td ng-bind="addr.city"></td>
@@ -141,7 +141,8 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table><br/>
+                    <p id="record-loader" class="text-center"></p>
                 </div>
             </div>
         </div>
@@ -163,9 +164,14 @@
         };
 
         $scope.getAddress = function (address_id) {
+            $scope.Addresses = {};
+            $("#record-loader").html('<i class="fa fa-spinner fa-sw fa-3x fa-pulse"></i>');
             $http.get('maintain-employee-address').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.Addresses = response.data;
+                    $("#record-loader").empty();
+                }else{
+                    $("#record-loader").empty();
                 }
             });
         };
@@ -191,12 +197,12 @@
             },
             function(){
                 $http.delete('maintain-employee-address/' + address_id).then(function (response) {
-                    $scope.getAddress(0);
-                    if(response.data.status === 'true'){
+                    if(response.data.status === true){
                         swal("Delete!", response.data.message, "success");
                     }else{
                         swal("Not Delete!", response.data.message, "error");
                     }
+                    $scope.getAddress(0);
                 });
             });
         };
@@ -209,6 +215,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.address, function (v, k) {
                     Data.append(k, v);
@@ -221,6 +228,7 @@
                     });
                     $scope.address = {};
                     $scope.getAddress(0);
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

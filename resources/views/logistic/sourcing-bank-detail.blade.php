@@ -44,7 +44,7 @@
            </div>
            <div class="row">
                <div class="col">
-                   <button class="btn btn-sm btn-success float-right" ng-click="saveBank()"> <i class="fa fa-save"></i> Save</button>
+                   <button class="btn btn-sm btn-success float-right" ng-click="saveBank()"> <i id="loader" class="fa fa-save"></i> Save</button>
                </div>
            </div>
        </div>
@@ -104,7 +104,7 @@
         $scope.bank = {};
 
         $scope.getLogisticInfo = function(){
-            $http.get('get-logistics').then(function (response) {
+            $http.get('get-logistics/'+$("#actor_id").val()).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.Users = response.data;
                 }
@@ -120,6 +120,7 @@
         };
 
         $scope.getBanksInfo = function () {
+            $scope.bankinfo ={};
             $http.get($scope.url + 'get-bank-info/sourcing').then(function (response) {
                 if (response.data.length > 0) {
                     $scope.bankinfo = response.data;
@@ -147,8 +148,12 @@
             },
             function(){
                 $http.delete($scope.url + 'manage-banks/' + bank_id).then(function (response) {
-                    $scope.getBanksInfo();
-                    swal("Deleted!", response.data, "success");
+                    if(response.data.status == true){
+                        $scope.getBanksInfo();
+                        swal("Deleted!", response.data.message, "success");
+                    }else{
+                        swal("Not Deleted!", response.data.message, "error");
+                    }
                 });
             });
         };
@@ -161,6 +166,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.bank, function (v, k) {
                     Data.append(k, v);
@@ -172,6 +178,7 @@
                         type: "success"
                     });
                     $scope.bank = {};
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                     $scope.getBanksInfo();
                 });
             }

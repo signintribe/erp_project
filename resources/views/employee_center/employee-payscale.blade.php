@@ -84,7 +84,14 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="valid_till">Valid till</label>
-                    <input type="text" ng-model="payscale.valid_till" id="valid_till" datepicker class="form-control" placeholder="Valid till">
+                    <div class="form-group">
+                        <div class="input-group date" id="valid_till" data-target-input="nearest">
+                            <input type="text" placeholder="Worked To" ng-model="payscale.valid_till" class="form-control datetimepicker-input" data-target="#valid_till"/>
+                            <div class="input-group-append" data-target="#valid_till" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Status</label>
@@ -94,8 +101,18 @@
                 </div>
             </div><br>
             <div class="row">
-                <div class="col">
-                    <button class="btn btn-sm btn-success" ng-click="save_payscale()">Save</button>
+                <div class="col-lg-12 col-md-12 col-sm-12" align="right">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="{{url('hr/experience-detail')}}" data-toggle="tooltip" data-placement="left" title="Previous" class="btn btn-sm btn-primary">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                        <button type="button" class="btn btn-sm btn-success" ng-click="save_payscale()" data-toggle="tooltip" data-placement="bottom" title="Save">
+                            <i class="fa fa-save" id="loader"></i> Save
+                        </button>
+                        <a href="{{url('hr/pay-emoluments')}}" type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Next">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -142,45 +159,10 @@
         $interpolateProvider.startSymbol('<%');
         $interpolateProvider.endSymbol('%>');
     });
-
-    Payscale.directive('datepicker', function () {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            compile: function () {
-                return {
-                    pre: function (scope, element, attrs, ngModelCtrl) {
-                        var format, dateObj;
-                        format = (!attrs.dpFormat) ? 'yyyy-mm-dd' : attrs.dpFormat;
-                        if (!attrs.initDate && !attrs.dpFormat) {
-                            // If there is no initDate attribute than we will get todays date as the default
-                            dateObj = new Date();
-//                            scope[attrs.ngModel] = dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
-                        } else if (!attrs.initDate) {
-                            // Otherwise set as the init date
-                            scope[attrs.ngModel] = attrs.initDate;
-                        } else {
-                            // I could put some complex logic that changes the order of the date string I
-                            // create from the dateObj based on the format, but I'll leave that for now
-                            // Or I could switch case and limit the types of formats...
-                        }
-                        // Initialize the date-picker
-                        $(element).datepicker({
-                            format: format
-                        }).on('changeDate', function (ev) {
-                            // To me this looks cleaner than adding $apply(); after everything.
-                            scope.$apply(function () {
-                                ngModelCtrl.$setViewValue(ev.format(format));
-                            });
-                        });
-                    }
-                };
-            }
-        };
-    });
-
-
     Payscale.controller('PayscaleController', function ($scope, $http) {
+        $('#valid_till').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
         $("#employee").addClass('menu-open');
         $("#employee a[href='#']").addClass('active');
         $("#employee-payscale").addClass('active');
@@ -250,6 +232,8 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $scope.payscale.valid_till = $("#valid_till input").val();
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.payscale, function (v, k) {
                     Data.append(k, v);
@@ -261,7 +245,9 @@
                         text: res.data,
                         type: "success"
                     });
+                    $scope.payscale = {};
                     $scope.get_payscale();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

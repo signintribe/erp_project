@@ -65,7 +65,11 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="leave_deduction">Leave Deduction</label>
-                    <input type="text" class="form-control" id="leave_deduction" ng-model="yl.leave_deduction" datepicker placeholder="Leave Deduction">
+                    <select class="form-control" id="leave_deduction" ng-model="yl.leave_deduction">
+                        <option value="">Select Leave Deduction</option>
+                        <option value="Deductible from pay">Deductible from pay</option>
+                        <option value="Non-deductible form pay">Non-deductible form pay</option>
+                    </select>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="leave_rate">Leave Rate</label>
@@ -75,7 +79,11 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="lapsed">Does Leave Lapsed/C.F</label>
-                    <input type="text" class="form-control" id="lapsed" ng-model="yl.lapsed" placeholder="Does Leave Lapsed/C.F">
+                    <select class="form-control" id="lapsed" ng-model="yl.lapsed">
+                        <option value="">Doed Leave Lapsed/C.F</option>
+                        <option value="Lapsed">Lapsed</option>
+                        <option value="Carry Forward">Carry Forward</option>
+                    </select>
                 </div>
             </div><br>
             <div class="row">

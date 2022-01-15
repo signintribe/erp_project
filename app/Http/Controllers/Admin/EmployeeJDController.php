@@ -30,7 +30,7 @@ class EmployeeJDController extends Controller
 
     public function employee_jd()
     {
-        return view('admin.employee-jd');
+        return view('employee_center.employee-jd');
     }
     /**
      * Show the form for creating a new resource.
@@ -58,12 +58,12 @@ class EmployeeJDController extends Controller
             $file->move(public_path('/employeeJD'), $imgname);
         }
         if($request->id){
-            $data = $request->except(['id','jdDoc','group_name' ,'company_id', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);        
+            $data = $request->except(['id', 'department_id', 'jdDoc','group_name' ,'company_id', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);        
             $data['attachment'] = $imgname == "" ? $request->attachment : $imgname;
             erp_employee_jd::where('id', $request->id)->update($data);
             return "Employee Job Description Update Successfully";
         }else{
-            $data = $request->except(['company_id', 'office_id']); 
+            $data = $request->except(['company_id', 'office_id', 'department_id']); 
             $data['attachment'] = $imgname; 
             erp_employee_jd::create($data);
             return "Employee Job Description Save Successfully";

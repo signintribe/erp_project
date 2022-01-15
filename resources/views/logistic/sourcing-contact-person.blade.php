@@ -48,15 +48,19 @@
                     <input type="text" class="form-control" id="whatsapp" ng-model="contactperson.whatsapp" placeholder="Whatsapp"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="wechat">WeChat</label>
+                    <input type="text" class="form-control" id="wechat" ng-model="contactperson.wechat" placeholder="WeChat"/>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="phone_number">Phone Number</label>
                     <input type="text" class="form-control" id="phone_number" ng-model="contactperson.phone_number" placeholder="Phone Number"/>
                 </div>
+            </div><br/>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="mobile_number">Mobile Number</label>
                     <input type="text" class="form-control" id="mobile_number" ng-model="contactperson.mobile_number" placeholder="Mobile Number"/>
                 </div>
-            </div><br/>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="fax_number">Fax Number</label>
                     <input type="text" class="form-control" id="fax_number" ng-model="contactperson.fax_number" placeholder="Fax Number"/>
@@ -69,12 +73,12 @@
                     <label for="pinterest">Pinterest</label>
                     <input type="text" class="form-control" id="pinterest" ng-model="contactperson.pinterest" placeholder="Pinterest"/>
                 </div>
+            </div><br/>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="instagram">Instagram</label>
                     <input type="text" class="form-control" id="instagram" ng-model="contactperson.instagram" placeholder="Instagram"/>
                 </div>
-            </div><br/>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="linkedin">Linkedin</label>
                     <input type="text" class="form-control" id="linkedin" ng-model="contactperson.linkedin" placeholder="Linkedin"/>
@@ -87,6 +91,8 @@
                     <label for="facebook">Facebook</label>
                     <input type="text" class="form-control" id="facebook" ng-model="contactperson.facebook" placeholder="Facebook"/>
                 </div>
+            </div><br/>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="email">Email</label>
                     <input type="text" class="form-control" id="email" ng-model="contactperson.email" placeholder="Email"/>
@@ -129,7 +135,7 @@
             </div><br/>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_contactPerson()">Save</button>
+                    <button type="button" class="btn btn-sm btn-success float-right" ng-click="save_contactPerson()"> <i class="fa fa-save" id="loader"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -188,7 +194,7 @@
         $scope.url = $("#appurl").val();
 
         $scope.getLogisticInfo = function(){
-            $http.get('get-logistics').then(function (response) {
+            $http.get('get-logistics/'+$("#company_id").val()).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.Users = response.data;
                 }
@@ -204,6 +210,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.contactperson, function (v, k) {
                     Data.append(k, v);
@@ -216,6 +223,7 @@
                     });
                     $scope.contactperson = {};
                     $scope.getContactPersons();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };
@@ -264,7 +272,9 @@
                 $scope.getContact($scope.contactperson.contact_id);
                 $scope.getSocialMedia($scope.contactperson.social_id);
                 $scope.getAddress($scope.contactperson.address_id);
-                $scope.catimg = $scope.url +"public/contactperson_picture/" + $scope.contactperson.picture;
+                if($scope.contactperson.picture){
+                    $scope.catimg = $scope.url +"public/contactperson_picture/" + $scope.contactperson.picture;
+                }
             });
         };
 

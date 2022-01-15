@@ -137,6 +137,7 @@
                         text: res.data,
                         type: "success"
                     });
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                     $scope.organization = {};
                    $scope.getVendorInformation();
                 });

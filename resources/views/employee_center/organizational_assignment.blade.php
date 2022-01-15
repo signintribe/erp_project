@@ -54,11 +54,25 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="appointment_date">Date of Appointment</label>
-                    <input type="text" class="form-control" datepicker id="appointment_date" ng-model="orgassignment.appointment_date" placeholder="Date of Appointment"/>
+                    <div class="form-group">
+                        <div class="input-group date" id="appointment_date" data-target-input="nearest">
+                            <input type="text" placeholder="Date of Appointment" ng-model="orgassignment.appointment_date" class="form-control datetimepicker-input" data-target="#appointment_date"/>
+                            <div class="input-group-append" data-target="#appointment_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="promotion_date">Date of Promotion</label>
-                    <input type="text" class="form-control" datepicker id="promotion_date" ng-model="orgassignment.promotion_date" placeholder="Date of Promotion"/>
+                    <div class="form-group">
+                        <div class="input-group date" id="promotion_date" data-target-input="nearest">
+                            <input type="text" placeholder="Date of Promotion" ng-model="orgassignment.promotion_date" class="form-control datetimepicker-input" data-target="#promotion_date"/>
+                            <div class="input-group-append" data-target="#promotion_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="designation">Designation</label>
@@ -84,13 +98,13 @@
                 <div class="col-lg-12 col-md-12 col-sm-12" align="right">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <a href="{{url('hr/experience-detail')}}" data-toggle="tooltip" data-placement="left" title="Previous" class="btn btn-sm btn-primary">
-                            <i class="mdi mdi-arrow-left"></i>
+                            <i class="fa fa-arrow-left"></i>
                         </a>
                         <button type="button" class="btn btn-sm btn-success" ng-click="save_assignment()" data-toggle="tooltip" data-placement="bottom" title="Save">
-                            <i class="fa fa-save"></i>
+                            <i class="fa fa-save" id="loader"></i> Save
                         </button>
                         <a href="{{url('hr/pay-emoluments')}}" type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Next">
-                            <i class="mdi mdi-arrow-right"></i>
+                            <i class="fa fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -112,21 +126,19 @@
                         <th>Supervisor</th>
                         <th>Appointment</th>
                         <th>Promotion</th>
-                        <th>Working Since</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody ng-init="getAssignments()">
                     <tr ng-repeat="a in Assignments">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="a.employee_name"></td>
-                        <td ng-bind="a.department_id"></td>
-                        <td ng-bind="a.supervisor_name"></td>
+                        <td ng-bind="a.first_name + ' ' + a.last_name"></td>
+                        <td ng-bind="a.department_name"></td>
+                        <td ng-bind="a.sup_name"></td>
                         <td ng-bind="a.appointment_date"></td>
                         <td ng-bind="a.promotion_date"></td>
-                        <td ng-bind="a.working_since"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="editAssignment(a.id)">Edit</button>
+                            <button class="btn btn-xs btn-info" ng-click="getDepartments(a.office_id);editAssignment(a.id);">Edit</button>
                             <button class="btn btn-xs btn-danger" ng-click="deleteAssignment(a.id)">Delete</button>
                         </td>
                     </tr>
@@ -140,44 +152,14 @@
 <script>
     var Assignment = angular.module('AssignmentApp', []);
 
-    Assignment.directive('datepicker', function () {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            compile: function () {
-                return {
-                    pre: function (scope, element, attrs, ngModelCtrl) {
-                        var format, dateObj;
-                        format = (!attrs.dpFormat) ? 'yyyy-mm-dd' : attrs.dpFormat;
-                        if (!attrs.initDate && !attrs.dpFormat) {
-                            // If there is no initDate attribute than we will get todays date as the default
-                            dateObj = new Date();
-//                            scope[attrs.ngModel] = dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
-                        } else if (!attrs.initDate) {
-                            // Otherwise set as the init date
-                            scope[attrs.ngModel] = attrs.initDate;
-                        } else {
-                            // I could put some complex logic that changes the order of the date string I
-                            // create from the dateObj based on the format, but I'll leave that for now
-                            // Or I could switch case and limit the types of formats...
-                        }
-                        // Initialize the date-picker
-                        $(element).datepicker({
-                            format: format
-                        }).on('changeDate', function (ev) {
-                            // To me this looks cleaner than adding $apply(); after everything.
-                            scope.$apply(function () {
-                                ngModelCtrl.$setViewValue(ev.format(format));
-                            });
-                        });
-                    }
-                };
-            }
-        };
-    });
-
     Assignment.controller('AssignmentController', function ($scope, $http) {
         $("#employee").addClass('menu-open');
+        $('#appointment_date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+        $('#promotion_date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
         $("#employee a[href='#']").addClass('active');
         $("#organizational-assignment").addClass('active');
         $scope.app_url = $("#appurl").val();
@@ -217,7 +199,11 @@
 
         $scope.editAssignment = function (id) {
             $http.get('maintain-organization-assignment/'+id+'/edit').then(function (response) {
-                $scope.orgassignment = response.data;
+                $scope.orgassignment = response.data[0];
+                $scope.orgassignment.supervisor_name = parseInt($scope.orgassignment.supervisor_name);
+                $scope.orgassignment.department_id = parseInt($scope.orgassignment.department_id);
+                $scope.orgassignment.employee_id = parseInt($scope.orgassignment.employee_id);
+                $scope.orgassignment.office_id = parseInt($scope.orgassignment.office_id);
             });
         };
         
@@ -246,6 +232,9 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $scope.orgassignment.appointment_date = $("#appointment_date input").val();
+                $scope.orgassignment.promotion_date = $("#promotion_date input").val();
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 console.log($scope.orgassignment);
                 var Data = new FormData();
                 angular.forEach($scope.orgassignment, function (v, k) {
@@ -259,6 +248,7 @@
                     });
                     $scope.orgassignment = {};
                    $scope.getAssignments();
+                   $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

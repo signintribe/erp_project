@@ -45,7 +45,7 @@ class EmployeeEducationController extends Controller
             return 'Employee Education Update';
         }else{
             $data = $request->all();
-            $data['user_id']= Auth::user()->id;
+            //$data['user_id']= Auth::user()->id;
             erp_employee_education::create($data);
         }
         return "Employee Education Save";

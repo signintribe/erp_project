@@ -37,8 +37,18 @@
                 </div>
             </div><br/>
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" ng-click="save_jobDescription()" class="btn btn-sm btn-success float-right">Save</button>
+                <div class="col-lg-12 col-md-12 col-sm-12" align="right">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="{{url('hr/pay-emoluments')}}" data-toggle="tooltip" data-placement="left" title="Previous" class="btn btn-sm btn-primary">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                        <button type="button" class="btn btn-sm btn-success" ng-click="save_jobDescription()" data-toggle="tooltip" data-placement="bottom" title="Save">
+                            <i class="fa fa-save" id="loader"></i> Save
+                        </button>
+                        <a href="{{url('hr/pay-allowance-deduction')}}" type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Next">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -137,6 +147,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.jobdescription, function (v, k) {
                     Data.append(k, v);
@@ -149,6 +160,7 @@
                     });
                     $scope.jobdescription = {};
                     $scope.getJobDescriptions();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

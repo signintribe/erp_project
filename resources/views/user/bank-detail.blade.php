@@ -188,7 +188,7 @@
                     </div>
                 </div>
             </div><br/>
-            <button type="submit" id="restrict" class="btn btn-success btn-sm float-right" ng-click="save_comBankDetail();">Submit</button>
+            <button type="submit" id="restrict" class="btn btn-success btn-sm float-right" ng-click="save_comBankDetail();"> <i class="fa fa-save" id="loader"></i> Submit</button>
             <!-- <button type="submit" id="updatebtn" class="btn btn-success btn-sm float-right" ng-click="update_companyinfo();">Submit</button> -->
         </div>
     </div><br/>
@@ -345,6 +345,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.company, function (v, k) {
                     Data.append(k, v);
@@ -357,6 +358,7 @@
                     });
                     $scope.company = {};
                     $scope.get_comBankDetail();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

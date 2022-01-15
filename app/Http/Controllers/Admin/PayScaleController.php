@@ -30,7 +30,7 @@ class PayScaleController extends Controller
 
     public function employee_payscale()
     {
-        return view('admin.employee-payscale');
+        return view('employee_center.employee-payscale');
     }
 
     /**

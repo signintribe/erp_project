@@ -43,6 +43,7 @@
         </div>
     </div>
 </div>
+<input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var viewLogistics = angular.module('viewLogisticsApp', [], function ($interpolateProvider) {
@@ -55,7 +56,7 @@
         $("#view-logistics").addClass('active');
         $scope.getLogisticInfo = function(){
             $scope.logisticsInfo = {};
-            $http.get('get-logistics').then(function (response) {
+            $http.get('get-logistics/' + $("#company_id").val()).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.logisticsInfo = response.data;
                 }
@@ -74,8 +75,13 @@
             },
             function(){
                 $http.delete('delete-logistic/' + id).then(function (response) {
-                    $scope.getLogisticInfo();
-                    swal("Deleted!", response.data, "success");
+                    if(response.data.status == true){
+                        $scope.getLogisticInfo();
+                        swal("Deleted!", response.data.message, "success");
+                    }else{
+                        swal("Not Deleted!", response.data.message, "error");
+                    }
+
                 });
             });
         };

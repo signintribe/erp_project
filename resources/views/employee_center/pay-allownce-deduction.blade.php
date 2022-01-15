@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="department"> Select Department</label>
-                    <select ng-model="pld.department_id" id="department" ng-change="getGroups(pld.department_id); get_calendars(pld.department_id); get_shifts(pld.department_id)"  ng-change="get_shifts(pld.department_id); get_calendars(pld.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
+                    <select ng-model="pld.department_id" id="department" ng-change="getGroups(pld.department_id); get_shifts(pld.department_id); get_calendars(pld.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
                 </div>
@@ -94,8 +94,18 @@
                 </div>
             </div><br> -->
             <div class="row">
-                <div class="col">
-                    <button class="btn btn-sm btn-success" ng-click="save_leave()">Save</button>
+                <div class="col-lg-12 col-md-12 col-sm-12" align="right">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="{{url('hr/employee-jd')}}" data-toggle="tooltip" data-placement="left" title="Previous" class="btn btn-sm btn-primary">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                        <button type="button" class="btn btn-sm btn-success" ng-click="save_leave()" data-toggle="tooltip" data-placement="bottom" title="Save">
+                            <i class="fa fa-save" id="loader"></i> Save
+                        </button>
+                        <a href="{{url('hr/organizational-assignment')}}" type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Next">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -112,6 +122,7 @@
                         <th>Company Name</th>
                         <th>Office Name</th>
                         <th>Department Name</th>
+                        <th>Group Name</th>
                         <th>Allowance</th>
                         <th>Action</th>
                     </tr>
@@ -122,9 +133,10 @@
                         <td ng-bind="p.company_name"></td>
                         <td ng-bind="p.office_name"></td>
                         <td ng-bind="p.department_name"></td>
+                        <td ng-bind="p.group_name"></td>
                         <td ng-bind="p.allowance"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(p.company_id); getDepartments(p.office_id); getCalendars(p.department_id); getShifts(p.department_id); editpayallowance(p.id); getGroups(p.department_id);">Edit</button>
+                            <button class="btn btn-xs btn-info" ng-click="getoffice(p.company_id); getDepartments(p.office_id); get_calendars(p.department_id); get_shifts(p.department_id); editpayallowance(p.id); getGroups(p.department_id);">Edit</button>
                             <button class="btn btn-xs btn-danger" ng-click="deletePayAllowance(p.id)">Delete</button>
                         </td>
                     </tr>
@@ -226,22 +238,6 @@
             });
         };
 
-        $scope.getCalendars = function(dept_id){
-            $http.get('edit-calendar/' + dept_id).then(function (response) {
-                if(response.data.length > 0){
-                   angular.extend($scope.pld, response.data);
-                }
-            });
-        };
-
-        $scope.getShifts = function(dept_id){
-            $http.get('edit-shift/' + dept_id).then(function (response) {
-                if(response.data.length > 0){
-                    angular.extend($scope.pld, response.data);
-                }
-            });
-        };
-
         $scope.editpayallowance = function(id){
             $http.get($scope.app_url + 'company/maintain-allowance-deducation/'+ id + '/edit').then(function (response) {
                 $scope.pld = response.data[0];
@@ -250,6 +246,7 @@
                 $scope.pld.department_id = parseInt($scope.pld.department_id);
                 $scope.pld.calendar_id = parseInt($scope.pld.calendar_id);
                 $scope.pld.shift_id = parseInt($scope.pld.shift_id);
+                $scope.pld.group_id = parseInt($scope.pld.group_id);
                 $("#ShowPrint").show();
             });
         }
@@ -262,6 +259,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.pld, function (v, k) {
                     Data.append(k, v);
@@ -274,6 +272,7 @@
                         type: "success"
                     });
                     $scope.pld = {};
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

@@ -73,7 +73,7 @@
                     <h3 class="card-title">Select Project</h3>
                 </div>
                 <div class="card-body" style="height:400px; overflow-y:scroll">
-                    <i class="text-danger" ng-show="!tasks.project_id && showError"><small>Please select Project</small></i><br/>
+                    <i class="text-danger" ng-show="!tasks.project_id && showError"><small>Please select Project</small></i>
                     <div class="form-group clearfix" ng-repeat="proj in allProjects">
                         <div class="icheck-primary d-inline">
                             <input type="radio" id="radioPrimary<% proj.id %>" name="project" ng-click="getActivities(proj.id);" ng-model="task.project_id" ng-value="proj.id">
@@ -124,6 +124,7 @@
             <div class="card">
                 <div class="card-header">Select Tasks</div>
                 <div class="card-body" style="height:400px; overflow-y:scroll">
+                    <i class="text-danger" ng-show="!tasks.task_id && showError"><small>Please select Task</small></i>
                     <div class="form-group clearfix" ng-if="tasks" ng-repeat="tsk in tasks">
                         <div class="icheck-primary d-inline">
                             <input type="radio" id="tasks<% tsk.id %>" name="task" ng-model="task.task_id" ng-value="tsk.id">
@@ -282,7 +283,7 @@
         };
 
         $scope.assignTask = function(){
-            if(!$scope.task.office_id || !$scope.task.department_id || !$scope.task.department_id || !$scope.task.assign_employee_id || !$scope.task.group_id || !$scope.task.project_id){
+            if(!$scope.task.office_id || !$scope.task.department_id || !$scope.task.department_id || !$scope.task.assign_employee_id || !$scope.task.group_id || !$scope.task.project_id || !$scope.task.task_id){
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;

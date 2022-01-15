@@ -97,8 +97,12 @@ class ActorBankController extends Controller
      */
     public function destroy($id)
     {
-        erp_actor_bank::where('id', $id)->delete();
-        return "Bank information delete permanently";
+        try{
+            erp_actor_bank::where('id', $id)->delete();
+            return response()->json(['status' => true, 'message' => 'Bank Detail Delete Permanently']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 68)]);
+        }
     }
 
     public function getBankInfo($actor)

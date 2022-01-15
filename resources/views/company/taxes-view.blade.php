@@ -74,7 +74,7 @@
                     </div> <br/>
                     <div class="row">
                         <div class="col">
-                            <button class="btn btn-md btn-success" ng-click="saveTax()">Save</button>
+                            <button class="btn btn-sm btn-success" ng-click="saveTax()"> <i class="fa fa-save" id="loader"></i> Save</button>
                         </div>
                     </div>
                 </div>
@@ -172,6 +172,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pules');
                 var Data = new FormData();
                 angular.forEach($scope.tax, function (v, k) {
                     Data.append(k, v);
@@ -183,6 +184,7 @@
                         type: "success"
                     });
                     $scope.restScope();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pules').addClass('fa-save');
                 });
             }
         };
@@ -216,6 +218,8 @@
         $scope.editTaxes = function (id) {
             $http.get('manage-tax/' + id + '/edit').then(function (response) {
                 $scope.tax = response.data;
+                $scope.tax.liability_head = parseInt($scope.tax.liability_head);
+                $scope.tax.expanse_head = parseInt($scope.tax.expanse_head);
             });
         };
 

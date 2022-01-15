@@ -95,8 +95,10 @@
         </div>
     </div><br>
     <div class="card">
-        <div class="card-body">
+        <div class="card-header">
             <h3 class="card-title">Contact Information</h3>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
@@ -195,13 +197,13 @@
                 <div class="col-lg-12 col-md-12 col-sm-12" align="right">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <a href="{{url('hr/employees-addresses')}}" data-toggle="tooltip" data-placement="left" title="Previous" class="btn btn-sm btn-primary">
-                            <i class="mdi mdi-arrow-left"></i>
+                            <i class="fa fa-arrow-left"></i>
                         </a>
                         <button type="button" class="btn btn-sm btn-success" ng-click="save_spouse()" data-toggle="tooltip" data-placement="bottom" title="Save">
-                            <i class="fa fa-save"></i>
+                            <i class="fa fa-save" id="loader"></i> Save
                         </button>
                         <a href="{{url('hr/education-detail')}}" type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Next">
-                            <i class="mdi mdi-arrow-right"></i>
+                            <i class="fa fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -389,6 +391,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.user, function (v, k) {
                     Data.append(k, v);
@@ -401,6 +404,7 @@
                     });
                     $scope.user = {};
                     $scope.getSpouseDetail();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

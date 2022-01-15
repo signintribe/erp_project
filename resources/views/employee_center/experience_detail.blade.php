@@ -36,11 +36,25 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="worked_from">Worked from</label>
-                    <input type="text" class="form-control" id="worked_from" datepicker ng-model="experience.worked_from" placeholder="Worked from"/>
+                    <div class="form-group">
+                        <div class="input-group date" id="worked_from" data-target-input="nearest">
+                            <input type="text" placeholder="Start Date" ng-model="experience.worked_from" class="form-control datetimepicker-input" data-target="#worked_from"/>
+                            <div class="input-group-append" data-target="#worked_from" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="worked_to">Worked to</label>
-                    <input type="text" class="form-control" id="worked_to" datepicker ng-model="experience.worked_to" placeholder="Worked to"/>
+                    <div class="form-group">
+                        <div class="input-group date" id="worked_to" data-target-input="nearest">
+                            <input type="text" placeholder="Worked To" ng-model="experience.worked_to" class="form-control datetimepicker-input" data-target="#worked_to"/>
+                            <div class="input-group-append" data-target="#worked_to" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="total_period">Total Period</label>
@@ -161,13 +175,13 @@
                 <div class="col-lg-12 col-md-12 col-sm-12" align="right">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <a href="{{url('hr/certification-detail')}}" data-toggle="tooltip" data-placement="left" title="Previous" class="btn btn-sm btn-primary">
-                            <i class="mdi mdi-arrow-left"></i>
+                            <i class="fa fa-arrow-left"></i>
                         </a>
                         <button type="button" class="btn btn-sm btn-success" ng-click="save_experience()" data-toggle="tooltip" data-placement="bottom" title="Save">
-                            <i class="fa fa-save"></i>
+                            <i class="fa fa-save" id="loader"></i> Save
                         </button>
                         <a href="{{url('hr/organizational-assignment')}}" type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Next">
-                            <i class="mdi mdi-arrow-right"></i>
+                            <i class="fa fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -215,36 +229,14 @@
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var Experience = angular.module('ExperienceApp', []);
-
-    Experience.directive('datepicker', function () {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            compile: function () {
-                return {
-                    pre: function (scope, element, attrs, ngModelCtrl) {
-                        var format, dateObj;
-                        format = (!attrs.dpFormat) ? 'yyyy-mm-dd' : attrs.dpFormat;
-                        if (!attrs.initDate && !attrs.dpFormat) {
-                            dateObj = new Date();
-                        } else if (!attrs.initDate) {
-                            scope[attrs.ngModel] = attrs.initDate;
-                        } else {
-                        }
-                        $(element).datepicker({
-                            format: format
-                        }).on('changeDate', function (ev) {
-                            scope.$apply(function () {
-                                ngModelCtrl.$setViewValue(ev.format(format));
-                            });
-                        });
-                    }
-                };
-            }
-        };
-    });
-
     Experience.controller('ExperienceController', function ($scope, $http) {
+        $('#worked_from').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+
+        $('#worked_to').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
         $("#employee").addClass('menu-open');
         $("#employee a[href='#']").addClass('active');
         $("#employee-experience").addClass('active');
@@ -288,6 +280,7 @@
         $scope.editExperience = function (id) {
             $http.get('maintain-employee-experience/' + id + '/edit').then(function (response) {
                 $scope.experience = response.data;
+                $scope.experience.employee_id = parseInt($scope.experience.employee_id);
                 $scope.getAddress($scope.experience.address_id);
             });
         };
@@ -316,6 +309,9 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $scope.experience.worked_from = $('#worked_from input').val();
+                $scope.experience.worked_to = $('#worked_to input').val();
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.experience, function (v, k) {
                     Data.append(k, v);
@@ -328,6 +324,7 @@
                     });
                     $scope.experience = {};
                     $scope.getExperiences();
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

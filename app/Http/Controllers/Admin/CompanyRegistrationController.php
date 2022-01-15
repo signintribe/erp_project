@@ -131,7 +131,11 @@ class CompanyRegistrationController extends Controller
      */
     public function destroy($id)
     {
-        erp_actor_authority::where('id', $id)->delete();
-        return "Your record delete permanently";
+        try{
+            erp_actor_authority::where('id', $id)->delete();
+            return response()->json(['status' => true, 'message' => 'Your record delete permanently']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 68)]);
+        }
     }
 }

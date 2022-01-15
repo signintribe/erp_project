@@ -167,10 +167,22 @@ class FinanceController extends Controller {
     function AllchartofAccount() {
 //        return DB::select("call getAccounts()");
         $Accounts = DB::select('call getGLAccount()');
+        $cat = DB::select('SELECT * FROM tblaccountcategories WHERE id IN (SELECT CategoryChildId FROM tblaccountparentchildassociations WHERE CategoryParentId IN(2,3))');
+        $arr = array();
         $NewAccounts = array();
+        foreach ($cat as $key => $value) {
+            $child = DB::select('SELECT id FROM tblaccountcategories WHERE id IN (SELECT CategoryChildId FROM tblaccountparentchildassociations WHERE CategoryParentId = '.$value->id.')');
+            foreach ($child as $key => $value) {
+                $arr[] = $value->id;
+            }
+        }
+        
         foreach ($Accounts as $key => $value) {
-            $value->AccountId = (int)$value->AccountId;
-            $NewAccounts[] = $value;
+            if(!in_array($value->id, $arr)){
+                $value->id = (int)$value->id;
+                $value->AccountId = (int)$value->AccountId;
+                $NewAccounts[] = $value;
+            }
         }
         return $NewAccounts;
     }

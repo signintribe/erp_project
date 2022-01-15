@@ -28,9 +28,9 @@ class LogisticsController extends Controller {
         return $this->middleware('auth');
     }
 
-    public function getLogistics()
+    public function getLogistics($company_id)
     {
-        return DB::select('SELECT logistic.*, address.city, address.country, contact.mobile_number FROM (SELECT * FROM erp_logistics) AS logistic JOIN (SELECT id, city, country FROM tbladdresses) AS address on address.id = logistic.address_id JOIN (SELECT id, mobile_number FROM tblcontacts) AS contact on contact.id = logistic.contact_id');
+        return DB::select('SELECT logistic.*, address.city, address.country, contact.mobile_number FROM (SELECT * FROM erp_logistics WHERE company_id = '.$company_id.') AS logistic JOIN (SELECT id, city, country FROM tbladdresses) AS address on address.id = logistic.address_id JOIN (SELECT id, mobile_number FROM tblcontacts) AS contact on contact.id = logistic.contact_id');
     }
 
     public function index(){
@@ -54,10 +54,10 @@ class LogisticsController extends Controller {
             }
         }
         if($request->id){
-            $logistic = $request->except('id', 'logo_file', 'address_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
-            $address = $request->except('id', 'logistic_type','logo_file', 'address_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','user_id','organization_name','ntn_no','incroporation_no','organization_logo','strn','import_license','export_license','chamber_no','currency_dealing','created_at','updated_at');
-            $contact = $request->except('id', 'logistic_type','logo_file', 'website','twitter','instagram','facebook','linkedin','pinterest','address_id','contact_id','social_id','address_line_1','address_line_2', 'street','sector','city','state','country','postal_code','zip_code','user_id','organization_name','ntn_no','incroporation_no','organization_logo','strn','import_license','export_license','chamber_no','currency_dealing','created_at','updated_at');
-            $social = $request->except('id', 'logistic_type','address_line_1', 'logo_file', 'address_line_2','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email','user_id','address_id','contact_id','social_id','organization_name','ntn_no','incroporation_no','organization_logo','strn','import_license','export_license','chamber_no','currency_dealing','created_at','updated_at');
+            $logistic = $request->except('id', 'company_id', 'logo_file', 'address_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','street','sector','city','state','country','postal_code','zip_code','created_at','updated_at');
+            $address = $request->except('id',  'company_id', 'logistic_type','logo_file', 'address_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','user_id','organization_name','organization_logo','currency_dealing','created_at','updated_at');
+            $contact = $request->except('id',  'company_id', 'logistic_type','logo_file', 'website','twitter','instagram','facebook','linkedin','pinterest','address_id','contact_id','social_id','address_line_1','address_line_2', 'street','sector','city','state','country','postal_code','zip_code','user_id','organization_name','organization_logo','currency_dealing','created_at','updated_at');
+            $social = $request->except('id',  'company_id', 'logistic_type','address_line_1', 'logo_file', 'address_line_2','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email','user_id','address_id','contact_id','social_id','organization_name','organization_logo','currency_dealing','created_at','updated_at');
             if($imageName){
                 $logistic['organization_logo'] = $imageName;
             }            
@@ -68,9 +68,9 @@ class LogisticsController extends Controller {
             return "Logistic Info Update successfully";
         }else{
             $logistic = $request->except('website','twitter','logo_file','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2','street','sector','city','state','country','postal_code','zip_code');
-            $address = $request->except('address_id','logistic_type','contact_id','logo_file','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','user_id','organization_name','ntn_no','incroporation_no','organization_logo','strn','import_license','export_license','chamber_no','currency_dealing');
-            $contact = $request->except('address_id','logistic_type','website','twitter','logo_file','instagram','facebook','linkedin','pinterest','contact_id','social_id','address_line_1','address_line_2','street','sector','city','state','country','postal_code','zip_code','user_id','organization_name','ntn_no','incroporation_no','organization_logo','strn','import_license','export_license','chamber_no','currency_dealing');
-            $social = $request->except('address_line_1','logistic_type','address_line_2','logo_file','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email','user_id','address_id','contact_id','social_id','organization_name','ntn_no','incroporation_no','organization_logo','strn','import_license','export_license','chamber_no','currency_dealing');
+            $address = $request->except('company_id', 'address_id','logistic_type','contact_id','logo_file','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','user_id','organization_name','organization_logo','currency_dealing');
+            $contact = $request->except('company_id', 'address_id','logistic_type','website','twitter','logo_file','instagram','facebook','linkedin','pinterest','contact_id','social_id','address_line_1','address_line_2','street','sector','city','state','country','postal_code','zip_code','user_id','organization_name','organization_logo','currency_dealing');
+            $social = $request->except('company_id', 'address_line_1','logistic_type','address_line_2','logo_file','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email','user_id','address_id','contact_id','social_id','organization_name','organization_logo','currency_dealing');
             $address = tbladdress::create($address);
             $contact = tblcontact::create($contact);
             $social = tblsocialmedias::create($social);
@@ -98,7 +98,7 @@ class LogisticsController extends Controller {
     }
 
     public function editLogistic($id){
-        return DB::select('SELECT id, address_id, logistic_type, contact_id, social_id, organization_name, ntn_no, incroporation_no, organization_logo, strn, import_license, export_license, chamber_no, currency_dealing  FROM erp_logistics  where id = '.$id.' ');
+        return DB::select('SELECT id, address_id, logistic_type, contact_id, social_id, organization_name, organization_logo, currency_dealing  FROM erp_logistics  where id = '.$id.' ');
     }
 
     public function getAddress($address_id){
@@ -117,12 +117,16 @@ class LogisticsController extends Controller {
 
     public function destroy($id)
     {
-        $det = erp_logistic::where('id', $id)->first();
-        erp_logistic::where('id', $id)->delete();
-        tbladdress::where('id', $det->address_id)->delete();
-        tblcontact::where('id', $det->contact_id)->delete();
-        tblsocialmedias::where('id', $det->social_id)->delete();
-        return 'Logistic Info Delete Permanently';
+        try{
+            $det = erp_logistic::where('id', $id)->first();
+            erp_logistic::where('id', $id)->delete();
+            tbladdress::where('id', $det->address_id)->delete();
+            tblcontact::where('id', $det->contact_id)->delete();
+            tblsocialmedias::where('id', $det->social_id)->delete();
+            return response()->json(['status' => true, 'message' => 'Logistic Delete Permanently']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 68)]);
+        }
     }
     /* public function index() {
         return view('logistic.freight-forward-det');

@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card" id="openingBalance">
+            <!-- <div class="card" id="openingBalance">
                 <div class="card-header">
                     <h3 class="card-title">Opening Balance</h3>
                 </div>
@@ -65,8 +65,7 @@
                         </div>
                     </div> 
                 </div>
-                <!-- /.box-body -->
-            </div>
+            </div> -->
             <!-- /.box -->
         </div>
         <div class="col-lg-7 col-md-7 col-sm-7">
@@ -100,7 +99,7 @@
                        <div class="col">
                            <p ng-bind="selectedCate.AccountDescription"></p>
                            <div id="Save-button">
-                                <button class="btn btn-success btn-md pull-right" ng-click="save_category()">
+                                <button class="btn btn-success btn-sm pull-right" ng-click="save_category()">
                                     <i class="fa fa-save" id="savebtn"></i> <span ng-bind="SaveLabel"></span>
                                 </button> 
                             </div>

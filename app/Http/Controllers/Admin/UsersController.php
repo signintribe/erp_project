@@ -128,21 +128,22 @@ class UsersController extends Controller {
     } */
 
     public function SaveUsers(Request $request){
-        $upusers = User::where('id', $request->id)->first();
+        //return $request->all();
+        $upusers = User::where('id', $request->user_id)->first();
         if(empty($upusers)){
             $CheckUser = User::where('name', $request->name)->orWhere('email', $request->email)->first();
             if(empty($CheckUser)){
                 $user = User::create([
                     'name' => $request->first_name.' '.$request->middle_name.' ',$request->last_name,
                     'email' => $request->email,
-                    'is_admin' => $request->user_type,
+                    'is_admin' => $request->is_admin,
                     'is_verify' => 1,
                     'password' => bcrypt($request->password),
                 ]);
                 $company = tblcompanydetail::where('user_id', Auth::user()->id)->first();
-                $info = $request->except('phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest');
-                $contact = $request->except('website','twitter','instagram','facebook','linkedin','pinterest','company_id','employee_id','address_id', 'user_type','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
-                $social = $request->except('phone_number','mobile_number','fax_number','whatsapp','email','company_id','employee_id','address_id', 'user_type','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
+                $info = $request->except('is_admin', 'phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest');
+                $contact = $request->except('website','twitter','instagram','facebook','linkedin','pinterest','company_id','employee_id','address_id', 'is_admin','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
+                $social = $request->except('phone_number','mobile_number','fax_number','whatsapp','email','company_id','employee_id','address_id', 'is_admin','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
                 $contacts = tblcontact::create($contact);                
                 $socials = tblsocialmedias::create($social);
                 $info['company_id'] = $company->id;
@@ -156,20 +157,21 @@ class UsersController extends Controller {
             }
         }else{
             $upusers->name = $request->name;
+            $upusers->is_admin = $request->is_admin;
             $upusers->email = $request->email;
             $upusers->save();
-            $info = $request->except('id','password','user_id','instgram', 'phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest');
-            $contact = $request->except('id','user_id','password','instgram', 'website','twitter','instagram','facebook','linkedin','pinterest','company_id','employee_id','address_id', 'user_type','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
-            $social = $request->except('id','user_id','password','instgram', 'phone_number','mobile_number','fax_number','whatsapp','email','company_id','employee_id','address_id', 'user_type','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
-            tblcontact::where('id', $request->id)->update($contact);
-            tblsocialmedias::where('id', $request->id)->update($social);
+            $info = $request->except('is_admin', 'id','password','user_id','instgram', 'phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest');
+            $contact = $request->except('id','user_id','password','instgram', 'website','twitter','instagram','facebook','linkedin','pinterest','company_id','employee_id','address_id', 'is_admin','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
+            $social = $request->except('id','user_id','password','instgram', 'phone_number','mobile_number','fax_number','whatsapp','email','company_id','employee_id','address_id', 'is_admin','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
+            tblcontact::where('id', $request->contact_id)->update($contact);
+            tblsocialmedias::where('id', $request->social_id)->update($social);
             tblemployeeinformation::where('id', $request->id)->update($info);
         }
         return 'Update';
     }
 
     public function editEmployeeInfo($id){
-        return tblemployeeinformation::where('id', $id)->first();
+        return DB::select('SELECT employee.*, user.is_admin FROM (SELECT * FROM tblemployeeinformations WHERE id = '.$id.') AS employee JOIN(SELECT id, is_admin FROM users) AS user ON user.id = employee.user_id');
     }
 
     public function editContact($con_id){

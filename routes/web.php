@@ -212,7 +212,7 @@ Route::group(['prefix'=>'sourcing'], function(){
   Route::get('add-logistic', 'LogisticsController@index');
   Route::get('sourcing-bank-detail', 'LogisticsController@sourcingBankDetail');
   Route::post('save-logistic', 'LogisticsController@saveLogistic');
-  Route::get('get-logistics', 'LogisticsController@getLogistics');
+  Route::get('get-logistics/{company_id}', 'LogisticsController@getLogistics');
   Route::get('edit-logistic/{id}', 'LogisticsController@viewEdit');
   Route::get('edit-logistic-info/{id}', 'LogisticsController@editLogistic');
   Route::delete('delete-logistic/{id}', 'LogisticsController@destroy');
@@ -373,6 +373,7 @@ Route::group(['prefix'=>'project-system'], function(){
   Route::resource('create-activities', 'ProjectSystem\CreateActivitiesControllerr');
   Route::resource('assign-task', 'ProjectSystem\AssignTasksController');
   Route::get('view-assigned-task', 'ProjectSystem\AssignTasksController@view_assigned_tasks');
+  Route::get('get-department-office/{group_id}', 'ProjectSystem\AssignTasksController@get_department_office');
   Route::get('get-project-activities/{project_id}/{company_id}', 'ProjectSystem\CreateActivitiesControllerr@get_project_activities');
   Route::get('get-activity-phases/{activity_id}/{company_id}', 'ProjectSystem\CreatePhasesController@get_activity_phases');
   Route::get('get-phases-tasks/{task_id}/{company_id}', 'ProjectSystem\CreateTasksController@get_phases_tasks');

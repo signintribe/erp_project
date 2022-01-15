@@ -35,13 +35,13 @@
                 <div class="col-lg-12 col-md-12 col-sm-12" align="right">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <a href="{{url('hr/organizational-assignment')}}" data-toggle="tooltip" data-placement="left" title="Previous" class="btn btn-sm btn-primary">
-                            <i class="mdi mdi-arrow-left"></i>
+                            <i class="fa fa-arrow-left"></i>
                         </a>
                         <button type="button" class="btn btn-sm btn-success" ng-click="save_payEmolument()" data-toggle="tooltip" data-placement="bottom" title="Save">
-                            <i class="fa fa-save"></i>
+                            <i class="fa fa-save" id="loader"></i> Save
                         </button>
                         <a href="{{url('hr/employee-bank-detail')}}" type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Next">
-                            <i class="mdi mdi-arrow-right"></i>
+                            <i class="fa fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -72,8 +72,6 @@
                         <td ng-bind="pay.basic_pay"></td>
                         <td ng-bind="pay.conveyance_allowance"></td>
                         <td ng-bind="pay.medical_allowance"></td>
-                        <td ng-bind="pay.training_institute"></td>
-                        <td ng-bind="pay.training_type"></td>
                         <td>
                             <button class="btn btn-xs btn-info" ng-click="editPay(pay.id);">Edit</button>
                             <button class="btn btn-xs btn-danger" ng-click="deletePay(pay.id);">Delete</button>
@@ -115,6 +113,7 @@
         $scope.editPay = function (id) {
             $http.get('maintain-pay-emoluments/'+id+'/edit').then(function (response) {
                 $scope.emoluments = response.data;
+                $scope.emoluments.employee_id = parseInt($scope.emoluments.employee_id);
             });
         };
 
@@ -144,6 +143,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
                 var Data = new FormData();
                 angular.forEach($scope.emoluments, function (v, k) {
                     Data.append(k, v);
@@ -156,6 +156,7 @@
                     });
                     $scope.emoluments = {};
                    $scope.getPayEmoluments();
+                   $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
         };

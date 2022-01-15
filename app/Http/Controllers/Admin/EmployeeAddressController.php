@@ -110,10 +110,11 @@ class EmployeeAddressController extends Controller
     public function destroy($id)
     {
         try {
+            erp_employee_address::where('address_id', $id)->delete();
             tbladdress::where('id', $id)->delete();
             return response()->json(['status'=>true, 'message'=>'Employee Address Delete']);
           } catch (\Illuminate\Database\QueryException $e) {
-              return response()->json(['status' => false, 'message' => $e->errorInfo[2]]);
+              return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 68)]);
           }
     }
 
@@ -124,7 +125,7 @@ class EmployeeAddressController extends Controller
 
     public function getContact($contact_id)
     {
-        return tblcontact::select('phone_number','mobile_number','fax_number','whatsapp','email')->where('id', $contact_id)->first();
+        return tblcontact::select('phone_number','mobile_number','fax_number','whatsapp', 'wechat', 'email')->where('id', $contact_id)->first();
     }
 
     public function getSocialMedia($social_id)
