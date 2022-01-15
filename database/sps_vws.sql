@@ -491,7 +491,9 @@ DROP PROCEDURE getGLAccount;
 DELIMITER $$
 CREATE PROCEDURE `getGLAccount`()
 BEGIN  
-    SELECT category.id, category.AccountId, category.CategoryName, parent.ParentCategory, category.created_at FROM (
+    SELECT category.id, category.AccountId, category.CategoryName, 
+     category.created_at, parent.ParentCategory 
+    FROM (
         SELECT id, AccountId, CategoryName, created_at 
         FROM tblaccountcategories WHERE product_category = 1
     ) AS category JOIN (
@@ -902,7 +904,7 @@ BEGIN
       SELECT 
       company.company_name, company.id as company_id, 
       office.office_name, office.id as office_id, 
-      dept.department_name, jds.* FROM (
+      dept.department_name, jds.*, grop.department_id, grop.group_name FROM (
         SELECT id, company_name 
         FROM tblcompanydetails
       ) AS company JOIN (
@@ -911,14 +913,16 @@ BEGIN
       )AS office ON office.company_id = company.id JOIN(
         SELECT id, office_id, department_name 
         FROM tbldepartmens
-      ) AS dept ON dept.office_id = office.id JOIN (
+      ) AS dept ON dept.office_id = office.id JOIN(
+        SELECT id, department_id, group_name FROM erp_employee_groups
+      ) AS grop ON grop.department_id = dept.id JOIN (
         SELECT * FROM erp_employee_jds WHERE id = jd_id
-      ) AS jds ON jds.department_id = dept.id;
+      ) AS jds ON jds.group_id = grop.id;
     ELSE
       SELECT 
       company.company_name, company.id as company_id, 
       office.office_name, office.id as office_id, 
-      dept.department_name, jds.* FROM (
+      dept.department_name, jds.*, grop.department_id, grop.group_name FROM (
         SELECT id, company_name 
         FROM tblcompanydetails 
         WHERE user_id = userid
@@ -928,9 +932,11 @@ BEGIN
       )AS office ON office.company_id = company.id JOIN(
         SELECT id, office_id, department_name 
         FROM tbldepartmens
-      ) AS dept ON dept.office_id = office.id JOIN (
+      ) AS dept ON dept.office_id = office.id JOIN(
+        SELECT id, department_id, group_name FROM erp_employee_groups
+      ) AS grop ON grop.department_id = dept.id JOIN (
         SELECT * FROM erp_employee_jds
-      ) AS jds ON jds.department_id = dept.id;
+      ) AS jds ON jds.group_id = grop.id;
     END IF;
 END$$
 DELIMITER ;
@@ -1025,7 +1031,7 @@ BEGIN
       SELECT 
       company.company_name, company.id as company_id, 
       office.office_name, office.id as office_id, 
-      dept.department_name, pay.* FROM (
+      dept.department_name, grop.department_id, grop.group_name, pay.*  FROM (
         SELECT id, company_name 
         FROM tblcompanydetails
       ) AS company JOIN (
@@ -1034,14 +1040,16 @@ BEGIN
       )AS office ON office.company_id = company.id JOIN(
         SELECT id, office_id, department_name 
         FROM tbldepartmens
-      ) AS dept ON dept.office_id = office.id JOIN (
+      ) AS dept ON dept.office_id = office.id JOIN(
+        SELECT id, department_id, group_name FROM erp_employee_groups
+      ) AS grop ON grop.department_id = dept.id JOIN (
         SELECT * FROM erp_maintain_deductions WHERE id = pay_id
-      ) AS pay ON pay.department_id = dept.id;
+      ) AS pay ON pay.group_id = grop.id;
     ELSE
       SELECT 
       company.company_name, company.id as company_id, 
       office.office_name, office.id as office_id, 
-      dept.department_name, pay.* FROM (
+      dept.department_name, grop.department_id, grop.group_name,  pay.* FROM (
         SELECT id, company_name 
         FROM tblcompanydetails 
         WHERE user_id = userid
@@ -1051,9 +1059,11 @@ BEGIN
       )AS office ON office.company_id = company.id JOIN(
         SELECT id, office_id, department_name 
         FROM tbldepartmens
-      ) AS dept ON dept.office_id = office.id JOIN (
+      ) AS dept ON dept.office_id = office.id JOIN(
+        SELECT id, department_id, group_name FROM erp_employee_groups
+      ) AS grop ON grop.department_id = dept.id JOIN (
         SELECT * FROM erp_maintain_deductions
-      ) AS pay ON pay.department_id = dept.id;
+      ) AS pay ON pay.group_id = grop.id;
     END IF;
 END$$
 DELIMITER ;
@@ -1063,9 +1073,11 @@ DELIMITER $$
 CREATE PROCEDURE `sp_getEmploeeAddress`(in addressid int(11), in cid int(11))
 BEGIN  
     IF addressid <> 0 THEN
-      SELECT empinfo.id as employee_id, empinfo.employee_name, addr.* FROM (
+      SELECT empinfo.id as employee_id, empinfo.first_name, empinfo.middle_name, empinfo.last_name,
+      addr.* 
+      FROM (
         SELECT id, company_id, 
-        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        first_name, middle_name, last_name
         FROM tblemployeeinformations WHERE company_id = cid
       )AS empinfo JOIN(
         SELECT id, address_id, employee_id 
@@ -1074,9 +1086,11 @@ BEGIN
         SELECT * FROM tbladdresses WHERE id = addressid
       ) AS addr ON addr.id = emp_addr.address_id;
     ELSE
-      SELECT empinfo.id as employee_id, empinfo.employee_name, addr.* FROM (
+      SELECT empinfo.id as employee_id, empinfo.first_name, empinfo.middle_name, empinfo.last_name, 
+      addr.* 
+      FROM (
         SELECT id, company_id, 
-        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        first_name, middle_name, last_name
         FROM tblemployeeinformations WHERE company_id = cid
       )AS empinfo JOIN(
         SELECT id, address_id, employee_id 
@@ -1090,7 +1104,7 @@ DELIMITER ;
 
 DROP PROCEDURE sp_getEmploeeSpouse;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmploeeSpouse`(IN `spouseid` INT(11), in cid INT(11))
+CREATE PROCEDURE `sp_getEmploeeSpouse`(IN `spouseid` INT(11), in cid INT(11))
     NO SQL
 BEGIN  
     IF spouseid <> 0 THEN
@@ -1105,7 +1119,7 @@ BEGIN
         FROM tblcontacts
       ) AS contact ON contact.id = spouse.contact_id;
     ELSE
-      SELECT spouse.*, empinfo.id as employee_id, empinfo.employee_name, employee.first_name, contact.mobile_number, contact.email FROM (
+      SELECT spouse.*, empinfo.id as employee_id, empinfo.employee_name, contact.mobile_number, contact.email FROM (
         SELECT id, company_id, 
         concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
         FROM tblemployeeinformations WHERE company_id = cid
@@ -1196,25 +1210,39 @@ DELIMITER ;
 
 Drop PROCEDURE sp_getEmployeeOrgAssignment;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeOrgAssignment`(IN `orgid` INT(11), in cid INT(11))
+CREATE PROCEDURE `sp_getEmployeeOrgAssignment`(IN `orgid` INT(11), in cid INT(11))
     NO SQL
 BEGIN  
     IF orgid <> 0 THEN
-      SELECT org.*, empinfo.id as employee_id, empinfo.employee_name FROM (
-        SELECT id, company_id, 
-        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+      SELECT org.*, empinfo.id as employee_id, empinfo.first_name, empinfo.middle_name,
+      empinfo.last_name, dept.department_name, dept.office_id, 
+      CONCAT(sup.first_name, ' ', sup.middle_name, ' ', sup.last_name) AS sup_name
+      FROM (
+        SELECT id, company_id, first_name, middle_name, last_name
         FROM tblemployeeinformations WHERE company_id = cid
       )AS empinfo JOIN(
         SELECT * FROM erp_employee_assignments WHERE id = orgid
-      ) AS org ON org.employee_id = empinfo.id;
+      ) AS org ON org.employee_id = empinfo.id JOIN(
+        SELECT id, department_name, office_id FROM tbldepartmens
+      ) AS dept ON dept.id = org.department_id JOIN(
+        SELECT id, company_id, first_name, middle_name, last_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS sup ON sup.id = org.supervisor_name;
     ELSE
-      SELECT org.*, empinfo.id as employee_id, empinfo.employee_name FROM (
-        SELECT id, company_id, 
-        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+      SELECT org.*, empinfo.id as employee_id, empinfo.first_name, empinfo.middle_name,
+      empinfo.last_name, dept.department_name, dept.office_id,
+      CONCAT(sup.first_name, ' ', sup.middle_name, ' ', sup.last_name) AS sup_name
+      FROM (
+        SELECT id, company_id, first_name, middle_name, last_name
         FROM tblemployeeinformations WHERE company_id = cid
       )AS empinfo JOIN(
         SELECT * FROM erp_employee_assignments
-      ) AS org ON org.employee_id = empinfo.id;
+      ) AS org ON org.employee_id = empinfo.id JOIN(
+        SELECT id, department_name, office_id FROM tbldepartmens
+      ) AS dept ON dept.id = org.department_id JOIN(
+        SELECT id, company_id, first_name, middle_name, last_name
+        FROM tblemployeeinformations WHERE company_id = cid
+      )AS sup ON sup.id = org.supervisor_name;
     END IF;
 END$$
 DELIMITER ;
@@ -1227,7 +1255,7 @@ BEGIN
     IF payid <> 0 THEN
       SELECT pay.*, empinfo.id as employee_id, empinfo.employee_name FROM (
         SELECT id, company_id, 
-        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        concat(first_name, ' ',last_name) AS employee_name
         FROM tblemployeeinformations WHERE company_id = cid
       )AS empinfo JOIN(
         SELECT * FROM erp_pay_emoluments WHERE id = payid
@@ -1235,7 +1263,7 @@ BEGIN
     ELSE
       SELECT pay.*, empinfo.id as employee_id, empinfo.employee_name FROM (
         SELECT id, company_id, 
-        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        concat(first_name, ' ', last_name) AS employee_name
         FROM tblemployeeinformations WHERE company_id = cid
       )AS empinfo JOIN(
         SELECT * FROM erp_pay_emoluments
