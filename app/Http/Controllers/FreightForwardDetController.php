@@ -102,7 +102,7 @@ class FreightForwardDetController extends Controller
     }
 
     public function getAddress($address_id){
-        return DB::select('SELECT address_line_1,address_line_2,street,sector,city,state,country  FROM tbladdresses  where id = '.$address_id.' ');
+        return DB::select('SELECT address_line_1,address_line_2,street,sector,city,state,country, zip_code, postal_code  FROM tbladdresses  where id = '.$address_id.' ');
 
     }
 

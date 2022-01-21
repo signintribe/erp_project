@@ -109,7 +109,11 @@ class VendorInformationController extends Controller
      */
     public function show($id)
     {
-        //
+        $vendorinfo = DB::select('SELECT vendorinfo.*, contacts.phone_number, contacts.email FROM (SELECT * FROM erp_vendor_informations WHERE company_id = '.$id.')AS vendorinfo JOIN (SELECT id, phone_number,email FROM tblcontacts) AS contacts ON contacts.id = vendorinfo.contact_id');
+        return response()->json([
+            'status' => true,
+            'data' => $vendorinfo
+        ]);
     }
 
     /**

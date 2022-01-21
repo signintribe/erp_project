@@ -14,7 +14,7 @@
                 <p class="card-description" ng-if="save_message" ng-bind="save_message"></p>
                 <div class="form-group row">
                     <div class="col">
-                        <label>* Attribute Name:</label>
+                        <label>* Attribute Value Name:</label>
                         <input type="text" class="form-control" placeholder="Attribute Name" ng-model="value.value_name"/>
                         <i class="text-danger" ng-show="!value.value_name && showError"><small>Please Type Attribute Name</small></i>
                     </div>

@@ -509,7 +509,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-bus nav-icon"></i>
                                     <p>
-                                        Scourcing
+                                        Logistics
                                         <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
@@ -573,18 +573,41 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <p>Vendor Information</p>
                                         </a>
                                     </li>
-                                    <!-- <li class="nav-item">
-                                        <a href="{{url('vendor/vendor-address')}}" class="nav-link" id="vendor-address">
+                                    <li class="nav-item">
+                                        <a href="{{url('vendor/vendor-person')}}" class="nav-link" id="purchase-contact-person">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Vendor Address</p>
+                                            <p>Contact Person</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('vendor/vendor-contact')}}" class="nav-link" id="vendor-contact">
+                                        <a href="{{url('vendor/vendor-bank-detail')}}" class="nav-link" id="vendor-banks">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Vendor Contact</p>
+                                            <p>Bank Detail</p>
                                         </a>
-                                    </li> -->
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{url('vendor/vendor-registration')}}" class="nav-link" id="vendor-registration">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Vendor Registrations</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item" id="purchase">
+                                <a href="#" class="nav-link">
+                                    <i class="fa fa-chart-file nav-icon"></i>
+                                    <p>
+                                        Tender
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{url('vendor/vendor-information')}}" class="nav-link" id="add-vendor">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Vendor Information</p>
+                                        </a>
+                                    </li>
                                     <li class="nav-item">
                                         <a href="{{url('vendor/vendor-person')}}" class="nav-link" id="purchase-contact-person">
                                             <i class="fa fa-caret-right nav-icon"></i>
@@ -618,18 +641,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <a href="{{url('customer/customer-information')}}" class="nav-link" id="customer-info">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Customer Information</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('customer/customer-address')}}" class="nav-link" id="customer-address">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Customer Address</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('customer/contact-detail')}}" class="nav-link" id="customer-contact">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Customer Contact</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">

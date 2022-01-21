@@ -43,41 +43,58 @@ class CustomerInformationController extends Controller
      */
     public function store(Request $request)
     {
-        //$cus_name = erp_customer_information::where('customer_name', $request->customer_name)->first();
-        if(empty(erp_customer_information::where('customer_name', $request->customer_name)->first())){
-            $imageName = "";
-            if ($request->hasFile('cust_logo')) {
-                $current= date('ymd').rand(1,999999).time();
-                $file= $request->file('cust_logo');
-                $imageName = $current.'.'.$file->getClientOriginalExtension();
-                $file->move(public_path('customer_logo'), $imageName);
-                if(!empty($request->id)){
-                    $this->deleteOldImage($request->customer_logo);
-                    $customer = erp_customer_information::where('id', $request->id)->first();
-                    $customer->customer_logo = $imageName;
-                    $customer->save();
-                }
+        //return $request->all();
+        $imageName = "";
+        if ($request->hasFile('cust_logo')) {
+            $current= date('ymd').rand(1,999999).time();
+            $file= $request->file('cust_logo');
+            $imageName = $current.'.'.$file->getClientOriginalExtension();
+            $file->move(public_path('customer_logo'), $imageName);
+            if(!empty($request->id)){
+                $this->deleteOldImage($request->customer_logo);
+                $customer = erp_customer_information::where('id', $request->id)->first();
+                $customer->customer_logo = $imageName;
+                $customer->save();
             }
-            if($request->id){
-                if ($imageName){
-                    $data['customer_logo'] = $imageName; 
-                }
-                $data = $request->except(['id', 'cust_logo','user_id','created_at', 'updated_at']);
-                erp_customer_information::where('id', $request->id)->update($data);
-                return 'Customer Information updated successfully';
-            }else{
-                //$address = $request->except('customer_type','customer_name','ntn_no','incroporation_no','customer_logo','strn','import_license','export_license','chamber_no','currency_dealing','phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest','youtube');
-               // $contact = $request->except('customer_type','customer_name','ntn_no','incroporation_no','customer_logo','strn','import_license','export_license','chamber_no','currency_dealing','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','website','twitter','instagram','facebook','linkedin','pinterest','youtube');
-                //$social = $request->except('customer_type','customer_name','ntn_no','incroporation_no','customer_logo','strn','import_license','export_license','chamber_no','currency_dealing','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email',);
-                $data = $request->except('cust_logo');
-                $data['customer_logo'] = $imageName;
-                $data['user_id'] = Auth::user()->id;
-                erp_customer_information::create($data);
-            }
-            return "Customer Information saved successfully";
-        }else{
-            return 'Customer Information Already Exists';
         }
+
+        if($request->id){
+            if ($imageName){
+                $data['customer_logo'] = $imageName; 
+            }
+            $data = $request->except(['id', 'company_id',  'address_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','address_line_1','address_line_2', 'address_line_3', 'street','sector','city','state','country','postal_code','zip_code', 'cust_logo','user_id','created_at', 'updated_at']);
+            $address = $request->except('id', 'customer_name', 'customer_logo', 'company_id', 'customer_type', 'address_id','contact_id','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','user_id','organization_name' ,'org_logo','currency_dealing','created_at','updated_at');
+            $contact = $request->except('id', 'customer_name', 'customer_logo', 'company_id', 'customer_type', 'website','twitter','instagram','facebook','linkedin','pinterest','address_id','contact_id','social_id','address_line_1','address_line_2', 'address_line_3','street','sector','city','state','country','postal_code','zip_code','user_id','organization_name', 'org_logo','currency_dealing','created_at','updated_at');
+            $social = $request->except('id', 'customer_name', 'customer_logo', 'company_id', 'customer_type','address_line_1', 'address_line_2', 'address_line_3','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email','user_id','address_id','contact_id','social_id','organization_name', 'org_logo', 'currency_dealing','created_at','updated_at');
+            
+            erp_customer_information::where('id', $request->id)->update($data);
+            tbladdress::where('id', $request->address_id)->update($address);
+            tblcontact::where('id', $request->contact_id)->update($contact);
+            tblsocialmedias::where('id', $request->social_id)->update($social);
+            return 'Customer Information updated successfully';
+        }else{
+            if(empty(erp_customer_information::where('customer_name', $request->customer_name)->first())){
+                $address = $request->except('cust_logo','company_id', 'address_id','customer_type','contact_id','logo_file','social_id','website','twitter','instagram','facebook','linkedin','pinterest','phone_number','mobile_number','fax_number','whatsapp','email','user_id','organization_name','org_logo','currency_dealing');
+                $contact = $request->except('cust_logo','company_id', 'address_id','customer_type','website','twitter','logo_file','instagram','facebook','linkedin','pinterest','contact_id','social_id','address_line_1','address_line_2', 'address_line_3','street','sector','city','state','country','postal_code','zip_code','user_id','organization_name','org_logo','currency_dealing');
+                $social = $request->except('cust_logo','company_id', 'address_line_1','customer_type','address_line_2', 'address_line_3','logo_file','street','sector','city','state','country','postal_code','zip_code','phone_number','mobile_number','fax_number','whatsapp','email','user_id','address_id','contact_id','social_id','organization_name','org_logo','currency_dealing');
+                $data = $request->except('cust_logo','phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest','youtube','address_line_1','address_line_2','address_line_3','street','sector','city','state','country','postal_code','zip_code');
+                $data['customer_logo'] = $imageName;
+
+                $address = tbladdress::create($address);
+                $contact = tblcontact::create($contact);
+                $social = tblsocialmedias::create($social);
+
+                $data['user_id'] = Auth::user()->id;
+                $data['address_id'] = $address->id;
+                $data['contact_id'] = $contact->id;
+                $data['social_id'] = $social->id;
+
+                erp_customer_information::create($data);
+            }else{
+                return 'Customer Information Already Exists';
+            }
+        }
+        return "Customer Information saved successfully";
     }
 
 
@@ -95,9 +112,9 @@ class CustomerInformationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($company_id)
     {
-        //
+        return erp_customer_information::where('company_id', $company_id)->get();
     }
 
     /**

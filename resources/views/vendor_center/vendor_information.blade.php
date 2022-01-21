@@ -273,9 +273,9 @@
 
         $scope.getVendorInformation = function () {
             $scope.vendorinformations = {};
-            $http.get('maintain-vendor-information').then(function (response) {
-                if (response.data.length > 0) {
-                    $scope.vendorinformations = response.data;
+            $http.get('maintain-vendor-information/' + $("#company_id").val()).then(function (response) {
+                if (response.data.data.length > 0) {
+                    $scope.vendorinformations = response.data.data;
                 }
             });
         };
@@ -283,7 +283,9 @@
         $scope.editVendorInformation = function (id) {
             $http.get('maintain-vendor-information/'+id+'/edit').then(function (response) {
                 $scope.organization = response.data;
-                $scope.orglogo = $scope.appurl + "public/organization_logo/" + $scope.organization.organization_logo;
+                if($scope.organization.organization_logo){
+                    $scope.orglogo = $scope.appurl + "public/organization_logo/" + $scope.organization.organization_logo;
+                }
                 $scope.editAddress($scope.organization.address_id);
                 $scope.editContact($scope.organization.contact_id);
                 $scope.editSocial($scope.organization.social_id);
