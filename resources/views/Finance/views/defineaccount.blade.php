@@ -1,4 +1,4 @@
-@extends('layouts.admin.creationTier')
+@extends('layouts.superadmin.superadmin')
 @section('title', 'Chart of Account')
 @section('pagetitle', 'Chart of Account')
 @section('breadcrumb', 'Chart of Account')

@@ -166,8 +166,12 @@
             },
             function(){
                 $http.delete('maintain-attribute-values/' + id).then(function (response) {
-                    $scope.getAttributeValueInfo();
-                    swal("Deleted!", response.data, "success");
+                    if(response.data.status == true){
+                        $scope.getAttributeValueInfo();
+                        swal("Deleted!", response.data.message, "success");
+                    }else{
+                        swal("Not Deleted!", response.data.message, "error");
+                    }
                 });
             });
         };

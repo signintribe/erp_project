@@ -139,8 +139,8 @@ class InventoryController extends Controller{
         }
     }
 
-    public function getInventory(){
-        return $Accounts = tblproduct_informations::where('user_id', Auth::user()->id)->get();
+    public function getInventory($offset, $limit){
+        return $Accounts = tblproduct_informations::where('user_id', Auth::user()->id)->skip($offset)->take($limit)->get();
     }
 
     public function getStock($id){
@@ -176,15 +176,17 @@ class InventoryController extends Controller{
         $cats = array();
         $cats[] = $catname; 
         $getparent = tblcategoryassociation::where('child_id', $id)->first();
-        $parent = $getparent->parent_id;
-        while($parent){
-            $cat = tblcategory::where('id', $parent)->first();
-            $cats[] = $cat->category_name;
-            $getparent = tblcategoryassociation::where('child_id', $cat->id)->first();
-            if(!empty($getparent)){
-                $parent = $getparent->parent_id;
-            }else{
-                break;
+        if($getparent){
+            $parent = $getparent->parent_id;
+            while($parent){
+                $cat = tblcategory::where('id', $parent)->first();
+                $cats[] = $cat->category_name;
+                $getparent = tblcategoryassociation::where('child_id', $cat->id)->first();
+                if(!empty($getparent)){
+                    $parent = $getparent->parent_id;
+                }else{
+                    break;
+                }
             }
         }
         return array_reverse($cats);
@@ -212,7 +214,7 @@ class InventoryController extends Controller{
     }
 
     public function searchInventory($barcode){
-        return DB::select('SELECT inventory.*, cat.category_name, ven.organization_name FROM (SELECT * FROM `tblproduct_informations` WHERE barcode_id LIKE "'.$barcode.'%" OR product_name LIKE "'.$barcode.'%" limit 10) AS inventory JOIN(SELECT id, category_name FROM tblcategories) AS cat ON cat.id = inventory.category_id JOIN(SELECT id, product_id, vendor_name FROM tblproduct_vendors) AS vendors ON vendors.product_id = inventory.id JOIN(SELECT id, organization_name FROM erp_vendor_informations) AS ven ON ven.id = vendors.vendor_name');
+        return DB::select('SELECT inventory.*, cat.category_name, ven.organization_name FROM (SELECT * FROM `tblproduct_informations` WHERE barcode_id = "'.$barcode.'" OR product_name LIKE "%'.$barcode.'%" limit 10) AS inventory JOIN(SELECT id, category_name FROM tblcategories) AS cat ON cat.id = inventory.category_id JOIN(SELECT id, product_id, vendor_name FROM tblproduct_vendors) AS vendors ON vendors.product_id = inventory.id JOIN(SELECT id, organization_name FROM erp_vendor_informations) AS ven ON ven.id = vendors.vendor_name');
     }
 
     /**

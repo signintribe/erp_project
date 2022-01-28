@@ -49,12 +49,12 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="calander_start">Issue Date</label>
                     <div class="form-group">
-                    <div class="input-group date" id="start_date" data-target-input="nearest">
-                        <input type="text" placeholder="Start Date" ng-model="registration.issue_date" class="form-control datetimepicker-input" data-target="#start_date"/>
-                        <div class="input-group-append" data-target="#start_date" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        <div class="input-group date" id="start_date" data-target-input="nearest">
+                            <input type="text" placeholder="Start Date" ng-model="registration.issue_date" class="form-control datetimepicker-input" data-target="#start_date"/>
+                            <div class="input-group-append" data-target="#start_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">

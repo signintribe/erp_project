@@ -36,6 +36,11 @@ class HomeController extends Controller {
         return view('admin.adminHome');
     }
 
+    public function superadmin()
+    {
+        return view('super-admin.dashboard');
+    }
+
     public function status_company_queries($status) {
         $company = \App\Models\VendorModels\tblcompanydetail::where('user_id', Auth::user()->id)->first();
         if (!empty($company)) {

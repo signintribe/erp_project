@@ -90,9 +90,18 @@ class CategoryController extends Controller {
     }
 
     public function delete_category($category_id) {
-        tblcategoryassociation::where('child_id', $category_id)->delete();
-        tblcategory::where('id', $category_id)->delete();
-        return 'Category Delete Permanently';
+        try{
+            $haveChild = tblcategoryassociation::where('parent_id', $category_id)->first();
+            if(empty($haveChild)){ 
+                tblcategoryassociation::where('child_id', $category_id)->delete();
+                tblcategory::where('id', $category_id)->delete();
+                return response()->json(['status' => true, 'message' => "Category Delete Permanently"]); 
+            }else{
+                return response()->json(['status' => false, 'message' => "You can not delete this category. Please delete child first"]);    
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 100)]);
+        }
     }
 
     public function getCategory(){

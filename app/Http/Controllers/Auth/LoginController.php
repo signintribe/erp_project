@@ -61,6 +61,18 @@ use AuthenticatesUsers;
                 }
             }
         }else{
+            $user = User::where('email', $input['email'])->first();
+            if(empty($user)){
+                return redirect()->route('open-company')->withInput()->withErrors(['email' => 'This email is not registered']);
+            }else{
+                if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+                    if (auth()->user()->is_admin == 4) {
+                        return redirect()->route('superadmin');
+                    }
+                } else {
+                    return redirect()->route('open-company')->withInput()->withErrors(['password' => 'Email-Address Or Password Are Wrong.']);
+                }
+            }
             return redirect()->route('open-company')->withInput()->withErrors(['selectcompany' => 'Please select company first']);
         }
     }

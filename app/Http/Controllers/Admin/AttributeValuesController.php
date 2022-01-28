@@ -106,7 +106,11 @@ class AttributeValuesController extends Controller
      */
     public function destroy($id)
     {
-        erp_attribute_value::where('id', $id)->delete();
-        return response()->json(['status' => true, 'message' => 'Value Delete Permanently']);
+        try{
+            erp_attribute_value::where('id', $id)->delete();
+            return response()->json(['status' => true, 'message' => 'Value Delete Permanently']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0,68)]);
+        }
     }
 }

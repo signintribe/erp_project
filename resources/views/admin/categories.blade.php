@@ -291,9 +291,13 @@
                 closeOnConfirm: false
             }, function () {
                 $http.get('delete_category/' + category_id).then(function (response) {
-                    $scope.get_allcategories(0);
-                    $scope.get_categorywithitsparents(1);
-                    swal("Deleted!", response.data, "success");
+                    if(response.data.status == true){
+                        $scope.get_allcategories(0);
+                        $scope.get_categorywithitsparents(1);
+                        swal("Deleted!", response.data.message, "success");
+                    }else{
+                        swal("Not Delete!", response.data.message, "error");
+                    }
                 });
             });
         };

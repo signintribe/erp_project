@@ -16,8 +16,11 @@
                     <div class="input-group">
                       <input type="search" autofocus ng-model="barcode" ng-keyup="getInventory(barcode);" class="form-control" placeholder="Search By Name or BARCODE">
                       <div class="input-group-append">
-                          <button type="button" ng-click="getInventory(barcode);" class="btn btn-md btn-default">
+                          <button type="button" ng-click="getInventory(barcode);" class="btn btn-md btn-success">
                               <i class="fa fa-search"></i>
+                          </button>
+                          <button type="button" ng-click="getInventoryInfo();" class="btn btn-md btn-info">
+                              <i class="fa fa-redo"></i>
                           </button>
                       </div>
                     </div>
@@ -57,6 +60,11 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="text-center">
+                        <i id="loader"></i><br/>
+                        <p ng-if="norecord" ng-bind="norecord"></p>
+                        <button class="btn btn-sm btn-primary" ng-if="allinventories.length > 49" id="load-more-btn" ng-click="loadMore()"> <i class="fa fa-spinner" id="load-more"></i> Load More</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -72,11 +80,37 @@
         $("#mstrial-management").addClass('menu-open');
         $("#mstrial-management a[href='#']").addClass('active');
         $("#view-inventory").addClass('active');
+
         $scope.getInventoryInfo = function(){
             $scope.inventoryinfo = {};
-            $http.get('get-inventory').then(function (response) {
+            $scope.offset = 0;
+            $scope.limit = 50;
+            $("#loader").addClass('fa fa-spinner fa-sw fa-3x fa-pulse');
+            $http.get('get-inventory/' + $scope.offset + '/' + $scope.limit).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.allinventories = response.data;
+                    $("#loader").removeClass('fa fa-spinner fa-sw fa-3x fa-pulse');
+                    $scope.offset += $scope.limit;
+                    $("#load-more-btn").show();
+                }else{
+                    $scope.norecord = "There is no recods";
+                    $("#loader").removeClass('fa fa-spinner fa-sw fa-3x fa-pulse');
+                    $("#load-more-btn").hide();
+                }
+            });
+        };
+
+        $scope.loadMore = function(){
+            $("#load-more").addClass('fa-sw fa-pulse');
+            $http.get('get-inventory/' + $scope.offset + '/' + $scope.limit).then(function (response) {
+                if (response.data.length > 0) {
+                    $scope.allinventories = $scope.allinventories.concat(response.data);
+                    $("#load-more").removeClass('fa-sw fa-pulse');
+                    $scope.offset += $scope.limit;
+                }else{
+                    $scope.norecord = "There is no more recods";
+                    $("#load-more").removeClass('fa-sw fa-pulse');
+                    $("#load-more-btn").hide();
                 }
             });
         };

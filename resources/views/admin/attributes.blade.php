@@ -163,8 +163,12 @@
             },
             function(){
                 $http.delete('maintain-attributes/' + id).then(function (response) {
-                    $scope.getAttributeInformation();
-                    swal("Deleted!", response.data, "success");
+                    if(response.data.status == true){
+                        $scope.getAttributeInformation();
+                        swal("Deleted!", response.data.message, "success");
+                    }else{
+                        swal("Not Deleted!", response.data.message, "error");
+                    }
                 });
             });
         };

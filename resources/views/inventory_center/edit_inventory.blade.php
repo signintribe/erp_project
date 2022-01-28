@@ -38,8 +38,8 @@
                 <label>Selected Category</label>
             </div>
             <button class="btn btn-success btn-rounded btn-fw btn-sm" ng-click="change_category()">
-                <span ng-repeat="c in selectedCategories" ng-if="$index != 0">
-                        <% selectedCategories[$index] %> <i class="fa fa-arrow-right" ng-if="$index + 1 < selectedCategories.length"></i>
+                <span ng-repeat="c in selectedCategories">
+                    <% selectedCategories[$index] %> <i class="fa fa-arrow-right" ng-if="$index + 1 < selectedCategories.length"></i>
                 </span>
             </button><br>
             <div class="row" style="display: none;" id="categories">
@@ -513,17 +513,17 @@
             }else{
                 if($scope.inventory.profit_type == 'percent'){
                     if($scope.inventory.purchase_price == 0){
-                        $scope.inventory.purchase_price = $scope.inventory.delivery_charges + $scope.inventory.cost_price + $scope.inventory.carriage_inward_charges;
+                        $scope.inventory.purchase_price = parseInt($scope.inventory.delivery_charges) + parseInt($scope.inventory.cost_price) + parseInt($scope.inventory.carriage_inward_charges);
                     }
                     $scope.inventory.sale_price = 0;
                     $scope.profit = $scope.inventory.purchase_price * $scope.inventory.profit/100;
-                    $scope.inventory.sale_price = $scope.profit + $scope.inventory.purchase_price;
+                    $scope.inventory.sale_price = parseInt($scope.profit) + parseInt($scope.inventory.purchase_price);
                 }else if($scope.inventory.profit_type == 'amount'){
                     if($scope.purchase_price == 0){
-                        $scope.purchase_price = $scope.inventory.cost_price + $scope.inventory.carriage_inward_charges + $scope.inventory.delivery_charges;
+                        $scope.purchase_price = parseInt($scope.inventory.cost_price) + parseInt($scope.inventory.carriage_inward_charges) + parseInt($scope.inventory.delivery_charges);
                     }
                     $scope.inventory.sale_price = 0;
-                    $scope.inventory.sale_price = $scope.inventory.profit + $scope.inventory.purchase_price;
+                    $scope.inventory.sale_price = parseInt($scope.inventory.profit) + parseInt($scope.inventory.purchase_price);
                 }
             }
         };
@@ -689,6 +689,7 @@
         $scope.getInventoryCategory = function(id){
             $http.get($scope.appurl + 'get-category/' + id).then(function (response) {
                 $scope.selectedCategories = response.data;
+                console.log($scope.selectedCategories);
             });
         };
 

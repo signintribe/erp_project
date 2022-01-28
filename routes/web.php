@@ -152,7 +152,7 @@ Route::group(['prefix'=>'customer'], function () {
  * Inventory Center
 */
 Route::get('add-inventory', 'InventoryController@index')->name('add-inventory');
-Route::get('get-inventory', 'InventoryController@getInventory');
+Route::get('get-inventory/{offset}/{limit}', 'InventoryController@getInventory');
 Route::get('get-inventory-info/{id}', 'InventoryController@editInventory');
 Route::delete('delete-inventory/{id}', 'InventoryController@deleteInventory');
 Route::get('search-inventory/{barcode}', 'InventoryController@searchInventory');
@@ -264,12 +264,18 @@ Route::get('get-my-totalrevenue', 'HomeController@get_my_totalrevenue')->name('g
 
 
 Route::get('adminhome', 'HomeController@adminHome')->name('adminhome')->middleware('is_admin');
+
 Route::get('all-customers', 'HomeController@all_customers')->name('all-customers')->middleware('is_admin');
 Route::get('all-queriesinadmin', 'HomeController@all_queriesinadmin')->name('all-queriesinadmin')->middleware('is_admin');
 Route::get('all-queriesstatusinadmin', 'HomeController@all_queriesstatusinadmin')->name('all-queriesstatusinadmin')->middleware('is_admin');
 Route::get('all-companiesinadmin', 'HomeController@all_companiesinadmin')->name('all-companiesinadmin')->middleware('is_admin');
 Route::get('get-all-totalrevenue', 'HomeController@get_all_totalrevenue')->name('get-all-totalrevenue')->middleware('is_admin');
 
+Route::group(['middleware' => ['auth:web','super_admin'], 'prefix'=>'superadmin'], function(){
+  Route::get('superadmin', 'HomeController@superadmin')->name('superadmin');
+  Route::get('create-chart-account', 'Admin\FinanceController@defineAccount');
+  Route::get('getAccountCategories/{id}', 'Globall\CategoriesController@getAccountCategories');
+});
 
 
 
@@ -380,6 +386,22 @@ Route::group(['prefix'=>'project-system'], function(){
 });
 
 /**
+ * Tender Module Routes
+ */
+Route::group(['prefix'=>'tender'], function(){
+  Route::resource('tender-information', 'Tender\TenderController');
+  Route::resource('create-phases', 'ProjectSystem\CreatePhasesController');
+  Route::resource('create-tasks', 'ProjectSystem\CreateTasksController');
+  Route::resource('create-activities', 'ProjectSystem\CreateActivitiesControllerr');
+  Route::resource('assign-task', 'ProjectSystem\AssignTasksController');
+  Route::get('view-assigned-task', 'ProjectSystem\AssignTasksController@view_assigned_tasks');
+  Route::get('get-department-office/{group_id}', 'ProjectSystem\AssignTasksController@get_department_office');
+  Route::get('get-project-activities/{project_id}/{company_id}', 'ProjectSystem\CreateActivitiesControllerr@get_project_activities');
+  Route::get('get-activity-phases/{activity_id}/{company_id}', 'ProjectSystem\CreatePhasesController@get_activity_phases');
+  Route::get('get-phases-tasks/{task_id}/{company_id}', 'ProjectSystem\CreateTasksController@get_phases_tasks');
+});
+
+/**
  * Company portfolio
  */
 Route::get('company-portfolio', 'CompanyPortfolioController@index')->name('companyportfolio')->middleware('is_vendor');
@@ -419,9 +441,8 @@ Route::get('delete-selectedcategory/{category_id}', 'SelectCategoryController@de
 Route::get('/redirect', 'FacebookLoginController@redirect');
 Route::get('/callback', 'FacebookLoginController@callback');
 
-Route::get('create-chart-account', 'Admin\FinanceController@defineAccount');
 Route::get('user-chart-account', 'Admin\FinanceController@defineUserAccount');
-Route::get('getAccountCategories/{id}', 'Globall\CategoriesController@getAccountCategories');
+
 //Get categories on user chart of account page
 Route::get('get-account-categories', 'Globall\CategoriesController@get_account_categories');
 

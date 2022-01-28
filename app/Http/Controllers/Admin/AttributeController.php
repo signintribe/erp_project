@@ -107,8 +107,12 @@ class AttributeController extends Controller
      */
     public function destroy($id)
     {
-        erp_attribute::where('id', $id)->delete();
-        return response()->json(['status'=> true, 'message' => 'Attribute Delete Permanently']);
+        try{
+            erp_attribute::where('id', $id)->delete();
+            return response()->json(['status'=> true, 'message' => 'Attribute Delete Permanently']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0,68)]);
+        }
     }
 
     public function getAttrValues($category_id)

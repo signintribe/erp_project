@@ -593,9 +593,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item" id="purchase">
+                            <li class="nav-item" id="tender">
                                 <a href="#" class="nav-link">
-                                    <i class="fa fa-chart-file nav-icon"></i>
+                                    <i class="fa fa-file nav-icon"></i>
                                     <p>
                                         Tender
                                         <i class="right fas fa-angle-left"></i>
@@ -603,12 +603,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{url('vendor/vendor-information')}}" class="nav-link" id="add-vendor">
+                                        <a href="{{url('tender/tender-information')}}" class="nav-link" id="tender-information">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Vendor Information</p>
+                                            <p>Tender Information</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a href="{{url('vendor/vendor-person')}}" class="nav-link" id="purchase-contact-person">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Contact Person</p>
@@ -625,7 +625,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Vendor Registrations</p>
                                         </a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </li>
                             <li class="nav-item" id="sales">
