@@ -89,7 +89,7 @@
                                 <ul class="list-unstyled" style="margin-left: 20px;">
                                     <li ng-repeat="cats in value">
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="customRadio<%cats.id%>" ng-model="Category.ParentcategoryId" ng-click="getCategory(cats)" ng-value="cats.id" name="customRadio" class="custom-control-input">
+                                            <input type="radio" id="customRadio<%cats.id%>" ng-model="Category.ParentcategoryId" ng-click="getChilds(cats)" ng-value="cats.id" name="customRadio" class="custom-control-input">
                                             <label class="custom-control-label" style="font-weight: normal" for="customRadio<%cats.id%>" ng-bind="cats.CategoryName"></label>
                                         </div>
                                     </li>
@@ -97,7 +97,15 @@
                             </div>
                        </div>
                        <div class="col">
-                           <p ng-bind="selectedCate.AccountDescription"></p>
+                           <ul class="list-unstyled" style="margin-left: 20px;">
+                                <li ng-repeat="child in childaccounts">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="chidlRadio<%child.id%>" ng-model="Category.ParentcategoryId" ng-click="getCategory(child)" ng-value="child.id" name="customRadio" class="custom-control-input">
+                                        <label class="custom-control-label" style="font-weight: normal" for="chidlRadio<%child.id%>" ng-bind="child.CategoryName"></label>
+                                    </div>
+                                </li>
+                            </ul><br/>
+                            <p ng-bind="selectedCate.AccountDescription"></p>
                            <div id="Save-button">
                                 <button class="btn btn-success btn-sm pull-right" ng-click="save_category()">
                                     <i class="fa fa-save" id="savebtn"></i> <span ng-bind="SaveLabel"></span>
@@ -210,6 +218,19 @@
                 });
             }
         };
+
+        $scope.getChilds = function(category){
+            $scope.childaccounts = {};
+            var child = $http.get('getAccountCategories/' + category.id);
+            child.then(function (r) {
+                if(r.data.length > 0){
+                    $scope.childaccounts = r.data;
+                    $scope.selectedCate = {};
+                }else{
+                    $scope.selectedCate = category;
+                }
+            });
+        }
 
         $scope.getCategory = function (category) {
             $scope.selectedCate = category;

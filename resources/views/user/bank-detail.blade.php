@@ -271,11 +271,11 @@
             },
             function(){
                 $http.delete('maintain-company-bankdetail/' + id).then(function (response) {
-                    if(response.data){
+                    if(response.data.status == true){
                         swal("Delete!", response.data, "success");
                         $scope.get_comBankDetail();
                     }else{
-                        swal("Not Delete!", response.data, "error");
+                        swal("Not Delete!", response.data.message, "error");
                     }
                 });
             });

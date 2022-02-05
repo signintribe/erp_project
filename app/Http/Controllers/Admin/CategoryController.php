@@ -100,7 +100,7 @@ class CategoryController extends Controller {
                 return response()->json(['status' => false, 'message' => "You can not delete this category. Please delete child first"]);    
             }
         } catch (\Illuminate\Database\QueryException $e) {
-            return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 100)]);
+            return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 68)]);
         }
     }
 

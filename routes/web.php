@@ -275,7 +275,10 @@ Route::group(['middleware' => ['auth:web','super_admin'], 'prefix'=>'superadmin'
   Route::get('superadmin', 'HomeController@superadmin')->name('superadmin');
   Route::get('create-chart-account', 'Admin\FinanceController@defineAccount');
   Route::get('getAccountCategories/{id}', 'Globall\CategoriesController@getAccountCategories');
+  Route::get('create-sidebar-menu', 'Globall\SidebarMenuController@index');
 });
+Route::get('create-chart-account', 'Admin\FinanceController@defineAccount');
+Route::get('getAccountCategories/{id}', 'Globall\CategoriesController@getAccountCategories');
 
 
 

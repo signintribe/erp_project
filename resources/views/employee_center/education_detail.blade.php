@@ -145,6 +145,8 @@
                 $scope.education = response.data;
                 $scope.education.passing_year = String($scope.education.passing_year);
                 $scope.education.employee_id = parseInt($scope.education.employee_id);
+                $scope.education.total_marks = parseInt($scope.education.total_marks);
+                $scope.education.obtain_marks = parseInt($scope.education.obtain_marks);
             });
         };
 

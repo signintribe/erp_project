@@ -1139,17 +1139,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeEducation`(IN `educat
     NO SQL
 BEGIN  
     IF educationid <> 0 THEN
-      SELECT education.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+      SELECT education.*, empinfo.id as employee_id, empinfo.first_name AS employee_name FROM (
         SELECT id, company_id, 
-        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        first_name
         FROM tblemployeeinformations WHERE company_id = cid
       )AS empinfo JOIN(
         SELECT * FROM erp_employee_educations WHERE id = educationid
       ) AS education ON education.employee_id = empinfo.id;
     ELSE
-      SELECT education.*, empinfo.id as employee_id, empinfo.employee_name FROM (
+      SELECT education.*, empinfo.id as employee_id, empinfo.first_name AS employee_name FROM (
         SELECT id, company_id, 
-        concat(first_name, ' ', middle_name, ' ', last_name) AS employee_name
+        first_name
         FROM tblemployeeinformations WHERE company_id = cid
       )AS empinfo JOIN(
         SELECT * FROM erp_employee_educations

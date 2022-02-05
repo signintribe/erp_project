@@ -127,11 +127,15 @@ class ComBankDetailController extends Controller
      */
     public function destroy($id)
     {
-        $bank = tblcompany_bankdetail::where('id', $id)->first();
-        tblcompany_bankdetail::where('id', $bank->id)->delete();
-        tbladdress::where('id', $bank->address_id)->delete();
-        tblcontact::where('id', $bank->contact_id)->delete();
-        tblsocialmedias::where('id', $bank->social_id)->delete();
-        return 'Delete';
+        try{
+            $bank = tblcompany_bankdetail::where('id', $id)->first();
+            tblcompany_bankdetail::where('id', $bank->id)->delete();
+            tbladdress::where('id', $bank->address_id)->delete();
+            tblcontact::where('id', $bank->contact_id)->delete();
+            tblsocialmedias::where('id', $bank->social_id)->delete();
+            return response()->json(['status' => false, 'message' => 'Bank Detail Delete Permanently']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 400)]);
+        }
     }
 }
