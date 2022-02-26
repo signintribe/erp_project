@@ -19,16 +19,16 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="basic_pay">* Basic Pay</label>
-                    <input type="text" class="form-control" id="basic_pay" ng-model="emoluments.basic_pay" placeholder="Basic Pay"/>
+                    <input type="number" class="form-control" id="basic_pay" ng-model="emoluments.basic_pay" placeholder="Basic Pay"/>
                     <i class="text-danger" ng-show="!emoluments.basic_pay && showError"><small>Please Type Basic Pay</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label class="medical_allowance">Medical Allowance</label>
-                    <input type="text" class="form-control" id="medical_allowance" ng-model="emoluments.medical_allowance" placeholder="Medical Allowance"/>
+                    <input type="number" class="form-control" id="medical_allowance" ng-model="emoluments.medical_allowance" placeholder="Medical Allowance"/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label class="conveyance_allowance">Conveyance Allowance</label>
-                    <input type="text" class="form-control" id="conveyance_allowance" ng-model="emoluments.conveyance_allowance" placeholder="Conveyance Allowance"/>
+                    <input type="number" class="form-control" id="conveyance_allowance" ng-model="emoluments.conveyance_allowance" placeholder="Conveyance Allowance"/>
                 </div>
             </div><br/>
             <div class="row">
@@ -114,6 +114,9 @@
             $http.get('maintain-pay-emoluments/'+id+'/edit').then(function (response) {
                 $scope.emoluments = response.data;
                 $scope.emoluments.employee_id = parseInt($scope.emoluments.employee_id);
+                $scope.emoluments.basic_pay = parseInt($scope.emoluments.basic_pay);
+                $scope.emoluments.medical_allowance = parseInt($scope.emoluments.medical_allowance);
+                $scope.emoluments.conveyance_allowance = parseInt($scope.emoluments.conveyance_allowance);
             });
         };
 

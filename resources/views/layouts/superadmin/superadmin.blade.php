@@ -32,6 +32,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <link rel="stylesheet" href="{{asset('public/plugins/dropzone/min/dropzone.min.css')}}">
         <!-- Theme style -->
         <link rel="stylesheet" href="{{asset('public/dist/css/adminlte.min.css')}}">
+        <!-- Sweet Alert -->
+        <link href="{{ asset('public/css/sweetalert.css')}}" rel="stylesheet">
         <style>
             .nav-sidebar a{
                 font-size: 14px;
@@ -243,5 +245,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{asset('public/dist/js/demo.js')}}"></script>
         <!-- AdminLTE App -->
         <script src="{{asset('public/dist/js/adminlte.min.js')}}"></script>
+        <script src="{{ asset('public/js/sweetalert.min.js')}}"></script>
     </body>
 </html>

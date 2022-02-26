@@ -21,8 +21,7 @@ class EmployeeAddressController extends Controller
      */
     public function index()
     {
-        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
-        return DB::select('call sp_getEmploeeAddress(0, '.$company->id.')');
+        
     }
 
     /**
@@ -46,7 +45,7 @@ class EmployeeAddressController extends Controller
         //return $request->all();
         $gtaddr = tbladdress::where('id', $request->id)->first();
         if(!empty($gtaddr)){
-            $addressdata = $request->except(['id', 'employee_id', 'employee_name', 'created_at', 'updated_at']);
+            $addressdata = $request->except(['id', 'first_name', 'last_name', 'middle_name', 'employee_id', 'employee_name', 'created_at', 'updated_at']);
             tbladdress::where('id', $request->id)->update($addressdata);
             return "Employee Address Update";
         }else{
@@ -74,7 +73,7 @@ class EmployeeAddressController extends Controller
      */
     public function show($id)
     {
-        //
+        return DB::select('call sp_getEmploeeAddress(0, '.$id.')');
     }
 
     /**

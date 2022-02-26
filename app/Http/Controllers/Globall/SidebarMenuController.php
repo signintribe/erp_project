@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Globall;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\CreationTire\ErpSidebarMenu;
 
 class SidebarMenuController extends Controller
 {
@@ -39,7 +40,18 @@ class SidebarMenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $data = $request->all();
+            $data['is_child'] = $request->is_child == "true" ? 2 : 0;
+            return $data;
+            ErpSidebarMenu::create($data);
+            return response()->json([
+                'status'=>true,
+                'message'=>'Menu Sessfully Save'
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 400)]);
+        }
     }
 
     /**
@@ -50,7 +62,7 @@ class SidebarMenuController extends Controller
      */
     public function show($id)
     {
-        //
+        return ErpSidebarMenu::where('is_child', $id)->get();
     }
 
     /**

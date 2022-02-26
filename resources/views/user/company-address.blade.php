@@ -99,7 +99,7 @@
                 <thead>
                     <tr>
                         <th>Sr#</th>
-                        <th>Company Name</th>
+                        <th>Address Line 1</th>
                         <th>Street</th>
                         <th>City</th>
                         <th>Country</th>
@@ -109,7 +109,7 @@
                 <tbody>
                     <tr ng-repeat="company in addresses">
                         <td ng-bind="$index + 1"></td>
-                        <td ng-bind="company.company_name"></td>
+                        <td ng-bind="company.address_line_1"></td>
                         <td ng-bind="company.street"></td>
                         <td ng-bind="company.city"></td>
                         <td ng-bind="company.country"></td>
@@ -149,7 +149,7 @@
 
         $scope.get_companyaddress = function () {
             $scope.addresses = {};
-            $http.get('maintain-company-address').then(function (response) {
+            $http.get('maintain-company-address/' + $('#company_id').val()).then(function (response) {
                 if (response.data.length > 0) {
                     $scope.addresses = response.data;
                 }
@@ -195,6 +195,7 @@
                     return !this.value;
                 }).addClass("has-error");
             } else {
+                $scope.company.com_id = $("#company_id").val();
                 $("#loader").removeClass('fa-save').addClass('fa-spinner fa-pulse fa-fw');
                 var Data = new FormData();
                 angular.forEach($scope.company, function (v, k) {
