@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models\CreationTire;
+namespace App\Models\GlobalModel;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ErpMenuRelation extends Model
+class SidebarChild extends Model
 {
     protected $guarded = [];
 
-    /**
+     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array

@@ -148,10 +148,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{url('superadmin/create-sidebar-menu')}}" class="nav-link">
+                                <a href="{{url('superadmin/create-sidebar-menu')}}" class="nav-link" id="sidebar-menu">
                                     <i class="nav-icon fa fa-bars"></i>
                                     <p>
                                         Sidebar Menu
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{url('superadmin/regiter-admin')}}" class="nav-link" id="register-admin">
+                                    <i class="nav-icon fa fa-user-secret"></i>
+                                    <p>
+                                        Register Admin
                                     </p>
                                 </a>
                             </li>
