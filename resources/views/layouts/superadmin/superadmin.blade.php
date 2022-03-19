@@ -34,6 +34,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <link rel="stylesheet" href="{{asset('public/dist/css/adminlte.min.css')}}">
         <!-- Sweet Alert -->
         <link href="{{ asset('public/css/sweetalert.css')}}" rel="stylesheet">
+        <!-- Mega Menu -->
+        <link href="{{asset('public/css/megamenu.css')}}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
             .nav-sidebar a{
                 font-size: 14px;
