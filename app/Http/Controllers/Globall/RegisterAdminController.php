@@ -95,13 +95,15 @@ class RegisterAdminController extends Controller
     {
         $first = DB::select('SELECT * FROM erp_sidebar_menus WHERE id IN(SELECT child_id FROM sidebar_children WHERE parent_id = 1) ORDER BY menu_name ASC;');
         $second = array();
-        $third = array();
+        $second_level = array();
         foreach($first as $key => $value){
             $second[$value->menu_name] = DB::select('SELECT * FROM erp_sidebar_menus WHERE id IN(SELECT child_id FROM sidebar_children WHERE parent_id = '.$value->id.') ORDER BY menu_name ASC;');
+            //return $second_level = $value->menu_name;
             foreach($second[$value->menu_name] as $key1 => $value1){
-                $second[$value->menu_name][$value1->menu_name] = DB::select('SELECT * FROM erp_sidebar_menus WHERE id IN(SELECT child_id FROM sidebar_children WHERE parent_id = '.$value1->id.') ORDER BY menu_name ASC;');
+                //echo $value1->menu_name;
+                $second_level[$value->menu_name][$value1->menu_name] = DB::select('SELECT * FROM erp_sidebar_menus WHERE id IN(SELECT child_id FROM sidebar_children WHERE parent_id = '.$value1->id.') ORDER BY menu_name ASC;');
             }
         }
-        return $second;
+        return $second_level;
     }
 }

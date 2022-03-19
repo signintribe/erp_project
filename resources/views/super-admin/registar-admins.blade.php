@@ -57,8 +57,36 @@
                 <div class="card-header">
                     <h3 class="card-title">All Menus</h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="height:350px">
                     <div class="row">
+                        <div class="col" ng-repeat="(key, value) in Menus">
+                            <!-- Mega Menu 2-->
+                            <div class="meganavbar">
+                                <div class="megadropdown">
+                                    <button class="megadropbtn">
+                                        <span ng-bind="key"></span>
+                                        <i class="fa fa-caret-down"></i>
+                                    </button>
+                                    <div class="megadropdown-content" style="overflow-y:scroll">
+                                        <div class="row" style="height:250px">
+                                            <div class="column" ng-repeat="(key1, value1) in value">
+                                                <label ng-bind="key1"></label>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item" ng-repeat="v in value1" style="font-size:12px">
+                                                        <input type="checkbox" name="cat" id="cat<%v.id%>">
+                                                        <label ng-bind="v.menu_name" for="cat<%v.id%>"></label>
+                                                        <!-- <input type="checkbox" name="group" id="group_1" />
+                                                        <label for="group_1">description</label> -->
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4" style="overflow-y:scroll; height: 500px;">
                             <ul class="list-group">
                                 <li ng-repeat="m in Menus" class="list-group-item">
@@ -81,7 +109,7 @@
                             </ul>
                         </div>
                     </div><br/>
-                    <button type="submit" class="btn btn-success btn-sm float-right" ng-click="saveUser();"><i id="loader" class="fa fa-save"></i> Save</button>
+                    <button type="submit" class="btn btn-success btn-sm float-right" ng-click="saveUser();"><i id="loader" class="fa fa-save"></i> Save</button> -->
                 </div>
             </div>
         </div>

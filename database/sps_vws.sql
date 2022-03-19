@@ -149,14 +149,6 @@ DROP PROCEDURE `sp_searchcompanyquery`;
 DELIMITER $$
 CREATE PROCEDURE `sp_searchcompanyquery`(in qstatus varchar(20), in todate varchar(20), in fromdate varchar(20))
 BEGIN
-
-END$$
-DELIMITER ;
-
-DROP PROCEDURE `sp_searchcompanyquery`;
-DELIMITER $$
-CREATE PROCEDURE `sp_searchcompanyquery`(in qstatus varchar(20), in todate varchar(20), in fromdate varchar(20))
-BEGIN
     IF qstatus <> '0' AND todate <=> '0' AND fromdate <=> '0' THEN
         SELECT 
         query.id, query.query_discription, query.status, query.expected_date, query.created_at,
