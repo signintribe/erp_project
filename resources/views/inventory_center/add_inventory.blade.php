@@ -126,7 +126,8 @@
                     <label ng-bind="key" style="font-weight: bolder; text-transform: capitalize"></label><hr/>
                     <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="atv in value" style="padding-bottom: 20px;">
-                            <input type="checkbox" ng-click="getAttr(atv.id)" id="atv<% atv.id %>"> <label for="atv<% atv.id %>" ng-bind="atv.value_name"></label>
+                            <input type="checkbox" ng-click="getAttr(atv.id)" id="atv<% atv.id %>"> 
+                            <label for="atv<% atv.id %>" ng-bind="atv.value_name"></label>
                         </div>
                     </div>
                 </div>
