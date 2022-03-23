@@ -57,7 +57,7 @@
                 <div class="card-header">
                     <h3 class="card-title">All Menus</h3>
                 </div>
-                <div class="card-body" style="height:350px">
+                <div class="card-body" style="height:400px">
                     <div class="row">
                         <div class="col" ng-repeat="(key, value) in Menus">
                             <!-- Mega Menu 2-->
@@ -73,10 +73,8 @@
                                                 <label ng-bind="key1"></label>
                                                 <ul class="list-group">
                                                     <li class="list-group-item" ng-repeat="v in value1" style="font-size:12px">
-                                                        <input type="checkbox" name="cat" id="cat<%v.id%>">
+                                                        <input type="checkbox" name="cat" id="cat<%v.id%>" ng-click="getCheckMenus(v.id)">
                                                         <label ng-bind="v.menu_name" for="cat<%v.id%>"></label>
-                                                        <!-- <input type="checkbox" name="group" id="group_1" />
-                                                        <label for="group_1">description</label> -->
                                                     </li>
                                                 </ul>
                                             </div>
@@ -85,31 +83,47 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4" style="overflow-y:scroll; height: 500px;">
-                            <ul class="list-group">
-                                <li ng-repeat="m in Menus" class="list-group-item">
-                                    <input type="radio" ng-model="menu.tier_id" ng-click="getMenusOne(m.id)" id="parent<% m.id %>" ng-value="m.id"> <label for="parent<% m.id %>" ng-bind="m.menu_name"></label><br/>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4" style="overflow-y:scroll; height: 500px;">
-                            <ul class="list-group" ng-if="MenusOne.length > 0">
-                                <li ng-repeat="om in MenusOne" class="list-group-item">
-                                    <input type="radio" ng-model="menu.module_id" ng-click="getMenusTwo(om.id)" id="parent<% om.id %>" ng-value="om.id"> <label for="parent<% om.id %>" ng-bind="om.menu_name"></label><br/>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4" style="overflow-y:scroll; height: 500px;">
-                            <ul class="list-group" ng-if="MenusTwo.length > 0">
-                                <li ng-repeat="tm in MenusTwo" class="list-group-item">
-                                    <input type="checkbox" ng-click="selectForms(tm.id)" id="parent<% tm.id %>" ng-value="tm.id"> <label for="parent<% tm.id %>" ng-bind="tm.menu_name"></label><br/>      
-                                </li>
-                            </ul>
-                        </div>
                     </div><br/>
-                    <button type="submit" class="btn btn-success btn-sm float-right" ng-click="saveUser();"><i id="loader" class="fa fa-save"></i> Save</button> -->
+                    <button type="submit" class="btn btn-success btn-sm float-right" ng-click="saveUser();"><i id="loader" class="fa fa-save"></i> Save</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12" id="user-menus">
+            <div class="card" ng-init="getUserSidebarMenus();">
+                <div class="card-header">
+                    <h3 class="card-title">View User Sidebar Menus</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Sr#</th>
+                                    <th>Barcode ID</th>
+                                    <th>Product Name</th>
+                                    <th>Product Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="data in allinventories">
+                                    <td ng-bind="$index+1"></td>
+                                    <td ng-bind="data.barcode_id"></td>
+                                    <td ng-bind="data.product_name" style="text-transform: capitalize;"></td>
+                                    <td ng-bind="data.product_description" style="text-transform: capitalize;"></td>
+                                    <td>
+                                        <a class="btn btn-xs btn-info" href="edit-inventory/<% data.id %>">Edit</a>
+                                        <button class="btn btn-xs btn-danger" ng-click="deleteInventoryInfo(data.id)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-center">
+                            <i id="loader"></i><br/>
+                            <p ng-if="norecord" ng-bind="norecord"></p>
+                            <button class="btn btn-sm btn-primary" ng-if="allinventories.length > 49" id="load-more-btn" ng-click="loadMore()"> <i class="fa fa-spinner" id="load-more"></i> Load More</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -163,7 +177,7 @@
        };
 
        $scope.saveUser = function(){
-            $scope.menu.forms = JSON.stringify($scope.formIds);
+            $scope.menu.forms = JSON.stringify($scope.checkmenus);
             console.log($scope.menu);
             if (!$scope.menu.email || !$scope.menu.name || !$scope.menu.company_name || !$scope.menu.password || !$scope.menu.role) {
                 $scope.showError = true;
@@ -187,6 +201,26 @@
                 });
             }
        };
+
+       $scope.checkmenus = [];
+        $scope.getCheckMenus = function(menu_id){
+            let index = $scope.checkmenus.indexOf(menu_id);
+            if(index == -1){
+                $scope.checkmenus.push(menu_id);
+
+            }else{
+                $scope.checkmenus.splice(index, 1);
+            }
+            console.log($scope.checkmenus);
+        };
+
+        $scope.getUserSidebarMenus = function(){
+            var UserMenus = $http.get('get-user-sidebar-menus');
+            UserMenus.then(function (r) {
+                $scope.usermenus = r.data;                
+                console.log($scope.usermenus);
+            });
+        };
     });
 </script>
 @endsection

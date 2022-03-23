@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CreationTire\ErpSidebarMenu;
 use App\Models\GlobalModel\SidebarChild;
+use App\Models\GlobalModel\ErpUserMenu;
+use App\User;
+use App\Models\VendorModels\tblcompanydetail;
 use DB;
 
 class RegisterAdminController extends Controller
@@ -43,7 +46,22 @@ class RegisterAdminController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        $forms = json_decode($request->forms, true);
+        //user
+        $user = $request->except('forms','company_name','role');
+        $user['password'] = bcrypt($request->password);
+        $user = User::create($user);
+        //company
+        $company = $request->except('forms','name','email','password','role');
+        $company['user_id'] = $user->id;
+        tblcompanydetail::create($company);
+        //sidebar menus
+        for($i = 0; $i<count($forms); $i++){
+            $data['sidebar_menu_id'] = $forms[$i];
+            $data['user_id'] = $user->id;
+            ErpUserMenu::create($data);
+        }
+        return response()->json(['success' => 'Successfully Create'], 201);
     }
 
     /**
@@ -105,5 +123,10 @@ class RegisterAdminController extends Controller
             }
         }
         return $second_level;
+    }
+
+    public function getUserSidebarMenus()           
+    {
+        return 'hello';
     }
 }
