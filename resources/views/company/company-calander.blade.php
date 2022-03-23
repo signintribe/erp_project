@@ -24,37 +24,38 @@
                     </select>
                 </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="office">Select Office</label>
+                    <label for="office">* Select Office</label>
                     <select ng-model="calander.office_id" ng-change="getDepartments(calander.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
                         <option value="">Select Office</option>
                     </select>
+                    <i class="text-danger" ng-show="!calander.office_id && showError"><small>Please Select Office</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="department">* Select Department</label>
+                    <label for="department">Select Department</label>
                     <select ng-model="calander.department_id" id="department" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
-                    <i class="text-danger" ng-show="!calander.department_id && showError"><small>Please Select Department</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="calander_name">* Calander Name</label>
                     <input type="text" ng-model="calander.calender_name" id="calander_name" class="form-control" placeholder="Calander Name">
                     <i class="text-danger" ng-show="!calander.calender_name && showError"><small>Please Type Department Name</small></i>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="calander_type">Calander Type</label>
                     <input type="text" ng-model="calander.calender_type" id="calander_type" class="form-control" placeholder="Calander Type">
-                </div>
-            </div><br>
-            <div class="row">                
+                </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="fiscal">Fiscal/Financial</label>
-                    <select ng-model="calander.fiscal_financial" id="fiscal" class="form-control">
+                    <select ng-model="calander.calender_type" id="fiscal" class="form-control">
                         <option value="">Select Fiscal / Financial</option>
                         <option value="Fiscal">Fiscal</option>
                         <option value="Financial">Financial</option>
                     </select>
+                    <i class="text-danger" ng-show="!calander.calender_type && showError"><small>Please select fiscal/financial</small></i>
                 </div>
+            </div><br>
+            <div class="row">                
                 <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="calander_year">Calander Year</label>
                     <select ng-model="calander.calender_year" id="calander_year" class="form-control" placeholder="Calander Year">
@@ -65,7 +66,7 @@
                     </select>
                 </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="calander_start">Calander Start Date</label>
+                    <label for="calander_start">* Calander Start Date</label>
                     <div class="form-group">
                         <div class="input-group date" id="start_date" data-target-input="nearest">
                             <input type="text" placeholder="Start Date" ng-model="calander.calender_start_date" class="form-control datetimepicker-input" data-target="#start_date"/>
@@ -74,9 +75,10 @@
                             </div>
                         </div>
                     </div>
+                    <i class="text-danger" ng-show="!calander.calender_start_date && showError"><small>Please type start date</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="calander_end">Calander End Date</label>
+                    <label for="calander_end">* Calander End Date</label>
                     <div class="form-group">
                         <div class="input-group date" id="end_date" data-target-input="nearest">
                             <input type="text" placeholder="End Date" ng-model="calander.calender_end_date" class="form-control datetimepicker-input" data-target="#end_date"/>
@@ -85,6 +87,7 @@
                             </div>
                         </div>
                     </div>
+                    <i class="text-danger" ng-show="!calander.calender_end_date && showError"><small>Please type end date</small></i>
                 </div>
             </div><br>
             <!-- <div class="row">                
@@ -166,6 +169,7 @@
     </div>
 </div>
 <input type="hidden" value="<?php echo env('APP_URL'); ?>" id="appurl">
+<input type="hidden" value="<?php echo Auth::user()->id; ?>" id="user_id">
 <script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
     var OrderList = angular.module('CalanderApp', [], function ($interpolateProvider) {
@@ -223,7 +227,7 @@
         };
 
         $scope.get_calendars = function(){
-            $http.get('maintain-calender').then(function (response) {
+            $http.get('maintain-calender/' + $("#user_id").val()).then(function (response) {
                 if(response.data.length > 0){
                     $scope.calendars = response.data;
                 }
@@ -245,7 +249,7 @@
         $scope.save_calender = function () {
             $scope.calander.calender_start_date = $("#start_date input").val();
             $scope.calander.calender_end_date = $("#end_date input").val();
-            if (!$scope.calander.department_id || !$scope.calander.calender_name) {
+            if (!$scope.calander.calender_type || !$scope.calander.calender_name || !$scope.calander.calender_end_date || !$scope.calander.calender_start_date) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                 return !this.value;
@@ -257,14 +261,18 @@
                     Data.append(k, v);
                 });
                 $http.post('maintain-calender', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
-                    $scope.get_calendars();
-                    swal({
-                        title: "Save!",
-                        text: res.data,
-                        type: "success"
-                    });
-                    $("#loader").removeClass('fa-spinner fa-fw fa-pulse').addClass('fa-save');
-                    $scope.calander = {};
+                    if(res.data.status == true){
+                        $scope.get_calendars();
+                        swal({
+                            title: "Save!",
+                            text: res.data.message,
+                            type: "success"
+                        });
+                        $("#loader").removeClass('fa-spinner fa-fw fa-pulse').addClass('fa-save');
+                        $scope.calander = {};
+                    }else{
+                        swal('Warning', res.data.message, 'warning');
+                    }
                 });
             }
         };

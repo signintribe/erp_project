@@ -324,7 +324,7 @@ Route::get('get-all-complaints', 'Admin\ComplaintsController@get_all_complaints'
 /**
  * User Company Profile Routes
  */
-Route::group(['prefix'=>'company'], function () {
+Route::group(['middleware' => ['auth:web','is_admin'], 'prefix'=>'company'], function () {
   Route::get('employee-group', 'Admin\EmployeeGroupController@employee_group');
   Route::get('company-profile', 'CompanyProfileController@index')->name('companyProfile')->middleware('is_admin');
   Route::get('company-address', 'CompanyProfileController@comAddressView');
@@ -354,11 +354,13 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('getdeps', 'Admin\DepartmentsController@getDepts');
   Route::get('delete-department/{deptid}', 'Admin\DepartmentsController@delete_department')->name('delete-department')->middleware('is_admin');
   Route::get('getonedept/{deptid}', 'Admin\DepartmentsController@getonedept')->name('delete-department')->middleware('is_admin');
-  Route::get('company-calander', 'company\CompanyCalenderController@company_calander')->name('company_calander')->middleware('is_admin');
+  
+  //Company Celander Routes
   Route::get('get-calendar/{dept_id}', 'company\CompanyCalenderController@get_calendar')->middleware('is_admin');
   Route::get('edit-calendar/{dept_id}', 'company\CompanyCalenderController@edit_calendar');
   Route::resource('maintain-calender', 'company\CompanyCalenderController')->middleware('is_admin');
   Route::get('get-departments/{office_id}', 'company\CompanyCalenderController@get_departments')->middleware('is_admin');
+  
   Route::get('company-shift', 'Admin\CompanyShiftController@company_shift')->middleware('is_admin');
   Route::get('get-shift/{dept_id}', 'Admin\CompanyShiftController@get_shift')->middleware('is_admin');
   Route::get('edit-shift/{dept_id}', 'Admin\CompanyShiftController@edit_shift');

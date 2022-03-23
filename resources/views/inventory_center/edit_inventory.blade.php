@@ -288,8 +288,8 @@
                     <label for="stock_classproduct_status">Product Status</label>
                     <select class="form-control" id="product_status" ng-model="inventory.product_status">
                         <option value="">Product Status</option>
-                        <option value="Active">Active</option>
-                        <option value="In Active">In Active</option>
+                        <option value="1">Active</option>
+                        <option value="0">In Active</option>
                     </select>
                 </div>
             </div>
@@ -398,11 +398,15 @@
                     Data.append(k, v);
                 });
                 $http.post($scope.appurl + 'save-inventory', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
-                    swal({
-                        title: "Save!",
-                        text: res.data,
-                        type: "success"
-                    });
+                    if(res.data.status == true){
+                        swal({
+                            title: "Save!",
+                            text: res.data.message,
+                            type: "success"
+                        });
+                    }else{
+                        swal('Warning!', res.data.message, 'warning');
+                    }
                     $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 });
             }
@@ -677,11 +681,11 @@
         $scope.getInventoryVendor = function(id){
             $http.get($scope.appurl + 'get-vendor/' + id).then(function (response) {
                 angular.extend($scope.inventory, response.data); 
-                $scope.inventory.vendor_name = parseInt(response.data.vendor_name);               
-                if($scope.inventory.product_status == 0){
-                    $scope.inventory.product_status = 'In Active';                
+                $scope.inventory.vendor_name = parseInt(response.data.vendor_name);              
+                if($scope.inventory.product_status == 0 || $scope.inventory.product_status == '0'){
+                    $scope.inventory.product_status = '0';                
                 }else{
-                    $scope.inventory.product_status = 'Active';                
+                    $scope.inventory.product_status = '1';                
                 }
             });
         };

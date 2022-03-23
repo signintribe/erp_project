@@ -26,12 +26,7 @@ class CompanyCalenderController extends Controller
      */
     public function index()
     {
-        return DB::select('call sp_getAllcompanyCalendar('.Auth::user()->id.', 0)');
-    }
-
-    public function company_calander(){
         return view('company.company-calander');
-
     }
 
     public function editCalender($id){
@@ -55,15 +50,19 @@ class CompanyCalenderController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request->all();
-        if($request->id){
-            $data = $request->except('id','office_id', 'company_name', 'company_id', 'office_name', 'department_name');
-            tblcompany_calender::where('id', $request->id)->update($data);
-            return "Calender Update";
+        try{
+            if($request->id){
+                $data = $request->except('id','office_id', 'company_name', 'company_id', 'office_name', 'department_name');
+                tblcompany_calender::where('id', $request->id)->update($data);
+            }else{
+                $data = $request->all();
+                $data['office_id'] = (int)$data['office_id'];
+                tblcompany_calender::create($data);
+            }
+            return response()->json(['status' => true, 'message' => "Calender Save"]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['status' => false, 'message' => $e->errorInfo[2]]);
         }
-        $data = $request->except('office_id');
-        tblcompany_calender::create($data);
-        return "Calender Save";
     }
 
     public function get_departments($office_id){
@@ -78,7 +77,7 @@ class CompanyCalenderController extends Controller
      */
     public function show($id)
     {
-        //
+        return DB::select('call sp_getAllcompanyCalendar('.$id.', 0)');
     }
 
     /**

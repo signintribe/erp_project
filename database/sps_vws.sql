@@ -725,36 +725,31 @@ BEGIN
     IF calendar_id <> 0 THEN
       SELECT 
       company.company_name, company.id as company_id, 
-      office.office_name, office.id as office_id, 
-      dept.department_name, calendar.* FROM (
+      office.office_name, dept.department_name, calendar.* FROM (
+        SELECT * FROM tblcompany_calenders WHERE id = calendar_id
+      ) AS calendar JOIN(
+        SELECT id, company_id, office_name FROM tblmaintain_offices 
+      ) AS office ON office.id = calendar.office_id JOIN(
         SELECT id, company_name 
-        FROM tblcompanydetails
-      ) AS company JOIN (
-        SELECT id, company_id, office_name 
-        FROM tblmaintain_offices
-      )AS office ON office.company_id = company.id JOIN(
+        FROM tblcompanydetails WHERE user_id = userid
+      ) AS company ON company.id = office.company_id LEFT JOIN(
         SELECT id, office_id, department_name 
         FROM tbldepartmens
-      ) AS dept ON dept.office_id = office.id JOIN (
-        SELECT * FROM tblcompany_calenders WHERE id = calendar_id
-      ) AS calendar ON calendar.department_id = dept.id;
+      ) AS dept ON dept.office_id = office.id;
     ELSE
       SELECT 
       company.company_name, company.id as company_id, 
-      office.office_name, office.id as office_id, 
-      dept.department_name, calendar.* FROM (
+      office.office_name, dept.department_name, calendar.* FROM (
+        SELECT * FROM tblcompany_calenders
+      ) AS calendar JOIN(
+        SELECT id, company_id, office_name FROM tblmaintain_offices 
+      ) AS office ON office.id = calendar.office_id JOIN(
         SELECT id, company_name 
-        FROM tblcompanydetails 
-        WHERE user_id = userid
-      ) AS company JOIN (
-        SELECT id, company_id, office_name 
-        FROM tblmaintain_offices
-      )AS office ON office.company_id = company.id JOIN(
+        FROM tblcompanydetails WHERE user_id = userid
+      ) AS company ON company.id = office.company_id LEFT JOIN(
         SELECT id, office_id, department_name 
         FROM tbldepartmens
-      ) AS dept ON dept.office_id = office.id JOIN (
-        SELECT * FROM tblcompany_calenders
-      ) AS calendar ON calendar.department_id = dept.id;
+      ) AS dept ON dept.office_id = office.id;
     END IF;
 
 END$$
