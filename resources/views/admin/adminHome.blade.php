@@ -6,8 +6,7 @@
 <div ng-app="AdminDashboardApp" ng-controller="AdminDashboardController">
     
 </div>
-<script src="{{ asset('public/js/angular.min.js')}}">
-</script>
+<script src="{{ asset('public/js/angular.min.js')}}"></script>
 <script>
 
     var AdminDashboard = angular.module('AdminDashboardApp', [], function ($interpolateProvider) {

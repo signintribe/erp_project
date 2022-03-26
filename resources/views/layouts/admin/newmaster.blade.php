@@ -125,19 +125,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
 
                     <!-- Sidebar Menu -->
-                    <nav class="mt-2">
-                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <nav class="mt-2" ng-app="AdminDashboardApp" ng-controller="AdminDashboardController">
+                        <ul class="nav nav-pills nav-sidebar flex-column" ng-init="getTiers(1)" data-widget="treeview" role="menu" data-accordion="false">
                             <!-- Add icons to the links using the .nav-icon class
                             with font-awesome or any other icon font library -->
-                            <li class="nav-item">
-                                <a href="{{url('creation-tier')}}" class="nav-link">
+                            <li class="nav-item" ng-repeat="tier in Tiers">
+                                <a href="{{url('<% tier.tier_link %>')}}" class="nav-link">
                                     <i class="nav-icon fas fa-plus"></i>
-                                    <p>
-                                        Creation Tier
-                                    </p>
+                                    <p ng-bind="tier.tier_name"></p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="{{url('task-tier')}}" class="nav-link">
                                     <i class="nav-icon fas fa-tasks"></i>
                                     <p>
@@ -160,7 +158,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         User Auth Tier
                                     </p>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->
@@ -221,6 +219,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- ./wrapper -->
 
         <!-- REQUIRED SCRIPTS -->
+        <input type="hidden" id="user_id" value="<?php echo Auth::user()->id; ?>">
+        <script src="{{ asset('public/js/angular.min.js')}}"></script>
+        <script>
+
+            var AdminDashboard = angular.module('AdminDashboardApp', [], function ($interpolateProvider) {
+                $interpolateProvider.startSymbol('<%');
+                $interpolateProvider.endSymbol('%>');
+            });
+
+            AdminDashboard.controller('AdminDashboardController', function ($scope, $http) {
+                $scope.getTiers = function(tiers){
+                    var getTiers = $http.get('admin/get-user-tiers/' + $("#user_id").val() + '/' + tiers);
+                    getTiers.then(function(response){
+                        alert(response.data.status);
+                        if(response.data.status == true){
+                            $scope.Tiers = response.data.data;
+                        }
+                    });
+                };
+            });
+        </script>
 
         <!-- jQuery -->
         <script src="{{asset('public/plugins/jquery/jquery.min.js')}}"></script>

@@ -41,12 +41,12 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="role">* Select Role</label>
-                            <select ng-model="menu.role" id="role" class="form-control">
+                            <select ng-model="menu.is_admin" id="role" class="form-control">
                                 <option value="">Select Role</option>
                                 <option value="1">Admin</option>
                                 <option value="2">Super Admin</option>
                             </select>
-                            <i class="text-danger" ng-show="!menu.role && showError"><small>Please Select Role</small></i><br/>
+                            <i class="text-danger" ng-show="!menu.is_admin && showError"><small>Please Select Role</small></i><br/>
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12" id="user-menus">
             <div class="card" ng-init="getUserSidebarMenus();">
                 <div class="card-header">
-                    <h3 class="card-title">View User Sidebar Menus</h3>
+                    <h3 class="card-title">View User</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -99,18 +99,18 @@
                             <thead>
                                 <tr>
                                     <th>Sr#</th>
-                                    <th>Barcode ID</th>
-                                    <th>Product Name</th>
-                                    <th>Product Description</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Company</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="data in allinventories">
+                                <tr ng-repeat="data in users">
                                     <td ng-bind="$index+1"></td>
-                                    <td ng-bind="data.barcode_id"></td>
-                                    <td ng-bind="data.product_name" style="text-transform: capitalize;"></td>
-                                    <td ng-bind="data.product_description" style="text-transform: capitalize;"></td>
+                                    <td ng-bind="data.name"></td>
+                                    <td ng-bind="data.email"></td>
+                                    <td ng-bind="data.company_name"></td>
                                     <td>
                                         <a class="btn btn-xs btn-info" href="edit-inventory/<% data.id %>">Edit</a>
                                         <button class="btn btn-xs btn-danger" ng-click="deleteInventoryInfo(data.id)">Delete</button>
@@ -143,6 +143,7 @@
         $scope.resetscope = function(){
             $scope.getMenus();
             $scope.menu = {};
+            $scope.getUser();
         };
 
         $scope.formIds = [];
@@ -159,6 +160,13 @@
         var ParentMenus = $http.get('get-sidebar-menu');
             ParentMenus.then(function (r) {
                 $scope.Menus = r.data;
+            });
+       };
+
+        $scope.getUser = function(){
+        var GetUsers = $http.get('get-users');
+            GetUsers.then(function (r) {
+                $scope.users= r.data;
             });
        };
 
@@ -179,7 +187,7 @@
        $scope.saveUser = function(){
             $scope.menu.forms = JSON.stringify($scope.checkmenus);
             console.log($scope.menu);
-            if (!$scope.menu.email || !$scope.menu.name || !$scope.menu.company_name || !$scope.menu.password || !$scope.menu.role) {
+            if (!$scope.menu.email || !$scope.menu.name || !$scope.menu.company_name || !$scope.menu.password || !$scope.menu.is_admin) {
                 $scope.showError = true;
                 jQuery("input.required").filter(function () {
                     return !this.value;
@@ -191,13 +199,15 @@
                     Data.append(k, v);
                 });
                 $http.post('regiter-admin', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
-                    swal({
-                        title: "Save!",
-                        text: res.data,
-                        type: "success"
-                    });
-                    $scope.menu = {};
-                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
+                    if(res.data.status == 201){
+                        swal({
+                            title: "Save!",
+                            text: res.data.success,
+                            type: "success"
+                        });
+                        $scope.menu = {};
+                        $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
+                    }
                 });
             }
        };

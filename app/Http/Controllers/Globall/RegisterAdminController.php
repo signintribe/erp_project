@@ -10,6 +10,7 @@ use App\Models\GlobalModel\ErpUserMenu;
 use App\User;
 use App\Models\VendorModels\tblcompanydetail;
 use DB;
+use Auth;
 
 class RegisterAdminController extends Controller
 {
@@ -48,11 +49,11 @@ class RegisterAdminController extends Controller
     {
         $forms = json_decode($request->forms, true);
         //user
-        $user = $request->except('forms','company_name','role');
+        $user = $request->except('forms','company_name');
         $user['password'] = bcrypt($request->password);
         $user = User::create($user);
         //company
-        $company = $request->except('forms','name','email','password','role');
+        $company = $request->except('forms','name','email','password','is_admin');
         $company['user_id'] = $user->id;
         tblcompanydetail::create($company);
         //sidebar menus
@@ -61,7 +62,7 @@ class RegisterAdminController extends Controller
             $data['user_id'] = $user->id;
             ErpUserMenu::create($data);
         }
-        return response()->json(['success' => 'Successfully Create'], 201);
+        return response()->json(['status'=> 201,'success' => 'Successfully Create']);
     }
 
     /**
@@ -125,8 +126,17 @@ class RegisterAdminController extends Controller
         return $second_level;
     }
 
-    public function getUserSidebarMenus()           
+    public function getUserSidebarMenus($user_id, $menus)           
     {
-        return 'hello';
+        $data = DB::select('call sp_getusermenus('.$user_id.', 0,0,'.$menus.')');
+        return response()->json([
+            'status' => true,
+            'data' => $data
+        ]);
+    }
+
+    public function get_users()
+    {
+        return DB::select('SELECT user.id, user.name, user.email, user.is_admin, company.company_name FROM(SELECT * FROM users WHERE is_admin IN(1, 4) AND id <> '.Auth::user()->id.') AS user JOIN(SELECT user_id, company_name FROM tblcompanydetails) AS company ON company.user_id = user.id');
     }
 }

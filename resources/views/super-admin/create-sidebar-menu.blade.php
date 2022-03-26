@@ -22,6 +22,10 @@
                     <label for="menu-link">* Menu Link</label>
                     <input type="text" ng-model="menu.menu_link" id="menu-link" class="form-control" placeholder="Type Menu Link">
                     <i class="text-danger" ng-show="!menu.menu_name && showError"><small>Please Type Menu Link</small></i><br/>
+                    <label for="menu-icon">Menu Icon</label>
+                    <input type="text" ng-model="menu.menu_icon" id="menu-icon" class="form-control" placeholder="Type Menu Icon"><br/>
+                    <label for="menu-id">Menu ID</label>
+                    <input type="text" ng-model="menu.menu_id" id="menu-id" class="form-control" placeholder="Type Menu ID"><br/>
                     <label for="menu-description">Description</label>
                     <textarea ng-model="menu.description" id="menu-description" cols="30" rows="5" class="form-control" placeholder="Type Menu Description. . ."></textarea><br/>
                     <button class="btn btn-success btn-sm" ng-click="SaveMenu()"><i id="loader" class="fa fa-save"></i> Save</button>

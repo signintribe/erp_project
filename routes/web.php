@@ -271,6 +271,10 @@ Route::get('all-queriesstatusinadmin', 'HomeController@all_queriesstatusinadmin'
 Route::get('all-companiesinadmin', 'HomeController@all_companiesinadmin')->name('all-companiesinadmin')->middleware('is_admin');
 Route::get('get-all-totalrevenue', 'HomeController@get_all_totalrevenue')->name('get-all-totalrevenue')->middleware('is_admin');
 
+Route::group(['middleware' => ['auth:web','is_admin'], 'prefix'=>'admin'], function(){
+  Route::get('get-user-tiers/{user_id}/{tiers}', 'Globall\RegisterAdminController@getUserSidebarMenus');
+});
+
 Route::group(['middleware' => ['auth:web','super_admin'], 'prefix'=>'superadmin'], function(){
   Route::get('superadmin', 'HomeController@superadmin')->name('superadmin');
   Route::get('create-chart-account', 'Admin\FinanceController@defineAccount');
@@ -280,6 +284,7 @@ Route::group(['middleware' => ['auth:web','super_admin'], 'prefix'=>'superadmin'
   Route::resource('regiter-admin', 'Globall\RegisterAdminController');
   Route::get('get-sidebar-menu', 'Globall\RegisterAdminController@get_sidebar_menu');  
   Route::get('get-user-sidebar-menus', 'Globall\RegisterAdminController@getUserSidebarMenus');
+  Route::get('get-users', 'Globall\RegisterAdminController@get_users');
 });
 Route::get('create-chart-account', 'Admin\FinanceController@defineAccount');
 Route::get('getAccountCategories/{id}', 'Globall\CategoriesController@getAccountCategories');
