@@ -256,6 +256,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="{{url('approval-authrity-list')}}" class="nav-link" id="authority-lists">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Approval Authorty List</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{url('company/authority-contact-person')}}" class="nav-link" id="authorities-contact-person">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Contact Person</p>

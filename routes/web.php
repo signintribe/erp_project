@@ -494,3 +494,7 @@ Route::get('sub-menu', function () {
 Route::get('aprovalwork-flow', function(){
   return view('aprovalwork-flow');
 })->name('Approvalform');
+
+Route::get('approval-authrity-list', function(){
+  return view('approval-authrity-list');
+})->name('Approval Authrity List');
