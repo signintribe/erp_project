@@ -1,7 +1,7 @@
 @extends('layouts.admin.taskTier')
-@section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
-@section('breadcrumb', 'Dashboard')
+@section('title', 'Approval Work Flow')
+@section('pagetitle', 'Approval Work Flow')
+@section('breadcrumb', 'Approval Work Flow')
 @section('content')
 <form action="approval-work" method="get">
  <div class="card">
