@@ -283,7 +283,7 @@ Route::group(['middleware' => ['auth:web','super_admin'], 'prefix'=>'superadmin'
   Route::resource('create-sidebar-menu', 'Globall\SidebarMenuController');
   Route::resource('regiter-admin', 'Globall\RegisterAdminController');
   Route::get('get-sidebar-menu', 'Globall\RegisterAdminController@get_sidebar_menu');  
-  Route::get('get-user-sidebar-menus', 'Globall\RegisterAdminController@getUserSidebarMenus');
+  Route::get('get-user-sidebar-menus/{user_id}/{menu}', 'Globall\RegisterAdminController@getUserSidebarMenus');
   Route::get('get-users', 'Globall\RegisterAdminController@get_users');
 });
 Route::get('create-chart-account', 'Admin\FinanceController@defineAccount');
