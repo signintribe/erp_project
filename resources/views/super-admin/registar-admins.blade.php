@@ -52,44 +52,55 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-12 col-md-12 col-sm-12" id="all-menus">
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6" ng-repeat="(key, value) in Menus">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">All Menus</h3>
+                    <h3 class="card-title" ng-bind="key"></h3>
                 </div>
-                <div class="card-body" style="height:400px">
+                <div class="card-body" style="height: 400px; overflow-y: scroll;">
                     <div class="row">
-                        <div class="col" ng-repeat="(key, value) in Menus">
-                            <!-- Mega Menu 2-->
-                            <div class="meganavbar">
-                                <div class="megadropdown">
-                                    <button class="megadropbtn">
-                                        <span ng-bind="key"></span>
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
-                                    <div class="megadropdown-content" style="overflow-y:scroll">
-                                        <div class="row" style="height:250px">
-                                            <div class="column" ng-repeat="(key1, value1) in value">
-                                                <label ng-bind="key1"></label>
-                                                <ul class="list-group">
-                                                    <li class="list-group-item" ng-repeat="v in value1" style="font-size:12px">
-                                                        <input type="checkbox" name="cat" id="cat<%v.id%>" ng-click="getCheckMenus(v.id)">
-                                                        <label ng-bind="v.menu_name" for="cat<%v.id%>"></label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6" ng-repeat="(key1, value1) in value">
+                            <label ng-bind="key1" style="border-bottom: 1px solid;font-size:14px"></label>
+                            <ul class="list-unstyled">
+                                <li ng-repeat="v in value1" style="font-size:12px">
+                                    <input type="checkbox" name="cat" id="cat<%v.id%>" ng-click="getCheckMenus(v.id)">
+                                    <label ng-bind="v.menu_name" for="cat<%v.id%>"></label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="submit" class="btn btn-success btn-sm float-right" ng-click="saveUser();"><i id="loader" class="fa fa-save"></i> Save</button>
+        </div>
+    </div><br/> 
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12" id="all-menus">
+            <div class="row" ng-if="Tiers">
+                <div class="col" ng-repeat="(tk, tv) in Tiers">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title" ng-bind="tk"></h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6" ng-repeat="(mk, mv) in tv">
+                                    <label ng-bind="mk"></label>
                                 </div>
                             </div>
                         </div>
-                    </div><br/>
-                    <button type="submit" class="btn btn-success btn-sm float-right" ng-click="saveUser();"><i id="loader" class="fa fa-save"></i> Save</button>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12" id="user-menus">
-            <div class="card" ng-init="getUserSidebarMenus();">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">View User</h3>
                 </div>
@@ -112,7 +123,7 @@
                                     <td ng-bind="data.email"></td>
                                     <td ng-bind="data.company_name"></td>
                                     <td>
-                                        <a class="btn btn-xs btn-info" href="edit-inventory/<% data.id %>">Edit</a>
+                                        <button class="btn btn-xs btn-info" ng-click="getUserTiers(data.id, 1);">Edit</button>
                                         <button class="btn btn-xs btn-danger" ng-click="deleteInventoryInfo(data.id)">Delete</button>
                                     </td>
                                 </tr>
@@ -129,108 +140,6 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('public/js/angular.min.js')}}">
-</script>
-<script>
-
-    var RegisterAdmin = angular.module('RegisterAdminApp', [], function ($interpolateProvider) {
-        $interpolateProvider.startSymbol('<%');
-        $interpolateProvider.endSymbol('%>');
-    });
-
-    RegisterAdmin.controller('RegisterAdminController', function ($scope, $http) {
-        $("#register-admin").addClass('active');
-        $scope.resetscope = function(){
-            $scope.getMenus();
-            $scope.menu = {};
-            $scope.getUser();
-        };
-
-        $scope.formIds = [];
-        $scope.selectForms = function(form_id){
-            let index = $scope.formIds.indexOf(form_id);
-            if(index == -1){
-                $scope.formIds.push(form_id);
-            }else{
-                $scope.formIds.splice(index, 1);
-            }
-        };
-
-        $scope.getMenus = function(){
-        var ParentMenus = $http.get('get-sidebar-menu');
-            ParentMenus.then(function (r) {
-                $scope.Menus = r.data;
-            });
-       };
-
-        $scope.getUser = function(){
-        var GetUsers = $http.get('get-users');
-            GetUsers.then(function (r) {
-                $scope.users= r.data;
-            });
-       };
-
-       $scope.getMenusOne = function(id){
-        var ParentMenus = $http.get('create-sidebar-menu/' + id);
-            ParentMenus.then(function (r) {
-                $scope.MenusOne = r.data;
-            });
-       };
-
-       $scope.getMenusTwo = function(id){
-        var ParentMenus = $http.get('create-sidebar-menu/' + id);
-            ParentMenus.then(function (r) {
-                $scope.MenusTwo = r.data;
-            });
-       };
-
-       $scope.saveUser = function(){
-            $scope.menu.forms = JSON.stringify($scope.checkmenus);
-            console.log($scope.menu);
-            if (!$scope.menu.email || !$scope.menu.name || !$scope.menu.company_name || !$scope.menu.password || !$scope.menu.is_admin) {
-                $scope.showError = true;
-                jQuery("input.required").filter(function () {
-                    return !this.value;
-                }).addClass("has-error");
-            } else {
-                $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
-                var Data = new FormData();
-                angular.forEach($scope.menu, function (v, k) {
-                    Data.append(k, v);
-                });
-                $http.post('regiter-admin', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
-                    if(res.data.status == 201){
-                        swal({
-                            title: "Save!",
-                            text: res.data.success,
-                            type: "success"
-                        });
-                        $scope.menu = {};
-                        $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
-                    }
-                });
-            }
-       };
-
-       $scope.checkmenus = [];
-        $scope.getCheckMenus = function(menu_id){
-            let index = $scope.checkmenus.indexOf(menu_id);
-            if(index == -1){
-                $scope.checkmenus.push(menu_id);
-
-            }else{
-                $scope.checkmenus.splice(index, 1);
-            }
-            console.log($scope.checkmenus);
-        };
-
-        $scope.getUserSidebarMenus = function(){
-            var UserMenus = $http.get('get-user-sidebar-menus');
-            UserMenus.then(function (r) {
-                $scope.usermenus = r.data;                
-                console.log($scope.usermenus);
-            });
-        };
-    });
-</script>
+<script src="{{ asset('public/js/angular.min.js')}}"></script>
+<script src="{{asset('ng_controllers/super_admin/register-admins.js')}}"></script>
 @endsection

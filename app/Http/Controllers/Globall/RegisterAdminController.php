@@ -129,9 +129,19 @@ class RegisterAdminController extends Controller
     public function getUserSidebarMenus($user_id, $menus)           
     {
         $data = DB::select('call sp_getusermenus('.$user_id.', 0,0,'.$menus.')');
+        $second = array();
+        $second_level = array();
+        foreach($data as $key => $value){
+            $second[$value->tier_name] = DB::select('call sp_getusermenus('.$user_id.', 0,'.$menus.',0)');
+            //return $second_level = $value->menu_name;
+            foreach($second[$value->tier_name] as $key1 => $value1){
+                //echo $value1->menu_name;
+                $second_level[$value->tier_name][$value1->module_name] = DB::select('call sp_getusermenus('.$user_id.', '.$menus.', 0, 0)');
+            }
+        }
         return response()->json([
             'status' => true,
-            'data' => $data
+            'data' => $second_level
         ]);
     }
 
