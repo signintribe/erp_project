@@ -491,4 +491,6 @@ Route::get('sub-menu', function () {
     return view('admin.sub_menu');
 })->name('loginpage');
 
-
+Route::get('aprovalwork-flow', function(){
+  return view('aprovalwork-flow');
+})->name('Approvalform');

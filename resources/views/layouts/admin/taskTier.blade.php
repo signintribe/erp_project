@@ -215,6 +215,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <p>Requestion</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="aprovalwork-flow" class="nav-link" id="hr-requestion">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Approvalform</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item" id="banking-finance">
