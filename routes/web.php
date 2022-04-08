@@ -498,3 +498,7 @@ Route::get('aprovalwork-flow', function(){
 Route::get('approval-authrity-list', function(){
   return view('approval-authrity-list');
 })->name('Approval Authrity List');
+
+Route::get('destination-form', function(){
+  return view('destination-form');
+})->name('Destination Form');
