@@ -209,6 +209,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="{{url('destination-form')}}" class="nav-link" id="company-group">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Destination</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{url('company/company-shift')}}" class="nav-link" id="company-shift">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Company Shifts</p>
