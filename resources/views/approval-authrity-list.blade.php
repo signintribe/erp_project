@@ -4,6 +4,7 @@
 @section('breadcrumb', 'Approval Authrity List')
 @section('content')
 
+<div ng-app='AuthorityApp' ng-controller='AuthorityController'>
 <form action="approval-authrity-list" method="get">
     <div class="card">
         <div class="card-body">
@@ -39,4 +40,20 @@
         </div>
     </div>
 </form>
+</div>
+<script src="{{ asset('public/js/angular.min.js')}}">
+</script>
+<script>
+
+    var AdminDashboard = angular.module('AuthorityApp', [], function ($interpolateProvider) {
+        $interpolateProvider.startSymbol('<%');
+        $interpolateProvider.endSymbol('%>');
+    });
+
+    AdminDashboard.controller('AuthorityController', function ($scope, $http) {
+        $("#authorities").addClass('menu-open');
+            $("#auth").addClass('active');
+            $("#approve-authority-lists").addClass('active');
+    });
+</script>
 @endsection

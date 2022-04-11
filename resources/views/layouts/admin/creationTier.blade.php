@@ -209,9 +209,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('destination-form')}}" class="nav-link" id="company-group">
+                                        <a href="{{url('destination-form')}}" class="nav-link" id="company-designation">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Destination</p>
+                                            <p>Designation</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -247,7 +247,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </ul>
                             </li>
                             <li class="nav-item" id="authorities">
-                                <a href="#" class="nav-link">
+                                <a href="#" class="nav-link" id='auth'>
                                     <i class="fa fa-file nav-icon"></i>
                                     <p>
                                         Authorties
@@ -262,7 +262,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{url('approval-authrity-list')}}" class="nav-link" id="authority-lists">
+                                        <a href="{{url('approval-authrity-list')}}" class="nav-link" id="approve-authority-lists">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Approval Authorty List</p>
                                         </a>
