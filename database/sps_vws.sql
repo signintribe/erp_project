@@ -1374,7 +1374,7 @@ DELIMITER ;
 
 DROP PROCEDURE `sp_getusermenus`;
 DELIMITER $$
-CREATE PROCEDURE `sp_getusermenus`(IN `userid` INT(11), IN `forms` INT(1), IN `module` INT(1), IN `tier` INT(1))
+CREATE PROCEDURE `sp_getusermenus`(IN `userid` INT(11), IN `forms` INT(1), IN `module` INT(1), IN `tier` INT(1), `parentid` INT(11))
 BEGIN
   IF forms <=> 1 THEN
     SELECT form.id, form.menu_name AS from_name, form.menu_link AS form_link, 
@@ -1385,7 +1385,7 @@ BEGIN
     ) AS usermenu JOIN (
       SELECT id, menu_name, menu_link FROM erp_sidebar_menus
     ) AS form ON form.id = usermenu.sidebar_menu_id JOIN(
-        SELECT child_id, parent_id FROM sidebar_children
+        SELECT child_id, parent_id FROM sidebar_children WHERE parent_id = parentid
     )AS child ON child.child_id = usermenu.sidebar_menu_id JOIN(
       SELECT id, menu_name FROM erp_sidebar_menus
     )AS module ON module.id = child.parent_id JOIN(
@@ -1406,7 +1406,7 @@ BEGIN
     )AS child ON child.child_id = usermenu.sidebar_menu_id JOIN(
       SELECT id, menu_name, menu_link FROM erp_sidebar_menus
     )AS module ON module.id = child.parent_id JOIN(
-      SELECT child_id, parent_id FROM sidebar_children
+      SELECT child_id, parent_id FROM sidebar_children WHERE parent_id = parentid
     ) AS tchild ON tchild.child_id = module.id JOIN (
       SELECT id, menu_name FROM erp_sidebar_menus
     ) AS tier ON tier.id = tchild.parent_id GROUP BY module.id;

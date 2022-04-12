@@ -46,21 +46,39 @@ class RegisterAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
         $forms = json_decode($request->forms, true);
-        //user
-        $user = $request->except('forms','company_name');
-        $user['password'] = bcrypt($request->password);
-        $user = User::create($user);
-        //company
-        $company = $request->except('forms','name','email','password','is_admin');
-        $company['user_id'] = $user->id;
-        tblcompanydetail::create($company);
-        //sidebar menus
-        for($i = 0; $i<count($forms); $i++){
-            $data['sidebar_menu_id'] = $forms[$i];
-            $data['user_id'] = $user->id;
-            ErpUserMenu::create($data);
+        if($request->id){
+            $user = $request->except('forms','company_name', 'created_at', 'id', 'updated_at');
+            $company = $request->except('forms','name','email','password','is_admin', 'created_at', 'email_verified_at', 'id', 'is_verify', 'provider', 'provider_id', 'updated_at');
+            User::where('id', $request->id)->update($user);
+            tblcompanydetail::where('user_id', $request->id)->update($company);
+            //sidebar menus
+            if(!empty($forms)){
+                ErpUserMenu::where('user_id', $request->id)->delete();
+                for($i = 0; $i<count($forms); $i++){
+                    $data['sidebar_menu_id'] = $forms[$i];
+                    $data['user_id'] = $request->id;
+                    ErpUserMenu::create($data);
+                }
+            }
+        }else{
+            //user
+            $user = $request->except('forms','company_name');
+            $user['password'] = bcrypt($request->password);
+            $user = User::create($user);
+            //company
+            $company = $request->except('forms','name','email','password','is_admin');
+            $company['user_id'] = $user->id;
+            tblcompanydetail::create($company);
+            //sidebar menus
+            if(!empty($forms)){
+                for($i = 0; $i<count($forms); $i++){
+                    $data['sidebar_menu_id'] = $forms[$i];
+                    $data['user_id'] = $user->id;
+                    ErpUserMenu::create($data);
+                }
+            }
         }
         return response()->json(['status'=> 201,'success' => 'Successfully Create']);
     }
@@ -128,20 +146,24 @@ class RegisterAdminController extends Controller
 
     public function getUserSidebarMenus($user_id, $menus)           
     {
-        $data = DB::select('call sp_getusermenus('.$user_id.', 0,0,'.$menus.')');
+        $user = User::where('id', $user_id)->first();
+        $company = tblcompanydetail::select('company_name')->where('user_id', $user_id)->first();
+        $data = DB::select('call sp_getusermenus('.$user_id.', 0,0,'.$menus.', 0)');
         $second = array();
         $second_level = array();
         foreach($data as $key => $value){
-            $second[$value->tier_name] = DB::select('call sp_getusermenus('.$user_id.', 0,'.$menus.',0)');
+            $second[$value->tier_name] = DB::select('call sp_getusermenus('.$user_id.', 0,'.$menus.',0, '.$value->tier_id.')');
             //return $second_level = $value->menu_name;
             foreach($second[$value->tier_name] as $key1 => $value1){
                 //echo $value1->menu_name;
-                $second_level[$value->tier_name][$value1->module_name] = DB::select('call sp_getusermenus('.$user_id.', '.$menus.', 0, 0)');
+                $second_level[$value->tier_name][$value1->module_name] = DB::select('call sp_getusermenus('.$user_id.', '.$menus.', 0, 0, '.$value1->module_id.')');
             }
         }
         return response()->json([
             'status' => true,
-            'data' => $second_level
+            'data' => $second_level,
+            'user' => $user,
+            'company' => $company
         ]);
     }
 

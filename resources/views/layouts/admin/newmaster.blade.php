@@ -129,11 +129,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <ul class="nav nav-pills nav-sidebar flex-column" ng-init="getTiers(1)" data-widget="treeview" role="menu" data-accordion="false">
                             <!-- Add icons to the links using the .nav-icon class
                             with font-awesome or any other icon font library -->
-                            <li class="nav-item" ng-repeat="tier in Tiers">
-                                <a href="{{url('<% tier.tier_link %>')}}" class="nav-link">
-                                    <i class="nav-icon fas fa-plus"></i>
-                                    <p ng-bind="tier.tier_name"></p>
+                            <li class="nav-item" ng-repeat="(k, v) in Tiers">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-circle"></i>
+                                    <p>
+                                        <span ng-bind="k"></span>
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item" ng-repeat="(k1, v1) in v">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>
+                                                <span ng-bind="k1"></span>
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item" ng-repeat="v2 in v1">
+                                                <a href="<% v2.form_link %>" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <p ng-bind="v2.from_name"></p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </li>
                             <!-- <li class="nav-item">
                                 <a href="{{url('task-tier')}}" class="nav-link">
@@ -232,7 +254,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $scope.getTiers = function(tiers){
                     var getTiers = $http.get('admin/get-user-tiers/' + $("#user_id").val() + '/' + tiers);
                     getTiers.then(function(response){
-                        alert(response.data.status);
                         if(response.data.status == true){
                             $scope.Tiers = response.data.data;
                         }
