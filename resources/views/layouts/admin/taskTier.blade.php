@@ -439,7 +439,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="" class="nav-link">
+                                        <a href="recieve-inventory-form" id='RecieveInventory' class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Receive Inventory</p>
                                         </a>

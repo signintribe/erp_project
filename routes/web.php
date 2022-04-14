@@ -506,3 +506,7 @@ Route::get('destination-form', function(){
 Route::get('payment-voucher-form', function(){
   return view('payment-voucher-form');
 })->name('Payment Voucher Form');
+
+Route::get('recieve-inventory-form', function(){
+  return view('receive-inventory');
+})->name('Recieve Inventory Form');
