@@ -17,7 +17,10 @@ RegisterAdmin.controller('RegisterAdminController', function ($scope, $http) {
         getUserTiers.then(function(res){
             if(res.data.status == true){
                 $scope.Tiers = res.data.data;
-                console.log($scope.Tiers);
+                $scope.menu = res.data.user;
+                $scope.menu.is_admin = String(res.data.user.is_admin);
+                $scope.menu.company_name = res.data.company.company_name;
+                $("#hidepass").hide();
             }else{
                 $scope.notiers = "There is no menu found"
             }
@@ -65,7 +68,7 @@ RegisterAdmin.controller('RegisterAdminController', function ($scope, $http) {
     $scope.saveUser = function(){
         $scope.menu.forms = JSON.stringify($scope.checkmenus);
         console.log($scope.menu);
-        if (!$scope.menu.email || !$scope.menu.name || !$scope.menu.company_name || !$scope.menu.password || !$scope.menu.is_admin) {
+        if (!$scope.menu.email || !$scope.menu.name || !$scope.menu.company_name || !$scope.menu.is_admin) {
             $scope.showError = true;
             jQuery("input.required").filter(function () {
                 return !this.value;

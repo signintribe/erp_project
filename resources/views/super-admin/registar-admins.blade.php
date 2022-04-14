@@ -32,13 +32,11 @@
                             <input type="text" ng-model="menu.company_name" id="company-name" placeholder="Company Name" class="form-control">
                             <i class="text-danger" ng-show="!menu.company_name && showError"><small>Please Type Company Name</small></i><br/>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="col-lg-3 col-md-3 col-sm-3" id="hidepass">
                             <label for="password">* Password</label>
                             <input type="password" ng-model="menu.password" id="password" placeholder="Password" class="form-control">
                             <i class="text-danger" ng-show="!menu.password && showError"><small>Please Type Password</small></i><br/>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="role">* Select Role</label>
                             <select ng-model="menu.is_admin" id="role" class="form-control">
@@ -53,22 +51,53 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <h3 class="m-0">All Menus</h3><br/>
+    <div class="row" id="all-menus">
         <div class="col-lg-6 col-md-6 col-sm-6" ng-repeat="(key, value) in Menus">
-            <div class="card">
+            <div class="card collapsed-card">
                 <div class="card-header">
                     <h3 class="card-title" ng-bind="key"></h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body" style="height: 400px; overflow-y: scroll;">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6" ng-repeat="(key1, value1) in value">
                             <label ng-bind="key1" style="border-bottom: 1px solid;font-size:14px"></label>
                             <ul class="list-unstyled">
-                                <li ng-repeat="v in value1" style="font-size:12px">
+                                <li ng-repeat="v in value1">
                                     <input type="checkbox" name="cat" id="cat<%v.id%>" ng-click="getCheckMenus(v.id)">
-                                    <label ng-bind="v.menu_name" for="cat<%v.id%>"></label>
+                                    <label ng-bind="v.menu_name" style="font-size:12px; font-weight: normal" for="cat<%v.id%>"></label>
                                 </li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br/> 
+    <div class="row" id="user-menus" ng-if="Tiers">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h3 class="m-0">Selected Menus</h3><br/>
+            <div class="row">
+                <div class="col" ng-repeat="(tk, tv) in Tiers">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title" ng-bind="tk"></h3>
+                        </div>
+                        <div class="card-body" style="height: 400px; overflow-y: scroll;">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6" ng-repeat="(mk, mv) in tv">
+                                    <label ng-bind="mk" style="border-bottom: 1px solid;font-size:14px"></label>
+                                    <ul class="list-unstyled">
+                                        <li ng-repeat="frms in mv">
+                                            <label for="selected_cat<% frms.id %>" style="font-size:12px; font-weight: normal" ng-bind="frms.from_name"></label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -79,27 +108,9 @@
         <div class="col">
             <button type="submit" class="btn btn-success btn-sm float-right" ng-click="saveUser();"><i id="loader" class="fa fa-save"></i> Save</button>
         </div>
-    </div><br/> 
+    </div><br/>
     <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12" id="all-menus">
-            <div class="row" ng-if="Tiers">
-                <div class="col" ng-repeat="(tk, tv) in Tiers">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title" ng-bind="tk"></h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6" ng-repeat="(mk, mv) in tv">
-                                    <label ng-bind="mk"></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-12 col-md-12 col-sm-12" id="user-menus">
+        <div class="col-lg-12 col-md-12 col-sm-12" id="all-user">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">View User</h3>
@@ -123,7 +134,7 @@
                                     <td ng-bind="data.email"></td>
                                     <td ng-bind="data.company_name"></td>
                                     <td>
-                                        <button class="btn btn-xs btn-info" ng-click="getUserTiers(data.id, 1);">Edit</button>
+                                        <button class="btn btn-xs btn-info" ng-click="getUserTiers(data.id, 1);">Edit User</button>
                                         <button class="btn btn-xs btn-danger" ng-click="deleteInventoryInfo(data.id)">Delete</button>
                                     </td>
                                 </tr>
