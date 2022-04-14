@@ -486,6 +486,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="{{url('payment-voucher-form')}}" class="nav-link" id="payment-voucher">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Payment Voucher</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Despatch Inventory</p>

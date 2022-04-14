@@ -502,3 +502,7 @@ Route::get('approval-authrity-list', function(){
 Route::get('destination-form', function(){
   return view('destination-form');
 })->name('Destination Form');
+
+Route::get('payment-voucher-form', function(){
+  return view('payment-voucher-form');
+})->name('Payment Voucher Form');
