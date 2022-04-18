@@ -180,7 +180,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="apply-leave-form" class="nav-link" id='applyleave'>
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Apply Leaves</p>
                                         </a>
@@ -427,7 +427,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="" class="nav-link">
+                                        <a href="quotation-for-purchases" class="nav-link" id='quotation'>
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Quotation</p>
                                         </a>
