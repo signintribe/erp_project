@@ -1,7 +1,7 @@
 @extends('layouts.admin.taskTier')
-@section('title', 'Quotation')
-@section('pagetitle', 'Quotation')
-@section('breadcrumb', 'Quotation')
+@section('title', 'Apply Leave Form')
+@section('pagetitle', 'Apply Leave Form')
+@section('breadcrumb', 'Apply Leave Form')
 @section('content')
 
 <div ng-controller='ApplyleaveController' ng-app='ApplyleaveApp'>
