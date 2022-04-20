@@ -1,5 +1,5 @@
 @extends('layouts.admin.taskTier')
-@section('title', 'Leave Application Form')
+@section('title', 'Leave Application Form') 
 @section('pagetitle', 'Leave Application Form')
 @section('breadcrumb', 'Leave Application Form')
 @section('content')
