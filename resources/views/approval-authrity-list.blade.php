@@ -41,19 +41,7 @@
     </div>
 </form>
 </div>
-<script src="{{ asset('public/js/angular.min.js')}}">
-</script>
-<script>
-
-    var AdminDashboard = angular.module('AuthorityApp', [], function ($interpolateProvider) {
-        $interpolateProvider.startSymbol('<%');
-        $interpolateProvider.endSymbol('%>');
-    });
-
-    AdminDashboard.controller('AuthorityController', function ($scope, $http) {
-        $("#authorities").addClass('menu-open');
-            $("#auth").addClass('active');
-            $("#approve-authority-lists").addClass('active');
-    });
-</script>
+@endsection
+@section('internaljs')
+<script src="{{asset('ng_controllers/creation_authorities/approval-authority-list.js')}}"></script>
 @endsection

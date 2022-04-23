@@ -42,7 +42,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </style>
     </head>
     <body class="hold-transition sidebar-mini">
-        <div class="wrapper">
+        <div class="wrapper" ng-app="ErpApp">
 
             <!-- Navbar -->
             <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -125,62 +125,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
 
                     <!-- Sidebar Menu -->
-                    <nav class="mt-2" ng-app="AdminDashboardApp" ng-controller="AdminDashboardController">
+                    <nav class="mt-2" ng-controller="MenuController">
                         <ul class="nav nav-pills nav-sidebar flex-column" ng-init="getTiers(1)" data-widget="treeview" role="menu" data-accordion="false">
                             <!-- Add icons to the links using the .nav-icon class
                             with font-awesome or any other icon font library -->
-                            <li class="nav-item" ng-repeat="(k, v) in Tiers">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item" ng-repeat="tier in Tiers">
+                                <a href="{{url('<% tier.tier_link %>')}}" class="nav-link">
                                     <i class="nav-icon fas fa-circle"></i>
-                                    <p>
-                                        <span ng-bind="k"></span>
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item" ng-repeat="(k1, v1) in v">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>
-                                                <span ng-bind="k1"></span>
-                                                <i class="right fas fa-angle-left"></i>
-                                            </p>
-                                        </a>
-                                        <ul class="nav nav-treeview">
-                                            <li class="nav-item" ng-repeat="v2 in v1">
-                                                <a href="<% v2.form_link %>" class="nav-link">
-                                                    <i class="far fa-dot-circle nav-icon"></i>
-                                                    <p ng-bind="v2.from_name"></p>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!-- <li class="nav-item">
-                                <a href="{{url('task-tier')}}" class="nav-link">
-                                    <i class="nav-icon fas fa-tasks"></i>
-                                    <p>
-                                        Task Tier
-                                    </p>
+                                    <p ng-bind="tier.tier_name"></p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{url('report-tier')}}" class="nav-link">
-                                    <i class="nav-icon fas fa-edit"></i>
-                                    <p>
-                                        Report Tier
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{url('user-auth-tier')}}" class="nav-link">
-                                    <i class="nav-icon fas fa-user-secret"></i>
-                                    <p>
-                                        User Auth Tier
-                                    </p>
-                                </a>
-                            </li> -->
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->
@@ -241,18 +195,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- ./wrapper -->
 
         <!-- REQUIRED SCRIPTS -->
+        
         <input type="hidden" id="user_id" value="<?php echo Auth::user()->id; ?>">
+        <input type="hidden" id="baseurl" value="<?php echo env('APP_URL'); ?>">
         <script src="{{ asset('public/js/angular.min.js')}}"></script>
         <script>
 
-            var AdminDashboard = angular.module('AdminDashboardApp', [], function ($interpolateProvider) {
+            var ErpApp = angular.module('ErpApp', [], function ($interpolateProvider) {
                 $interpolateProvider.startSymbol('<%');
                 $interpolateProvider.endSymbol('%>');
             });
 
-            AdminDashboard.controller('AdminDashboardController', function ($scope, $http) {
+            ErpApp.controller('MenuController', function ($scope, $http) {
                 $scope.getTiers = function(tiers){
-                    var getTiers = $http.get('admin/get-user-tiers/' + $("#user_id").val() + '/' + tiers);
+                    var getTiers = $http.get('get-tiers/' + $("#user_id").val() + '/' + tiers);
                     getTiers.then(function(response){
                         if(response.data.status == true){
                             $scope.Tiers = response.data.data;
@@ -261,7 +217,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 };
             });
         </script>
-
+        @yield('internaljs')
         <!-- jQuery -->
         <script src="{{asset('public/plugins/jquery/jquery.min.js')}}"></script>
         <!-- Bootstrap 4 -->
