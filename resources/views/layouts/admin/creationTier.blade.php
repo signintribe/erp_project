@@ -44,26 +44,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </style>
     </head>
     <body class="hold-transition sidebar-mini">
-        <div class="wrapper">
+        <div class="wrapper" ng-app="CreateTierApp">
 
             <!-- Navbar -->
-            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <nav class="main-header navbar navbar-expand navbar-white navbar-light" ng-controller="MenuController">
                 <!-- Left navbar links -->
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" ng-init="getTiers(1)">
                     <li class="nav-item">
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('creation-tier')}}" class="nav-link active">Creation Tier</a>
+                        <a href="{{url('adminhome')}}" class="nav-link">Dashboard</a>
                     </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('task-tier')}}" class="nav-link">Task Tier</a>
-                    </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('report-tier')}}" class="nav-link">Report Tier</a>
-                    </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('user-auth-tier')}}" class="nav-link">User Auth Tier</a>
+                    <li class="nav-item d-none d-sm-inline-block"  ng-repeat="tier in Tiers">
+                        <a href="{{url('<% tier.tier_link %>')}}" class="nav-link" ng-bind="tier.tier_name"></a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
                         <a href="#" class="nav-link">My Profile</a>
@@ -119,9 +113,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
-            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <aside class="main-sidebar sidebar-dark-primary elevation-4" ng-controller="MenuController">
                 <!-- Brand Logo -->
-                <a href="index3.html" class="brand-link">
+                <a href="index3.html" class="brand-link" ng-init="getModulesForms(1)">
                     <img src="{{asset('public/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light">ERP</span>
                 </a>
@@ -143,15 +137,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <!-- Add icons to the links using the .nav-icon class
                             with font-awesome or any other icon font library -->
-                            <li class="nav-item">
-                                <a href="{{url('adminhome')}}" class="nav-link">
-                                <i class="nav-icon fa fa-dashboard" aria-hidden="true"></i>
+                            <li class="nav-item" ng-repeat="(k, v) in Modules">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-circle"></i>
                                     <p>
-                                        Dashboard
+                                        <span ng-bind="k"></span>
+                                        <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item" ng-repeat="(k1, v1) in v">
+                                        <a href="{{url('<% v1.form_link %>')}}" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p ng-bind="v1.from_name"></p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li class="nav-item" id="company">
+<!--                             <li class="nav-item" id="company">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fa fa-industry"></i>
                                     <p>
@@ -397,12 +400,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                    <!-- <li class="nav-item">
+                                    <li class="nav-item">
                                         <a href="{{url('create-chart-account')}}" class="nav-link" id="chart-account">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Chart of Account</p>
                                         </a>
-                                    </li> -->
+                                    </li>
                                     <li class="nav-item">
                                         <a href="{{url('user-chart-account')}}" class="nav-link" id="chart-account">
                                             <i class="fa fa-caret-right nav-icon"></i>
@@ -421,12 +424,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <p>Budget</p>
                                         </a>
                                     </li>
-                                    <!-- <li class="nav-item">
+                                    <li class="nav-item">
                                         <a href="{{url('bank/tariff')}}" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Tariff</p>
                                         </a>
-                                    </li> -->
+                                    </li>
                                     <li class="nav-item">
                                         <a href="{{url('bank/Taxes')}}" class="nav-link" id="taxes">
                                             <i class="fa fa-caret-right nav-icon"></i>
@@ -620,7 +623,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <p>Tender Information</p>
                                         </a>
                                     </li>
-                                    <!-- <li class="nav-item">
+                                    <li class="nav-item">
                                         <a href="{{url('vendor/vendor-person')}}" class="nav-link" id="purchase-contact-person">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Contact Person</p>
@@ -637,7 +640,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Vendor Registrations</p>
                                         </a>
-                                    </li> -->
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item" id="sales">
@@ -674,7 +677,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->
@@ -733,7 +736,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </footer>
         </div>
         <!-- ./wrapper -->
-
         <!-- REQUIRED SCRIPTS -->
 
         <!-- jQuery -->
@@ -767,5 +769,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{asset('public/dist/js/adminlte.min.js')}}"></script>
         <script src="https://use.fontawesome.com/9eb69fc173.js"></script>
         <script src="{{ asset('public/js/sweetalert.min.js')}}"></script>
+        <script src="{{ asset('public/js/angular.min.js')}}"></script>
+        <input type="hidden" id="user_id" value="<?php echo Auth::user()->id; ?>">
+        <input type="hidden" id="baseurl" value="<?php echo env('APP_URL'); ?>">
+        <script>
+            var CreateTierApp = angular.module('CreateTierApp', [], function ($interpolateProvider) {
+                $interpolateProvider.startSymbol('<%');
+                $interpolateProvider.endSymbol('%>');
+            });
+
+            CreateTierApp.controller('MenuController', function ($scope, $http) {
+                $scope.getTiers = function(tiers){
+                    var getTiers = $http.get($('#baseurl').val() + 'get-tiers/' + $("#user_id").val() + '/' + tiers);
+                    getTiers.then(function(response){
+                        if(response.data.status == true){
+                            $scope.Tiers = response.data.data;
+                        }
+                    });
+                };
+
+                $scope.getModulesForms = function(mf){
+                    var getModuleForms = $http.get($('#baseurl').val() + 'get-modules-forms/' + $("#user_id").val() + '/' + mf);
+                    getModuleForms.then(function(response){
+                        if(response.data.status == true){
+                            $scope.Modules = response.data.data['creation-tier'];
+                        }
+                    });
+                };
+            });
+
+        </script>
+
+        @yield('internaljs')
     </body>
 </html>

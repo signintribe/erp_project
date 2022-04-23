@@ -3,18 +3,13 @@
 @section('pagetitle', 'Dashboard')
 @section('breadcrumb', 'Dashboard')
 @section('content')
-<div ng-app="AdminDashboardApp" ng-controller="AdminDashboardController">
+<div ng-controller="AdminDashboardController">
     
 </div>
-<script src="{{ asset('public/js/angular.min.js')}}"></script>
+@endsection
+@section('internaljs')
 <script>
-
-    var AdminDashboard = angular.module('AdminDashboardApp', [], function ($interpolateProvider) {
-        $interpolateProvider.startSymbol('<%');
-        $interpolateProvider.endSymbol('%>');
-    });
-
-    AdminDashboard.controller('AdminDashboardController', function ($scope, $http) {
+    ErpApp.controller('AdminDashboardController', function ($scope, $http) {
         $scope.all_getcustomer = function () {
             $(".loader").html('<div class="square-path-loader"></div>');
             $http.get('all-customers').then(function (response) {

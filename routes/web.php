@@ -272,8 +272,10 @@ Route::get('all-companiesinadmin', 'HomeController@all_companiesinadmin')->name(
 Route::get('get-all-totalrevenue', 'HomeController@get_all_totalrevenue')->name('get-all-totalrevenue')->middleware('is_admin');
 
 Route::group(['middleware' => ['auth:web','is_admin'], 'prefix'=>'admin'], function(){
-  Route::get('get-user-tiers/{user_id}/{tiers}', 'Globall\RegisterAdminController@getUserSidebarMenus');
+  
 });
+Route::get('get-tiers/{user_id}/{tiers}', 'Globall\RegisterAdminController@getUserTires');
+Route::get('get-modules-forms/{user_id}/{tiers}', 'Globall\RegisterAdminController@getUserModuleForms');
 
 Route::group(['middleware' => ['auth:web','super_admin'], 'prefix'=>'superadmin'], function(){
   Route::get('superadmin', 'HomeController@superadmin')->name('superadmin');

@@ -171,4 +171,36 @@ class RegisterAdminController extends Controller
     {
         return DB::select('SELECT user.id, user.name, user.email, user.is_admin, company.company_name FROM(SELECT * FROM users WHERE is_admin IN(1, 4) AND id <> '.Auth::user()->id.') AS user JOIN(SELECT user_id, company_name FROM tblcompanydetails) AS company ON company.user_id = user.id');
     }
+
+    public function getUserTires($user_id,$menus)
+    {
+        $data = DB::select('call sp_getusermenus('.$user_id.', 0,0,'.$menus.', 0)');
+        return response()->json([
+            'status' => true,
+            'data' => $data,
+        ]);
+    }
+
+    public function getUserModuleForms($user_id, $menus)
+    {
+        $user = User::where('id', $user_id)->first();
+        $company = tblcompanydetail::select('company_name')->where('user_id', $user_id)->first();
+        $data = DB::select('call sp_getusermenus('.$user_id.', 0,0,'.$menus.', 0)');
+        $second = array();
+        $second_level = array();
+        foreach($data as $key => $value){
+            $second = DB::select('call sp_getusermenus('.$user_id.', 0,'.$menus.',0, '.$value->tier_id.')');
+            //return $second_level = $value->menu_name;
+            foreach($second as $key1 => $value1){
+                //echo $value1->menu_name;
+                $second_level[$value->tier_link][$value1->module_name] = DB::select('call sp_getusermenus('.$user_id.', '.$menus.', 0, 0, '.$value1->module_id.')');
+            }
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $second_level,
+            'user' => $user,
+            'company' => $company
+        ]);
+    }
 }

@@ -1,21 +1,15 @@
 @extends('layouts.admin.creationTier')
-@section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
-@section('breadcrumb', 'Dashboard')
+@section('title', 'Creation Tier')
+@section('pagetitle', 'Creation Tier')
+@section('breadcrumb', 'Creation Tier')
 @section('content')
-<div ng-app="AdminDashboardApp" ng-controller="AdminDashboardController">
+<div ng-controller="CreationDashboardController">
     
 </div>
-<script src="{{ asset('public/js/angular.min.js')}}">
-</script>
+@endsection
+@section('internaljs')
 <script>
-
-    var AdminDashboard = angular.module('AdminDashboardApp', [], function ($interpolateProvider) {
-        $interpolateProvider.startSymbol('<%');
-        $interpolateProvider.endSymbol('%>');
-    });
-
-    AdminDashboard.controller('AdminDashboardController', function ($scope, $http) {
+    CreateTierApp.controller('CreationDashboardController', function ($scope, $http) {
         
     });
 </script>

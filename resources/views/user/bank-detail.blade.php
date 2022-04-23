@@ -3,7 +3,7 @@
 @section('pagetitle', 'Bank Detail')
 @section('breadcrumb', 'Bank Detail')
 @section('content')
-<div ng-app="BankDetailApp" ng-controller="BankDetailController">
+<div ng-controller="BankDetailController">
 <div class="card">
         <div class="card-header">
             <div class="row">
@@ -231,13 +231,10 @@
     </div>
 </div>
 <input type="hidden" id="baseurl" value="<?php echo env('APP_URL'); ?>">
-<script src="{{ asset('public/js/angular.min.js')}}"></script>
+@endsection
+@section('internaljs')
 <script>
-    var BankDetail = angular.module('BankDetailApp', [], function ($interpolateProvider) {
-        $interpolateProvider.startSymbol('<%');
-        $interpolateProvider.endSymbol('%>');
-    });
-    BankDetail.controller('BankDetailController', function ($scope, $http) {
+    CreateTierApp.controller('BankDetailController', function ($scope, $http) {
         $("#banking-finance").addClass('menu-open');
         $("#banking-finance a[href='#']").addClass('active');
         $("#bank-info").addClass('active');
