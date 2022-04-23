@@ -180,7 +180,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="apply-leave-form" class="nav-link" id='applyleave'>
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Apply Leaves</p>
                                         </a>
@@ -427,7 +427,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="" class="nav-link">
+                                        <a href="quotation-for-purchases" class="nav-link" id='quotation'>
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Quotation</p>
                                         </a>
@@ -439,7 +439,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="" class="nav-link">
+                                        <a href="recieve-inventory-form" id='RecieveInventory' class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Receive Inventory</p>
                                         </a>
@@ -483,6 +483,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <a href="{{url('sales/add-sales-order')}}" class="nav-link" id="sales-order">
                                             <i class="fa fa-caret-right nav-icon"></i>
                                             <p>Sales Order</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{url('payment-voucher-form')}}" class="nav-link" id="payment-voucher">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p>Payment Voucher</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">

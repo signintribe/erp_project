@@ -63,7 +63,7 @@
 
     Approval.controller('ApprovalController', function ($scope, $http) {
         $("#hr").addClass('menu-open');
-        $("#").addClass('active');
+        $("#hr-active").addClass('active');
         $("#hr-approval").addClass('active');
        
     });

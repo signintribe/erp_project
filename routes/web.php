@@ -504,3 +504,19 @@ Route::get('approval-authrity-list', function(){
 Route::get('destination-form', function(){
   return view('destination-form');
 })->name('Destination Form');
+
+Route::get('payment-voucher-form', function(){
+  return view('payment-voucher-form');
+})->name('Payment Voucher Form');
+
+Route::get('recieve-inventory-form', function(){
+  return view('receive-inventory');
+})->name('Recieve Inventory Form');
+
+Route::get('quotation-for-purchases', function(){
+  return view('quotation-for-purchases');
+})->name('Quotation For Purchases');
+
+Route::get('apply-leave-form', function(){
+  return view('apply-leave-form');
+})->name('Apply Leave Form');
