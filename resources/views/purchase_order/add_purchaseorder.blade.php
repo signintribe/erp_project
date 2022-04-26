@@ -3,7 +3,7 @@
 @section('pagetitle', 'Add Purchase Order')
 @section('breadcrumb', 'Add Purchase Order')
 @section('content')
-<div ng-app="POApp" ng-controller="POController" ng-cloak>
+<div ng-controller="POController" ng-cloak>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Add Purchase Order</h3>
@@ -199,142 +199,7 @@
     </div>
     <input type="hidden" id="appurl" value="<?php echo env('APP_URL') ?>">
 </div>
-<script src="{{ asset('public/js/angular.min.js')}}"></script>
-<script>
-    var PO = angular.module('POApp', [], function ($interpolateProvider) {
-        $interpolateProvider.startSymbol('<%');
-        $interpolateProvider.endSymbol('%>');
-    });
-
-    PO.directive('datepicker', function () {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            compile: function () {
-                return {
-                    pre: function (scope, element, attrs, ngModelCtrl) {
-                        var format, dateObj;
-                        format = (!attrs.dpFormat) ? 'yyyy-mm-dd' : attrs.dpFormat;
-                        if (!attrs.initDate && !attrs.dpFormat) {
-                            // If there is no initDate attribute than we will get todays date as the default
-                            dateObj = new Date();
-//                            scope[attrs.ngModel] = dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
-                        } else if (!attrs.initDate) {
-                            // Otherwise set as the init date
-                            scope[attrs.ngModel] = attrs.initDate;
-                        } else {
-                            // I could put some complex logic that changes the order of the date string I
-                            // create from the dateObj based on the format, but I'll leave that for now
-                            // Or I could switch case and limit the types of formats...
-                        }
-                        // Initialize the date-picker
-                        $(element).datepicker({
-                            format: format
-                        }).on('changeDate', function (ev) {
-                            // To me this looks cleaner than adding $apply(); after everything.
-                            scope.$apply(function () {
-                                ngModelCtrl.$setViewValue(ev.format(format));
-                            });
-                        });
-                    }
-                };
-            }
-        };
-    });
-
-    PO.controller('POController', function ($scope, $http) {
-        $("#purchases").addClass('menu-open');
-        $("#purchases a[href='#']").addClass('active');
-        $("#purchase-order").addClass('active');
-        $scope.po = {};
-        $scope.appurl = $("#appurl").val();
-        $scope.getAccounts = function () {
-            var Accounts = $http.get($scope.appurl + 'AllchartofAccount');
-            Accounts.then(function (r) {
-                $scope.Accounts = r.data;
-            });
-        };
-
-        $scope.getVendorInfo = function () {
-            $scope.vendors = {};
-            $http.get('vendor/maintain-vendor-information').then(function (response) {
-                if (response.data.length > 0) {
-                    $scope.vendors = response.data;
-                }
-            });
-        };
-
-        $scope.getVendors = function (ven_id) {
-            $scope.vendorinfo = {};
-            $http.get('vendor/get-vendor/' + ven_id).then(function (response) {
-                if (response.data.length > 0) {
-                    $scope.vendorinfo = response.data;
-                }
-            });
-        };
-        
-        $scope.getInventoryInfo = function(){
-            $scope.products = {};
-            $http.get('get-inventory').then(function (response) {
-                if (response.data.length > 0) {
-                    $scope.products = response.data;
-                }
-            });
-        };
-        
-        $scope.allproducts = [];
-        $scope.addToCart = [];
-        $scope.getProductInfo = function(pro_id){
-            $http.get('get_pro_info/' + pro_id).then(function (response){
-                $scope.allproducts.push(response.data[0]);
-            });
-        };
-
-        $scope.addProduct = function(pro){
-            if(pro.quantity){
-                $scope.total = parseInt(pro.unit_price) * parseInt(pro.quantity) - parseInt(pro.discount);
-                pro.total_price = $scope.total - parseInt(pro.taxes);
-                $("#show").slideDown('slow');
-                $("#add" + pro.product_id).hide('slow');
-                $scope.addToCart.push(pro);
-                //$scope.po = [].concat($scope.po , $scope.addToCart);
-                //angular.merge($scope.po , $scope.addToCart);
-                //$scope.po = angular.merge($scope.po , $scope.addToCart);
-            }else{
-                alert('Please Add Quantity');
-            }
-        };
-
-        $scope.mergeArray = [];
-        $scope.savePurchaseOrder = function(){
-            /* $scope.mergeArray = [].concat($scope.po , $scope.addToCart);
-            $scope.po = angular.merge($scope.po, $scope.mergeArray); */
-            //$scope.po = angular.merge($scope.po , cart);
-            //$scope.po = angular.merge($scope.po , $scope.addToCart);
-            //$scope.po.push($scope.po);
-             var order = JSON.stringify($scope.addToCart);
-              $scope.po.orderDetail = order;
-            if (!$scope.po.vendor_id) {
-                $scope.showError = true;
-                jQuery("input.required").filter(function () {
-                    return !this.value;
-                }).addClass("has-error");
-            } else {
-                console.log($scope.po);
-                var Data = new FormData();
-                angular.forEach($scope.po, function (v, k) {
-                    Data.append(k, v);
-                });
-                $http.post('save-purchase-order', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
-                    swal({
-                        title: "Save!",
-                        text: res.data,
-                        type: "success"
-                    });
-                });
-            }
-        };
-        
-    });
-</script>
+@endsection
+@section('internaljs')
+<script src="{{asset('ng_controllers/purchases/add-po.js')}}"></script>
 @endsection

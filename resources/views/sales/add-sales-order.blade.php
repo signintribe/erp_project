@@ -3,7 +3,7 @@
 @section('pagetitle', 'Add Sales Order')
 @section('breadcrumb', 'Add Sales Order')
 @section('content')
-<div  ng-app="SalesOrderApp" ng-controller="SalesOrderController" ng-cloak>
+<div ng-controller="SalesOrderController" ng-cloak>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Add Sales Order</h3>
@@ -146,13 +146,7 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('public/js/angular.min.js')}}"></script>
-<script>
-    var SalesOrder = angular.module('SalesOrderApp', []);
-    SalesOrder.controller('SalesOrderController', function ($scope, $http) {
-        $("#sales").addClass('menu-open');
-        $("#sales a[href='#']").addClass('active');
-        $("#sales-order").addClass('active');
-    });
-</script>
+@endsection
+@section('internaljs')
+<script src="{{asset('ng_controllers/sales//add-so.js')}}"></script>
 @endsection

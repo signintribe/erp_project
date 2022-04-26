@@ -45,26 +45,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </style>
     </head>
     <body class="hold-transition sidebar-mini">
-        <div class="wrapper">
+        <div class="wrapper" ng-app="TaskTierApp">
 
             <!-- Navbar -->
-            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <nav class="main-header navbar navbar-expand navbar-white navbar-light" ng-controller="MenuController">
                 <!-- Left navbar links -->
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" ng-init="getTiers(1)">
                     <li class="nav-item">
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('creation-tier')}}" class="nav-link">Creation Tier</a>
+                        <a href="{{url('adminhome')}}" class="nav-link">Dashboard</a>
                     </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('task-tier')}}" class="nav-link active">Task Tier</a>
-                    </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('report-tier')}}" class="nav-link">Report Tier</a>
-                    </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('user-auth-tier')}}" class="nav-link">User Auth Tier</a>
+                    <li class="nav-item d-none d-sm-inline-block"  ng-repeat="tier in Tiers">
+                        <a href="{{url('<% tier.tier_link %>')}}" class="nav-link" ng-bind="tier.tier_name"></a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
                         <a href="#" class="nav-link">My Profile</a>
@@ -120,7 +114,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
-            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <aside class="main-sidebar sidebar-dark-primary elevation-4" ng-controller="MenuController">
                 <!-- Brand Logo -->
                 <a href="index3.html" class="brand-link">
                     <img src="{{asset('public/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -144,375 +138,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <!-- Add icons to the links using the .nav-icon class
                             with font-awesome or any other icon font library -->
-                            <li class="nav-item">
-                                <a href="{{url('adminhome')}}" class="nav-link">
-                                <i class="nav-icon fa fa-dashboard" aria-hidden="true"></i>
-                                    <p>
-                                        Dashboard
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
+                            <li class="nav-item" ng-repeat="(k, v) in Modules">
                                 <a href="#" class="nav-link">
-                                    <i class="nav-icon fa fa-industry"></i>
+                                    <i class="nav-icon fa fa-circle"></i>
                                     <p>
-                                        Company
+                                        <span ng-bind="k"></span>
                                         <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                    
-                                </ul>
-                            </li>
-                            <li class="nav-item" id="hr">
-                                <a href="#" class="nav-link" id="hr-active">
-                                    <i class="fa fa-users nav-icon"></i>
-                                    <p>
-                                        Human Resource
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                    <li class="nav-item" ng-repeat="(k1, v1) in v">
+                                        <a href="{{url('<% v1.form_link %>')}}" class="nav-link">
                                             <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Recrutments</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="apply-leave-form" class="nav-link" id='applyleave'>
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Apply Leaves</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Pay Roll</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Promotions</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Training</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Trmination</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="requestion?dept_id=1" class="nav-link" id="hr-requestion">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Requestion</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="aprovalwork-flow" class="nav-link" id="hr-approval">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Approvalform</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item" id="banking-finance">
-                                <a href="#" class="nav-link" id="banking-finance-active">
-                                    <i class="fa fa-university nav-icon"></i>
-                                    <p>
-                                        Banking & Finance
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Bank Detail</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Bank Recancelation</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('Add-general-Journal-Entry')}}" class="nav-link" id="add-gl">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Journal Genral</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Budet</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Taxes</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Treiff</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Demand of Funds</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Release of Funds</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Audit</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>IOT</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Receiveable</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Payable</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Asset Management</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Bank 2 Bank Transfer</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="requestion?dept_id=2" class="nav-link" id="banking-finance-requestion">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Requestion</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item" id="mm">
-                                <a href="#" class="nav-link" id="mm-active">
-                                    <i class="fa fa-cube nav-icon"></i>
-                                    <p>
-                                        Matrial Management
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="requestion?dept_id=3" class="nav-link" id="mm-requestion">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Requestion</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Metrial Issue</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Metrial Return</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item" id="ps">
-                                <a href="#" class="nav-link" id="ps-active">
-                                    <i class="fa fa-calendar nav-icon"></i>
-                                    <p>
-                                        Project System
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{url('project-system/assign-task')}}" class="nav-link" id="assign-tasks">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Add Tasks</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('project-system/view-assigned-task')}}" class="nav-link" id="assigned-tasks">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>View Tasks</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="requestion?dept_id=4" class="nav-link" id="ps-requestion">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Requestion</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item" id="sorc">
-                                <a href="#" class="nav-link" id="sorc-active">
-                                    <i class="fa fa-bus nav-icon"></i>
-                                    <p>
-                                        Scourcing
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Quotation</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="requestion?dept_id=5" class="nav-link" id="sorc-requestion">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Requestion</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Tender</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Logistics</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item" id="purchases">
-                                <a href="#" class="nav-link" id="purchases-active">
-                                    <i class="fa fa-chart-line nav-icon"></i>
-                                    <p>
-                                        Purchases
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="quotation-for-purchases" class="nav-link" id='quotation'>
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Quotation</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="purchases/add-purchase-order" class="nav-link" id="purchase-order">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Purchase Order</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="recieve-inventory-form" id='RecieveInventory' class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Receive Inventory</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Invoice</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Payment</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="requestion?dept_id=6" class="nav-link" id="purchases-requestion">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Requestion</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item" id="sales">
-                                <a href="#" class="nav-link" id="sales-active">
-                                    <i class="fa fa-chart-pie nav-icon"></i>
-                                    <p>
-                                        Sales
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Quotation</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('sales/add-sales-order')}}" class="nav-link" id="sales-order">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Sales Order</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{url('payment-voucher-form')}}" class="nav-link" id="payment-voucher">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Payment Voucher</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Despatch Inventory</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Invoice</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Receipts</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="requestion?dept_id=7" class="nav-link" id="sales-requestion">
-                                            <i class="fa fa-caret-right nav-icon"></i>
-                                            <p>Requestion</p>
+                                            <p ng-bind="v1.from_name"></p>
                                         </a>
                                     </li>
                                 </ul>
@@ -609,5 +247,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{asset('public/dist/js/adminlte.min.js')}}"></script>
         <script src="https://use.fontawesome.com/9eb69fc173.js"></script>
         <script src="{{ asset('public/js/sweetalert.min.js')}}"></script>
+        <script src="{{ asset('public/js/angular.min.js')}}"></script>
+        <input type="hidden" id="user_id" value="<?php echo Auth::user()->id; ?>">
+        <input type="hidden" id="baseurl" value="<?php echo env('APP_URL'); ?>">
+        <script>
+            var TaskTierApp = angular.module('TaskTierApp', [], function ($interpolateProvider) {
+                $interpolateProvider.startSymbol('<%');
+                $interpolateProvider.endSymbol('%>');
+            });
+
+            TaskTierApp.controller('MenuController', function ($scope, $http) {
+                $scope.getTiers = function(tiers){
+                    var getTiers = $http.get($('#baseurl').val() + 'get-tiers/' + $("#user_id").val() + '/' + tiers);
+                    getTiers.then(function(response){
+                        if(response.data.status == true){
+                            $scope.Tiers = response.data.data;
+                        }
+                    });
+                };
+
+                $scope.getModulesForms = function(mf){
+                    var getModuleForms = $http.get($('#baseurl').val() + 'get-modules-forms/' + $("#user_id").val() + '/' + mf);
+                    getModuleForms.then(function(response){
+                        if(response.data.status == true){
+                            $scope.Modules = response.data.data['task-tier'];
+                        }
+                    });
+                };
+                $scope.getModulesForms(1);
+            });
+
+        </script>
+        @yield('internaljs')
     </body>
 </html>

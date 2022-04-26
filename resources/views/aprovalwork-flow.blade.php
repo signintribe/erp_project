@@ -4,7 +4,7 @@
 @section('breadcrumb', 'Approval Work Flow')
 @section('content')
 
-<div ng-app="ApprovalApp" ng-controller="ApprovalController">
+<div ng-controller="ApprovalController">
     <form action="approval-work" method="get">
     <div class="card">
         <div class="card-body">
@@ -54,19 +54,7 @@
     </div>
     </form>
 </div>
-<script src="{{asset('public/js/angular.min.js')}}"></script>
-<script>
-    var Approval = angular.module('ApprovalApp', [], function ($interpolateProvider) {
-        $interpolateProvider.startSymbol('<%');
-        $interpolateProvider.endSymbol('%>');
-    });
-
-    Approval.controller('ApprovalController', function ($scope, $http) {
-        $("#hr").addClass('menu-open');
-        $("#hr-active").addClass('active');
-        $("#hr-approval").addClass('active');
-       
-    });
- 
-</script>
+@endsection
+@section('internaljs')
+<script src="{{asset('ng_controllers/task_hr/approvalwork-flow.js')}}"></script>
 @endsection
