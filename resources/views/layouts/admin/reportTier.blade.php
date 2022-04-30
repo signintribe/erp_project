@@ -42,26 +42,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </style>
     </head>
     <body class="hold-transition sidebar-mini">
-        <div class="wrapper">
+        <div class="wrapper" ng-app="ReportTierApp">
 
             <!-- Navbar -->
-            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <nav class="main-header navbar navbar-expand navbar-white navbar-light" ng-controller="MenuController">
                 <!-- Left navbar links -->
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" ng-init="getTiers(1)">
                     <li class="nav-item">
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                     </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('creation-tier')}}" class="nav-link">Creation Tier</a>
-                    </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('task-tier')}}" class="nav-link">Task Tier</a>
-                    </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('report-tier')}}" class="nav-link active">Report Tier</a>
-                    </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{url('user-auth-tier')}}" class="nav-link">User Auth Tier</a>
+                    <li class="nav-item d-none d-sm-inline-block"  ng-repeat="tier in Tiers">
+                        <a href="{{url('<% tier.tier_link %>')}}" class="nav-link" ng-bind="tier.tier_name"></a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
                         <a href="#" class="nav-link">My Profile</a>
@@ -117,7 +108,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
-            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <aside class="main-sidebar sidebar-dark-primary elevation-4" ng-controller="MenuController">
                 <!-- Brand Logo -->
                 <a href="index3.html" class="brand-link">
                     <img src="{{asset('public/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -125,7 +116,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
 
                 <!-- Sidebar -->
-                <div class="sidebar">
+                <div class="sidebar" ng-init="getModulesForms(1)">
                     <!-- Sidebar user panel (optional) -->
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
@@ -141,15 +132,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <!-- Add icons to the links using the .nav-icon class
                             with font-awesome or any other icon font library -->
-                            <li class="nav-item">
-                                <a href="{{url('adminhome')}}" class="nav-link">
-                                <i class="nav-icon fa fa-tachometer-alt" aria-hidden="true"></i>
+                            <li class="nav-item" ng-repeat="(k, v) in Modules">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-circle"></i>
                                     <p>
-                                        Dashboard
+                                        <span ng-bind="k"></span>
+                                        <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item" ng-repeat="(k1, v1) in v">
+                                        <a href="{{url('<% v1.form_link %>')}}" class="nav-link">
+                                            <i class="fa fa-caret-right nav-icon"></i>
+                                            <p ng-bind="v1.from_name"></p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fa fa-industry"></i>
                                     <p>
@@ -554,7 +554,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->
@@ -645,5 +645,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{asset('public/dist/js/demo.js')}}"></script>
         <!-- AdminLTE App -->
         <script src="{{asset('public/dist/js/adminlte.min.js')}}"></script>
+        <script src="{{ asset('public/js/angular.min.js')}}"></script>
+        <input type="hidden" id="user_id" value="<?php echo Auth::user()->id; ?>">
+        <input type="hidden" id="baseurl" value="<?php echo env('APP_URL'); ?>">
+        <script>
+            var ReportTierApp = angular.module('ReportTierApp', [], function ($interpolateProvider) {
+                $interpolateProvider.startSymbol('<%');
+                $interpolateProvider.endSymbol('%>');
+            });
+
+            ReportTierApp.controller('MenuController', function ($scope, $http) {
+                $scope.getTiers = function(tiers){
+                    var getTiers = $http.get($('#baseurl').val() + 'get-tiers/' + $("#user_id").val() + '/' + tiers);
+                    getTiers.then(function(response){
+                        if(response.data.status == true){
+                            $scope.Tiers = response.data.data;
+                        }
+                    });
+                };
+
+                $scope.getModulesForms = function(mf){
+                    var getModuleForms = $http.get($('#baseurl').val() + 'get-modules-forms/' + $("#user_id").val() + '/' + mf);
+                    getModuleForms.then(function(response){
+                        if(response.data.status == true){
+                            $scope.Modules = response.data.data['report-tier'];
+                        }
+                    });
+                };
+            });
+
+        </script>
+
+        @yield('internaljs')
     </body>
 </html>
