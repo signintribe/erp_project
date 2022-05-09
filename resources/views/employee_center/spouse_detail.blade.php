@@ -3,7 +3,7 @@
 @section('pagetitle', 'Family/Spouse Person Details')
 @section('breadcrumb', 'Family/Spouse Person Details')
 @section('content')
-<div  ng-app="SpouseApp" ng-controller="SpouseController" ng-cloak>
+<div ng-controller="SpouseController" ng-cloak>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Family/Spouse Person Details</h3>

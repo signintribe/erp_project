@@ -3,7 +3,7 @@
 @section('pagetitle', 'Company Registration')
 @section('breadcrumb', 'Company Registration')
 @section('content')
-<div ng-app="RegistrationApp" ng-controller="RegistrationController" ng-cloak>
+<div ng-controller="RegistrationController" ng-cloak>
     <div class="card">
         <div class="card-header">
             <div class="row">
