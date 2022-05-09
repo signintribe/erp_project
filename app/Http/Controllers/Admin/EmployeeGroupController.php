@@ -25,13 +25,9 @@ class EmployeeGroupController extends Controller
      */
     public function index()
     {
-        return DB::select('call sp_getAllEmployeeGroup('.Auth::user()->id.', 0)');
-    }
-
-    public function employee_group()
-    {
         return view('admin.employee-group');
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -69,7 +65,7 @@ class EmployeeGroupController extends Controller
      */
     public function show($id)
     {
-        //
+        return DB::select('call sp_getAllEmployeeGroup('.$id.', 0)');
     }
 
     /**

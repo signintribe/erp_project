@@ -771,7 +771,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{ asset('public/js/sweetalert.min.js')}}"></script>
         <script src="{{ asset('public/js/angular.min.js')}}"></script>
         <input type="hidden" id="user_id" value="<?php echo Auth::user()->id; ?>">
-        <input type="hidden" id="baseurl" value="<?php echo env('APP_URL'); ?>">
+        <input type="hidden" id="appurl" value="<?php echo env('APP_URL'); ?>">
+        <input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
         <script>
             var CreateTierApp = angular.module('CreateTierApp', [], function ($interpolateProvider) {
                 $interpolateProvider.startSymbol('<%');
@@ -780,7 +781,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             CreateTierApp.controller('MenuController', function ($scope, $http) {
                 $scope.getTiers = function(tiers){
-                    var getTiers = $http.get($('#baseurl').val() + 'get-tiers/' + $("#user_id").val() + '/' + tiers);
+                    var getTiers = $http.get($('#appurl').val() + 'get-tiers/' + $("#user_id").val() + '/' + tiers);
                     getTiers.then(function(response){
                         if(response.data.status == true){
                             $scope.Tiers = response.data.data;
@@ -789,7 +790,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 };
 
                 $scope.getModulesForms = function(mf){
-                    var getModuleForms = $http.get($('#baseurl').val() + 'get-modules-forms/' + $("#user_id").val() + '/' + mf);
+                    var getModuleForms = $http.get($('#appurl').val() + 'get-modules-forms/' + $("#user_id").val() + '/' + mf);
                     getModuleForms.then(function(response){
                         if(response.data.status == true){
                             $scope.Modules = response.data.data['creation-tier'];

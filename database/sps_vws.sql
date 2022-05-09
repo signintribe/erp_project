@@ -798,7 +798,7 @@ DELIMITER ;
 
 DROP PROCEDURE sp_getAllEmployeeGroup;
 DELIMITER $$
-CREATE PROCEDURE `sp_getAllEmployeeGroup`(in userid int(11),in group_id int(11))
+CREATE PROCEDURE `sp_getAllEmployeeGroup`(in companyid int(11),in group_id int(11))
 BEGIN  
     IF group_id <> 0 THEN
       SELECT 
@@ -823,7 +823,7 @@ BEGIN
       dept.department_name, empgroup.* FROM (
         SELECT id, company_name 
         FROM tblcompanydetails 
-        WHERE user_id = userid
+        WHERE id = companyid
       ) AS company JOIN (
         SELECT id, company_id, office_name 
         FROM tblmaintain_offices
@@ -833,6 +833,54 @@ BEGIN
       ) AS dept ON dept.office_id = office.id JOIN (
         SELECT * FROM erp_employee_groups
       ) AS empgroup ON empgroup.department_id = dept.id;
+    END IF;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE sp_getAllEmployeeDesignation;
+DELIMITER $$
+CREATE PROCEDURE `sp_getAllEmployeeDesignation`(in companyid int(11),in designation_id int(11))
+BEGIN  
+    IF designation_id <> 0 THEN
+      SELECT 
+       company.id as company_id, company.company_name, 
+       office.id as office_id, office.office_name, 
+      dept.id AS department_id, dept.department_name, 
+      empgroup.group_name, designation.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails 
+        WHERE id = 4
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT id, department_id, group_name FROM erp_employee_groups
+      ) AS empgroup ON empgroup.department_id = dept.id JOIN (
+        SELECT * FROM erp_designations WHERE id = designation_id
+      ) AS designation on designation.group_id = empgroup.id;
+    ELSE
+      SELECT 
+       company.id as company_id, company.company_name, 
+       office.id as office_id, office.office_name, 
+      dept.id AS department_id, dept.department_name, 
+      empgroup.group_name, designation.* FROM (
+        SELECT id, company_name 
+        FROM tblcompanydetails 
+        WHERE id = 4
+      ) AS company JOIN (
+        SELECT id, company_id, office_name 
+        FROM tblmaintain_offices
+      )AS office ON office.company_id = company.id JOIN(
+        SELECT id, office_id, department_name 
+        FROM tbldepartmens
+      ) AS dept ON dept.office_id = office.id JOIN (
+        SELECT id, department_id, group_name FROM erp_employee_groups
+      ) AS empgroup ON empgroup.department_id = dept.id JOIN (
+        SELECT * FROM erp_designations
+      ) AS designation on designation.group_id = empgroup.id;
     END IF;
 END$$
 DELIMITER ;

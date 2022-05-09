@@ -334,8 +334,8 @@ Route::get('get-all-complaints', 'Admin\ComplaintsController@get_all_complaints'
  */
 //Route::group(['middleware' => ['auth:web','is_admin'], 'prefix'=>'company'], function () {
 Route::group(['prefix'=>'company'], function () {
-  Route::get('employee-group', 'Admin\EmployeeGroupController@employee_group');
   Route::resource('designation-form', 'company\DesignationController');
+  Route::get('get-employee-group/{dept_id}', 'company\DesignationController@get_employee_group');
   Route::get('company-profile', 'CompanyProfileController@index')->name('companyProfile')->middleware('is_admin');
   Route::get('company-address', 'CompanyProfileController@comAddressView');
   Route::get('authorty-lists', 'CompanyProfileController@authortyLists');

@@ -104,7 +104,6 @@
         </div>
     </div>
 </div>
-<input type="hidden" value="<?php echo env('APP_URL'); ?>" id="appurl">
 @endsection
 @section('internaljs')
 <script src="{{asset('ng_controllers/creation_company/employee-group.js')}}"></script>

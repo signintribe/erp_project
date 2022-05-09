@@ -607,6 +607,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{ asset('public/js/angular.min.js')}}"></script>
         <input type="hidden" id="user_id" value="<?php echo Auth::user()->id; ?>">
         <input type="hidden" id="baseurl" value="<?php echo env('APP_URL'); ?>">
+        <input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
         <script>
             var UserAuthTierApp = angular.module('UserAuthTierApp', [], function ($interpolateProvider) {
                 $interpolateProvider.startSymbol('<%');

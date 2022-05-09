@@ -32,7 +32,7 @@ CreateTierApp.controller('GroupController', function ($scope, $http) {
     };
 
     $scope.get_groups = function(){
-        $http.get($scope.app_url + 'company/maintain-group').then(function (response) {
+        $http.get($scope.app_url + 'company/maintain-group/' + $('#company_id').val()).then(function (response) {
             if(response.data.length > 0){
                 $scope.allgroups = response.data;
             }
