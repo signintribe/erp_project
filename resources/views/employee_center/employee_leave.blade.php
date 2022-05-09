@@ -3,7 +3,7 @@
 @section('pagetitle', 'Employee Leave')
 @section('breadcrumb', 'Employee Leave')
 @section('content')
-<div  ng-app="LeavesApp" ng-controller="LeavesController" ng-cloak>
+<div ng-controller="LeavesController" ng-cloak>
     <div class="card">
         <div class="card-header">
             <div class="row">
@@ -45,13 +45,7 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('public/js/angular.min.js')}}"></script>
-<script>
-    var Leaves = angular.module('LeavesApp', []);
-    Leaves.controller('LeavesController', function ($scope, $http) {
-        $("#employee").addClass('menu-open');
-        $("#employee a[href='#']").addClass('active');
-        $("#employee-leaves").addClass('active');
-    });
-</script>
+@endsection
+@section('internaljs')
+<script src="{{asset('ng_controllers/creation_hr/employee_leave.js')}}"></script>
 @endsection
