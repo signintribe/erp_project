@@ -2,10 +2,11 @@ CreateTierApp.controller('DesigntionController', function ($scope, $http) {
     $scope.resetscope = function(){
         $scope.designation = {}; 
         $scope.get_designations();
+        $("#showreset").hide();
     };
     $scope.app_url = $('#appurl').val();
     $scope.company_id = $('#company_id').val();
-
+    
     $scope.getoffice = function (company_id) {
         $scope.offices = {};
         $http.get($scope.app_url + 'company/getoffice/'+company_id).then(function (response) {
@@ -105,8 +106,16 @@ CreateTierApp.controller('DesigntionController', function ($scope, $http) {
 
     $scope.editDesignation = function(des){
         $scope.getDepartments(des.office_id);
-        $scope.get_groups(des.department_id);
-        $scope.designation = des;
+        if($scope.departments){
+            $scope.get_groups(des.department_id);
+            $scope.designation = des;
+            $scope.designation.department_id = parseInt(des.department_id);
+            $("#showreset").show();
+        }
+    };
+    $scope.resetForm = function(){
+        $scope.designation = {};
+        $("#showreset").hide();
     };
 
     $scope.readUrl = function (element) {
