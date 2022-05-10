@@ -3,7 +3,7 @@
 @section('pagetitle', 'View Logistics')
 @section('breadcrumb', 'View Logistics')
 @section('content')
-<div  ng-app="viewLogisticsApp" ng-controller="viewLogisticsController" ng-cloak>
+<div ng-controller="viewLogisticsController" ng-cloak>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">View Logistic Info</h3>
@@ -44,47 +44,7 @@
     </div>
 </div>
 <input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
-<script src="{{ asset('public/js/angular.min.js')}}"></script>
-<script>
-    var viewLogistics = angular.module('viewLogisticsApp', [], function ($interpolateProvider) {
-        $interpolateProvider.startSymbol('<%');
-        $interpolateProvider.endSymbol('%>');
-    });
-    viewLogistics.controller('viewLogisticsController', function ($scope, $http) {
-        $("#sourcing").addClass('menu-open');
-        $("#sourcing a[href='#']").addClass('active');
-        $("#view-logistics").addClass('active');
-        $scope.getLogisticInfo = function(){
-            $scope.logisticsInfo = {};
-            $http.get('get-logistics/' + $("#company_id").val()).then(function (response) {
-                if (response.data.length > 0) {
-                    $scope.logisticsInfo = response.data;
-                }
-            });
-        };
-
-        $scope.deleteLogisticInfo = function (id) {
-            swal({
-                title: "Are you sure?",
-                text: "Your will not be able to recover this record!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-primary",
-                confirmButtonText: "Yes, delete it!",
-                closeOnConfirm: false
-            },
-            function(){
-                $http.delete('delete-logistic/' + id).then(function (response) {
-                    if(response.data.status == true){
-                        $scope.getLogisticInfo();
-                        swal("Deleted!", response.data.message, "success");
-                    }else{
-                        swal("Not Deleted!", response.data.message, "error");
-                    }
-
-                });
-            });
-        };
-    });
-</script>
+@endsection
+@section('internaljs')
+<script src="{{ asset('ng_controllers/logistics/view-logistic.js')}}"></script>
 @endsection
