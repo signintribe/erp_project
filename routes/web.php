@@ -183,6 +183,10 @@ Route::group(['prefix'=>'purchases'], function () {
   Route::get('view-purchase-order', 'PurchaseOrderController@view_purchase_order')->name('view-purchase-order');
   Route::get('view-purchase-receive', 'PurchaseOrderController@view_purchase_receive')->name('view-purchase-receive');
   Route::get('get_pro_info/{pro_id}', 'InventoryController@getProductInfo');
+  Route::get('quotation-purchases', function()
+  {
+    return view('quotation-purchases');
+  })->name('Quotation For Purchases');
 });
 /**
  * Quotation Section
