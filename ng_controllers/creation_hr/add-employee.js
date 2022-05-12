@@ -4,7 +4,7 @@ CreateTierApp.controller('UsersController', function ($scope, $http) {
     $("#employee-info").addClass('active');
     $scope.getEmployees = function () {
         $(".loader").html('<div class="square-path-loader"></div>');
-        $http.get('getEmployees').then(function (response) {
+        $http.get('getEmployees/' + $("#company_id").val()).then(function (response) {
             if (response.data.length > 0) {
                 $scope.Users = response.data;
                 $(".loader").html('');

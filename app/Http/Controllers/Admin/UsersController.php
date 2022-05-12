@@ -50,9 +50,8 @@ class UsersController extends Controller {
 //    public function getusers() {
 //        return DB::select('call sp_users()');
 //    }
-    public function getEmployees() {
-        $company = tblcompanydetail::select('id')->where('user_id', Auth::user()->id)->first();
-        return tblemployeeinformation::where('company_id', $company->id)->get();
+    public function getEmployees($company_id) {
+        return tblemployeeinformation::where('company_id', $company_id)->get();
     }
 
     public function approve_user($user_id, $status) {

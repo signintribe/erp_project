@@ -38,7 +38,7 @@ RegisterAdmin.controller('RegisterAdminController', function ($scope, $http) {
     };
 
     $scope.getMenus = function(){
-    var ParentMenus = $http.get('get-sidebar-menu');
+        var ParentMenus = $http.get('get-sidebar-menu');
         ParentMenus.then(function (r) {
             $scope.Menus = r.data;
         });

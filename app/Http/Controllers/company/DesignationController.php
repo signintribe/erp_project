@@ -47,7 +47,6 @@ class DesignationController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['attachment', 'office_id', 'department_id']);
         if ($request->hasFile('attachment')) {
             $current = date('ymd') . rand(1, 999999) . time();
             $file = $request->file('attachment');
@@ -59,7 +58,14 @@ class DesignationController extends Controller
                 File::exists($file_path) ? File::delete($file_path) : '';
             }
         }
-        ErpDesignation::create($data);
+
+        if($request->id){
+            $data = $request->except(['$$hashKey', 'attachment', 'office_id', 'department_id', 'company_id', 'company_name', 'created_at', 'updated_at', 'department_name', 'designation_attaches', 'group_name', 'id', 'office_name']);
+            ErpDesignation::where('id', $request->id)->update($data);
+        }else{
+            $data = $request->except(['attachment', 'office_id', 'department_id']);
+            ErpDesignation::create($data);
+        }
         return response()->json([
             'status' => 'true',
             'message' => 'Designation Information Save Successfully'

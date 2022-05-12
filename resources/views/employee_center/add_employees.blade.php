@@ -148,13 +148,6 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
-                                <label>* Email:</label>
-                                <input type="email" class="form-control" ng-model="user.email" placeholder="Email Address"/>
-                                <i class="text-danger" ng-show="!user.email && showError"><small>Please Type Email</small></i>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
-                            <div class="form-group">
                                 <label>Phone Number</label>
                                 <input type="text" class="form-control" ng-model="user.phone_number" placeholder="Phone Number"/>
                             </div>
@@ -170,6 +163,12 @@
                             <div class="form-group">
                                 <label>Fax Number</label>
                                 <input type="text" class="form-control" ng-model="user.fax_number" placeholder="Fax Number"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <label>Pinterest</label>
+                                <input type="text" class="form-control" ng-model="user.pinterest" placeholder="Pinterest"/>
                             </div>
                         </div>
                     </div><br/>
@@ -214,8 +213,9 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
-                                <label>Pinterest</label>
-                                <input type="text" class="form-control" ng-model="user.pinterest" placeholder="Pinterest"/>
+                                <label>* Email:</label>
+                                <input type="email" class="form-control" ng-model="user.email" placeholder="Email Address"/>
+                                <i class="text-danger" ng-show="!user.email && showError"><small>Please Type Email</small></i>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3" id="onEdit">
