@@ -5,14 +5,9 @@
 @section('content')
 <div ng-controller="AddSubuserController">
     <div class="row" ng-init="getEmployees(); get_designations(); getMenus();">
-        <div class="col-lg-3 col-md-3 col-sm-3">
-            <select ng-model="subuser.employee_id" ng-options="usr.user_id as usr.first_name for usr in Users" class="form-control">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <select ng-model="subuser.user_id" ng-change="getuser(usr)" ng-options="usr.user_id as usr.first_name for usr in Users" class="form-control">
                 <option value="">Select User</option>
-            </select>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3">
-            <select ng-model="subuser.designation_id" ng-options="des.id as des.designation_name for des in alldesignations" class="form-control">
-                <option value="">Select Designation</option>
             </select>
         </div>
     </div><br/>
@@ -42,7 +37,7 @@
             </div>
         </div>
     </div><br/>
-    <button class="btn btn-success btn-md">Save</button>
+    <button class="btn btn-success btn-md" ng-click="saveUser();"> <i class="fa fa-save" id="loader"></i> Save</button><br/>
 </div>
 @endsection
 @section('internaljs')

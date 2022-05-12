@@ -80,7 +80,7 @@ class RegisterAdminController extends Controller
                 }
             }
         }
-        return response()->json(['status'=> 201,'success' => 'Successfully Create']);
+        return response()->json(['status'=> 200,'success' => 'Successfully Create']);
     }
 
     /**
@@ -207,5 +207,20 @@ class RegisterAdminController extends Controller
     public function add_company_users()
     {
         return view('subuser.add_subuser');
+    }
+
+    public function regiter_subuser(Request $request)
+    {
+        $forms = json_decode($request->checkmenu, true);
+        if(!empty($forms)){
+            ErpUserMenu::where('user_id', $request->user_id)->delete();
+            for($i = 0; $i<count($forms); $i++){
+                $data['sidebar_menu_id'] = $forms[$i];
+                $data['user_id'] = $request->user_id;
+                ErpUserMenu::create($data);
+            }
+        }
+
+        return response()->json(['status'=> 200,'success' => 'Successfully Assign All Menus']);
     }
 }
