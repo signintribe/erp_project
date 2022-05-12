@@ -191,6 +191,10 @@ Route::group(['prefix'=>'purchases'], function () {
   Route::get('recieve-inventory', function(){
     return view('receive-inventory');
   })->name('Recieve Inventory');
+
+  Route::get('payment-voucher', function(){
+    return view('payment-voucher');
+  })->name('Payment Voucher Form');
 });
 /**
  * Quotation Section
@@ -514,10 +518,6 @@ Route::get('approval-authrity-list', function(){
 Route::get('destination-form', function(){
   return view('destination-form');
 })->name('Destination Form');
-
-Route::get('payment-voucher-form', function(){
-  return view('payment-voucher-form');
-})->name('Payment Voucher Form');
 
 Route::get('quotation-for-purchases', function(){
   return view('quotation-for-purchases');

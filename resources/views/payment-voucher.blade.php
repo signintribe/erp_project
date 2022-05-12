@@ -4,19 +4,18 @@
 @section('breadcrumb', 'Payment Voucher')
 @section('content')
 
-<div ng-app='PaymentVoucherApp' ng-controller='PaymentVoucherController'>
 <form action="payment-voucher" method="get">
     <div class='card'>
         <div class="card-body">
         <div class="row">
             <div class="col-6">
                 <label for="">Date</label>
-                <input type="text" name="" id="" class="form-control">
+                <input type="date" name="" id="" datepicker class="form-control">
             </div>
             <div class="col-6">
                 <label for="">Payment Method</label>
                 <select name="" id="" class="form-control">
-                    <option value="">DDL</option>
+                    <option value="">Select Payment Method</option>
                 </select>
             </div>
         </div><br/>
@@ -27,7 +26,7 @@
             </div>
             <div class="col-6">
                 <label for="">Date On Instrument</label>
-                <input type="text" name="" id="" class="form-control">
+                <input type="date" name="" id="" datepicker class="form-control">
             </div>
         </div><br/>
     </div>
@@ -50,19 +49,22 @@
         <div class='row'>
             <div class="col-6">
                 <label for="">Debit Account</label>
-                <input type="text" name="" id="" class="form-control">
+                <select name="" id="" class="form-control">
+                    <option value="">Select Debit Account</option>
+                </select>
             </div>
             <div class="col-6">
                 <label for="">Credit Account</label>
-                <input type="text" name="" id="" class="form-control">
+                <select name="" id="" class="form-control">
+                    <option value="">Select Credit Account</option>
+                </select>
             </div>
         </div><br/>
         <div class='row'>
             <div class='col-6'>
                 <label>GL Account</label>
                 <select name="" id="" class="form-control">
-                    <option value="">1</option>
-                    <option value="">2</option>
+                    <option value="">Select GL Account</option>
                 </select>
             </div>
         </div><br/>
@@ -80,14 +82,4 @@
     </div>
 </div>
 </form>
-</div>
-<script src="{{ asset('public/js/angular.min.js')}}"></script>
-<script>
-    var SalesOrder = angular.module('PaymentVoucherApp', []);
-    SalesOrder.controller('PaymentVoucherController', function ($scope, $http) {
-        $("#sales").addClass('menu-open');
-        $("#sales a[href='#']").addClass('active');
-        $("#payment-voucher").addClass('active');
-    });
-</script>
 @endsection
