@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\VendorModels\tblcompanydetail;
+use App\Models\employeeCenter\tblemployeeinformation;
 use App\User;
 class LoginController extends Controller {
     /*
@@ -45,7 +46,9 @@ use AuthenticatesUsers;
                 return redirect()->route('open-company')->withInput()->withErrors(['email' => 'This email is not registered']);
             }else{
                 if(empty(tblcompanydetail::where('id', $input['company_id'])->where('user_id', $user->id)->first())){
-                    return redirect()->route('open-company')->withInput()->withErrors(['nocompany' => 'You are not registered in this company']);
+                    if(empty(tblemployeeinformation::where('company_id', $input['company_id'])->where('user_id', $user->id)->first())){
+                        return redirect()->route('open-company')->withInput()->withErrors(['nocompany' => 'You are not registered in this company']);
+                    }
                 }
                 if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
                     session(['company_id' => $input['company_id']]);

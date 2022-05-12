@@ -42,7 +42,7 @@ Route::group(['prefix'=>'hr'], function () {
   Route::get('employee-payscale', 'Admin\PayScaleController@employee_payscale');
   Route::get('timing-info', 'HrViewsController@timing_info');
   Route::get('employee-jd', 'Admin\EmployeeJDController@employee_jd');
-  Route::get('getEmployees', 'Admin\UsersController@getEmployees')->middleware('is_admin');
+  Route::get('getEmployees/{company_id}', 'Admin\UsersController@getEmployees')->middleware('is_admin');
   Route::get('employee-personal-information', 'Admin\UsersController@index')->name('users')->middleware('is_admin');
   Route::get('employees-registration', 'Admin\UsersController@employeesRegistration');
   Route::post('SaveUsers', 'Admin\UsersController@SaveUsers')->middleware('is_admin');
@@ -126,7 +126,9 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('is_vendor
 /**
  * User Dashboard
 */
-Route::get('/userdashboard', 'User\UserController@index')->name('userdashboard')->middleware('is_user');
+Route::group(['middleware' => ['auth:web','is_user'], 'prefix'=>''], function(){
+  Route::get('/userdashboard', 'User\UserController@index')->name('userdashboard');
+});
 
 /**
  * Customer Dashboard
@@ -290,6 +292,7 @@ Route::group(['middleware' => ['auth:web','super_admin'], 'prefix'=>'superadmin'
 });
 Route::get('create-chart-account', 'Admin\FinanceController@defineAccount');
 Route::get('getAccountCategories/{id}', 'Globall\CategoriesController@getAccountCategories');
+Route::get('get-sidebar-menu-subuser', 'Globall\RegisterAdminController@get_sidebar_menu');
 
 
 
@@ -386,7 +389,7 @@ Route::group(['prefix'=>'company'], function () {
   Route::resource('maintain-jds', 'Admin\EmployeeJDController');
   Route::resource('maintain-holiday', 'Admin\GazzetedHolidayController');
   Route::resource('maintain-leaves', 'Admin\YearlyLeaveController');
-
+  Route::get('add-company-users', 'Globall\RegisterAdminController@add_company_users');
 });
 
 

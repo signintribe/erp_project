@@ -105,15 +105,17 @@ CreateTierApp.controller('DesigntionController', function ($scope, $http) {
     };
 
     $scope.editDesignation = function(des){
+        $scope.departments = {};
+        $scope.allgroups = {};
         $scope.getDepartments(des.office_id);
-        if($scope.departments){
-            $scope.get_groups(des.department_id);
-            $scope.designation = des;
-            $scope.designation.department_id = parseInt(des.department_id);
-            $("#showreset").show();
-        }
+        $scope.get_groups(des.department_id);
+        $scope.designation = des;
+        $scope.designation.department_id = parseInt($scope.designation.department_id);
+        $("#showreset").show();
     };
     $scope.resetForm = function(){
+        $scope.departments = {};
+        $scope.allgroups = {};
         $scope.designation = {};
         $("#showreset").hide();
     };

@@ -203,4 +203,9 @@ class RegisterAdminController extends Controller
             'company' => $company
         ]);
     }
+
+    public function add_company_users()
+    {
+        return view('subuser.add_subuser');
+    }
 }
