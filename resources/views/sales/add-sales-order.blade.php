@@ -138,11 +138,43 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3"></div>
-                <div class="col-lg-3 col-md-3 col-sm-3"></div>
-                <div class="col-lg-3 col-md-3 col-sm-3"></div>
-                <div class="col-lg-3 col-md-3 col-sm-3"></div>
-            </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Quotation No</label>
+                    <input type="text" name="quotation-no" id="" placeholder='Quotation No' class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Quantity</label>
+                    <input type="text" name="quantity" id="" placeholder='Quantity' class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Category</label>
+                    <input type="text" name="category" id="" placeholder='Category' class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Product</label>
+                    <input type="text" name="product" id="" placeholder='Product' class="form-control">
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Delivered</label>
+                    <input type="text" name="delivered" id="" placeholder='Delivered' class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Pending To Deliver</label>
+                    <input type="text" name="pendin-to-deliver" id="" placeholder='Pending To Deliver' class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Amount</label>
+                    <input type="text" name="amount" id="" placeholder='Amount' class="form-control">
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <label for="">Description</label>
+                    <textarea name="description" id="" placeholder="Description" class="form-control"></textarea>
+                </div>
+            </div><br>
         </div>
     </div>
 </div>
