@@ -398,6 +398,7 @@ Route::group(['prefix'=>'company'], function () {
   Route::resource('maintain-holiday', 'Admin\GazzetedHolidayController');
   Route::resource('maintain-leaves', 'Admin\YearlyLeaveController');
   Route::get('add-company-users', 'Globall\RegisterAdminController@add_company_users');
+  Route::post('regiter-subuser', 'Globall\RegisterAdminController@regiter_subuser');
 });
 
 
