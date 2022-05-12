@@ -4,8 +4,7 @@
 @section('breadcrumb', 'Recieve Inventory')
 @section('content')
 
-<div ng-app='RecieveInventoryApp' ng-controller='RecieveInventoryController'>
-<form action="recieve-inventory-form" method="get">
+<form action="recieve-inventory" method="get">
     <div class="card">
         <div class="card-header">
             <h2 class="card-title">PO Detail</h2>
@@ -25,7 +24,7 @@
                 <div class="col-6">
                     <label for="">Apply to Pending Approved PO/Tender</label>
                    <select name="" id="" class="form-control">
-                       <option value="">DDL</option>
+                       <option value="">Select Apply to Pending Approved PO/Tender</option>
                    </select>
                 </div>
             </div><br/>
@@ -118,9 +117,9 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-6">
-                    <label for="">DDL</label>
+                    <label for="">Name of Taxe</label>
                     <select name="" id="" class="form-control">
-                        <option value="">DDL</option>
+                        <option value="">Select Name of Taxe</option>
                     </select>               
                  </div>
             </div><br>
@@ -198,13 +197,13 @@
                 <div class="col-6">
                     <label for="">Project</label>
                     <select name="" id="" class="form-control">
-                        <option value="">DDL</option>
+                        <option value="">Select Project</option>
                     </select>
                 </div>
                 <div class="col-6">
                     <label for="">Activity</label>
                     <select name="" id="" class="form-control">
-                        <option value="">DDL</option>
+                        <option value="">Select Activity</option>
                     </select>
                 </div>
             </div><br>
@@ -225,7 +224,7 @@
                 <div class="col-6">
                     <label for="">Designation</label>
                     <select name="" id="" class="form-control">
-                        <option value="">Designation of DDL</option>
+                        <option value="">Select Designation</option>
                     </select>
                 </div>
         </div><br>
@@ -247,14 +246,4 @@
         </div>
     </div>
 </form>
-</div>
-<script src="{{ asset('public/js/angular.min.js')}}"></script>
-<script>
-    var SalesOrder = angular.module('RecieveInventoryApp', []);
-    SalesOrder.controller('RecieveInventoryController', function ($scope, $http) {
-        $("#purchases").addClass('menu-open');
-        $("#purchases-active").addClass('active');
-        $("#RecieveInventory").addClass('active');
-    });
-</script>
 @endsection
