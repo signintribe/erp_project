@@ -219,6 +219,14 @@ Route::group(['prefix'=>'sales'], function(){
   Route::get('receipt-voucher', function(){
     return view('sales/receipt-voucher');
   })->name('Receipt Voucher Form');
+
+  Route::get('quotation-sale', function(){
+    return view('sales/quotation-sale');
+  })->name('Quotation For Sale');
+
+  Route::get('sales-invoice',function(){
+    return view('sales/sales-invoice');
+  })->name('Sales Invoice');
 });
 
 
