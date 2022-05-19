@@ -122,14 +122,15 @@
             </div><br/>
             <div id="attrbuts"></div>
             <div class="row" ng-repeat="attr in attributes">
-                <div class="col" ng-repeat="(key, value) in attr">
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-repeat="(key, value) in attr">
                     <label ng-bind="key" style="font-weight: bolder; text-transform: capitalize"></label><hr/>
-                    <div class="row">
+                    <input type="text" class="form-control">
+                    <!-- <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="atv in value" style="padding-bottom: 20px;">
                             <input type="checkbox" ng-click="getAttr(atv.id)" id="atv<% atv.id %>"> 
                             <label for="atv<% atv.id %>" ng-bind="atv.value_name"></label>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

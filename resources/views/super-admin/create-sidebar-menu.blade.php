@@ -40,7 +40,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4" style="overflow-y:scroll; height:408px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="overflow-y:scroll; height:597px;">
                             <ul class="list-group">
                                 <li ng-repeat="m in Menus" class="list-group-item">
                                     <input type="radio" ng-model="menu.parent_id" ng-click="getMenusOne(m.id)" id="parent<% m.id %>" ng-value="m.id"> <label for="parent<% m.id %>" ng-bind="m.menu_name"></label><br/>
@@ -51,7 +51,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4" style="overflow-y:scroll; height:408px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="overflow-y:scroll; height:597px;">
                         <ul class="list-group" ng-if="MenusOne.length > 0">
                                 <li ng-repeat="om in MenusOne" class="list-group-item">
                                     <input type="radio" ng-model="menu.parent_id" ng-click="getMenusTwo(om.id)" id="parent<% om.id %>" ng-value="om.id"> <label for="parent<% om.id %>" ng-bind="om.menu_name"></label><br/>
@@ -62,7 +62,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4" style="overflow-y:scroll; height:408px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="overflow-y:scroll; height:597px;">
                             <ul class="list-group" ng-if="MenusTwo.length > 0">
                                 <li ng-repeat="tm in MenusTwo" class="list-group-item">
                                     <!-- <input type="radio" ng-model="menu.parent_id" id="parent<% tm.id %>" ng-value="tm.id"> --> <label for="parent<% tm.id %>" ng-bind="tm.menu_name"></label><br/>

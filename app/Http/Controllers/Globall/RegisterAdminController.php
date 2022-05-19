@@ -213,8 +213,9 @@ class RegisterAdminController extends Controller
     {
         $forms = json_decode($request->checkmenu, true);
         if(!empty($forms)){
-            ErpUserMenu::where('user_id', $request->user_id)->delete();
+            //ErpUserMenu::where('user_id', $request->user_id)->delete();
             for($i = 0; $i<count($forms); $i++){
+                ErpUserMenu::where('user_id', $request->user_id)->where('sidebar_menu_id', $forms[$i])->delete();
                 $data['sidebar_menu_id'] = $forms[$i];
                 $data['user_id'] = $request->user_id;
                 ErpUserMenu::create($data);
@@ -222,5 +223,17 @@ class RegisterAdminController extends Controller
         }
 
         return response()->json(['status'=> 200,'success' => 'Successfully Assign All Menus']);
+    }
+
+    public function remove_subuser_menu(Request $request)
+    {
+        $forms = json_decode($request->removemenu, true);
+        if(!empty($forms)){
+            for($i = 0; $i<count($forms); $i++){
+                ErpUserMenu::where('user_id', $request->user_id)->where('sidebar_menu_id', $forms[$i])->delete();
+            }
+        }
+
+        return response()->json(['status'=> 200,'success' => 'Successfully Un Assign Selected Menus']);
     }
 }
