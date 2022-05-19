@@ -215,6 +215,18 @@ Route::get('view-quotations', 'QuotationController@view_quotations')->name('view
 Route::group(['prefix'=>'sales'], function(){
   Route::get('add-sales-order', 'SalesController@index')->name('add-sales-order');
   Route::get('view-sales-order', 'SalesController@view_sales_order')->name('view-sales-order');
+
+  Route::get('receipt-voucher', function(){
+    return view('sales/receipt-voucher');
+  })->name('Receipt Voucher Form');
+
+  Route::get('quotation-sale', function(){
+    return view('sales/quotation-sale');
+  })->name('Quotation For Sale');
+
+  Route::get('sales-invoice',function(){
+    return view('sales/sales-invoice');
+  })->name('Sales Invoice');
 });
 
 
