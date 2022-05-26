@@ -453,6 +453,10 @@ Route::group(['prefix'=>'tender'], function(){
     return view('tender/add-tender');
   })->name('Add Tender');
 
+Route::get('view-tender', function(){
+  return view('tender/view-tender');
+})->name('View Tender');
+
   Route::get('requestion', function(){
     return view('tender/requestion');
   })->name('Requestion');
