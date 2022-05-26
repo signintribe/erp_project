@@ -445,6 +445,14 @@ Route::group(['prefix'=>'tender'], function(){
   Route::get('get-project-activities/{project_id}/{company_id}', 'ProjectSystem\CreateActivitiesControllerr@get_project_activities');
   Route::get('get-activity-phases/{activity_id}/{company_id}', 'ProjectSystem\CreatePhasesController@get_activity_phases');
   Route::get('get-phases-tasks/{task_id}/{company_id}', 'ProjectSystem\CreateTasksController@get_phases_tasks');
+
+  Route::get('add-tender', function(){
+    return view('tender/add-tender');
+  })->name('Add Tender');
+
+  Route::get('requestion', function(){
+    return view('tender/requestion');
+  })->name('Requestion');
 });
 
 /**
