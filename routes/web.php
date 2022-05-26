@@ -314,6 +314,7 @@ Route::group(['middleware' => ['auth:web','super_admin'], 'prefix'=>'superadmin'
   Route::get('get-user-sidebar-menus/{user_id}/{menu}', 'Globall\RegisterAdminController@getUserSidebarMenus');
   Route::get('get-users', 'Globall\RegisterAdminController@get_users');
 });
+
 Route::get('create-chart-account', 'Admin\FinanceController@defineAccount');
 Route::get('getAccountCategories/{id}', 'Globall\CategoriesController@getAccountCategories');
 Route::get('get-sidebar-menu-subuser', 'Globall\RegisterAdminController@get_sidebar_menu');
@@ -415,6 +416,8 @@ Route::group(['prefix'=>'company'], function () {
   Route::resource('maintain-leaves', 'Admin\YearlyLeaveController');
   Route::get('add-company-users', 'Globall\RegisterAdminController@add_company_users');
   Route::post('regiter-subuser', 'Globall\RegisterAdminController@regiter_subuser');
+  Route::post('remove-subuser-menu', 'Globall\RegisterAdminController@remove_subuser_menu');
+  Route::get('get-subuser-sidebar-menus/{user_id}/{menu}', 'Globall\RegisterAdminController@getUserSidebarMenus');
 });
 
 
