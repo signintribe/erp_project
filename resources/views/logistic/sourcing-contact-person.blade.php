@@ -4,7 +4,7 @@
 @section('breadcrumb', 'Contact Person')
 @section('content')
 <div ng-controller="CompanyController" ng-cloak>
-<div class="card">
+    <div class="card">
         <div class="card-header">
             <h3 class="card-title">Contact Person</h3>
             <a href="#viewContactPerson" class="float-right">View Details</a>

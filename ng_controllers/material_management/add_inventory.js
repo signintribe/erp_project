@@ -10,6 +10,8 @@ CreateTierApp.controller('InventoryController', function ($scope, $http) {
         });
     };
     $scope.inventory = {};
+    $scope.inventory.attr_value = [];
+    console.log($scope.inventory.attr_value);
     $scope.inventory.purchase_price = 0;
     $scope.inventory.cost_price = 0; 
     $scope.inventory.carriage_inward_charges = 0; 
@@ -208,6 +210,16 @@ CreateTierApp.controller('InventoryController', function ($scope, $http) {
                 $scope.getAttributes(parent_id);
             }
         });
+    };
+    $scope.inventory.attrvalue = [];
+    $scope.getAttrValue = function(id, value){
+        if(value != undefined || value != ''){
+            $scope.inventory.attrvalue.push({
+                attr_id : id,
+                attr_value : value
+            });
+            console.log($scope.inventory.attrvalue);
+        }
     };
 
     $scope.getAttributes = function (category_id) {

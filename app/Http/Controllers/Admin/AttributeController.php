@@ -119,13 +119,15 @@ class AttributeController extends Controller
     {
         $attributes = array();
         $attr = erp_attribute::where('category_id', $category_id)->get();
-        foreach ($attr as $key => $value) {
+        /* foreach ($attr as $key => $value) {
             $attrvalue = erp_attribute_value::where('attribute_id', $value['id'])->get();
             $attributes[] = array(
                 $value['attribute_name'] => $attrvalue
             );
-        }
+        } 
         return response()->json(['status' => true, 'data' => $attributes]);
+        */
+        return response()->json(['status' => true, 'data' => $attr]);
     }
 
     public function getAttributes($category_id)
