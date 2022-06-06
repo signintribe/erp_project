@@ -41,12 +41,13 @@ class InventoryController extends Controller{
 
     public function saveInventory(Request $request)
     {
+        //return $request->all();
         if($request->id){
             try{
-                $product = $request->except('created_at', 'updated_at', 'id', 'user_id' ,'attributes','stock_sale_order','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','product_id','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
-                $attributes = $request->except('created_at', 'updated_at', 'id', 'user_id' ,'barcode_id','stock_sale_order','product_name','product_description','category_id','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
-                $pricing = $request->except('created_at', 'updated_at', 'id', 'user_id' ,'taxes_included', 'barcode_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale');
-                $vendor = $request->except('created_at', 'updated_at', 'id', 'user_id' ,'barcode_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');   
+                $product = $request->except('attr_value', 'attrvalue', 'created_at', 'updated_at', 'id', 'user_id' ,'attributes','stock_sale_order','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','product_id','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
+                $attributes = $request->except('attr_value', 'attrvalue', 'created_at', 'updated_at', 'id', 'user_id' ,'barcode_id','stock_sale_order','product_name','product_description','category_id','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
+                $pricing = $request->except('attr_value', 'attrvalue', 'created_at', 'updated_at', 'id', 'user_id' ,'taxes_included', 'barcode_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale');
+                $vendor = $request->except('attr_value', 'attrvalue', 'created_at', 'updated_at', 'id', 'user_id' ,'barcode_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');   
                 
                 if($request->vendor_name != 'NaN'){
                     if(count(tblproduct_vendor::where('product_id', $request->id)->get()) <= 0){  
@@ -61,20 +62,36 @@ class InventoryController extends Controller{
                         'message' => 'Please Selectd Vendor First'
                     ]);
                 }
-                $stock = $request->except('created_at', 'updated_at', 'id', 'user_id' ,'barcode_id','attributes','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','chartof_account_cost','chartof_account_inventory','chartof_account_sale','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
-                $account = $request->except('created_at', 'updated_at', 'id', 'user_id' ,'barcode_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
-                $data = json_decode($attributes['attributes'], true);
+                $stock = $request->except('attr_value', 'attrvalue', 'created_at', 'updated_at', 'id', 'user_id' ,'barcode_id','attributes','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','chartof_account_cost','chartof_account_inventory','chartof_account_sale','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
+                $account = $request->except('attr_value', 'attrvalue', 'created_at', 'updated_at', 'id', 'user_id' ,'barcode_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
                 tblproduct_informations::where('id', $request->id)->update($product);
-                if (!empty($data)){
+                //Old Secanrio Of Attribute Value With Products When Attributes Value Add From Form
+                /* if (!empty($attribute)){
                     tblproduct_attributes::where('product_id', $request->id)->delete();
-                    $attribute = json_decode($attributes['attributes'], true);
                     for ($i=0; $i < count($attribute); $i++) { 
                         tblproduct_attributes::create([
                             'product_id' => $request->id,
                             'value_id' => $attribute[$i]
                         ]);
                     } 
-                }        
+                }  */      
+                //New Secanrio of Attribute Value Add With Products
+                $attribute = json_decode($attributes['attributes'], true);
+                if (!empty($attribute)){
+                    tblproduct_attributes::where('product_id', $request->id)->delete();
+                    foreach($attribute as $key => $value){
+                        $attrval = new erp_attribute_value();
+                        $attrval->user_id = Auth::user()->id;
+                        $attrval->attribute_id = $value['attr_id'];
+                        $attrval->value_name = $value['attr_value'];
+                        $attrval->save();
+
+                        tblproduct_attributes::create([
+                            'product_id' => $request->id,
+                            'value_id' => $attrval->id
+                        ]);
+                    }
+                }
 
                 if(count(tblproduct_stockavailability::where('product_id', $request->id)->get()) > 0 ){
                     tblproduct_stockavailability::where('product_id', $request->id)->update($stock);
@@ -111,12 +128,12 @@ class InventoryController extends Controller{
                 return response()->json(['status' => false, 'message' => $e->errorInfo[2]]);
             }
         }else{
-            $product = $request->except('attributes','stock_sale_order','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','product_id','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
-            $attributes = $request->except('barcode_id','stock_sale_order','product_name','product_description','category_id','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
-            $pricing = $request->except('taxes_included', 'barcode_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale');
-            $vendor = $request->except('barcode_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
-            $stock = $request->except('barcode_id','attributes','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','chartof_account_cost','chartof_account_inventory','chartof_account_sale','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
-            $account = $request->except('barcode_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
+            $product = $request->except('attr_value', 'attrvalue', 'attributes','stock_sale_order','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','product_id','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
+            $attributes = $request->except('attr_value', 'attrvalue', 'barcode_id','stock_sale_order','product_name','product_description','category_id','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
+            $pricing = $request->except('attr_value', 'attrvalue', 'taxes_included', 'barcode_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale');
+            $vendor = $request->except('attr_value', 'attrvalue', 'barcode_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','stock_in_hand','store_name','reorder_quantity','stock_pur_order','chartof_account_cost','chartof_account_inventory','chartof_account_sale','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
+            $stock = $request->except('attr_value', 'attrvalue', 'barcode_id','attributes','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','chartof_account_cost','chartof_account_inventory','chartof_account_sale','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
+            $account = $request->except('attr_value', 'attrvalue', 'barcode_id','attributes','stock_sale_order','product_name','product_description','category_id','attribute_name','vendor_name','stock_class','product_status','stock_in_hand','store_name','reorder_quantity','stock_pur_order','delivery_charges','cost_price','carriage_inward_charges','purchase_price', 'profit', 'profit_type', 'sale_price', 'taxes_included');
             $product['user_id'] = Auth::user()->id;
 
             $products = tblproduct_informations::create($product);
@@ -132,11 +149,26 @@ class InventoryController extends Controller{
             tblproduct_accounts::create($account);
 
             $attribute = json_decode($attributes['attributes'], true);
-            for ($i=0; $i < count($attribute); $i++) { 
+            /* for ($i=0; $i < count($attribute); $i++) { 
                 tblproduct_attributes::create([
                     'product_id' => $products->id,
                     'value_id' => $attribute[$i]
                 ]);
+            } */
+            //New Secanrio of Attribute Value Add With Products
+            if (!empty($attribute)){
+                foreach($attribute as $key => $value){
+                    $attrval = new erp_attribute_value();
+                    $attrval->user_id = Auth::user()->id;
+                    $attrval->attribute_id = $value['attr_id'];
+                    $attrval->value_name = $value['attr_value'];
+                    $attrval->save();
+
+                    tblproduct_attributes::create([
+                        'product_id' => $products->id,
+                        'value_id' => $attrval->id
+                    ]);
+                }
             }
 
             $taxes = json_decode($request->taxes_included, true);
