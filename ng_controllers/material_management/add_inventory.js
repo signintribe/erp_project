@@ -10,8 +10,8 @@ CreateTierApp.controller('InventoryController', function ($scope, $http) {
         });
     };
     $scope.inventory = {};
-    $scope.inventory.attr_value = [];
-    console.log($scope.inventory.attr_value);
+    //$scope.inventory.attr_value = [];
+    //console.log($scope.inventory.attr_value);
     $scope.inventory.purchase_price = 0;
     $scope.inventory.cost_price = 0; 
     $scope.inventory.carriage_inward_charges = 0; 
@@ -65,7 +65,7 @@ CreateTierApp.controller('InventoryController', function ($scope, $http) {
     }
 
     $scope.saveInventory = function(){
-        $scope.inventory.attributes = JSON.stringify($scope.attrvals);
+        //$scope.inventory.attributes = JSON.stringify($scope.attrvals);
         $scope.inventory.taxes_included = JSON.stringify($scope.alltaxes);
         console.log($scope.inventory);
         if (!$scope.inventory.product_name) {
@@ -85,8 +85,8 @@ CreateTierApp.controller('InventoryController', function ($scope, $http) {
                     text: res.data,
                     type: "success"
                 });
-                $scope.inventory = {};
-                $scope.alltaxes = [];
+                //$scope.inventory = {};
+                //$scope.alltaxes = [];
                 $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
             });
         }
@@ -211,14 +211,15 @@ CreateTierApp.controller('InventoryController', function ($scope, $http) {
             }
         });
     };
-    $scope.inventory.attrvalue = [];
+    $scope.attrvalue = [];
     $scope.getAttrValue = function(id, value){
         if(value != undefined || value != ''){
-            $scope.inventory.attrvalue.push({
+            $scope.attrvalue.push({
                 attr_id : id,
                 attr_value : value
             });
-            console.log($scope.inventory.attrvalue);
+            $scope.inventory.attributes = JSON.stringify($scope.attrvalue);
+            console.log($scope.inventory.attributes);
         }
     };
 
@@ -236,7 +237,7 @@ CreateTierApp.controller('InventoryController', function ($scope, $http) {
         });
     };
     
-    $scope.attrvals = [];
+    /* $scope.attrvals = [];
     $scope.getAttr = function(attr_id){
         let index = $scope.attrvals.indexOf(attr_id);
         if(index == -1){
@@ -244,7 +245,7 @@ CreateTierApp.controller('InventoryController', function ($scope, $http) {
         }else{
             $scope.attrvals.splice(index, 1);
         }
-    };
+    }; */
 
     $scope.get_category = function (category_id) {
         $http.get($scope.appurl + 'get_categories/' + category_id).then(function (response) {

@@ -126,7 +126,6 @@
                     <!-- <div class="col" ng-repeat="(key, value) in attr"> -->
                         <label ng-bind="attr.attribute_name" style="font-weight: bolder; text-transform: capitalize"></label><hr/>
                         <input type="text"  class="form-control" ng-model="attrvalue[$index]" ng-blur="getAttrValue(attr.id, attrvalue[$index])" placeholder="Option name">
-                        <% attrvalue[$index] %>
                     <!-- </div> -->
                 </div>
             </div>
