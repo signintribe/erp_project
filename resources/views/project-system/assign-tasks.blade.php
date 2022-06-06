@@ -10,49 +10,49 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="office_id">* Select Office</label>
                     <select ng-model="task.office_id" ng-change="getDepartments(task.office_id)" ng-options="office.id as office.office_name for office in offices" id="office_id" class="form-control">
                         <option value="">Select Office</option>
                     </select>
                     <i class="text-danger" ng-show="!task.office_id && showError"><small>Please Select Office</small></i><br/>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="department_id">* Select Department</label>
                     <select ng-model="task.department_id" id="department_id" ng-change="getGroups(task.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
                     <i class="text-danger" ng-show="!task.department_id && showError"><small>Please Select Department</small></i><br/>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="group_id">* Select Employee Group</label>
                     <select ng-model="task.group_id" id="group_id" ng-options="group.id as group.group_name for group in groups" class="form-control">
                         <option value="">Select Employee Group</option>
                     </select>
                     <i class="text-danger" ng-show="!task.group_id && showError"><small>Please Select Employee Group</small></i><br/>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="assign_employee_id">* Assign to Employee Name</label>
                     <select class="form-control" ng-options="user.id as user.first_name for user in Users" ng-model="task.assign_employee_id">
                         <option value="">Select Employee</option>
                     </select>
                     <i class="text-danger" ng-show="!task.assign_employee_id && showError"><small>Please Select Employee</small></i><br/>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="supervise_employee_id">Supervis by</label>
                     <select class="form-control" ng-options="user.id as user.first_name for user in Users" ng-model="task.supervise_employee_id">
                         <option value="">Select Employee</option>
                     </select>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="reported_employee_id">Reported To</label>
                     <select class="form-control" ng-options="user.id as user.first_name for user in Users" ng-model="task.reported_employee_id">
                         <option value="">Select Employee</option>
                     </select>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="assignmentdate">Date of Assignment</label>
                     <div class="form-group">
                         <div class="input-group date" class="" id="assignmentdate" data-target-input="nearest">

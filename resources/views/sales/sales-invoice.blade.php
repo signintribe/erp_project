@@ -11,11 +11,11 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Invoice Date</label>
                     <input type="text" name="" id="" placeholder='Invoice Date' class="form-control">
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Shipment Status</label>
                     <select name="" id="" class="form-control">
                         <option value="">Pending</option>
@@ -24,16 +24,14 @@
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
-                    <label for="">SO Status</label><br>
-                    <input type="checkbox" name="" id="">
-                </div>
-            </div><br>
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4">
                     <label for="">Apply to Pending Sales Order No</label>
                     <select name="" id="" class="form-control">
                         <option value="">Select Apply to Pending Sales Order No</option>
                     </select>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <label for="">SO Status</label><br>
+                    <input type="checkbox" name="" id="">
                 </div>
             </div><br>
         </div>

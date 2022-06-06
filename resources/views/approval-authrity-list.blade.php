@@ -9,21 +9,19 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label>Select Department</label>
                     <select name="" id="" class='form-control'>
                         <option value="">DDl</option>
                     </select>
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <label>Select Designation</label>
                     <select name="" id="" class="form-control">
                         <option value="">DDL</option>
                     </select>
                 </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label>Approval Type</label>
                     <select name="" id="" class="form-control">
                         <option value="">Declined</option>
@@ -33,7 +31,7 @@
                 </div>
             </div><br/>
             <div class="row">
-            <div class="col-2">
+            <div class="col">
                     <button class="btn-success">Save</button>
                 </div>
             </div>

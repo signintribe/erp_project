@@ -12,23 +12,21 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-3">
                         <label for="">Name Of Employee</label>
                         <select name="" id="" class="form-control">
                             <option value="">DDL</option>
                         </select>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                     <label for=""> Department</label>
                     <input type="text" name="" id="" class="form-control">
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <label for="">Designation</label>
                         <input type="text" name="" id="" class="form-control">
                     </div>
-                </div><br>
-                <div class="row">
-                    <div class="col-4">
+                    <div class="col-3">
                         <label for="">Type of Leave</label>
                         <select name="" id="" class="form-control">
                             <option value="">Short Leave</option>
@@ -41,33 +39,33 @@
                             <option value="">Marriage Leave</option>
                         </select>
                     </div>
-                    <div class="col-4">
+                </div><br>
+                <div class="row">
+                    <div class="col-3">
                         <label for="">Reason Of Leave</label>
                         <input type="text" name="" id="" class="form-control">
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <label for="">Alternative</label>
                         <select name="" id="" class="form-control">
                             <option value="">DDL(employee)</option>
                         </select>
                     </div>
-                </div><br>
-                <div class="row">
-                    <div class="col-4">
+                    <div class="col-3">
                         <label for="">To</label>
                         <input type="text" name="" id="" class="form-control">
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <label for="">From</label>
-                        <input type="text" name="" id="" class="form-control">
-                    </div>
-                    <div class="col-4">
-                        <label for="">Total Number oF Leaves</label>
                         <input type="text" name="" id="" class="form-control">
                     </div>
                 </div><br>
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-3">
+                        <label for="">Total Number oF Leaves</label>
+                        <input type="text" name="" id="" class="form-control">
+                    </div>
+                    <div class="col-3">
                         <label for="">Perious Leave Balance</label>
                         <input type="text" name="" id="" class="form-control">
                     </div>

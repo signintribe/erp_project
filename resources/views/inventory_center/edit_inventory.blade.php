@@ -10,12 +10,12 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="barcode_id">* Barcode Id</label>
                     <input type="text" class="form-control" id="barcode_id" ng-model="inventory.barcode_id" placeholder="Product Barcode Id"/>
                     <i class="text-danger" ng-show="!inventory.barcode_id && showError"><small>Please Type Product Barcode Id</small></i>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="product_name">* Name of Product/Service</label>
                     <input type="text" class="form-control" id="product_name" ng-model="inventory.product_name" placeholder="Name of Product/Service"/>
                     <i class="text-danger" ng-show="!inventory.product_name && showError"><small>Please Type Product Name</small></i>
@@ -332,19 +332,19 @@
         </div>
         <div class="card-body" ng-init="getAccounts()">
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Chart of Account Id Cost of Sales</label>
                     <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="inventory.chartof_account_cost">
                         <option value="">Select Chart of Account Id Cost of Sales</option>
                     </select>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Chart of Account Id Inventory</label>
                     <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="inventory.chartof_account_inventory">
                         <option value="">Select Chart of Account Id Inventory</option>
                     </select>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label>Chart of Account Id Sales</label>
                     <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="inventory.chartof_account_sale">
                         <option value="">Select Chart of Account Id Sales</option>

@@ -11,17 +11,15 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Inventory Receipt No</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Recieving Date</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Apply to Pending Approved PO/Tender</label>
                    <select name="" id="" class="form-control">
                        <option value="">Select Apply to Pending Approved PO/Tender</option>
@@ -36,21 +34,19 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Vendor</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Vendor Address</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Delivery Address</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Shipment Status</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
@@ -63,43 +59,43 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Product/Item</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Quantity Ordered</label>
+                    <input type="text" name="" id="" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="">Reccieve Quantity</label>
+                    <input type="text" name="" id="" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="">Unit Price</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
             </div><br/>
             <div class="row">
-                <div class="col-6">
-                    <label for="">Reccieve Quantity</label>
-                    <input type="text" name="" id="" class="form-control">
-                </div>
-                <div class="col-6">
-                    <label for="">Unit Price</label>
-                    <input type="text" name="" id="" class="form-control">
-                </div>
-            </div><br>
-            <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Pending Items</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Gross Total</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
-            </div><br>
-            <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Chart of Account Debit</label>
-                    <input type="text" name="" id="" class="form-control">
+                    <select name="" id="" class="form-control">
+                        <option value="">Select Chart of Account</option>
+                    </select>
                 </div>
-                <div class="col-6">
-                    <label for="">Cahrt of Account Credit</label>
-                    <input type="text" name="" id="" class="form-control">
+                <div class="col-3">
+                    <label for="">Chart of Account Credit</label>
+                    <select name="" id="" class="form-control">
+                        <option value="">Select Chart of Account Credit</option>
+                    </select>
                 </div>
             </div><br>
             <div class="row">
@@ -116,7 +112,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Name of Taxe</label>
                     <select name="" id="" class="form-control">
                         <option value="">Select Name of Taxe</option>
@@ -131,7 +127,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Payment Method</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
@@ -144,25 +140,25 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Delivery Date</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Ship via</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Port of Loading</label>
+                    <input type="text" name="" id="" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="">Port of Unloading</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
             </div><br>
             <div class="row">
-                <div class="col-6">
-                    <label for="">Port of Unloading</label>
-                    <input type="text" name="" id="" class="form-control">
-                </div>
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">FOB Terms</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
@@ -181,7 +177,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Attacment</label>
                     <input type="file" name="" id="" class="form-control">
                 </div>
@@ -194,13 +190,13 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Project</label>
                     <select name="" id="" class="form-control">
                         <option value="">Select Project</option>
                     </select>
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Activity</label>
                     <select name="" id="" class="form-control">
                         <option value="">Select Activity</option>
@@ -215,25 +211,23 @@
         </div>
         <div class="card-body">
          <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Recieved By</label>
                     <select name="" id="" class="form-control">
                         <option value="">Name of Employee</option>
                     </select>
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Designation</label>
                     <select name="" id="" class="form-control">
                         <option value="">Select Designation</option>
                     </select>
                 </div>
-        </div><br>
-            <div class='row'>
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Godown</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <label for="">Room Detial</label>
                     <input type="text" name="" id="" class="form-control">
                 </div>
