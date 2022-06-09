@@ -27,6 +27,29 @@ Route::post('save_rated', 'ApiController@save_rated');
 Route::get('get-company-information/{company_id}', 'ApiController@get_complete_compnay_information');
 Route::get('get-company-rateing/{company_id}', 'ApiController@get_company_rateing');
 
+
+Route::group(['prefix'=>'purchases'], function () {
+    Route::get('add-purchase-order', 'PurchaseOrderController@index')->name('add-purchase-order');
+    Route::post('save-purchase-order', 'PurchaseOrderController@savePurchaseOrder');
+    Route::get('get-purchase-order-info', 'PurchaseOrderController@getpurchaseOrder');
+    Route::get('edit-purchase-order/{id}', 'PurchaseOrderController@editPurchaseOrder');
+    Route::get('edit-purchaseorder/{id}', 'PurchaseOrderController@edit');
+    Route::get('edit_pro_info/{po_id}', 'PurchaseOrderController@editProductInfo');
+    Route::delete('delete-purchase-order/{id}', 'PurchaseOrderController@destroy');
+    Route::get('add-purchase-receive', 'PurchaseOrderController@add_purchase_receive')->name('add-purchase-order');
+    Route::get('view-purchase-order', 'PurchaseOrderController@view_purchase_order')->name('view-purchase-order');
+    Route::get('view-purchase-receive', 'PurchaseOrderController@view_purchase_receive')->name('view-purchase-receive');
+    Route::get('get_pro_info/{pro_id}', 'InventoryController@getProductInfo');
+    Route::get('quotation-purchases', 'Purchases\PurchaseQuotationController@index');
+    Route::resource('manage-purchase-quotations', 'Purchases\PurchaseQuotationController');
+    Route::get('recieve-inventory', function(){
+      return view('receive-inventory');
+    })->name('Recieve Inventory');
+  
+    Route::get('payment-voucher', function(){
+      return view('payment-voucher');
+    })->name('Payment Voucher Form');
+  });
 /**
  * Add Category Attributes
  */
