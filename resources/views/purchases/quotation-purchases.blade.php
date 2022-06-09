@@ -198,14 +198,14 @@
                     <label for="unit_price">Unit Price</label>
                     <input type="text" ng-model="pq.unit_price" id="unit_price" placeholder="Unit Price" class="form-control">
                 </div>
-                <diiv class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="qty">Quantity</label>
                     <input type="text" ng-model="pq.quantity" placeholder="Quantity" id="qty" class="form-control">
-                </diiv>
-                <diiv class="col-lg-3 col-md-3 col-sm-3">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="gross_price">Gross Price</label>
                     <input type="text" ng-model="pq.gross_price" placeholder="Gross Price" id="gross_price" class="form-control">
-                </diiv>
+                </div>
             </div><br>
             <!-- <div class="row">
                 <div class="col-6">
@@ -221,14 +221,84 @@
                     </select>
                 </div>
             </div><br> -->
+            <div class="row">
+                <div class="col-10"><h5>Add Taxes</h5></div>
+                <div class="col-2 float-right">
+                    <button class="btn-primary" onclick="Addrow();">+Add Row</button>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name Of Taxe</th>
+                        <th>Percentage Of taxe</th>
+                        <th>Total Amount</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id='row2'>
+                        <td>
+                            <input type="text" name="name-taxe" id="" placeholder='Name of Taxe' class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" name="percentage-taxe" id="" placeholder='Percentage Of Taxe' class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" name="total-amount" id="" placeholder='Total Amount' class="form-control">
+                        </td>
+                    </tr>
+                </tbody>
+            </table><br>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Delivery Charges</label>
+                    <select name="delivery-charges" id="" class="form-control">
+                        <option value="">Select Delivery Charges</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Discount Name</label>
+                    <input type="text" name="discount-name" id="" placeholder='Discount Name' class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Discount Amount</label>
+                    <input type="text" name="discount-amouunt" id="" placeholder='Discount Amount' class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Net Amount</label>
+                    <input type="text" name="net-amount" id="" placeholder='Net Amount' class="form-control">
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Payment Type</label>
+                    <select name="payment-type" id="" class="form-control">
+                        <option value="">Select Payment Type</option>
+                    </select>
+                </div>
+            </div><br>
         </div>
     </div>
     <div class="card">
         <div class="card-header">
-            <h5 class="card-title">Add Taxes</h5>
+            <h5 class="card-title">Payment Terms</h5>
         </div>
         <div class="card-body">
-
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Advance Percentage</label>
+                    <input type="text" name="advance-percentage" id="" placeholder='Advance Percentage' class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Time Of Advance</label>
+                    <select name="time-of-advance" id="" class="form-control">
+                        <option value="">Select Time of Advance</option>
+                        <option value="">PO Time</option>
+                        <option value="">Delivery Time</option>
+                    </select>
+                </div>
+            </div><br>
         </div>
     </div>
     <div class="card">
@@ -340,7 +410,7 @@
                 </div>
                 <div class="col-4">
                 <label for="">Activity</label>
-                    <select ng-model="pq.activity" id="" class="form-control">
+                    <sel ect ng-model="pq.activity" id="" class="form-control">
                         <option value="">Select Activity</option>
                     </select>
                 </div>
@@ -359,6 +429,18 @@
         </div>
     </div> -->
 </div>
+<script>
+     function Addrow() {
+         var txt1 =  $('<tr id="col1"></tr>').html('<td><input type="text" name="name-taxe" id="" placeholder="Name of Taxe" class="form-control"></td>'
+                +'<td><input type="text" name="percentage-taxe" id="" placeholder="Percentage Of Taxe" class="form-control"></td>'
+                +'<td><input type="text" name="total-amount" id="" placeholder="Total Amount" class="form-control"></td>'
+                +'<td><button onclick="Remove();" class="btn-secondary">-</button></td>');
+          $('#row2').after(txt1);
+   };
+function Remove(){
+   $('#col1').remove();
+}
+</script>
 @endsection
 
 @section('internaljs')
