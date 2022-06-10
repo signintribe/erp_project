@@ -60,10 +60,10 @@
                     <input type="text" ng-model="pq.vendor" placeholder="Search Vendor" id="vendor" class="form-control">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="quotation_till">Quotation Till</label>
+                    <label for="quotation_till">Quotation Valid Till</label>
                     <div class="form-group">
                         <div class="input-group date" id="quotation_till" data-target-input="nearest">
-                            <input type="text" placeholder="Quotation Till" ng-model="pq.quotation_till" class="form-control datetimepicker-input" data-target="#quotation_till"/>
+                            <input type="text" placeholder="Quotation Valid Till" ng-model="pq.quotation_till" class="form-control datetimepicker-input" data-target="#quotation_till"/>
                             <div class="input-group-append" data-target="#quotation_till" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -89,7 +89,7 @@
                         <div class="col">
                         <label for="principal_performa">Principal performa invoce with sign & stamp on company letter head</label>
                         </div>
-                        <div class="col text-right">
+                        <div class="col">
                             <input type="checkbox"  id="principal_performa">
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                         <div class="col">
                         <label for="agency_agreement">Agency agreement with sign & stamp on company letter head</label>
                         </div>
-                        <div class="col text-right">
+                        <div class="col">
                             <input type="checkbox"  id="agency_agreement">
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                         <div class="col">
                         <label for="oem_certificate">OEM Certificate</label>
                         </div>
-                        <div class="col text-right">
+                        <div class="col">
                             <input type="checkbox"  id="oem_certificate">
                         </div>
                     </div>
@@ -113,7 +113,7 @@
                         <div class="col">
                         <label for="atp">ATP</label>
                         </div>
-                        <div class="col text-right">
+                        <div class="col">
                             <input type="checkbox"  id="atp">
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                         <div class="col">
                         <label for="compliance_sheet">Compliance Sheet</label>
                         </div>
-                        <div class="col text-right">
+                        <div class="col">
                             <input type="checkbox"  id="compliance_sheet">
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                         <div class="col">
                         <label for="company_profile">Company Profile/Certificate</label>
                         </div>
-                        <div class="col text-right">
+                        <div class="col">
                             <input type="checkbox"  id="company_profile">
                         </div>
                     </div>
@@ -137,7 +137,7 @@
                         <div class="col">
                         <label for="warrenty">Warrenty / Guarantee acceptence as per IT</label>
                         </div>
-                        <div class="col text-right">
+                        <div class="col">
                             <input type="checkbox"  id="warrenty">
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                         <div class="col">
                         <label for="special_instruction">Special Instruction Compliance</label>
                         </div>
-                        <div class="col text-right">
+                        <div class="col">
                             <input type="checkbox"  id="special_instruction">
                         </div>
                     </div>
@@ -153,7 +153,7 @@
                         <div class="col">
                         <label for="technical_offer">Complete Technical Offer</label>
                         </div>
-                        <div class="col text-right">
+                        <div class="col">
                             <input type="checkbox"  id="technical_offer">
                         </div>
                     </div>
@@ -161,7 +161,7 @@
                         <div class="col">
                         <label for="trade_link">Complete Trade Link</label>
                         </div>
-                        <div class="col text-right">
+                        <div class="col">
                             <input type="checkbox"  id="trade_link">
                         </div>
                     </div>
@@ -204,7 +204,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="gross_price">Gross Price</label>
-                    <input type="text" ng-model="pq.gross_price" placeholder="Gross Price" id="gross_price" class="form-control">
+                    <input type="text" ng-model="pq.gross_price" onclick="getAmount();"  placeholder="Gross Price" id="gross_price" class="form-control">
                 </div>
             </div><br>
             <!-- <div class="row">
@@ -239,13 +239,19 @@
                 <tbody>
                     <tr id='row2'>
                         <td>
-                            <input type="text" name="name-taxe" id="" placeholder='Name of Taxe' class="form-control">
+                            <input type="text" name="name_taxe" id="name_taxe" placeholder='Name of Taxe' class="form-control">
                         </td>
                         <td>
-                            <input type="text" name="percentage-taxe" id="" placeholder='Percentage Of Taxe' class="form-control">
+                            <input type="text" name="percentage_taxe" id="percentage_taxe" placeholder='Percentage Of Taxe' class="form-control">
                         </td>
                         <td>
-                            <input type="text" name="total-amount" id="" placeholder='Total Amount' class="form-control">
+                            <input type="text" name="total_amount" id="total_amount" placeholder='Total Amount' class="form-control total_amount">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Total Taxe</th>
+                        <td>
+                            <input type="text" name="total_taxe" id="total_taxe" onclick='totalAmount()' placeholder='Total Taxe' class="form-control">
                         </td>
                     </tr>
                 </tbody>
@@ -259,23 +265,15 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Discount Name</label>
-                    <input type="text" name="discount-name" id="" placeholder='Discount Name' class="form-control">
+                    <input type="text" name="discount_name" id="discount_name" placeholder='Discount Name' class="form-control">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Discount Amount</label>
-                    <input type="text" name="discount-amouunt" id="" placeholder='Discount Amount' class="form-control">
+                    <input type="text" name="discount_amount" id="discount_amount" placeholder='Discount Amount' class="form-control discount_amount">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Net Amount</label>
-                    <input type="text" name="net-amount" id="" placeholder='Net Amount' class="form-control">
-                </div>
-            </div><br>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="">Payment Type</label>
-                    <select name="payment-type" id="" class="form-control">
-                        <option value="">Select Payment Type</option>
-                    </select>
+                    <input type="text" name="net_amount" id="net_amount" placeholder='Net Amount' class="form-control net_amount">
                 </div>
             </div><br>
         </div>
@@ -296,6 +294,18 @@
                         <option value="">Select Time of Advance</option>
                         <option value="">PO Time</option>
                         <option value="">Delivery Time</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Payment Type</label>
+                    <select name="payment-type" id="" class="form-control">
+                        <option value="">Select Payment Type</option>
+                        <option value="">Cash</option>
+                        <option value="">Credit Card</option>
+                        <option value="">Debit Card</option>
+                        <option value="">CDR</option>
+                        <option value="">Pay Order</option>
+                        <option value="">LC</option>
                     </select>
                 </div>
             </div><br>
@@ -431,15 +441,29 @@
 </div>
 <script>
      function Addrow() {
-         var txt1 =  $('<tr id="col1"></tr>').html('<td><input type="text" name="name-taxe" id="" placeholder="Name of Taxe" class="form-control"></td>'
-                +'<td><input type="text" name="percentage-taxe" id="" placeholder="Percentage Of Taxe" class="form-control"></td>'
-                +'<td><input type="text" name="total-amount" id="" placeholder="Total Amount" class="form-control"></td>'
+         var txt1 =  $('<tr id="col1"></tr>').html('<td><input type="text" name="name_taxe" id="name_taxe" placeholder="Name of Taxe" class="form-control"></td>'
+                +'<td><input type="text" name="percentage_taxe" id="percentage_taxe" placeholder="Percentage Of Taxe" class="form-control"></td>'
+                +'<td><input type="text" name="total_amount" id="total_amount" placeholder="Total Amount" class="form-control"></td>'
                 +'<td><button onclick="Remove();" class="btn-secondary">-</button></td>');
           $('#row2').after(txt1);
    };
 function Remove(){
    $('#col1').remove();
 }
+function getAmount(){
+    var unit = $('#unit_price').val();
+    var qty = $('#qty').val();
+    var totals = (unit*qty);
+    $('#gross_price').val(totals);
+   }
+   function totalAmount() {
+       var gross = $('#gross_price').val();
+       var gross = parseInt(gross);
+       var total = $('#total_amount').val();
+       var total = parseInt(total);
+       var totaltax = gross + total;
+       $('#total_taxe').val(totaltax);
+   }
 </script>
 @endsection
 
