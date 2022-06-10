@@ -6,92 +6,152 @@
 <div ng-controller="POController" ng-cloak>
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Add Purchase Order</h3>
+            <h3 class="card-title">Purchase Order Detail</h3>
         </div>
         <div class="card-body">
             <div class="row" ng-init="getVendorInfo(); getAccounts()">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label for="vendor_id">Vendor Name</label>
-                    <select id="vendor_id" class="form-control" ng-change="getVendors(po.vendor_id)" ng-options="vendor.id as vendor.organization_name for vendor in vendors" ng-model="po.vendor_id">
-                        <option value="">Select Vendor</option>
-                    </select>
-                    <table class="table table-bordered table-striped" ng-if="vendorinfo">
-                        <tbody ng-repeat="ven in vendorinfo">
-                            <tr>
-                                <td ng-bind="ven.organization_name"></td>
-                            </tr>
-                            <tr>
-                             <td ng-bind="ven.address_line_1"></td>
-                            </tr>
-                            <tr>
-                                <td ng-bind="ven.street"></td>
-                            </tr>
-                            <tr>
-                                <td ng-bind="ven.city"></td>
-                                <td ng-bind="ven.zip_code"></td>
-                            </tr>
-                            <tr>
-                                <td ng-bind="ven.country"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="po_number">PO Number</label>
+                    <input type="text" id="po_number" class="form-control"  ng-model="po.po_number" placeholder="PO Number">
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="po_date">PO Date</label>
-                            <input type="text" id="po_date" class="form-control" datepicker ng-model="po.po_date" placeholder="PO Date"/>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="po_date">PO Date</label>
+                    <div class="form-group">
+                        <div class="input-group date" id="po_date" data-target-input="nearest">
+                            <input type="text" placeholder="PO Date" ng-model="po.po_date" class="form-control datetimepicker-input" data-target="#po_date"/>
+                            <div class="input-group-append" data-target="#po_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="goods_date">Goods through Date</label>
-                            <input type="text" id="goods_date" class="form-control" datepicker ng-model="po.goods_date" placeholder="Goods through Date"/>
-                        </div>
-                    </div><br/>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="po_status">PO Status</label>
-                            <select id="po_status" class="form-control" ng-model="po.po_status">
-                                <option value="">Select PO Status</option>
-                                <option value="Active">Active</option>
-                                <option value="In Active">In Active</option>
-                                <option value="Close">Close</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="shipment_status">Shipment Status</label>
-                            <select id="shipment_status" class="form-control" ng-model="po.shipment_status">
-                                <option value="">Select Shipment Status</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Shipped">Shipped</option>
-                                <option value="Dropped">Dropped</option>
-                            </select>
-                        </div>
-                    </div><br/>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="ship_via">Ship Via</label>
-                            <input type="text" id="ship_via" class="form-control" ng-model="po.ship_via" placeholder="Ship Via"/>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="chartofaccount_purchase">Chart of Account Purchases</label>
-                            <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="po.chartofaccount_purchase">
-                                <option value="">Chart of Account Purchases</option>
-                            </select>
-                        </div>
-                    </div><br/>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="chartofaccount_payment">Chart of Account for Payment</label>
-                            <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="po.chartofaccount_payment">
-                                <option value="">Chart of Account for Payment</option>
-                            </select>
-                        </div>
-                        <div class="col"></div>
                     </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="apply_to">Apply To Quotation</label>
+                    <input type="text" id="apply_to" class="form-control" ng-model="po.apply_to" placeholder="Apply To Quotation"/>
                 </div>
             </div><br/>
         </div>
     </div><br/>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Vendor Detail</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="vendor_id">Search Vendor</label>
+                    <input type="text" name="po.vendor_id" id="vendor_id" placeholder="Search Vendor" class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="po_valid">PO Valid Till</label>
+                    <div class="form-group">
+                        <div class="input-group date" id="po_valid" data-target-input="nearest">
+                            <input type="text" placeholder="PO Valid Till" ng-model="po.po_valid" class="form-control datetimepicker-input" data-target="#po_valid"/>
+                            <div class="input-group-append" data-target="#po_valid" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="delivery_date">Delivery Date</label>
+                    <div class="form-group">
+                        <div class="input-group date" id="delivery_date" data-target-input="nearest">
+                            <input type="text" placeholder="Delivery Date" ng-model="po.delivery_date" class="form-control datetimepicker-input" data-target="#delivery_date"/>
+                            <div class="input-group-append" data-target="#delivery_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h5 for="card-title">List of Document</h5><hr/>
+                    <div class="row">
+                        <div class="col">
+                        <label for="principal_performa">Principal performa invoce with sign & stamp on company letter head</label>
+                        </div>
+                        <div class="col text-right">
+                            <input type="checkbox"  id="principal_performa">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="agency_agreement">Agency agreement with sign & stamp on company letter head</label>
+                        </div>
+                        <div class="col text-right">
+                            <input type="checkbox"  id="agency_agreement">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="oem_certificate">OEM Certificate</label>
+                        </div>
+                        <div class="col text-right">
+                            <input type="checkbox"  id="oem_certificate">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="atp">ATP</label>
+                        </div>
+                        <div class="col text-right">
+                            <input type="checkbox"  id="atp">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="compliance_sheet">Compliance Sheet</label>
+                        </div>
+                        <div class="col text-right">
+                            <input type="checkbox"  id="compliance_sheet">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="company_profile">Company Profile/Certificate</label>
+                        </div>
+                        <div class="col text-right">
+                            <input type="checkbox"  id="company_profile">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="warrenty">Warrenty / Guarantee acceptence as per IT</label>
+                        </div>
+                        <div class="col text-right">
+                            <input type="checkbox"  id="warrenty">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="special_instruction">Special Instruction Compliance</label>
+                        </div>
+                        <div class="col text-right">
+                            <input type="checkbox"  id="special_instruction">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="technical_offer">Complete Technical Offer</label>
+                        </div>
+                        <div class="col text-right">
+                            <input type="checkbox"  id="technical_offer">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="trade_link">Complete Trade Link</label>
+                        </div>
+                        <div class="col text-right">
+                            <input type="checkbox"  id="trade_link">
+                        </div>
+                    </div>
+                </div>
+            </div><hr/>
+        </div>
+    </div>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Product Category</h3>

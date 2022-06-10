@@ -21,48 +21,53 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="authority">* Select Tax Authority</label>
                             <select ng-model="tax.tax_authority" id="authority" class="form-control" ng-options="reg.id as reg.authority_name for reg in allregistration">
                                 <option value="">Select Tax Autrority</option>
                             </select>
                             <i class="text-danger" ng-show="!tax.tax_authority && showError"><small>Please select registration authority</small></i>
                         </div>
-                        <div class="col">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <label for="text-name">Name of Tax</label>
+                            <input type="text" ng-model="tax.tax_name" id="tax_name" placeholder="Name of Tax" class="form-control">
+                            <i class="text-danger" ng-show="!tax.tax_name && showError"><small>Please type name of tax</small></i>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="tax_demography">Tax Demography</label>
-                            <input type="text" ng-model="tax.tax_demography" class="form-control">
+                            <input type="text" ng-model="tax.tax_demography" placeholder="Tax Demography" class="form-control">
                         </div>
-                        <div class="col">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="start_limit">Tax Start Limit</label>
-                            <input type="number" ng-model="tax.start_limit" id="start_limit" class="form-control">
-                        </div>
-                        <div class="col">
-                            <label for="end_limit">Tax End Limit</label>
-                            <input type="number" ng-model="tax.end_limit" id="end_limit" class="form-control">
+                            <input type="number" ng-model="tax.start_limit" placeholder="Tax Start Limit" id="start_limit" class="form-control">
                         </div>
                     </div> <br/>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <label for="end_limit">Tax End Limit</label>
+                            <input type="number" ng-model="tax.end_limit" placeholder="Tax End Limit" id="end_limit" class="form-control">
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="tax_percentage">Tax Percentage</label>
-                            <input type="number" ng-model="tax.tax_percentage" id="tax_percentage" class="form-control">
+                            <input type="number" ng-model="tax.tax_percentage" placeholder="Tax Percentage" id="tax_percentage" class="form-control">
                         </div>
-                        <div class="col">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="tax_levid">Taxt Levid On</label>
-                            <input type="text" ng-model="tax.tax_levid" id="tax_levid" class="form-control">
+                            <input type="text" ng-model="tax.tax_levid" placeholder="Tax Levid On" id="tax_levid" class="form-control">
                         </div>
-                        <div class="col">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="tax_nature">Tax Nature</label>
-                            <input type="text" ng-model="tax.tax_nature" id="tax_nature" class="form-control">
+                            <input type="text" ng-model="tax.tax_nature" placeholder="Tax Nature" id="tax_nature" class="form-control">
                         </div>
-                        <div class="col">
+                    </div> <br/>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="liability_head">Tax Liability A/C Head</label>
                             <select ng-model="tax.liability_head" id="liability_head" class="form-control" ng-options="acc.id as acc.CategoryName for acc in accountHeads">
                                 <option value="">Select Liability A/C Head</option>
                             </select>
                         </div>
-                    </div> <br/>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="expanse_head">Tax Expanse A/C Head</label>
                             <select ng-model="tax.expanse_head" id="expanse_head" class="form-control" ng-options="acc.id as acc.CategoryName for acc in accountHeads">
                                 <option value="">Select Expanse A/C Head</option>
