@@ -456,7 +456,6 @@
     </div> -->
 </div>
 <script>
-<<<<<<< HEAD
     function Addrow() {
         var txt1 =  $('<tr id="col1"></tr>').html('<td><input type="text" name="name_taxe" id="name_taxe" placeholder="Name of Taxe" class="form-control"></td>'
         +'<td><input type="text" name="percentage_taxe" id="percentage_taxe" placeholder="Percentage Of Taxe" class="form-control"></td>'
@@ -466,7 +465,7 @@
     };
     function Remove(){
         $('#col1').remove();
-=======
+    }
      function Addrow() {
          var txt1 =  $('<tr id="col1"></tr>').html('<td><input type="text" name="name_taxe" id="name_taxe" placeholder="Name of Taxe" class="form-control"></td>'
                 +'<td><input type="text" name="percentage_taxe" id="percentage_taxe" placeholder="Percentage Of Taxe" class="form-control"></td>'
@@ -476,7 +475,6 @@
    };
     function Remove(){
     $('#col1').remove();
->>>>>>> 6d9904a0d297750572e46d84f44d7ff9e7f02588
     }
     function getAmount(){
         var unit = $('#unit_price').val();
@@ -488,15 +486,12 @@
         var gross = $('#gross_price').val();
         var gross = parseInt(gross);
         var total = $('#total_amount').val();
-<<<<<<< HEAD
         var total = parseInt(total);
         var totaltax = gross + total;
-=======
         gross += parseInt(total);
         var totalamount = $('#total_amounts').val();
          gross += parseInt(totalamount);
         var totaltax = gross;
->>>>>>> 6d9904a0d297750572e46d84f44d7ff9e7f02588
         $('#total_taxe').val(totaltax);
     }
 </script>
