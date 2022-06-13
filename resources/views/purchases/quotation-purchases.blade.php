@@ -200,7 +200,7 @@
             </div><br> -->
         </div>
     </div>
-    <div class="card">
+    <div class="card"  onclick="getAmount();">
         <div class="card-header">
             <h2 class="card-title">Item Details</h2>
         </div>
@@ -220,7 +220,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="gross_price">Gross Price</label>
-                    <input type="text" ng-model="pq.gross_price" onclick="getAmount();"  placeholder="Gross Price" id="gross_price" class="form-control">
+                    <input type="text" ng-model="pq.gross_price" placeholder="Gross Price" id="gross_price" class="form-control">
                 </div>
             </div><br>
             <!-- <div class="row">
@@ -252,7 +252,7 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody onclick='totalAmount()'>
                     <tr id='row2'>
                         <td>
                             <input type="text" name="name_taxe" id="name_taxe" placeholder='Name of Taxe' class="form-control">
@@ -267,7 +267,7 @@
                     <tr>
                         <th colspan="2">Total Taxe</th>
                         <td>
-                            <input type="text" name="total_taxe" id="total_taxe" onclick='totalAmount()' placeholder='Total Taxe' class="form-control">
+                            <input type="text" name="total_taxe" id="total_taxe" placeholder='Total Taxe' class="form-control">
                         </td>
                     </tr>
                 </tbody>
@@ -456,6 +456,7 @@
     </div> -->
 </div>
 <script>
+<<<<<<< HEAD
     function Addrow() {
         var txt1 =  $('<tr id="col1"></tr>').html('<td><input type="text" name="name_taxe" id="name_taxe" placeholder="Name of Taxe" class="form-control"></td>'
         +'<td><input type="text" name="percentage_taxe" id="percentage_taxe" placeholder="Percentage Of Taxe" class="form-control"></td>'
@@ -465,6 +466,17 @@
     };
     function Remove(){
         $('#col1').remove();
+=======
+     function Addrow() {
+         var txt1 =  $('<tr id="col1"></tr>').html('<td><input type="text" name="name_taxe" id="name_taxe" placeholder="Name of Taxe" class="form-control"></td>'
+                +'<td><input type="text" name="percentage_taxe" id="percentage_taxe" placeholder="Percentage Of Taxe" class="form-control"></td>'
+                +'<td><input type="text" name="total_amount" id="total_amounts" placeholder="Total Amount" class="form-control"></td>'
+                +'<td><button onclick="Remove();" class="btn-secondary">-</button></td>');
+          $('#row2').after(txt1);
+   };
+    function Remove(){
+    $('#col1').remove();
+>>>>>>> 6d9904a0d297750572e46d84f44d7ff9e7f02588
     }
     function getAmount(){
         var unit = $('#unit_price').val();
@@ -476,8 +488,15 @@
         var gross = $('#gross_price').val();
         var gross = parseInt(gross);
         var total = $('#total_amount').val();
+<<<<<<< HEAD
         var total = parseInt(total);
         var totaltax = gross + total;
+=======
+        gross += parseInt(total);
+        var totalamount = $('#total_amounts').val();
+         gross += parseInt(totalamount);
+        var totaltax = gross;
+>>>>>>> 6d9904a0d297750572e46d84f44d7ff9e7f02588
         $('#total_taxe').val(totaltax);
     }
 </script>
