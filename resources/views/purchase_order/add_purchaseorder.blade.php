@@ -6,199 +6,448 @@
 <div ng-controller="POController" ng-cloak>
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Add Purchase Order</h3>
+            <h3 class="card-title">Purchase Order Detail</h3>
         </div>
         <div class="card-body">
             <div class="row" ng-init="getVendorInfo(); getAccounts()">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label for="vendor_id">Vendor Name</label>
-                    <select id="vendor_id" class="form-control" ng-change="getVendors(po.vendor_id)" ng-options="vendor.id as vendor.organization_name for vendor in vendors" ng-model="po.vendor_id">
-                        <option value="">Select Vendor</option>
-                    </select>
-                    <table class="table table-bordered table-striped" ng-if="vendorinfo">
-                        <tbody ng-repeat="ven in vendorinfo">
-                            <tr>
-                                <td ng-bind="ven.organization_name"></td>
-                            </tr>
-                            <tr>
-                             <td ng-bind="ven.address_line_1"></td>
-                            </tr>
-                            <tr>
-                                <td ng-bind="ven.street"></td>
-                            </tr>
-                            <tr>
-                                <td ng-bind="ven.city"></td>
-                                <td ng-bind="ven.zip_code"></td>
-                            </tr>
-                            <tr>
-                                <td ng-bind="ven.country"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="po_number">PO Number</label>
+                    <input type="text" id="po_number" class="form-control"  ng-model="po.po_number" placeholder="PO Number">
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="po_date">PO Date</label>
-                            <input type="text" id="po_date" class="form-control" datepicker ng-model="po.po_date" placeholder="PO Date"/>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="po_date">PO Date</label>
+                    <div class="form-group">
+                        <div class="input-group date" id="po_date" data-target-input="nearest">
+                            <input type="text" placeholder="PO Date" ng-model="po.po_date" class="form-control datetimepicker-input" data-target="#po_date"/>
+                            <div class="input-group-append" data-target="#po_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="goods_date">Goods through Date</label>
-                            <input type="text" id="goods_date" class="form-control" datepicker ng-model="po.goods_date" placeholder="Goods through Date"/>
-                        </div>
-                    </div><br/>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="po_status">PO Status</label>
-                            <select id="po_status" class="form-control" ng-model="po.po_status">
-                                <option value="">Select PO Status</option>
-                                <option value="Active">Active</option>
-                                <option value="In Active">In Active</option>
-                                <option value="Close">Close</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="shipment_status">Shipment Status</label>
-                            <select id="shipment_status" class="form-control" ng-model="po.shipment_status">
-                                <option value="">Select Shipment Status</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Shipped">Shipped</option>
-                                <option value="Dropped">Dropped</option>
-                            </select>
-                        </div>
-                    </div><br/>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="ship_via">Ship Via</label>
-                            <input type="text" id="ship_via" class="form-control" ng-model="po.ship_via" placeholder="Ship Via"/>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="chartofaccount_purchase">Chart of Account Purchases</label>
-                            <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="po.chartofaccount_purchase">
-                                <option value="">Chart of Account Purchases</option>
-                            </select>
-                        </div>
-                    </div><br/>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label for="chartofaccount_payment">Chart of Account for Payment</label>
-                            <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="po.chartofaccount_payment">
-                                <option value="">Chart of Account for Payment</option>
-                            </select>
-                        </div>
-                        <div class="col"></div>
                     </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="apply_to">Apply To Quotation</label>
+                    <input type="text" id="apply_to" class="form-control" ng-model="po.apply_to" placeholder="Apply To Quotation"/>
                 </div>
             </div><br/>
         </div>
     </div><br/>
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Product Category</h3>
+            <h2 class="card-title">Vendor Details</h2>
         </div>
         <div class="card-body">
-            <div class="row" ng-init="getInventoryInfo()">
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="pro_id">Product Name</label>
-                    <select id="pro_id" class="form-control" ng-change="getProductInfo(po.product_id)" ng-options="pro.id as pro.product_name for pro in products" ng-model="po.product_id">
-                        <option value="">Select Product/Item</option>
-                    </select>
-                </div>               
-                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="quantity">Quantity</label>
-                    <input type="text" id="quantity" class="form-control" ng-model="po.quantity" placeholder="Quantity"/>
+                    <label for="vendor">Search Vendor</label>
+                    <input type="text" ng-model="po.vendor" placeholder="Search Vendor" id="vendor" class="form-control">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="unit_price">Unit Price</label>
-                    <input type="text" id="unit_price" class="form-control" ng-model="po.unit_price" placeholder="Unit Price"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="taxes">Taxes</label>
-                    <input type="text" id="taxes" class="form-control" ng-model="po.taxes" placeholder="Taxes"/>
-                </div> -->
-            </div><br/>
-            <div class="row" ng-if="allproducts.length > 0" id="add">
-                <table class="table table-bordered">
-                    <thead>
-                        <th>Sr#</th>
-                        <th>Product ID</th>
-                        <th>Product Name</th>
-                        <th>Description</th>
-                        <th>Job</th>
-                        <th>Unit Price</th>
-                        <th>Quantity</th>
-                        <th>Tax</th>
-                        <th>Discount</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody ng-repeat="pro in allproducts">
-                        <td ng-bind="$index+1"></td>
-                        <td ng-bind="pro.product_id"></td>
-                        <td ng-bind="pro.product_name"></td>
-                        <td ng-bind="pro.product_description"></td>
-                        <td><input type="text" id="job" class="form-control" ng-model="pro.job" placeholder="Job"/></td>
-                        <td ng-bind="pro.unit_price"></td>
-                        <td><input type="text" id="quantity" class="form-control" ng-model="pro.quantity" placeholder="Quantity"/></td>
-                        <td><input type="text" id="taxes" class="form-control" ng-model="pro.taxes" placeholder="Taxes"/></td>
-                        <td><input type="text" id="discount" class="form-control" ng-model="pro.discount" placeholder="Discount if any"/></td>
-                        <td><button class="btn btn-xs btn-success bill-btn" id="add<%pro.product_id%>" ng-click="addProduct(pro)">Add</button></td>
-                    </tbody>
-                </table>
-            </div><br/>
-            <div class="row" ng-if="addToCart.length > 0" id="show">
-                <table class="table table-bordered">
-                    <thead>
-                        <th>Sr#</th>
-                        <th>Product ID</th>
-                        <th>Product Name</th>
-                        <th>Description</th>
-                        <th>Job</th>
-                        <th>Unit Price</th>
-                        <th>Quantity</th>
-                        <th>Tax</th>
-                        <th>Discount</th>
-                        <th>Total Price</th>
-                    </thead>
-                    <tbody ng-repeat="cart in addToCart">
-                        <td ng-bind="$index+1"></td>
-                        <td ng-bind="cart.product_id"></td>
-                        <td ng-bind="cart.product_name"></td>
-                        <td ng-bind="cart.product_description"></td>
-                        <td ng-bind="cart.job"></td>
-                        <td ng-bind="cart.unit_price"></td>
-                        <td ng-bind="cart.quantity"></td>
-                        <td ng-bind="cart.taxes"></td>
-                        <td ng-bind="cart.discount"></td>
-                        <td ng-bind="cart.total_price"></td>
-                    </tbody>
-                </table>
-            </div></br>
-            <!-- <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="discount">Discount if any</label>
-                    <input type="text" id="discount" class="form-control" ng-model="po.discount" placeholder="Discount if any"/>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="total_price">Total Price</label>
+                    <label for="quotation_till">Quotation Valid Till</label>
                     <div class="form-group">
-                        <div class="input-group">
-                            <input type="text" class="form-control" readonly ng-model="po.total_price" placeholder="Total Price" aria-label="Recipient's username">
-                            <div class="input-group-append">
-                            <button class="btn btn-sm btn-success" ng-click="calculate()" type="button">Calculate</button>
+                        <div class="input-group date" id="quotation_till" data-target-input="nearest">
+                            <input type="text" placeholder="Quotation Valid Till" ng-model="po.quotation_till" class="form-control datetimepicker-input" data-target="#quotation_till"/>
+                            <div class="input-group-append" data-target="#quotation_till" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div> -->
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="delivery_date">Delivery Date</label>
+                    <div class="form-group">
+                        <div class="input-group date" id="delivery_date" data-target-input="nearest">
+                            <input type="text" placeholder="Delivery Date" ng-model="po.delivery_date" class="form-control datetimepicker-input" data-target="#delivery_date"/>
+                            <div class="input-group-append" data-target="#delivery_date" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-success btn-sm float-right" ng-click="savePurchaseOrder()">Save</button>
+                <div class="col">
+                    <h5 for="card-title">List of Document</h5><hr/>
+                    <div class="row">
+                        <div class="col">
+                        <label for="principal_performa">Principal performa invoce with sign & stamp on company letter head</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox"  id="principal_performa">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="agency_agreement">Agency agreement with sign & stamp on company letter head</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox"  id="agency_agreement">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="oem_certificate">OEM Certificate</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox"  id="oem_certificate">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="atp">ATP</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox"  id="atp">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="compliance_sheet">Compliance Sheet</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox"  id="compliance_sheet">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="company_profile">Company Profile/Certificate</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox"  id="company_profile">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="warrenty">Warrenty / Guarantee acceptence as per IT</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox"  id="warrenty">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="special_instruction">Special Instruction Compliance</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox"  id="special_instruction">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="technical_offer">Complete Technical Offer</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox"  id="technical_offer">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <label for="trade_link">Complete Trade Link</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox"  id="trade_link">
+                        </div>
+                    </div>
+                </div>
+            </div><hr/>
+            <!-- <div class="row">
+                <div class="col-6">
+                    <label for="">Delivery Address</label>
+                    <input type="text" ng-model="po.delivery_address" id="" class="form-control">
+                </div>
+                <div class="col-6">
+                    <label for="">Shipment Status</label>
+                    <select ng-model="po.shipment_status" id="" class="form-control">
+                        <option value="">Pending</option>
+                        <option value="">Shipped</option>
+                        <option value="">Droped</option>
+                        <option value="">Delivered</option>
+                    </select>
+                </div>
+            </div><br> -->
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Item Details</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="product_item">Search Product/Item</label>
+                    <input type="text" ng-model="po.product_item" id="product_item" placeholder="Search Product/Item" class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="unit_price">Unit Price</label>
+                    <input type="text" ng-model="po.unit_price" id="unit_price" placeholder="Unit Price" class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="qty">Quantity</label>
+                    <input type="text" ng-model="po.quantity" placeholder="Quantity" id="qty" class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="gross_price">Gross Price</label>
+                    <input type="text" ng-model="po.gross_price" onclick="getAmount();"  placeholder="Gross Price" id="gross_price" class="form-control">
+                </div>
+            </div><br>
+            <!-- <div class="row">
+                <div class="col-6">
+                    <label for="">Cahrt Of Account Debit</label>
+                    <select ng-model="po.account_debit" id="" class="form-control">
+                        <option value="">Chart of Account Debit</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label for="">Chart Of Account Credit</label>
+                    <select ng-model="po.account_credit" id="" class="form-control">
+                        <option value="">Chart Of Account Credit</option>
+                    </select>
+                </div>
+            </div><br> -->
+            <div class="row">
+                <div class="col-10"><h5>Add Taxes</h5></div>
+                <div class="col-2 float-right">
+                    <button class="btn-primary" onclick="Addrow();">+Add Row</button>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name Of Taxe</th>
+                        <th>Percentage Of taxe</th>
+                        <th>Total Amount</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id='row2'>
+                        <td>
+                            <input type="text" name="name_taxe" id="name_taxe" placeholder='Name of Taxe' class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" name="percentage_taxe" id="percentage_taxe" placeholder='Percentage Of Taxe' class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" name="total_amount" id="total_amount" placeholder='Total Amount' class="form-control total_amount">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Total Taxe</th>
+                        <td>
+                            <input type="text" name="total_taxe" id="total_taxe" onclick='totalAmount()' placeholder='Total Taxe' class="form-control">
+                        </td>
+                    </tr>
+                </tbody>
+            </table><br>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Delivery Charges</label>
+                    <select name="delivery-charges" id="" class="form-control">
+                        <option value="">Select Delivery Charges</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Discount Name</label>
+                    <input type="text" name="discount_name" id="discount_name" placeholder='Discount Name' class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Discount Amount</label>
+                    <input type="text" name="discount_amount" id="discount_amount" placeholder='Discount Amount' class="form-control discount_amount">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Net Amount</label>
+                    <input type="text" name="net_amount" id="net_amount" placeholder='Net Amount' class="form-control net_amount">
+                </div>
+            </div><br>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Payment Terms</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Advance Percentage</label>
+                    <input type="text" name="advance-percentage" id="" placeholder='Advance Percentage' class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Time Of Advance</label>
+                    <select name="time-of-advance" id="" class="form-control">
+                        <option value="">Select Time of Advance</option>
+                        <option value="">PO Time</option>
+                        <option value="">Delivery Time</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">Payment Type</label>
+                    <select name="payment-type" id="" class="form-control">
+                        <option value="">Select Payment Type</option>
+                        <option value="">Cash</option>
+                        <option value="">Credit Card</option>
+                        <option value="">Debit Card</option>
+                        <option value="">CDR</option>
+                        <option value="">Pay Order</option>
+                        <option value="">LC</option>
+                    </select>
+                </div>
+            </div><br>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Special Note Description</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <textarea ng-model="po.description" id="" class="form-control"></textarea>
                 </div>
             </div>
         </div>
     </div>
-    <input type="hidden" id="appurl" value="<?php echo env('APP_URL') ?>">
+    <!-- <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Add Taxes</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <label for="">Name Of Taxe</label>
+                    <select ng-model="po.tax" id="" class="form-control">
+                        <option value="">Select Name Of Taxe</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Payment Details</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <label for="">Payment Method</label>
+                    <select ng-model="po.payment_method" id="" class="form-control">
+                        <option value="">COD</option>
+                        <option value="">Credit card</option>
+                        <option value="">Debit card</option>
+                        <option value="">Cash Sales</option>
+                        <option value="">Credit Sales</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label for="">Percentage of Advance</label>
+                    <input type="text" ng-model="po.percentage" id="" class="form-control">
+                </div>
+            </div><br>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Shipment Details</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <label for="">Delivery Date</label>
+                    <input type="text" ng-model="po.delivery_date" id="" class="form-control">
+                </div>
+                <div class="col-6">
+                    <label for="">Ship Via</label>
+                    <select ng-model="po.ship_via" id="" class="form-control">
+                        <option value="">By Hand</option>
+                        <option value="">By Courier</option>
+                        <option value="">By Seaport</option>
+                        <option value="">By Airport</option>
+                    </select>
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-6">
+                    <label for="">Port of Loading</label>
+                    <input type="text" ng-model="po.port_loading" id="" class="form-control">
+                </div>
+                <div class="col-6">
+                    <label for="">Port of Unloading</label>
+                    <input type="text" ng-model="po.port_unloading" id="" class="form-control">
+                </div>
+            </div><br>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Attachment</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <label for="">Item Picture</label>
+                    <input type="file" id="" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Required For</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <label for="">Project</label>
+                    <select ng-model="po.project" id="" class="form-control">
+                        <option value="">Select Project</option>
+                    </select>
+                </div>
+                <div class="col-4">
+                <label for="">Activity</label>
+                    <sel ect ng-model="po.activity" id="" class="form-control">
+                        <option value="">Select Activity</option>
+                    </select>
+                </div>
+                <div class="col-4">
+                <label for="">Phase</label>
+                    <select ng-model="po.phase" id="" class="form-control">
+                        <option value="">Select Phase</option>
+                    </select>
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col">
+                    <button class="btn-success">Save</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
 </div>
+<script>
+     function Addrow() {
+         var txt1 =  $('<tr id="col1"></tr>').html('<td><input type="text" name="name_taxe" id="name_taxe" placeholder="Name of Taxe" class="form-control"></td>'
+                +'<td><input type="text" name="percentage_taxe" id="percentage_taxe" placeholder="Percentage Of Taxe" class="form-control"></td>'
+                +'<td><input type="text" name="total_amount" id="total_amount" placeholder="Total Amount" class="form-control"></td>'
+                +'<td><button onclick="Remove();" class="btn-secondary">-</button></td>');
+          $('#row2').after(txt1);
+   };
+function Remove(){
+   $('#col1').remove();
+}
+function getAmount(){
+    var unit = $('#unit_price').val();
+    var qty = $('#qty').val();
+    var totals = (unit*qty);
+    $('#gross_price').val(totals);
+   }
+   function totalAmount() {
+       var gross = $('#gross_price').val();
+       var gross = parseInt(gross);
+       var total = $('#total_amount').val();
+       var total = parseInt(total);
+       var totaltax = gross + total;
+       $('#total_taxe').val(totaltax);
+   }
+</script>
 @endsection
 @section('internaljs')
 <script src="{{asset('ng_controllers/purchases/add-po.js')}}"></script>
