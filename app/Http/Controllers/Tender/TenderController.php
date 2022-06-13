@@ -116,4 +116,9 @@ class TenderController extends Controller
             return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 68)]);
         }
     }
+
+    public function get_tenders_for_quotations($tender_name)
+    {
+        return ErpTender::where('tender_name', 'LIKE', $tender_name.'%')->get();
+    }
 }

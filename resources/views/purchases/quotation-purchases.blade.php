@@ -25,13 +25,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Quotation Status</label><br>
                     <p class="form-control">
                         <input type="checkbox" ng-model="pq.pending" id="pending"> <label for="pending">Pending</label> 
                         <input type="checkbox" ng-model="pq.po_made" id="po_made"> <label for="po_made">PO Made</label>
                     </p>
-                </div>
+                </div> -->
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Apply to</label>
                     <select ng-model="pq.apply_to" id="" class="form-control">
@@ -41,10 +41,26 @@
                     </select>
                 </div>
             </div><br/>
-            <div class="row">
+            <div class="row" ng-if="pq.apply_to">
                 <div class="col text-center">
-                    <label for="applied_entity">Search Your <span ng-if="pq.apply_to"><% pq.apply_to %></span></label>
-                    <input type="text" ng-model="pq.applied_entity" id="applied_entity" placeholder="Search Your <% pq.apply_to %>" class="form-control">
+                    <label for="applied_entity">Search Your <% pq.apply_to %></label>
+                    <div class="input-group">
+                        <input type="search" ng-model="pq.applied_entity" class="form-control" placeholder="Search Your <% pq.apply_to %>">
+                        <div class="input-group-append">
+                            <button type="button" ng-click="getAppliedTo(pq.applied_entity, pq.apply_to);" class="btn btn-md btn-success">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <a ng-if="pq.apply_to == 'Tender'" href="<?php echo env('APP_URL') ?>tender/tender-information" class="btn btn-md btn-primary">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                            <a ng-if="pq.apply_to == 'Requestion'" href="<?php echo env('APP_URL') ?>tender/requestion" class="btn btn-md btn-primary">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        <li ng-repeat="tender in tenders" style="cursor: pointer" class="list-group-item text-left" ng-click="fillTender(tender)" ng-bind="tender.tender_name"></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -223,10 +239,10 @@
             </div><br> -->
             <div class="row">
                 <div class="col-10"><h5>Add Taxes</h5></div>
-                <div class="col-2 float-right">
-                    <button class="btn-primary" onclick="Addrow();">+Add Row</button>
+                <div class="col-2">
+                    <button class="btn btn-sm btn-primary float-right" onclick="Addrow();">+Add Row</button>
                 </div>
-            </div>
+            </div><br/>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -440,30 +456,30 @@
     </div> -->
 </div>
 <script>
-     function Addrow() {
-         var txt1 =  $('<tr id="col1"></tr>').html('<td><input type="text" name="name_taxe" id="name_taxe" placeholder="Name of Taxe" class="form-control"></td>'
-                +'<td><input type="text" name="percentage_taxe" id="percentage_taxe" placeholder="Percentage Of Taxe" class="form-control"></td>'
-                +'<td><input type="text" name="total_amount" id="total_amount" placeholder="Total Amount" class="form-control"></td>'
-                +'<td><button onclick="Remove();" class="btn-secondary">-</button></td>');
-          $('#row2').after(txt1);
-   };
-function Remove(){
-   $('#col1').remove();
-}
-function getAmount(){
-    var unit = $('#unit_price').val();
-    var qty = $('#qty').val();
-    var totals = (unit*qty);
-    $('#gross_price').val(totals);
-   }
-   function totalAmount() {
-       var gross = $('#gross_price').val();
-       var gross = parseInt(gross);
-       var total = $('#total_amount').val();
-       var total = parseInt(total);
-       var totaltax = gross + total;
-       $('#total_taxe').val(totaltax);
-   }
+    function Addrow() {
+        var txt1 =  $('<tr id="col1"></tr>').html('<td><input type="text" name="name_taxe" id="name_taxe" placeholder="Name of Taxe" class="form-control"></td>'
+        +'<td><input type="text" name="percentage_taxe" id="percentage_taxe" placeholder="Percentage Of Taxe" class="form-control"></td>'
+        +'<td><input type="text" name="total_amount" id="total_amount" placeholder="Total Amount" class="form-control"></td>'
+        +'<td><button onclick="Remove();" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></button></td>');
+        $('#row2').after(txt1);
+    };
+    function Remove(){
+        $('#col1').remove();
+    }
+    function getAmount(){
+        var unit = $('#unit_price').val();
+        var qty = $('#qty').val();
+        var totals = (unit*qty);
+        $('#gross_price').val(totals);
+    }
+    function totalAmount() {
+        var gross = $('#gross_price').val();
+        var gross = parseInt(gross);
+        var total = $('#total_amount').val();
+        var total = parseInt(total);
+        var totaltax = gross + total;
+        $('#total_taxe').val(totaltax);
+    }
 </script>
 @endsection
 
