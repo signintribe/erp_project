@@ -121,6 +121,9 @@
                 </div>
             </div><br/>
             <div id="attrbuts"></div>
+
+            <div class="row" ng-repeat="attr in attributes">
+
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-repeat="attr in attributes">
                     <!-- <div class="col" ng-repeat="(key, value) in attr"> -->
