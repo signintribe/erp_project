@@ -17,7 +17,7 @@
                         <option value="Freight Forward Det">Freight Forward Det</option>
                         <option value="Customer Clearance">Customer Clearance</option>
                         <option value="Carriage Company">Carriage Company</option>
-                        <option value="Courier">courier</option>
+                        <option value="Courier">Courier</option>
                     </select>
                     <i class="text-danger" ng-show="!logistic.logistic_type && showError"><small>Please Select Logistic Type</small></i>
                 </div> 
@@ -43,6 +43,13 @@
                     </select>
                 </div>
             </div><br/>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="delivery_charges">Delivery Charges</label>
+                    <input type="number" ng-model="logistic.delivery_charges" id="" placeholder="Delivery Charges" class="form-control">
+                    <i class="text-danger" ng-show="!logistic.delivery_charges && showError"><small>Please Type Delivery Charges</small></i>
+                </div>
+            </div>
         </div>
     </div><br/>
     <div class="card">

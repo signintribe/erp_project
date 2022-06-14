@@ -1,4 +1,4 @@
-TaskTierApp.controller('CreateTasksController', function ($scope, $http) {
+CreateTierApp.controller('CreateTasksController', function ($scope, $http) {
     $("#ps-open").addClass('menu-open');
     $("#ps-active").addClass('active');
     $("#create-tasks").addClass('active');

@@ -10,12 +10,12 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="barcode_id">* Barcode Id</label>
                     <input type="text" class="form-control" id="barcode_id" ng-model="inventory.barcode_id" placeholder="Product Barcode Id"/>
                     <i class="text-danger" ng-show="!inventory.barcode_id && showError"><small>Please Type Product Barcode Id</small></i>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="product_name">* Name of Product/Service</label>
                     <input type="text" class="form-control" id="product_name" ng-model="inventory.product_name" placeholder="Name of Product/Service"/>
                     <i class="text-danger" ng-show="!inventory.product_name && showError"><small>Please Type Product Name</small></i>                
@@ -121,9 +121,6 @@
                 </div>
             </div><br/>
             <div id="attrbuts"></div>
-<<<<<<< HEAD
-            <div class="row" ng-repeat="attr in attributes">
-=======
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-repeat="attr in attributes">
                     <!-- <div class="col" ng-repeat="(key, value) in attr"> -->
@@ -133,18 +130,16 @@
                 </div>
             </div>
             <!-- <div class="row" ng-repeat="attr in attributes">
->>>>>>> c4e8786d0840edc5a8080beab5bedd51473d97ff
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-repeat="(key, value) in attr">
                     <label ng-bind="key" style="font-weight: bolder; text-transform: capitalize"></label><hr/>
-                    <input type="text" class="form-control">
-                    <!-- <div class="row">
+                    <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="atv in value" style="padding-bottom: 20px;">
                             <input type="checkbox" ng-click="getAttr(atv.id)" id="atv<% atv.id %>"> 
                             <label for="atv<% atv.id %>" ng-bind="atv.value_name"></label>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div><br/>
     <div class="card">
@@ -175,14 +170,14 @@
                     <table class="table table-sm table-bordered">
                         <tr>
                             <th>Authority Name</th>
-                            <th>Tax Nature</th>
+                            <th>Tax Name</th>
                             <th>Tax Rate</th>
                             <th>Tax Levid</th>
                             <th>Action</th>
                         </tr>
                         <tr ng-repeat="tx in Taxes">
                             <td ng-bind="tx.authority_name"></td>
-                            <td ng-bind="tx.tax_nature"></td>
+                            <td ng-bind="tx.tax_name"></td>
                             <td ng-bind="tx.tax_percentage"></td>
                             <td ng-bind="tx.tax_levid"></td>
                             <td>
@@ -291,19 +286,19 @@
         </div>
         <div class="card-body" ng-init="getAccounts()">
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <label>Chart of Account Id Cost of Sales</label>
                     <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="inventory.chartof_account_cost">
                         <option value="">Select Chart of Account Id Cost of Sales</option>
                     </select>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <label>Chart of Account Id Inventory</label>
                     <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="inventory.chartof_account_inventory">
                         <option value="">Select Chart of Account Id Inventory</option>
                     </select>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <label>Chart of Account Id Sales</label>
                     <select class="form-control" ng-options="Account.id as Account.CategoryName for Account in Accounts" ng-model="inventory.chartof_account_sale">
                         <option value="">Select Chart of Account Id Sales</option>

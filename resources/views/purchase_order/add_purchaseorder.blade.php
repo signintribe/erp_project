@@ -9,7 +9,7 @@
             <h3 class="card-title">Purchase Order Detail</h3>
         </div>
         <div class="card-body">
-            <div class="row" ng-init="getVendorInfo(); getAccounts()">
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="po_number">PO Number</label>
                     <input type="text" id="po_number" class="form-control"  ng-model="po.po_number" placeholder="PO Number">
@@ -25,9 +25,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="apply_to">Apply To Quotation</label>
-                    <input type="text" id="apply_to" class="form-control" ng-model="po.apply_to" placeholder="Apply To Quotation"/>
+                    <div class="input-group">
+                        <input type="search" ng-model="po.apply_to" class="form-control" placeholder="Search Your Quotation">
+                        <div class="input-group-append">
+                            <button type="button" ng-click="getAppliedTo(po.apply_to);" class="btn btn-md btn-success">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <a href="<?php echo env('APP_URL') ?>purchases/quotation-purchases" class="btn btn-md btn-primary">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item" style="cursor: pointer" ng-click="assignQuotation(quot)" ng-repeat="quot in quotation" ng-bind="quot.quotation_number"></li>
+                    </ul>
                 </div>
             </div><br/>
         </div>
@@ -73,7 +86,7 @@
                         <label for="principal_performa">Principal performa invoce with sign & stamp on company letter head</label>
                         </div>
                         <div class="col">
-                            <input type="checkbox"  id="principal_performa">
+                            <input type="checkbox" ng-click="getCheckList('principal_performa')" id="principal_performa">
                         </div>
                     </div>
                     <div class="row">
@@ -81,7 +94,7 @@
                         <label for="agency_agreement">Agency agreement with sign & stamp on company letter head</label>
                         </div>
                         <div class="col">
-                            <input type="checkbox"  id="agency_agreement">
+                            <input type="checkbox"  ng-click="getCheckList('agency_agreement')" id="agency_agreement">
                         </div>
                     </div>
                     <div class="row">
@@ -89,7 +102,7 @@
                         <label for="oem_certificate">OEM Certificate</label>
                         </div>
                         <div class="col">
-                            <input type="checkbox"  id="oem_certificate">
+                            <input type="checkbox" ng-click="getCheckList('oem_certificate')" id="oem_certificate">
                         </div>
                     </div>
                     <div class="row">
@@ -97,7 +110,7 @@
                         <label for="atp">ATP</label>
                         </div>
                         <div class="col">
-                            <input type="checkbox"  id="atp">
+                            <input type="checkbox" ng-click="getCheckList('atp')"  id="atp">
                         </div>
                     </div>
                     <div class="row">
@@ -105,7 +118,7 @@
                         <label for="compliance_sheet">Compliance Sheet</label>
                         </div>
                         <div class="col">
-                            <input type="checkbox"  id="compliance_sheet">
+                            <input type="checkbox" ng-click="getCheckList('compliance_sheet')"  id="compliance_sheet">
                         </div>
                     </div>
                     <div class="row">
@@ -113,7 +126,7 @@
                         <label for="company_profile">Company Profile/Certificate</label>
                         </div>
                         <div class="col">
-                            <input type="checkbox"  id="company_profile">
+                            <input type="checkbox" ng-click="getCheckList('company_profile')" id="company_profile">
                         </div>
                     </div>
                     <div class="row">
@@ -121,7 +134,7 @@
                         <label for="warrenty">Warrenty / Guarantee acceptence as per IT</label>
                         </div>
                         <div class="col">
-                            <input type="checkbox"  id="warrenty">
+                            <input type="checkbox" ng-click="getCheckList('warrenty')" id="warrenty">
                         </div>
                     </div>
                     <div class="row">
@@ -129,7 +142,7 @@
                         <label for="special_instruction">Special Instruction Compliance</label>
                         </div>
                         <div class="col">
-                            <input type="checkbox"  id="special_instruction">
+                            <input type="checkbox" ng-click="getCheckList('special_instruction')"  id="special_instruction">
                         </div>
                     </div>
                     <div class="row">
@@ -137,7 +150,7 @@
                         <label for="technical_offer">Complete Technical Offer</label>
                         </div>
                         <div class="col">
-                            <input type="checkbox"  id="technical_offer">
+                            <input type="checkbox" ng-click="getCheckList('technical_offer')"  id="technical_offer">
                         </div>
                     </div>
                     <div class="row">
@@ -145,7 +158,7 @@
                         <label for="trade_link">Complete Trade Link</label>
                         </div>
                         <div class="col">
-                            <input type="checkbox"  id="trade_link">
+                            <input type="checkbox"  ng-click="getCheckList('trade_link')" id="trade_link">
                         </div>
                     </div>
                 </div>
@@ -183,11 +196,11 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="qty">Quantity</label>
-                    <input type="text" ng-model="po.quantity" placeholder="Quantity" id="qty" class="form-control">
+                    <input type="text" ng-model="po.quantity" onblur="getAmount();" placeholder="Quantity" id="qty" class="form-control">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="gross_price">Gross Price</label>
-                    <input type="text" ng-model="po.gross_price" onclick="getAmount();"  placeholder="Gross Price" id="gross_price" class="form-control">
+                    <input type="text" ng-model="po.gross_price" readonly placeholder="Gross Price" id="gross_price" class="form-control">
                 </div>
             </div><br>
             <!-- <div class="row">
@@ -206,11 +219,72 @@
             </div><br> -->
             <div class="row">
                 <div class="col-10"><h5>Add Taxes</h5></div>
-                <div class="col-2 float-right">
+                <!-- <div class="col-2 float-right">
                     <button class="btn-primary" onclick="Addrow();">+Add Row</button>
+                </div> -->
+                <div class="col-2">
+                    <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#taxModal"><i class="fa fa-plus"></i> Add Tax</button>
+                    <button class="btn btn-sm btn-warning" ng-click="cancelTax()">Cancel</button>
+                    <!-- Tax Modal -->
+                    <div id="taxModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">All Taxes</h4>
+                                    <div class="text-right">
+                                        <a class="btn btn-sm btn-primary" href="<?php echo env('APP_URL') ?>bank/Taxes"><i class="fa fa-plus"></i> Add New Tax</a>
+                                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"> <i class="fa fa-times"></i> </button>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-sm table-bordered" ng-init="getCompanyTaxes()">
+                                        <tr>
+                                            <th>Authority Name</th>
+                                            <th>Tax Name</th>
+                                            <th>Tax Percentage</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr ng-repeat="tx in Taxes">
+                                            <td ng-bind="tx.authority_name"></td>
+                                            <td ng-bind="tx.tax_name"></td>
+                                            <td ng-bind="tx.tax_percentage"></td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-xs btn-success btn-addtax" id="addtax<% tx.id %>" ng-click="selectedTax(tx)">Add</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <table class="table table-bordered">
+            </div><br/>
+            <table class="table table-sm table-bordered">
+                <tr>
+                    <th>Authority Name</th>
+                    <th>Tax Name</th>
+                    <th>Tax Percentage</th>
+                </tr>
+                <tr ng-repeat="adtx in AddTaxes">
+                    <td ng-bind="adtx.authority_name"></td>
+                    <td ng-bind="adtx.tax_name"></td>
+                    <td ng-bind="adtx.tax_percentage"></td>
+                </tr>
+                <tr>
+                    <th>
+                        Total Tax
+                    </th>
+                    <td>
+                        <span ng-bind="totalTaxes"></span>
+                    </td>
+                </tr>
+            </table>
+           <!--  <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Name Of Taxe</th>
@@ -238,7 +312,8 @@
                         </td>
                     </tr>
                 </tbody>
-            </table><br>
+            </table><br> -->
+            <br/>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Delivery Charges</label>
@@ -421,6 +496,8 @@
             </div>
         </div>
     </div> -->
+    <input type="hidden" id="appurl" value="<?php echo env('APP_URL'); ?>">
+    <input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
 </div>
 <script>
      function Addrow() {

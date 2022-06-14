@@ -30,7 +30,7 @@ CreateTierApp.controller('TaxController', function ($scope, $http) {
 
     $scope.saveTax = function(){
         $scope.tax.company_id = $("#company_id").val();
-        if (!$scope.tax.tax_authority) {
+        if (!$scope.tax.tax_authority || !$scope.tax.tax_name) {
             $scope.showError = true;
             jQuery("input.required").filter(function () {
                 return !this.value;

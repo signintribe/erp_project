@@ -22,6 +22,7 @@
                         <option value="Freight Forward Det">Freight Forward Det</option>
                         <option value="Customer Clearance">Customer Clearance</option>
                         <option value="Carriage Company">Carriage Company</option>
+                        <option value="Courier">Courier</option>
                     </select>
                 </div> 
                 <div class="col-lg-3 col-md-3 col-sm-3">
@@ -44,6 +45,13 @@
                     </select>
                 </div>
             </div><br/>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="delivery_charges">Delivery Charges</label>
+                    <input type="number" ng-model="logistic.delivery_charges" id="" placeholder="Delivery Charges" class="form-control">
+                    <i class="text-danger" ng-show="!logistic.delivery_charges && showError"><small>Please Type Delivery Charges</small></i>
+                </div>
+            </div>
         </div>
     </div><br/>
     <div class="card">
@@ -151,15 +159,11 @@
             
         </div>
     </div> -->
-    <input type="hidden" id="appurl" value="<?php echo env('APP_URL') ?>">
 </div>
-<script src="{{ asset('public/js/angular.min.js')}}"></script>
+@endsection
+@section('internaljs')
 <script>
-    var EditLogistic = angular.module('EditLogisticApp', [], function ($interpolateProvider) {
-        $interpolateProvider.startSymbol('<%');
-        $interpolateProvider.endSymbol('%>');
-    });
-    EditLogistic.controller('EditLogisticController', function ($scope, $http) {
+    CreateTierApp.controller('EditLogisticController', function ($scope, $http) {
         $("#sourcing").addClass('menu-open');
         $("#sourcing a[href='#']").addClass('active');
         $("#view-logistics").addClass('active');

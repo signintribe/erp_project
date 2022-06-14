@@ -4,6 +4,83 @@ TaskTierApp.controller('POController', function ($scope, $http) {
     $("#purchase-order").addClass('active');
     $scope.po = {};
     $scope.appurl = $("#appurl").val();
+    /**
+     * 
+     * @param {*} applied_to 
+     * New Functions get quotation of search value
+     */
+    $scope.getAppliedTo = function (applied_to) {
+        var Quotations = $http.get('get-quotations/' + applied_to);
+        Quotations.then(function (r) {
+            $scope.quotation = r.data;
+        });
+    };
+
+    $scope.checkList = [];
+    /**
+     * 
+     * @param {*} list 
+     * Add check list into array pass to controller
+     */
+    $scope.getCheckList = function(list){
+        alert(list);
+        let index = $scope.checkList.indexOf(list);
+        if(index == -1){
+            $scope.checkList.push(list);
+        }else{
+            $scope.checkList.splice(index, 1);
+        }
+        
+    };
+
+    /**
+     * 
+     * @param {*} quot 
+     * Assign Quotation id pass to variable
+     */
+    $scope.assignQuotation = function(quot){
+        $scope.po.quotation_id = quot.id;
+        $scope.quotation = {};
+    };
+
+    /**
+     * Get all taxes for adding in price list
+     */
+    $scope.getCompanyTaxes = function () {
+        $http.get($scope.appurl + 'bank/manage-tax/'+ $("#company_id").val()).then(function (response) {
+            if (response.data.status == true) {
+                $scope.Taxes = response.data.data;
+            }
+        });
+    };
+
+    /**
+     * 
+     * @param {*} tax 
+     * Taxes add with price
+     */
+    $scope.AddTaxes = [];
+    $scope.totalTaxes = 0;
+    $scope.selectedTax = function(tax){
+        $scope.AddTaxes.push(tax);
+        $("#addtax"+tax.id).hide();
+        $scope.totalTaxes += parseFloat(tax.tax_percentage);
+        $scope.totalTaxes = parseFloat($scope.totalTaxes.toFixed(2));
+    };
+
+    $scope.cancelTax = function(){
+        $scope.AddTaxes = [];
+        $scope.totalTaxes = 0;
+    };
+
+
+
+
+
+
+    /**
+     * These are the old functions start
+     */
     $scope.getAccounts = function () {
         var Accounts = $http.get($scope.appurl + 'AllchartofAccount');
         Accounts.then(function (r) {

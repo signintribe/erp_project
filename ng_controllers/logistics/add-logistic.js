@@ -5,7 +5,7 @@ CreateTierApp.controller('LogisticController', function ($scope, $http) {
     $scope.logistic = {};
 
     $scope.saveLogistic = function(){
-        if (!$scope.logistic.organization_name || !$scope.logistic.logistic_type) {
+        if (!$scope.logistic.organization_name || !$scope.logistic.logistic_type || !$scope.logistic.delivery_charges) {
             $scope.showError = true;
             jQuery("input.required").filter(function () {
                 return !this.value;

@@ -156,4 +156,9 @@ class PurchaseQuotationController extends Controller
             'message' => "Quotation Delete Permanently"
         ]);
     }
+
+    public function get_quotations($applied_to)
+    {
+        return ErpQuotationPurchase::where('quotation_number', $applied_to)->get();
+    }
 }

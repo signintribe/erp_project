@@ -186,6 +186,7 @@ Route::group(['prefix'=>'purchases'], function () {
   Route::get('view-purchase-receive', 'PurchaseOrderController@view_purchase_receive')->name('view-purchase-receive');
   Route::get('get_pro_info/{pro_id}', 'InventoryController@getProductInfo');
   Route::get('quotation-purchases', 'Purchases\PurchaseQuotationController@index');
+  Route::get('get-quotations/{applied_to}', 'Purchases\PurchaseQuotationController@get_quotations');
   Route::get('get-tenders-for-quotation/{tender_name}', 'Tender\TenderController@get_tenders_for_quotations');
   Route::resource('manage-purchase-quotations', 'Purchases\PurchaseQuotationController');
   Route::get('recieve-inventory', function(){

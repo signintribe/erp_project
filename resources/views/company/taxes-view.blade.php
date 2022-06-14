@@ -98,7 +98,7 @@
                             <thead>
                                 <tr>
                                     <th>Authority</th>
-                                    <th>Demography</th>
+                                    <th>Tax Name</th>
                                     <th>Start Limit</th>
                                     <th>End Limit</th>
                                     <th>Laibility Head</th>
@@ -109,7 +109,7 @@
                             <tbody>
                                 <tr ng-repeat="t in Taxes">
                                     <td ng-bind="t.authority_name"></td>
-                                    <td ng-bind="t.tax_demography"></td>
+                                    <td ng-bind="t.tax_name"></td>
                                     <td ng-bind="t.start_limit"></td>
                                     <td ng-bind="t.end_limit"></td>
                                     <td ng-bind="t.liabAcc"></td>
