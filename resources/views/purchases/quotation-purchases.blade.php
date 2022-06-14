@@ -204,7 +204,7 @@
         <div class="card-header">
             <h2 class="card-title">Item Details</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body"  onload='totalAmount()'>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="product_item">Search Product/Item</label>
@@ -220,7 +220,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="gross_price">Gross Price</label>
-                    <input type="text" ng-model="pq.gross_price" placeholder="Gross Price" id="gross_price" class="form-control">
+                    <input type="text" ng-model="pq.gross_price" onclick='totalAmount()' placeholder="Gross Price" id="gross_price" class="form-control">
                 </div>
             </div><br>
             <!-- <div class="row">
@@ -237,7 +237,7 @@
                     </select>
                 </div>
             </div><br> -->
-            <div class="row">
+            <div class="row" onload='Discount()'>
                 <div class="col-10"><h5>Add Taxes</h5></div>
                 <div class="col-2">
                     <button class="btn btn-sm btn-primary float-right" onclick="Addrow();">+Add Row</button>
@@ -252,7 +252,7 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody onclick='totalAmount()'>
+                <tbody>
                     <tr id='row2'>
                         <td>
                             <input type="text" name="name_taxe" id="name_taxe" placeholder='Name of Taxe' class="form-control">
@@ -261,7 +261,7 @@
                             <input type="text" name="percentage_taxe" id="percentage_taxe" placeholder='Percentage Of Taxe' class="form-control">
                         </td>
                         <td>
-                            <input type="text" name="total_amount" id="total_amount" placeholder='Total Amount' class="form-control total_amount">
+                            <input type="text" name="total_amount" onclick="totalAmount()" id="total_amount" placeholder='Total Amount' class="form-control total_amount">
                         </td>
                     </tr>
                     <tr>
@@ -285,7 +285,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Discount Amount</label>
-                    <input type="text" name="discount_amount" id="discount_amount" placeholder='Discount Amount' class="form-control discount_amount">
+                    <input type="text" name="discount_amount" onclick='Discount()' id="discount_amount" placeholder='Discount Amount' class="form-control discount_amount">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Net Amount</label>
@@ -459,7 +459,7 @@
     function Addrow() {
         var txt1 =  $('<tr id="col1"></tr>').html('<td><input type="text" name="name_taxe" id="name_taxe" placeholder="Name of Taxe" class="form-control"></td>'
         +'<td><input type="text" name="percentage_taxe" id="percentage_taxe" placeholder="Percentage Of Taxe" class="form-control"></td>'
-        +'<td><input type="text" name="total_amount" id="total_amount" placeholder="Total Amount" class="form-control"></td>'
+        +'<td><input type="text" name="total_amount" id="total_amount" onclick="totalAmount()" placeholder="Total Amount" class="form-control"></td>'
         +'<td><button onclick="Remove();" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></button></td>');
         $('#row2').after(txt1);
     };
@@ -469,7 +469,7 @@
      function Addrow() {
          var txt1 =  $('<tr id="col1"></tr>').html('<td><input type="text" name="name_taxe" id="name_taxe" placeholder="Name of Taxe" class="form-control"></td>'
                 +'<td><input type="text" name="percentage_taxe" id="percentage_taxe" placeholder="Percentage Of Taxe" class="form-control"></td>'
-                +'<td><input type="text" name="total_amount" id="total_amounts" placeholder="Total Amount" class="form-control"></td>'
+                +'<td><input type="text" name="total_amount" id="total_amounts" onclick="totalAmount()" placeholder="Total Amount" class="form-control"></td>'
                 +'<td><button onclick="Remove();" class="btn-secondary">-</button></td>');
           $('#row2').after(txt1);
    };
@@ -493,6 +493,14 @@
          gross += parseInt(totalamount);
         var totaltax = gross;
         $('#total_taxe').val(totaltax);
+    }
+    function Discount(){
+        var total_tax = $('#total_taxe').val();
+        var total_tax = parseInt(total_tax);
+        var discount = $('#discount_amount').val();
+        var discount = parseInt(discount);
+        var net_amount = total_tax - discount;
+        $('#net_amount').val(net_amount);
     }
 </script>
 @endsection

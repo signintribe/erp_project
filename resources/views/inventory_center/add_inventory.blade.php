@@ -121,9 +121,9 @@
                 </div>
             </div><br/>
             <div id="attrbuts"></div>
-<<<<<<< HEAD
+
             <div class="row" ng-repeat="attr in attributes">
-=======
+
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-repeat="attr in attributes">
                     <!-- <div class="col" ng-repeat="(key, value) in attr"> -->
@@ -133,7 +133,7 @@
                 </div>
             </div>
             <!-- <div class="row" ng-repeat="attr in attributes">
->>>>>>> c4e8786d0840edc5a8080beab5bedd51473d97ff
+
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-repeat="(key, value) in attr">
                     <label ng-bind="key" style="font-weight: bolder; text-transform: capitalize"></label><hr/>
                     <input type="text" class="form-control">
