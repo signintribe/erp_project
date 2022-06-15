@@ -237,13 +237,73 @@
                     </select>
                 </div>
             </div><br> -->
-            <div class="row" onload='Discount()'>
-                <div class="col-10"><h5>Add Taxes</h5></div>
-                <div class="col-2">
+        <div class="row" onload='Discount()'>
+            <div class="col-10"><h5>Add Taxes</h5></div>
+                <!--<div class="col-2">
                     <button class="btn btn-sm btn-primary float-right" onclick="Addrow();">+Add Row</button>
+                </div>-->
+                <div class="col-2">
+                    <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#taxModal"><i class="fa fa-plus"></i> Add Tax</button>
+                    <button class="btn btn-sm btn-warning" ng-click="cancelTax()">Cancel</button>
+                    <!-- Tax Modal -->
+                    <div id="taxModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">All Taxes</h4>
+                                    <div class="text-right">
+                                        <a class="btn btn-sm btn-primary" href="<?php echo env('APP_URL') ?>bank/Taxes"><i class="fa fa-plus"></i> Add New Tax</a>
+                                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"> <i class="fa fa-times"></i> </button>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-sm table-bordered" ng-init="getCompanyTaxes()">
+                                        <tr>
+                                            <th>Authority Name</th>
+                                            <th>Tax Name</th>
+                                            <th>Tax Percentage</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr ng-repeat="tx in Taxes">
+                                            <td ng-bind="tx.authority_name"></td>
+                                            <td ng-bind="tx.tax_name"></td>
+                                            <td ng-bind="tx.tax_percentage"></td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-xs btn-success btn-addtax" id="addtax<% tx.id %>" ng-click="selectedTax(tx)">Add</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div><br/>
-            <table class="table table-bordered">
+            <table class="table table-sm table-bordered">
+                <tr>
+                    <th>Authority Name</th>
+                    <th>Tax Name</th>
+                    <th>Tax Percentage</th>
+                </tr>
+                <tr ng-repeat="adtx in AddTaxes">
+                    <td ng-bind="adtx.authority_name"></td>
+                    <td ng-bind="adtx.tax_name"></td>
+                    <td ng-bind="adtx.tax_percentage"></td>
+                </tr>
+                <tr>
+                    <th>
+                        Total Tax
+                    </th>
+                    <td>
+                        <span ng-bind="totalTaxes"></span>
+                    </td>
+                </tr>
+            </table>
+         <!--<table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Name Of Taxe</th>
@@ -271,7 +331,7 @@
                         </td>
                     </tr>
                 </tbody>
-            </table><br>
+            </table><br> -->
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Delivery Charges</label>
@@ -454,6 +514,8 @@
             </div>
         </div>
     </div> -->
+    <input type="hidden" id="appurl" value="<?php echo env('APP_URL'); ?>">
+    <input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
 </div>
 <script>
     function Addrow() {
