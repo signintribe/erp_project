@@ -7,9 +7,13 @@
  */
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\erp_purchase_order;
 use App\Models\erp_po_inventory;
+use App\Models\Purchases\ErpChecklist;
+use App\Models\Purchases\ErpPoDeliverycharge;
+use App\Models\Purchases\ErpPoTax;
 use Auth;
 use DB;
 /**
@@ -38,69 +42,43 @@ class PurchaseOrderController extends Controller{
         return view('purchase_order.view_purchase_receive');
     }
 
-    public function getpurchaseOrder(){
+    public function getpurchaseOrder($company_id){
         return erp_purchase_order::all();
     }
 
     public function savePurchaseOrder(Request $request){
-      //return $request->all();
+     
+        $podata = $request->except(['total_delivery_charges', 'logistic_type', 'checklist', 'logistics', 'tax_details', 'vendor', 'product_item', 'apply_to']);
+        $podata['company_id'] = session('company_id');
+        $podata['user_id'] = Auth::user()->id;
+        $po = erp_purchase_order::create($podata);
 
-      $data = json_decode($request->orderDetail,true);
-      if($request->id){
-            erp_po_inventory::where('po_id', $request->id)->delete();
-             erp_purchase_order::where('id', $request->id)->update([
-                'vendor_id' => $request->vendor_id,
-                'po_date' => $request->po_date,
-                'goods_date' => $request->goods_date,
-                'po_status' => $request->po_status,
-                'shipment_status' => $request->shipment_status,
-                'total_po' => $request->total_po,
-                'ship_via' => $request->ship_via,
-                'chartofaccount_purchase' => $request->chartofaccount_purchase,
-                'chartofaccount_payment' => $request->chartofaccount_payment
+        $tax_details = json_decode($request->tax_details,true);
+        foreach($tax_details as $tkey=>$tvalue){
+            ErpPoTax::create([
+                'parent_id' => $po->id,
+                'tax_name' => $tvalue['tax_name'],
+                'tax_percentage' => $tvalue['tax_percentage']
             ]);
-        foreach($data as $key=>$value){            
-                erp_po_inventory::create([
-                    'po_id' => $request->id,
-                    'product_id' =>$value['product_id'],                
-                    'quantity' =>$value['quantity'],
-                    'unit_price' =>$value['unit_price'],
-                    'taxes' =>$value['taxes'],
-                    'discount' =>$value['discount'],
-                    'total_price' =>$value['total_price'],
-                    'job' =>$value['job'],
-                    'product_description' =>$value['product_description']
-                ]);
-            }     
-            return 'Update';
-      }else{
-            $po = erp_purchase_order::create([
-                    'vendor_id' => $request->vendor_id,
-                    'user_id' => Auth::user()->id,
-                    'po_date' => $request->po_date,
-                    'goods_date' => $request->goods_date,
-                    'po_status' => $request->po_status,
-                    'shipment_status' => $request->shipment_status,
-                    'total_po' => $request->total_po,
-                    'ship_via' => $request->ship_via,
-                    'chartofaccount_purchase' => $request->chartofaccount_purchase,
-                    'chartofaccount_payment' => $request->chartofaccount_payment
-                ]);
-            foreach($data as $key=>$value){            
-                    erp_po_inventory::create([
-                        'po_id' => $po->id,
-                        'product_id' =>$value['product_id'],                
-                        'quantity' =>$value['quantity'],
-                        'unit_price' =>$value['unit_price'],
-                        'taxes' =>$value['taxes'],
-                        'discount' =>$value['discount'],
-                        'total_price' =>$value['total_price'],
-                        'job' =>$value['job'],
-                        'product_description' =>$value['product_description']
-                    ]);
-                }        
-                return 'Save';
         }
+
+        $logisticscharges = json_decode($request->logistics,true);
+        foreach($logisticscharges as $lkey=>$lvalue){
+            ErpPoDeliverycharge::create([
+                'parent_id' => $po->id,
+                'logistic_name' => $lvalue['logistic_type'],
+                'delivery_charges' => $lvalue['delivery_charges']
+            ]);
+        }
+
+        $checklist = json_decode($request->checklist,true);
+        foreach($checklist as $ckey=>$cvalue){
+            ErpChecklist::create([
+                'parent_id' => $po->id,
+                'checklist' => $cvalue,
+            ]);
+        }
+        return "Save";
     }
 
     public function editPurchaseOrder($id){

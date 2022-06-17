@@ -176,7 +176,7 @@ Route::get('edit-inventory/{id}', 'InventoryController@editAddInventory');
 Route::group(['prefix'=>'purchases'], function () {
   Route::get('add-purchase-order', 'PurchaseOrderController@index')->name('add-purchase-order');
   Route::post('save-purchase-order', 'PurchaseOrderController@savePurchaseOrder');
-  Route::get('get-purchase-order-info', 'PurchaseOrderController@getpurchaseOrder');
+  Route::get('get-purchase-order-info/{company_id}', 'PurchaseOrderController@getpurchaseOrder');
   Route::get('edit-purchase-order/{id}', 'PurchaseOrderController@editPurchaseOrder');
   Route::get('edit-purchaseorder/{id}', 'PurchaseOrderController@edit');
   Route::get('edit_pro_info/{po_id}', 'PurchaseOrderController@editProductInfo');
@@ -189,6 +189,7 @@ Route::group(['prefix'=>'purchases'], function () {
   Route::get('get-quotations/{applied_to}', 'Purchases\PurchaseQuotationController@get_quotations');
   Route::get('get-tenders-for-quotation/{tender_name}', 'Tender\TenderController@get_tenders_for_quotations');
   Route::resource('manage-purchase-quotations', 'Purchases\PurchaseQuotationController');
+  Route::get('search-vendor/{vendor}', 'Admin\VendorInformationController@searchVendors');
   Route::get('recieve-inventory', function(){
     return view('receive-inventory');
   })->name('Recieve Inventory');

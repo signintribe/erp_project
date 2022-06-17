@@ -167,4 +167,9 @@ class VendorInformationController extends Controller
     {
         return view('vendor_center.vendor-bank-detail');
     }
+
+    public function searchVendors($vendor)
+    {
+        return erp_vendor_information::where('organization_name', 'LIKE', $vendor.'%')->get();
+    }
 }

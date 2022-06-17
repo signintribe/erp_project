@@ -2,8 +2,18 @@ TaskTierApp.controller('POController', function ($scope, $http) {
     $("#purchases").addClass('menu-open');
     $("#purchases a[href='#']").addClass('active');
     $("#purchase-order").addClass('active');
+    $('#po_date').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+    $('#quotation_till').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+    $('#delivery_date').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
     $scope.po = {};
     $scope.appurl = $("#appurl").val();
+    $scope.po.net_amount = 0;
     /**
      * 
      * @param {*} applied_to 
@@ -23,14 +33,13 @@ TaskTierApp.controller('POController', function ($scope, $http) {
      * Add check list into array pass to controller
      */
     $scope.getCheckList = function(list){
-        alert(list);
         let index = $scope.checkList.indexOf(list);
         if(index == -1){
             $scope.checkList.push(list);
         }else{
             $scope.checkList.splice(index, 1);
         }
-        
+        $scope.po.checklist = JSON.stringify($scope.checkList);
     };
 
     /**
@@ -56,6 +65,37 @@ TaskTierApp.controller('POController', function ($scope, $http) {
 
     /**
      * 
+     * @param {*} barcode 
+     * Get product items
+     */
+    $scope.getInventory = function (barcode) {
+        $http.get($scope.appurl + 'search-inventory/' + barcode).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.allinventories = response.data;
+                $scope.noinventories = "";
+            }else{
+              $scope.noinventories = barcode;
+              $scope.allinventories = "";
+            }
+        });
+    };
+
+    $scope.selectProduct = function(product){
+        $scope.po.product_item = product.product_name;
+        $scope.po.product_id = product.id;
+        $scope.allinventories = {};
+    };
+
+    /**
+     * Add gross price with quantity
+     */
+    $scope.grossPrice = function(){
+        $scope.po.gross_price = parseInt($scope.po.unit_price) * parseInt($scope.po.quantity);
+        $scope.po.net_amount = $scope.po.gross_price;
+    };
+
+    /**
+     * 
      * @param {*} tax 
      * Taxes add with price
      */
@@ -63,30 +103,86 @@ TaskTierApp.controller('POController', function ($scope, $http) {
     $scope.totalTaxes = 0;
     $scope.selectedTax = function(tax){
         $scope.AddTaxes.push(tax);
+        $scope.po.tax_details = JSON.stringify($scope.AddTaxes);
         $("#addtax"+tax.id).hide();
         $scope.totalTaxes += parseFloat(tax.tax_percentage);
         $scope.totalTaxes = parseFloat($scope.totalTaxes.toFixed(2));
+        $scope.po.net_amount = parseFloat($scope.po.gross_price) + parseFloat($scope.totalTaxes); 
+    };
+
+    $scope.removeTax = function(tax){
+        $("#addtax"+tax.id).show();
     };
 
     $scope.cancelTax = function(){
         $scope.AddTaxes = [];
+        $scope.po.tax_details = "";
+        $scope.po.net_amount -= $scope.totalTaxes;
         $scope.totalTaxes = 0;
     };
 
+    /**
+     * Get the logistics
+     */
+    $scope.getLogisticInfo = function(){
+        $scope.logisticsInfo = {};
+        $http.get($scope.appurl + 'sourcing/get-logistics/' + $("#company_id").val()).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.logisticsInfo = response.data;
+            }
+        });
+    };
 
+    $scope.po.total_delivery_charges = 0;
+    $scope.logisticscharges = [];
+    $scope.addDeliveryCharges = function(charges, logistic){
+        $scope.logisticscharges.push(logistic);
+        $scope.po.logistics = JSON.stringify($scope.logisticscharges);
+        console.log($scope.logisticscharges); 
+        $scope.po.total_delivery_charges += parseInt(charges);
+        $scope.po.logistic_type = charges;
+        $scope.po.net_amount += $scope.po.total_delivery_charges
+        $("#addCharges" + logistic.id).hide();
+    };
 
+    $scope.cancelDeliveryCharges = function(){
+        $scope.logisticscharges = [];
+        $scope.po.net_amount -= $scope.po.total_delivery_charges;
+        $scope.po.total_delivery_charges = 0;
+    };
 
+    /**
+     * Less the discount
+     */
+    $scope.lessDiscount = function(){
+        $scope.po.net_amount-= parseFloat($scope.po.discount_amount);
+        $scope.po.net_amount = parseFloat($scope.po.net_amount.toFixed(2));
+    };
 
+    $scope.searchVendor = function (vendor) {
+        $scope.vendorinfo = {};
+        $http.get('search-vendor/' + vendor).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.vendorinfo = response.data;
+            }
+        });
+    };
 
+    $scope.selectVendor = function(vendor){
+        $scope.po.vendor_id = vendor.id;
+        $scope.po.vendor = vendor.organization_name;
+        $scope.vendorinfo = {};
+    };
+
+    $scope.getPoInfo = function () {
+        var POInfo = $http.get('get-purchase-order-info/' + $("#company_id").val());
+        POInfo.then(function (r) {
+            $scope.POInfo = r.data;
+        });
+    };
     /**
      * These are the old functions start
      */
-    $scope.getAccounts = function () {
-        var Accounts = $http.get($scope.appurl + 'AllchartofAccount');
-        Accounts.then(function (r) {
-            $scope.Accounts = r.data;
-        });
-    };
 
     $scope.getVendorInfo = function () {
         $scope.vendors = {};
@@ -97,14 +193,7 @@ TaskTierApp.controller('POController', function ($scope, $http) {
         });
     };
 
-    $scope.getVendors = function (ven_id) {
-        $scope.vendorinfo = {};
-        $http.get('vendor/get-vendor/' + ven_id).then(function (response) {
-            if (response.data.length > 0) {
-                $scope.vendorinfo = response.data;
-            }
-        });
-    };
+    
     
     $scope.getInventoryInfo = function(){
         $scope.products = {};
@@ -138,22 +227,14 @@ TaskTierApp.controller('POController', function ($scope, $http) {
         }
     };
 
-    $scope.mergeArray = [];
     $scope.savePurchaseOrder = function(){
-        /* $scope.mergeArray = [].concat($scope.po , $scope.addToCart);
-        $scope.po = angular.merge($scope.po, $scope.mergeArray); */
-        //$scope.po = angular.merge($scope.po , cart);
-        //$scope.po = angular.merge($scope.po , $scope.addToCart);
-        //$scope.po.push($scope.po);
-         var order = JSON.stringify($scope.addToCart);
-          $scope.po.orderDetail = order;
-        if (!$scope.po.vendor_id) {
+        if (!$scope.po.vendor_id || !$scope.po.quotation_id || !$scope.po.product_id || !$scope.po.po_number) {
             $scope.showError = true;
             jQuery("input.required").filter(function () {
                 return !this.value;
             }).addClass("has-error");
         } else {
-            console.log($scope.po);
+            $("#loader").removeClass("fa-save").addClass('fa-spinner fa-pulse fa-sw');
             var Data = new FormData();
             angular.forEach($scope.po, function (v, k) {
                 Data.append(k, v);
@@ -164,6 +245,8 @@ TaskTierApp.controller('POController', function ($scope, $http) {
                     text: res.data,
                     type: "success"
                 });
+                $scope.po = {};
+                $("#loader").removeClass("fa-spinner fa-pulse fa-sw").addClass('fa-save');
             });
         }
     };

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Purchases;
 
 use Illuminate\Database\Eloquent\Model;
 
-class erp_purchase_order extends Model
+class ErpPoTax extends Model
 {
     protected $guarded = [];
 }
