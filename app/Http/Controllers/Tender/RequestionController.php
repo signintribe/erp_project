@@ -47,9 +47,14 @@ class RequestionController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['product']);
-        $data['user_id'] = Auth::user()->id;
-        ErpRequestion::create($data);
+        if($request->id){
+            $data = $request->except(['product_name', 'company_id', 'created_at', 'id', 'updated_at', 'user_id']);
+            ErpRequestion::where('id', $request->id)->update($data);
+        }else{
+            $data = $request->except(['product_name']);
+            $data['user_id'] = Auth::user()->id;
+            ErpRequestion::create($data);
+        }
         return response()->json([
             'status'=>true,
             'message'=>'Requestion Save Successfully'
@@ -82,7 +87,18 @@ class RequestionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $req = DB::select('SELECT resuest.*, product.product_name FROM (SELECT * FROM erp_requestions WHERE id = '.$id.') AS resuest JOIN (SELECT id, product_name FROM tblproduct_informations)AS product ON product.id = resuest.product_id');
+        if(!empty($req)){
+            return response()->json([
+                'status' => true,
+                'data' => $req
+            ]);
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'No Requestion Found'
+            ]);
+        }
     }
 
     /**
@@ -105,6 +121,10 @@ class RequestionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        ErpRequestion::where('id', $id)->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Requestion Delete Permanently'
+        ]);
     }
 }

@@ -81,7 +81,7 @@ TaskTierApp.controller('POController', function ($scope, $http) {
     };
 
     $scope.selectProduct = function(product){
-        $scope.po.product_item = product.product_name;
+        $scope.po.product_name = product.product_name;
         $scope.po.product_id = product.id;
         $scope.allinventories = {};
     };
@@ -89,9 +89,15 @@ TaskTierApp.controller('POController', function ($scope, $http) {
     /**
      * Add gross price with quantity
      */
+     $scope.po.quantity = 0;
     $scope.grossPrice = function(){
-        $scope.po.gross_price = parseInt($scope.po.unit_price) * parseInt($scope.po.quantity);
+        if($scope.po.quantity == 0){
+            $scope.po.gross_price = parseInt($scope.po.unit_price);
+        }else{
+            $scope.po.gross_price = parseInt($scope.po.unit_price) * parseInt($scope.po.quantity);
+        }
         $scope.po.net_amount = $scope.po.gross_price;
+        $("#TaxRow").show();
     };
 
     /**
@@ -108,17 +114,33 @@ TaskTierApp.controller('POController', function ($scope, $http) {
         $scope.totalTaxes += parseFloat(tax.tax_percentage);
         $scope.totalTaxes = parseFloat($scope.totalTaxes.toFixed(2));
         $scope.po.net_amount = parseFloat($scope.po.gross_price) + parseFloat($scope.totalTaxes); 
+        $scope.po.discount_amount = 0;
+        $("#LogisticRow").show();
     };
 
     $scope.removeTax = function(tax){
         $("#addtax"+tax.id).show();
     };
 
+    $scope.chnageCheckList = function(){
+        $("#checklist").show();
+        $("#getchecklist").hide();
+    };
+    
     $scope.cancelTax = function(){
+        /* $scope.AddTaxes = [];
+        $scope.po.tax_details = "";
+        $scope.po.net_amount -= $scope.totalTaxes;
+        $scope.totalTaxes = 0; */
         $scope.AddTaxes = [];
         $scope.po.tax_details = "";
         $scope.po.net_amount -= $scope.totalTaxes;
         $scope.totalTaxes = 0;
+        $("#LogisticRow").hide();
+        $scope.logisticscharges = [];
+        $scope.po.net_amount -= $scope.po.total_delivery_charges;
+        $scope.po.total_delivery_charges = 0;
+        $scope.getLogisticInfo();
     };
 
     /**
@@ -140,8 +162,8 @@ TaskTierApp.controller('POController', function ($scope, $http) {
         $scope.po.logistics = JSON.stringify($scope.logisticscharges);
         console.log($scope.logisticscharges); 
         $scope.po.total_delivery_charges += parseInt(charges);
-        $scope.po.logistic_type = charges;
-        $scope.po.net_amount += $scope.po.total_delivery_charges
+        //$scope.po.logistic_type = charges;
+        $scope.po.net_amount += parseInt(charges);
         $("#addCharges" + logistic.id).hide();
     };
 
@@ -175,9 +197,44 @@ TaskTierApp.controller('POController', function ($scope, $http) {
     };
 
     $scope.getPoInfo = function () {
-        var POInfo = $http.get('get-purchase-order-info/' + $("#company_id").val());
+        $scope.limit = 30;
+        $scope.offset = 0;
+        $scope.array = {
+            'limit' : $scope.limit,
+            'offset' : $scope.offset,
+            'company_id' : $("#company_id").val()
+        };
+        $scope.array = JSON.stringify($scope.array);
+        var POInfo = $http.get('get-purchase-order-info/' + $scope.array);
         POInfo.then(function (r) {
-            $scope.POInfo = r.data;
+            if(r.data.data.length> 0 ){
+                $scope.POInfo = r.data.data;
+                $scope.offset += $scope.limit;
+                $("#loadMorebtn").show();
+            }else{
+                $("#loadMorebtn").hide();
+                $scope.nomore = "There is no record found";
+            }
+        });
+    };
+
+    $scope.loadMore = function () {
+        $scope.array = {
+            'limit' : $scope.limit,
+            'offset' : $scope.offset,
+            'company_id' : $("#company_id").val()
+        };
+        $scope.array = JSON.stringify($scope.array);
+        var POInfo = $http.get('get-purchase-order-info/' + $scope.array);
+        POInfo.then(function (r) {
+            if(r.data.data.length> 0 ){
+                $scope.POInfo = r.data.data;
+                $scope.offset += $scope.limit;
+                $("#loadMorebtn").show();
+            }else{
+                $("#loadMorebtn").hide();
+                $scope.nomore = "There is no record found";
+            }
         });
     };
     /**
@@ -240,15 +297,87 @@ TaskTierApp.controller('POController', function ($scope, $http) {
                 Data.append(k, v);
             });
             $http.post('save-purchase-order', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
-                swal({
-                    title: "Save!",
-                    text: res.data,
-                    type: "success"
-                });
-                $scope.po = {};
-                $("#loader").removeClass("fa-spinner fa-pulse fa-sw").addClass('fa-save');
+                if(res.data.status == true){
+                    swal({
+                        title: "Save!",
+                        text: res.data.message,
+                        type: "success"
+                    });
+                    $scope.po = {};
+                    $("#checklist").show();
+                    $("#getchecklist").hide();
+                    $("#TaxRow").hide();
+                    $("#LogisticRow").hide();
+                    $scope.po.total_delivery_charges = 0;
+                    $scope.totalTaxes = 0;
+                    $scope.AddTaxes = {};
+                    $scope.logisticscharges = {};
+                    $scope.getPoInfo();
+                    $("#loader").removeClass("fa-spinner fa-pulse fa-sw").addClass('fa-save');
+                }else{
+                    swal({
+                        title: "Warning!",
+                        text: res.data.message,
+                        type: "warning"
+                    });
+                    $("#loader").removeClass("fa-spinner fa-pulse fa-sw").addClass('fa-save');
+                }
             });
         }
     };
     
+    $scope.deletePO = function(id){
+        swal({
+            title: "Are you sure?",
+            text: "Your will not be able to recover this record!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-primary",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        },
+        function(){
+            $http.delete('delete-purchase-order/' + id).then(function (response) {
+                if(response.data.status == true){
+                    $scope.getPoInfo();
+                    swal("Deleted!", response.data.message, "success");
+                }else{
+                    swal("Not Deleted!", response.data.message, "error");
+                }
+            });
+        });
+    };
+
+    $scope.editPO = function(po_id){
+        $http.get('edit-purchaseorder/' + po_id).then(function (response){
+            $scope.po = response.data.po[0];
+            $scope.po.apply_to = response.data.po[0].quotation_number;
+            $scope.po.vendor = response.data.po[0].organization_name;
+            if(response.data.checklist.length > 0){
+                $("#checklist").hide();
+                $("#getchecklist").show();
+                $scope.getselectedchecklist = response.data.checklist;
+            }
+            $("#TaxRow").show();
+            $scope.AddTaxes = response.data.taxdetail;
+            $scope.totalTaxes = response.data.totalTax;
+            $("#LogisticRow").show();
+            $scope.logisticscharges = response.data.delivery;
+            $scope.po.total_delivery_charges = response.data.total_delivery_charges;
+            $scope.po.net_amount = parseFloat(response.data.po[0].quotation.net_amount);
+            $("#quotation_status").show();
+        });
+    };
+
+    $scope.cancelPurchaseOrder = function(){
+        $scope.po = {};
+        $("#checklist").show();
+        $("#getchecklist").hide();
+        $("#TaxRow").hide();
+        $("#LogisticRow").hide();
+        $scope.po.total_delivery_charges = 0;
+        $scope.totalTaxes = 0;
+        $scope.totalTaxes = {};
+        $scope.logisticscharges = {};
+    };
 });

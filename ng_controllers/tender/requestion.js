@@ -18,24 +18,59 @@ CreateTierApp.controller('RequestionController', function ($scope, $http) {
     };
 
     $scope.getRequestion = function () {
+        $("#recordloader").addClass('fa fa-spinner fa-sw fa-3x fa-pulse');
+        $scope.offset = 0;
+        $scope.limit = 30;
         var array = {
             'company_id' : $("#company_id").val(),
-            'limit' : 30,
-            'offset' : 0
+            'limit' : $scope.limit,
+            'offset' : $scope.offset
         } 
         $scope.vals = JSON.stringify(array);
         $http.get('maintain-requestion/' + $scope.vals).then(function (response) {
             if (response.data.data.length > 0) {
                 $scope.requestion = response.data.data;
-                
+                $scope.offset += $scope.limit;
+                $("#recordloader").removeClass('fa fa-spinner fa-sw fa-3x fa-pulse');
             }else{
-                
+                $scope.nomore = 'There is no records found';
+                $("#recordloader").removeClass('fa fa-spinner fa-sw fa-3x fa-pulse');
+            }
+        });
+    };
+
+    $scope.getSingleRequestion = function (request_id) {
+        $http.get('maintain-requestion/' + request_id + '/edit').then(function (response) {
+            if(response.data.status == true){
+                $scope.request = response.data.data[0];
+            }else{
+                $scope.nodatafound = response.data.message;
+            }
+        });
+    };
+
+    $scope.loadMore = function () {
+        $("#loading").addClass('fa-pulse fa-sw');
+        var array = {
+            'company_id' : $("#company_id").val(),
+            'limit' : $scope.limit,
+            'offset' : $scope.offset
+        } 
+        $scope.vals = JSON.stringify(array);
+        $http.get('maintain-requestion/' + $scope.vals).then(function (response) {
+            if (response.data.data.length > 0) {
+                $scope.requestion = $scope.requestion.concat(response.data.data);
+                $scope.offset += $scope.limit;
+                $("#loading").removeClass('fa-pulse fa-sw');
+            }else{
+                $scope.nomore = 'There is no more records';
+                $("#loading").removeClass('fa-pulse fa-sw');
             }
         });
     };
 
     $scope.saveRequestion = function(){
-        if (!$scope.request.requestion_date) {
+        if (!$scope.request.requestion_date || !$scope.request.requestion_no) {
             $scope.showError = true;
             jQuery("input.required").filter(function () {
                 return !this.value;
@@ -95,7 +130,7 @@ CreateTierApp.controller('RequestionController', function ($scope, $http) {
     
     $scope.getProductId = function(product_id, product_name){
         $scope.request.product_id = product_id;
-        $scope.request.product = product_name;
+        $scope.request.product_name = product_name;
         $scope.allinventories = {};
         $("#select_product").slideUp('slow');
     };
@@ -109,6 +144,28 @@ CreateTierApp.controller('RequestionController', function ($scope, $http) {
             }else{
                 $(".loader").html('');
             }
+        });
+    };
+
+    $scope.deleteRequestion = function(request_id){
+        swal({
+            title: "Are you sure?",
+            text: "Your will not be able to recover this record!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-primary",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        },
+        function(){
+            $http.delete('maintain-requestion/' + request_id).then(function (response) {
+                if(response.data.status == true){
+                    $scope.getRequestion();
+                    swal("Deleted!", response.data.message, "success");
+                }else{
+                    swal("Not Deleted!", response.data.message, "error");
+                }
+            });
         });
     };
 });

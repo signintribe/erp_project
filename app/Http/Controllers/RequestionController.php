@@ -100,4 +100,16 @@ class RequestionController extends Controller
         $req->save();
         return "Request Status Changed";
     }
+
+    public function get_requestion_for_quotation($requestion)
+    {
+        return ErpRequestion::where('requestion_no', $requestion)->get();
+        /* $products = DB::select("SELECT req.id, product.product_name as requestion_name FROM(SELECT id, product_id, resource_id FROM erp_requestions WHERE company_id = ".session('company_id').")AS req JOIN(SELECT id, product_name FROM tblproduct_informations WHERE product_name LIKE '".$requestion."%')AS product ON product.id = req.product_id GROUP BY req.product_id;");
+        if(!empty($products)){
+            return $products;
+        }else{
+            $resourec = DB::select("SELECT req.id, emp.first_name as requestion_name FROM(SELECT id, product_id, resource_id FROM erp_requestions WHERE company_id =  ".session('company_id').")AS req JOIN(SELECT id, first_name FROM tblemployeeinformations WHERE first_name LIKE '".$requestion."%')AS emp ON emp.id = req.resource_id GROUP BY req.resource_id;");
+            return $resourec;
+        } */
+    }
 }

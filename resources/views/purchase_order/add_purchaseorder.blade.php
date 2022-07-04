@@ -94,7 +94,7 @@
                     </div>
                 </div>
             </div><br>
-            <div class="row">
+            <div class="row" id="checklist">
                 <div class="col">
                     <h5 for="card-title">List of Document</h5><hr/>
                     <div class="row">
@@ -178,6 +178,40 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row" id="getchecklist" style="display:none;">
+                <div class="col">
+                    <button class="btn btn-sm btn-primary float-right" ng-click="chnageCheckList()">Change</button>
+                    <ul style="list-style:none;" ng-repeat="chklst in getselectedchecklist">
+                        <li ng-if="chklst.checklist == 'principal_performa'">
+                            <label>Principal performa invoce with sign & stamp on company letter head</label>
+                        </li>
+                        <li ng-if="chklst.checklist == 'agency_agreement'">
+                            <label for="agency_agreement">Agency agreement with sign & stamp on company letter head</label>
+                        </li>
+                        <li ng-if="chklst.checklist == 'oem_certificate'">
+                            <label for="oem_certificate">OEM Certificate</label>
+                        </li>
+                        <li ng-if="chklst.checklist == 'atp'">
+                            <label for="atp">ATP</label>
+                        </li>
+                        <li ng-if="chklst.checklist == 'compliance_sheet'">
+                            <label for="compliance_sheet">Compliance Sheet</label>
+                        </li>
+                        <li ng-if="chklst.checklist == 'company_profile'">
+                            <label for="company_profile">Company Profile/Certificate</label>
+                        </li>
+                        <li ng-if="chklst.checklist == 'warrenty'">
+                            <label for="warrenty">Warrenty / Guarantee acceptence as per IT</label>
+                        </li>
+                        <li ng-if="chklst.checklist == 'technical_offer'">
+                            <label for="technical_offer">Complete Technical Offer</label>
+                        </li>
+                        <li ng-if="chklst.checklist == 'trade_link'">
+                            <label for="trade_link">Complete Trade Link</label>
+                        </li>
+                    </ul>
+                </div>
             </div><hr/>
             <!-- <div class="row">
                 <div class="col-6">
@@ -205,9 +239,9 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="product_item">Search Product/Item</label>
                     <div class="input-group">
-                        <input type="search" ng-model="po.product_item" class="form-control" placeholder="Search Your Quotation">
+                        <input type="search" ng-model="po.product_name" class="form-control" placeholder="Search Your Quotation">
                         <div class="input-group-append">
-                            <button type="button" ng-click="getInventory(po.product_item);" class="btn btn-md btn-success">
+                            <button type="button" ng-click="getInventory(po.product_name);" class="btn btn-md btn-success">
                                 <i class="fa fa-search"></i>
                             </button>
                             <a href="<?php echo env('APP_URL') ?>add-inventory" class="btn btn-md btn-primary">
@@ -222,7 +256,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="unit_price">Unit Price</label>
-                    <input type="text" ng-model="po.unit_price" id="unit_price" placeholder="Unit Price" class="form-control">
+                    <input type="text" ng-model="po.unit_price" ng-blur="grossPrice();" id="unit_price" placeholder="Unit Price" class="form-control">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="qty">Quantity</label>
@@ -247,77 +281,78 @@
                     </select>
                 </div>
             </div><br> -->
-            <div class="row">
-                <div class="col-10"><h5>Add Taxes</h5></div>
-                <!-- <div class="col-2 float-right">
-                    <button class="btn-primary" onclick="Addrow();">+Add Row</button>
-                </div> -->
-                <div class="col-2">
-                    <div class="btn-group float-right">
-                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#taxModal"><i class="fa fa-plus"></i> Add Tax</button>
-                        <button class="btn btn-sm btn-warning" ng-click="cancelTax(); getCompanyTaxes();">Cancel</button>
-                    </div>
-                    <!-- Tax Modal -->
-                    <div id="taxModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
+            <div class="row" id="TaxRow" style="display:none">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-10"><h5>Add Taxes</h5></div>
+                        <!-- <div class="col-2 float-right">
+                            <button class="btn-primary" onclick="Addrow();">+Add Row</button>
+                        </div> -->
+                        <div class="col-2">
+                            <div class="btn-group float-right">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#taxModal"><i class="fa fa-plus"></i> Add Tax</button>
+                                <button class="btn btn-sm btn-warning" ng-click="cancelTax(); getCompanyTaxes();">Cancel</button>
+                            </div>
+                            <!-- Tax Modal -->
+                            <div id="taxModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
 
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title">All Taxes</h4>
-                                    <div class="btn-group text-right">
-                                        <a class="btn btn-sm btn-primary" href="<?php echo env('APP_URL') ?>bank/Taxes"><i class="fa fa-plus"></i> Add New Tax</a>
-                                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"> <i class="fa fa-times"></i> </button>
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">All Taxes</h4>
+                                            <div class="btn-group text-right">
+                                                <a class="btn btn-sm btn-primary" href="<?php echo env('APP_URL') ?>bank/Taxes"><i class="fa fa-plus"></i> Add New Tax</a>
+                                                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"> <i class="fa fa-times"></i> </button>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-sm table-bordered" ng-init="getCompanyTaxes()">
+                                                <tr>
+                                                    <th>Authority Name</th>
+                                                    <th>Tax Name</th>
+                                                    <th>Tax Percentage</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                <tr ng-repeat="tx in Taxes">
+                                                    <td ng-bind="tx.authority_name"></td>
+                                                    <td ng-bind="tx.tax_name"></td>
+                                                    <td ng-bind="tx.tax_percentage"></td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-xs btn-success btn-addtax" id="addtax<% tx.id %>" ng-click="selectedTax(tx)">Add</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="modal-body">
-                                    <table class="table table-sm table-bordered" ng-init="getCompanyTaxes()">
-                                        <tr>
-                                            <th>Authority Name</th>
-                                            <th>Tax Name</th>
-                                            <th>Tax Percentage</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        <tr ng-repeat="tx in Taxes">
-                                            <td ng-bind="tx.authority_name"></td>
-                                            <td ng-bind="tx.tax_name"></td>
-                                            <td ng-bind="tx.tax_percentage"></td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-xs btn-success btn-addtax" id="addtax<% tx.id %>" ng-click="selectedTax(tx)">Add</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
+
                                 </div>
                             </div>
-
                         </div>
-                    </div>
+                    </div><br/>
+                    <table class="table table-sm table-bordered">
+                        <tr>
+                            <th>Tax Name</th>
+                            <th>Tax Percentage</th>
+                        </tr>
+                        <tr ng-repeat="adtx in AddTaxes">
+                            <td ng-bind="adtx.tax_name"></td>
+                            <td ng-bind="adtx.tax_percentage"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Total Tax
+                            </th>
+                            <td>
+                                <span ng-bind="totalTaxes"></span>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div><br/>
-            <table class="table table-sm table-bordered">
-                <tr>
-                    <th>Authority Name</th>
-                    <th>Tax Name</th>
-                    <th>Tax Percentage</th>
-                </tr>
-                <tr ng-repeat="adtx in AddTaxes">
-                    <td ng-bind="adtx.authority_name"></td>
-                    <td ng-bind="adtx.tax_name"></td>
-                    <td ng-bind="adtx.tax_percentage"></td>
-                </tr>
-                <tr>
-                    <th colspan="2">
-                        Total Tax
-                    </th>
-                    <td>
-                        <span ng-bind="totalTaxes"></span>
-                    </td>
-                </tr>
-            </table>
-            <br/>
-            <div class="row">
+            <div class="row" id="LogisticRow" style="display:none">
                 <div class="col-lg-12 col-md-12 col-sm-12" ng-init="getLogisticInfo()">
                     <div class="row">
                         <div class="col-lg-8 col-sm-8 col-md-8"><h5>Delivery Charges</h5></div>
@@ -377,7 +412,7 @@
                         <tbody>
                             <tr ng-repeat="logc in logisticscharges">
                                 <td ng-bind="logc.logistic_type"></td>
-                                <td ng-bind="logc.delivery"></td>
+                                <td ng-bind="logc.delivery_charges"></td>
                             </tr>
                             <tr>
                                 <th>Total Charges</th>
@@ -446,7 +481,10 @@
                     <textarea ng-model="po.description" id="" class="form-control"></textarea>
                 </div>
             </div><br/>
-            <button class="btn btn-sm float-right btn-success" ng-click="savePurchaseOrder()"> <i class="fa fa-save" id-"loader"></i> Submit</button>
+            <div class="btn-group float-right">
+                <button class="btn btn-sm btn-success" ng-click="savePurchaseOrder()"> <i class="fa fa-save" id="loader"></i> Submit</button>
+                <button class="btn btn-sm btn-warning" ng-click="cancelPurchaseOrder()"> <i class="fa fa-times"></i> Cancel</button>
+            </div>
         </div>
     </div>
     <div class="card">
@@ -461,6 +499,8 @@
                         <th>PO Date</th>
                         <th>Quotation Till</th>
                         <th>Delivery Date</th>
+                        <th>Qty</th>
+                        <th>Received Qty</th>
                         <th>PO Status</th>
                         <th>Action</th>
                     </tr>
@@ -471,19 +511,28 @@
                         <td ng-bind="pos.po_date"></td>
                         <td ng-bind="pos.quotation_till"></td>
                         <td ng-bind="pos.delivery_date"></td>
-                        <td>
+                        <td ng-bind="pos.quantity"></td>
+                        <td ng-bind="pos.received_qty"></td>
+                        <td ng-if="pos.received_qty != 0">
+                            <p ng-if="(pos.quantity - pos.received_qty) > 0">Partially Received</p>
+                            <p ng-if="(pos.quantity - pos.received_qty) == 0">Fully Received</p>
+                        </td>
+                        <td ng-if="pos.received_qty == 0">
                             <span ng-if="pos.po_status == 0">Pending</span>
-                            <span ng-if="pos.po_status == 1">PO Made</span>
                         </td>
                         <td>
                             <div class="btn-group">
-                                <button class="btn btn-xs btn-info">Edit</button>
-                                <button class="btn btn-xs btn-danger">Delete</button>
+                                <button class="btn btn-xs btn-info" ng-click="editPO(pos.id)">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deletePO(pos.id)">Delete</button>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <div class="text-center">
+                <p ng-if="nomore" ng-bind="nomore"></p>
+                <button class="btn btn-sm btn-primary" id="loadMorebtn" ng-click="loadMore()"> <i class="fa fa-spinner"></i> Load More</button>
+            </div>
         </div>
     </div>
     <!-- <div class="card">
