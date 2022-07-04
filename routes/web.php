@@ -176,23 +176,27 @@ Route::get('edit-inventory/{id}', 'InventoryController@editAddInventory');
 Route::group(['prefix'=>'purchases'], function () {
   Route::get('add-purchase-order', 'PurchaseOrderController@index')->name('add-purchase-order');
   Route::post('save-purchase-order', 'PurchaseOrderController@savePurchaseOrder');
-  Route::get('get-purchase-order-info/{company_id}', 'PurchaseOrderController@getpurchaseOrder');
+  Route::get('get-purchase-order-info/{parameters}', 'PurchaseOrderController@getpurchaseOrder');
   Route::get('edit-purchase-order/{id}', 'PurchaseOrderController@editPurchaseOrder');
   Route::get('edit-purchaseorder/{id}', 'PurchaseOrderController@edit');
   Route::get('edit_pro_info/{po_id}', 'PurchaseOrderController@editProductInfo');
   Route::delete('delete-purchase-order/{id}', 'PurchaseOrderController@destroy');
   Route::get('add-purchase-receive', 'PurchaseOrderController@add_purchase_receive')->name('add-purchase-order');
+  Route::get('get-po/{pending_po}/{status}', 'PurchaseOrderController@get_po_poreceive');
+  Route::get('get-checklist/{po_id}', 'PurchaseOrderController@get_checklist');
+  Route::get('get-taxes/{po_id}', 'PurchaseOrderController@get_taxes');
+  Route::get('get-logistics/{po_id}', 'PurchaseOrderController@get_logistics');
   Route::get('view-purchase-order', 'PurchaseOrderController@view_purchase_order')->name('view-purchase-order');
   Route::get('view-purchase-receive', 'PurchaseOrderController@view_purchase_receive')->name('view-purchase-receive');
   Route::get('get_pro_info/{pro_id}', 'InventoryController@getProductInfo');
   Route::get('quotation-purchases', 'Purchases\PurchaseQuotationController@index');
   Route::get('get-quotations/{applied_to}', 'Purchases\PurchaseQuotationController@get_quotations');
+  Route::get('get-quotation/{quotation_id}', 'Purchases\PurchaseQuotationController@get_single_quotation');
   Route::get('get-tenders-for-quotation/{tender_name}', 'Tender\TenderController@get_tenders_for_quotations');
+  Route::get('get-requestion-for-quotation/{requestion}', 'RequestionController@get_requestion_for_quotation');
   Route::resource('manage-purchase-quotations', 'Purchases\PurchaseQuotationController');
   Route::get('search-vendor/{vendor}', 'Admin\VendorInformationController@searchVendors');
-  Route::get('recieve-inventory', function(){
-    return view('receive-inventory');
-  })->name('Recieve Inventory');
+  Route::resource('recieve-inventory', 'Purchases\ReceiveInventoryController');
 
   Route::get('payment-voucher', function(){
     return view('payment-voucher');

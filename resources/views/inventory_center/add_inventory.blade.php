@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-    </div><br/>
+    </div>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Select Category</h3>
@@ -122,7 +122,7 @@
             </div><br/>
             <div id="attrbuts"></div>
 
-            <div class="row" ng-repeat="attr in attributes">
+           <!--  <div class="row" ng-repeat="attr in attributes"> -->
 
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-repeat="attr in attributes">
@@ -144,7 +144,7 @@
                 </div>
             </div> -->
         </div>
-    </div><br/>
+    </div>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Product Pricing</h3>
@@ -220,7 +220,7 @@
                 </div>
             </div>
         </div>
-    </div><br/>
+    </div>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Vendor Information</h3>
@@ -228,7 +228,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getVendors()">
-                <label for="organization_name">Name of Vendor</label>
+                    <label for="organization_name">Name of Vendor</label>
                     <select class="form-control"  ng-options="vendor.id as vendor.organization_name for vendor in vendorinformations" ng-model="inventory.vendor_name">
                         <option value="">Select Vendor Name</option>
                     </select>
@@ -251,7 +251,7 @@
                 </div>
             </div>
         </div>
-    </div><br/>
+    </div>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Stock Availability</h3>
@@ -282,7 +282,7 @@
                 </div>
             </div>
         </div>
-    </div><br/>
+    </div>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Accounts</h3>

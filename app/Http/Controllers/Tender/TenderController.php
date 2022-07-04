@@ -25,7 +25,7 @@ class TenderController extends Controller
      */
     public function index()
     {
-        return view('tender.tender-information');
+        return view('tender.add-tender');
     }
 
     /**
@@ -119,6 +119,6 @@ class TenderController extends Controller
 
     public function get_tenders_for_quotations($tender_name)
     {
-        return ErpTender::where('tender_name', 'LIKE', $tender_name.'%')->get();
+        return ErpTender::where('tender_no', 'LIKE', $tender_name.'%')->get();
     }
 }

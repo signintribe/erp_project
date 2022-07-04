@@ -12,6 +12,11 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="requestion_no">Requestion Number</label>
+                    <input type="text" ng-model="request.requestion_no" id="requestion_no" placeholder="Requestion Number" class="form-control"><br/>
+                    <i class="text-danger" ng-show="!request.requestion_no && showError"><small>Please type requestion number</small></i>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="requestion_date">Requition Date</label>
                     <div class="form-group">
                         <div class="input-group date" id="requestion_date" data-target-input="nearest">
@@ -67,8 +72,8 @@
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="product_name">Search Product</label>
-                    <input type="text" ng-model="request.product" placeholder="Search Product" ng-keyup="getInventory(request.product)" id="product_name" class="form-control">
+                    <label for="product_name">Search Products</label>
+                    <input type="text" ng-model="request.product_name" placeholder="Search Product" ng-keyup="getInventory(request.product_name)" id="product_name" class="form-control">
                    <!--  <select ng-model="request.product_id" id="" class="form-control">
                         <option value="">Please Select Product</option>
                     </select> -->
@@ -103,12 +108,14 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th colspan="3">Request For</th>
+                            <th colspan="4">Request For</th>
                             <th rowspan="2" style="vertical-align:middle">Request Date</th>
                             <th rowspan="2" style="vertical-align:middle">Request From</th>
                             <th rowspan="2" style="vertical-align:middle">Request Till</th>
+                            <th rowspan="2" style="vertical-align:middle">Action</th>
                         </tr>
                         <tr>
+                            <th>Requestion Number</th>
                             <th>Department</th>
                             <th>Product</th>
                             <th>Resource</th>
@@ -116,15 +123,27 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="r in requestion">
+                            <td ng-bind="r.requestion_no"></td>
                             <td ng-bind="r.department_name"></td>
                             <td ng-bind="r.product_name"></td>
                             <td ng-bind="r.first_name"></td>
                             <td ng-bind="r.requestion_date"></td>
                             <td ng-bind="r.require_date"></td>
                             <td ng-bind="r.require_till"></td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-info btn-xs" ng-click="getSingleRequestion(r.id)">Edit</button>
+                                    <button class="btn btn-danger btn-xs" ng-click="deleteRequestion(r.id)">Delete</button>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="text-center">
+                    <i id="recordloader"></i>
+                    <p ng-if="nomore" ng-bind="nomore"></p><br/>
+                    <button ng-click="loadMore()" class="btn btn-primary btn-sm"> <i id="loading" class="fa fa-spinner"></i> Load More</button>
+                </div>
             </div>
         </div>
     </div>

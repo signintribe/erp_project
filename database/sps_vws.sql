@@ -528,7 +528,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getVendorAddress`(in userid int(11))
+CREATE PROCEDURE `sp_getVendorAddress`(in userid int(11))
 BEGIN  
     SELECT
     vendoraddress.id, vendor.organization_name,
@@ -548,7 +548,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getVendorContact`(in userid int(11))
+CREATE PROCEDURE `sp_getVendorContact`(in userid int(11))
 BEGIN  
     SELECT vendor.organization_name, contact.id, contact.contact_id, contact.social_id,  con.email, soc.website, soc.facebook, con.mobile_number FROM(
       SELECT id, organization_name, user_id 
@@ -565,7 +565,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getVendorContactPerson`(IN `userid` INT(11))
+CREATE PROCEDURE `sp_getVendorContactPerson`(IN `userid` INT(11))
 BEGIN
 SELECT vendor.organization_name, contactperson.id, contactperson.contact_id, contactperson.social_id, contactperson.title, contactperson.first_name, contactperson.last_name, contactperson.picture, contactperson.address_id, con.email, soc.website, soc.facebook, con.mobile_number, address.address_line_1, address.city, address.country, address.state FROM(
 SELECT id, organization_name, user_id
@@ -584,7 +584,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerAddress`(in userid int(11))
+CREATE PROCEDURE `sp_getCustomerAddress`(in userid int(11))
 BEGIN
 SELECT customer.customer_name, address.*  FROM(
 SELECT id, customer_name, user_id
@@ -595,7 +595,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getproductsinfo`(in userid int(11), in productid int(11))
+CREATE PROCEDURE `sp_getproductsinfo`(in userid int(11), in productid int(11))
 BEGIN
 SELECT product.product_name, product.id, price.net_pur_price  FROM(
 SELECT id, product_name, user_id
@@ -606,7 +606,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getvendorinfo`(in userid int(11), in vendorid int(11))
+CREATE PROCEDURE `sp_getvendorinfo`(in userid int(11), in vendorid int(11))
 BEGIN
 SELECT product.product_name, product.id, price.net_pur_price  FROM(
 SELECT id, organization_name, user_id
@@ -618,7 +618,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_editPurchaseOrderInfo`(in userid int(11), in poid int(11))
+CREATE PROCEDURE `sp_editPurchaseOrderInfo`(in userid int(11), in poid int(11))
 BEGIN
 SELECT po.* , poinventory.po_id, poinventory.product_id, poinventory.quantity, poinventory.unit_price,
 poinventory.taxes, poinventory.discount, poinventory.total_price, poinventory.product_description, poinventory.job FROM(
@@ -629,7 +629,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerDetail`(in userid int(11))
+CREATE PROCEDURE `sp_getCustomerDetail`(in userid int(11))
 BEGIN
 SELECT customer.customer_name, contact.id, contact.contact_id, contact.social_id, con.email, soc.website, soc.facebook, con.mobile_number FROM(
 SELECT id, customer_name, user_id
@@ -646,7 +646,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getCustomerContactPerson`(IN `userid` INT(11))
+CREATE PROCEDURE `sp_getCustomerContactPerson`(IN `userid` INT(11))
 BEGIN  
     SELECT customer.customer_name, contactperson.id, contactperson.contact_id, contactperson.social_id, contactperson.title, contactperson.first_name, contactperson.last_name, contactperson.picture, contactperson.address_id, con.email, soc.website, soc.facebook, con.mobile_number, address.address_line_1, address.city, address.country, address.state FROM(
       SELECT id, customer_name, user_id 
@@ -1170,7 +1170,7 @@ DELIMITER ;
 
 Drop PROCEDURE sp_getEmployeeEducation;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeEducation`(IN `educationid` INT(11), in cid INT(11))
+CREATE PROCEDURE `sp_getEmployeeEducation`(IN `educationid` INT(11), in cid INT(11))
     NO SQL
 BEGIN  
     IF educationid <> 0 THEN
@@ -1195,7 +1195,7 @@ DELIMITER ;
 
 Drop PROCEDURE sp_getEmployeeCertification;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeCertification`(IN `certificationid` INT(11), in cid INT(11))
+CREATE PROCEDURE `sp_getEmployeeCertification`(IN `certificationid` INT(11), in cid INT(11))
     NO SQL
 BEGIN  
     IF certificationid <> 0 THEN
@@ -1220,7 +1220,7 @@ DELIMITER ;
 
 Drop PROCEDURE sp_getEmployeeExperience;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeExperience`(IN `expid` INT(11), in cid INT(11))
+CREATE PROCEDURE `sp_getEmployeeExperience`(IN `expid` INT(11), in cid INT(11))
     NO SQL
 BEGIN  
     IF expid <> 0 THEN
@@ -1284,7 +1284,7 @@ DELIMITER ;
 
 Drop PROCEDURE sp_getEmployeePayEmolument;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeePayEmolument`(IN `payid` INT(11), in cid INT(11))
+CREATE PROCEDURE `sp_getEmployeePayEmolument`(IN `payid` INT(11), in cid INT(11))
     NO SQL
 BEGIN  
     IF payid <> 0 THEN
@@ -1309,7 +1309,7 @@ DELIMITER ;
 
 Drop PROCEDURE sp_getEmployeeBankDetail;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeBankDetail`(IN `bankid` INT(11), in cid INT(11))
+CREATE PROCEDURE `sp_getEmployeeBankDetail`(IN `bankid` INT(11), in cid INT(11))
     NO SQL
 BEGIN  
     IF bankid <> 0 THEN
@@ -1334,7 +1334,7 @@ DELIMITER ;
 
 Drop PROCEDURE sp_getEmployeeJobDescription;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeJobDescription`(IN `jobid` INT(11), in cid INT(11))
+CREATE PROCEDURE `sp_getEmployeeJobDescription`(IN `jobid` INT(11), in cid INT(11))
     NO SQL
 BEGIN  
     IF jobid <> 0 THEN
@@ -1359,7 +1359,7 @@ DELIMITER ;
 
 Drop PROCEDURE sp_getEmployeeTasks;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getEmployeeTasks`(IN `taskid` INT(11), in cid INT(11))
+CREATE PROCEDURE `sp_getEmployeeTasks`(IN `taskid` INT(11), in cid INT(11))
     NO SQL
 BEGIN  
     IF taskid <> 0 THEN
@@ -1472,6 +1472,36 @@ BEGIN
     ) AS tchild ON tchild.child_id = module.id JOIN (
       SELECT id, menu_name, menu_link FROM erp_sidebar_menus
     ) AS tier ON tier.id = tchild.parent_id GROUP BY tier.id;
+  END IF;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE `sp_getquotations`;
+DELIMITER $$
+CREATE PROCEDURE `sp_getquotations`(IN `quotationid` INT(11))
+BEGIN
+  SET @appliedId = (SELECT applied_id FROM erp_quotation_purchases WHERE id = quotationid);
+  SET @appliedTo = (SELECT apply_to FROM erp_quotation_purchases WHERE id = quotationid);
+  IF @appliedTo = 'Tender' THEN
+    SELECT quot.*, tender.tender_no AS applied_entity, vendor.organization_name, product.product_name FROM (
+      SELECT * FROM erp_quotation_purchases
+    ) AS quot JOIN (
+      SELECT id, tender_no FROM erp_tenders
+    ) AS tender ON tender.id = quot.applied_id JOIN (
+      SELECT id, organization_name FROM erp_vendor_informations
+    ) AS vendor ON vendor.id = quot.vendor_id JOIN(
+      SELECT id, product_name FROM tblproduct_informations
+    ) AS product ON product.id = quot.product_id;
+  ELSE
+    SELECT quot.*, req.requestion_no AS applied_entity, vendor.organization_name, product.product_name FROM (
+      SELECT * FROM erp_quotation_purchases
+    ) AS quot JOIN (
+      SELECT id, requestion_no FROM erp_requestions
+    ) AS req ON req.id = quot.applied_id JOIN (
+      SELECT id, organization_name FROM erp_vendor_informations
+    ) AS vendor ON vendor.id = quot.vendor_id JOIN(
+      SELECT id, product_name FROM tblproduct_informations
+    ) AS product ON product.id = quot.product_id;
   END IF;
 END$$
 DELIMITER ;
