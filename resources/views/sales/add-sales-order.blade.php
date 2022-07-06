@@ -1,22 +1,22 @@
 @extends('layouts.admin.taskTier')
-@section('title', 'Add Purchase Order')
-@section('pagetitle', 'Add Purchase Order')
-@section('breadcrumb', 'Add Purchase Order')
+@section('title', 'Add Sale Order')
+@section('pagetitle', 'Add Sale Order')
+@section('breadcrumb', 'Add Sale Order')
 @section('content')
 <div ng-controller="POController" ng-cloak>
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Purchase Order Detail</h3>
+            <h3 class="card-title">Sales Order Detail</h3>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="po_number">PO Number</label>
+                    <label for="po_number">SO Number</label>
                     <input type="text" id="po_number" class="form-control"  ng-model="po.po_number" placeholder="PO Number">
-                    <i class="text-danger" ng-show="!po.po_number && showError"><small>Please type PO number</small></i>
+                    <i class="text-danger" ng-show="!po.po_number && showError"><small>Please type SO number</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="po_date">PO Date</label>
+                    <label for="po_date">SO Date</label>
                     <div class="form-group">
                         <div class="input-group date" id="po_date" data-target-input="nearest">
                             <input type="text" placeholder="PO Date" ng-model="po.po_date" class="form-control datetimepicker-input" data-target="#po_date"/>
@@ -49,12 +49,12 @@
     </div><br/>
     <div class="card">
         <div class="card-header">
-            <h2 class="card-title">Vendor Details</h2>
+            <h2 class="card-title">Customer Details</h2>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label for="vendor">Search Vendor</label>
+                    <label for="vendor">Search Customer</label>
                     <div class="input-group">
                         <input type="search" ng-model="po.vendor" class="form-control" placeholder="Search Your Quotation">
                         <div class="input-group-append">
@@ -489,17 +489,17 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">All Purchase Orders</h3>
+            <h3 class="card-title">All Sales Orders</h3>
         </div>
         <div class="card-body">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>PO Number</th>
-                        <th>PO Date</th>
+                        <th>SO Number</th>
+                        <th>SO Date</th>
                         <th>Quotation Till</th>
                         <th>Delivery Date</th>
-                        <th>PO Status</th>
+                        <th>SO Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>

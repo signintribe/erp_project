@@ -1,7 +1,7 @@
 @extends('layouts.admin.taskTier')
-@section('title', 'Quotation For Purchases')
-@section('pagetitle', 'Quotation For Purchases')
-@section('breadcrumb', 'Quotation For Purchases')
+@section('title', 'Quotation For Sales')
+@section('pagetitle', 'Quotation For Sales')
+@section('breadcrumb', 'Quotation For Sales')
 @section('content')
 <div ng-controller="QuotationPurchaseController">
     <div class="card">
@@ -70,12 +70,12 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <h2 class="card-title">Vendor Details</h2>
+            <h2 class="card-title">Customer Details</h2>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <label for="vendor">Search Vendor</label>
+                    <label for="vendor">Search Customer</label>
                     <div class="input-group">
                         <input type="search" ng-model="pq.organization_name" class="form-control" placeholder="Search Your Quotation">
                         <div class="input-group-append">
@@ -508,7 +508,7 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">All Purchase Orders</h3>
+            <h3 class="card-title">All Sales Orders</h3>
         </div>
         <div class="card-body">
             <table class="table">

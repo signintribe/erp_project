@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Tender;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Tender\ErpTender;
+use App\Models\Tender\ErpTenderContactPerson;
+use App\Models\Tender\ErpTenderOrgContact;
+use App\Models\tbladdress;
 use DB;
+use File;
 class TenderController extends Controller
 {
     /**
@@ -47,16 +51,58 @@ class TenderController extends Controller
     public function store(Request $request)
     {
         try{
+            $imageName = "";
+            if ($request->hasFile('tender_upload')) {
+                $current= date('ymd').rand(1,999999).time();
+                $file= $request->file('tender_upload');
+                $imageName = $current.'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('tender_files'), $imageName);
+                if(!empty($request->id)){
+                    $this->deleteOldImage($request->tender_file);
+                }
+            }
+
             if($request->id){
-                $data = $request->except(['office_id', '$$hashKey', 'company_id', 'created_at', 'department_name', 'id', 'office_name', 'updated_at']);\
-                App\Models\Tender\ErpTender::where('id', $request->id)->update($data);
+                $data = $request->except(['tender_file', 'company_id', 'org', 'contact', 'address', 'tender_upload', 'id', 'created_at', 'updated_at']);
+                if($imageName != ""){
+                    $data['tender_file'] = $imageName;
+                }
+                ErpTender::where('id', $request->id)->update($data);
+                $addressdata = json_decode($request->address,true);
+                $orgdata = json_decode($request->org,true);
+                ErpTenderOrgContact::where('tender_id', $request->id)->update($orgdata);
+                $toc = ErpTenderOrgContact::select('address_id')->where('tender_id', $request->id)->first();
+                if(!empty($toc)){
+                    tbladdress::where('id', $toc['address_id'])->update($addressdata);
+                }
+                $address = tbladdress::create($addressdata);
+                $contactdata = json_decode($request->contact,true);
+                ErpTenderContactPerson::where('tender_id', $request->id)->update($contactdata);
             }else{
-                $data = $request->except(['office_id']);
-                ErpTender::create($data);
+                $data = $request->except(['org', 'contact', 'address', 'tender_upload']);
+                $data['tender_file'] = $imageName;
+                $tender = ErpTender::create($data);
+                $addressdata = json_decode($request->address,true);
+                $orgdata = json_decode($request->org,true);
+                $orgdata['tender_id'] = $tender->id;
+                $address = tbladdress::create($addressdata);
+                $orgdata['address_id'] = $address->id;
+                ErpTenderOrgContact::create($orgdata);
+                $contactdata = json_decode($request->contact,true);
+                $contactdata['tender_id'] = $tender->id;
+                ErpTenderContactPerson::create($contactdata);
             }
             return response()->json(['status' => true, 'message' => 'Tender Information Save Successfully']);
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 68)]);
+        }
+    }
+
+    public function deleteOldImage($request)
+    {
+        if(File::exists(public_path('tender_files/'.$request))){
+            $file =public_path('tender_files/'.$request);
+            $img=File::delete($file);
         }
     }
 
@@ -70,7 +116,7 @@ class TenderController extends Controller
     {
         try{
             $data = json_decode($array,true);
-            $tenders = DB::select('SELECT tenders.*, dept.department_name, office.id as office_id, office.office_name FROM(SELECT * FROM erp_tenders WHERE company_id = '.$data['company_id'].') AS tenders JOIN(SELECT id, office_id, department_name FROM tbldepartmens) AS dept ON dept.id = tenders.department_id JOIN(SELECT id, office_name FROM tblmaintain_offices) AS office ON office.id = dept.office_id LIMIT '.$data['offset'].', '.$data['limit'].';');
+            $tenders = DB::select('SELECT * FROM erp_tenders WHERE company_id= '.$data['company_id'].' LIMIT '.$data['offset'].', '.$data['limit'].';');
             return response()->json(['status' => true, 'message' => 'All Tenders', 'data' => $tenders]);
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['status' => false, 'message' => substr($e->errorInfo[2], 0, 68)]);
@@ -85,8 +131,18 @@ class TenderController extends Controller
      */
     public function edit($id)
     {
-        $tenders = DB::select('SELECT tenders.*, dept.department_name, office.id as office_id, office.office_name FROM(SELECT * FROM erp_tenders WHERE id = '.$id.') AS tenders JOIN(SELECT id, office_id, department_name FROM tbldepartmens) AS dept ON dept.id = tenders.department_id JOIN(SELECT id, office_name FROM tblmaintain_offices) AS office ON office.id = dept.office_id');
-        return response()->json(['status' => true, 'message' => 'All Tenders', 'data' => $tenders]);
+        $tenders = ErpTender::where('id', $id)->first();
+        $tender_org_contact = ErpTenderOrgContact::where('tender_id', $id)->first();
+        $tender_contact = ErpTenderContactPerson::where('tender_id', $id)->first();
+        $tender_address = tbladdress::where('id', $tender_org_contact->address_id)->first();
+        return response()->json([
+            'status' => true, 
+            'message' => 'All Tenders', 
+            'tenders' => $tenders,
+            'tender_org_contact' => $tender_org_contact,
+            'tender_contact' => $tender_contact,
+            'tender_address' => $tender_address,
+        ]);
     }
 
     /**
@@ -110,6 +166,12 @@ class TenderController extends Controller
     public function destroy($id)
     {
         try{
+            $toc = ErpTenderOrgContact::select('address_id')->where('tender_id', $id)->first();
+            if(!empty($toc)){
+                tbladdress::where('id', $toc['address_id'])->delete();
+            }
+            ErpTenderOrgContact::where('tender_id', $id)->delete();
+            ErpTenderContactPerson::where('tender_id', $id)->delete();
             ErpTender::where('id', $id)->delete();
             return response()->json(['status' => true, 'message' => 'Tender Information Delete Permanently']);
         } catch (\Illuminate\Database\QueryException $e) {

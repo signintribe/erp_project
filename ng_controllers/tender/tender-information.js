@@ -2,7 +2,19 @@ CreateTierApp.controller('TenderController', function ($scope, $http) {
     $("#tender").addClass('menu-open');
     $("#tender a[href='#']").addClass('active');
     $("#tender-information").addClass('active');
-    $('#tender_date').datetimepicker({
+    $('#advertisment_date').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+
+    $('#opening_date').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+
+    $('#issuance_date').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+
+    $('#expiry_date').datetimepicker({
         format: 'YYYY-MM-DD'
     });
     
@@ -43,15 +55,17 @@ CreateTierApp.controller('TenderController', function ($scope, $http) {
     $scope.tender = {};
     $scope.appurl = $("#appurl").val();
     $scope.saveTender = function(){
-        if (!$scope.tender.office_id || !$scope.tender.department_id || !$scope.tender.tender_name) {
+        $scope.tender.org = JSON.stringify($scope.tender.org);
+        $scope.tender.contact = JSON.stringify($scope.tender.contact);
+        $scope.tender.address = JSON.stringify($scope.tender.address);
+        console.log($scope.tender);
+        if (!$scope.tender.tender_no|| !$scope.tender.tender_name) {
             $scope.showError = true;
             jQuery("input.required").filter(function () {
                 return !this.value;
             }).addClass("has-error");
         } else {
             $scope.tender.company_id = $("#company_id").val();
-            $scope.tender.tender_date = $("#tender_date input").val();
-            $scope.tender.submission_date = $("#submission_date input").val();
             $("#loader").removeClass('fa-save').addClass('fa-spinner fa-fw fa-pulse');
             var Data = new FormData();
             angular.forEach($scope.tender, function (v, k) {
@@ -140,11 +154,22 @@ CreateTierApp.controller('TenderController', function ($scope, $http) {
 
     $scope.editTender = function (tender_id) {
         $http.get('tender-information/'+tender_id+'/edit').then(function (response) {
-            $scope.getDepartments(response.data.data[0].office_id);
-            $scope.tender = response.data.data[0];
-            $scope.tender.office_id = parseInt(response.data.data[0].office_id);
-            $scope.tender.department_id = parseInt(response.data.data[0].department_id);
+            $scope.tender = response.data.tenders;
+            $scope.tender.org = response.data.tender_org_contact;
+            $scope.tender.address = response.data.tender_address;
+            $scope.tender.address = response.data.tender_address;
+            $scope.tender.contact = response.data.tender_contact;
         });
+    };
+    $scope.readUrl = function (element) {
+        var reader = new FileReader();//rightbennerimage
+        reader.onload = function (event) {
+            $scope.catimg = event.target.result;
+            $scope.$apply(function ($scope) {
+                $scope.tender.tender_upload = element.files[0];
+            });
+        };
+        reader.readAsDataURL(element.files[0]);
     };
 
     $scope.deleteTender = function (id) {
