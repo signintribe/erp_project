@@ -7,7 +7,7 @@
  */
 
 namespace App\Http\Controllers;
-
+use App\Models\CustomerModels\erp_customer_information;
 /**
  * Description of CustomerController
  *
@@ -43,5 +43,10 @@ class CustomerController extends Controller {
     public function customerRegistration()
     {
         return view('customer_center.customer-registration');
+    }
+
+    public function search_customer($customer_name)
+    {
+        return erp_customer_information::where('customer_name', 'LIKE', $customer_name.'%')->get();
     }
 }

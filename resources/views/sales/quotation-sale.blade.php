@@ -3,7 +3,7 @@
 @section('pagetitle', 'Quotation For Sales')
 @section('breadcrumb', 'Quotation For Sales')
 @section('content')
-<div ng-controller="QuotationPurchaseController">
+<div ng-controller="QuotationSalesController">
     <div class="card">
         <div class="card-header">
             <h2 class="card-title">Quotation Deatil</h2>
@@ -12,13 +12,13 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="quotation_no">Quotation Number</label>
-                    <input type="text" ng-model="pq.quotation_number" id="quotation_no" placeholder="Quotation Number" class="form-control">
+                    <input type="text" ng-model="sq.quotation_number" id="quotation_no" placeholder="Quotation Number" class="form-control">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="quotation_date">Quotation Date</label>
                     <div class="form-group">
                         <div class="input-group date" id="quotation_date" data-target-input="nearest">
-                            <input type="text" placeholder="Quotation Date" ng-model="pq.quotation_date" class="form-control datetimepicker-input" data-target="#quotation_date"/>
+                            <input type="text" placeholder="Quotation Date" ng-model="sq.quotation_date" class="form-control datetimepicker-input" data-target="#quotation_date"/>
                             <div class="input-group-append" data-target="#quotation_date" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -28,40 +28,40 @@
                 <div class="col-lg-3 col-md-3 col-sm-3" id="quotation_status" style="display:none">
                     <label for="">Quotation Status</label><br>
                     <p class="form-control">
-                        <input type="radio" ng-model="pq.quotation_status" ng-value="0" id="pending"> <label for="pending">Pending</label> 
-                        <input type="radio" ng-model="pq.quotation_status" ng-value="1" id="po_made"> <label for="po_made">PO Made</label>
+                        <input type="radio" ng-model="sq.quotation_status" ng-value="0" id="pending"> <label for="pending">Pending</label> 
+                        <input type="radio" ng-model="sq.quotation_status" ng-value="1" id="po_made"> <label for="po_made">S    O Made</label>
                     </p>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Apply to</label>
-                    <select ng-model="pq.apply_to" id="" ng-change="apply_to()" class="form-control">
+                    <select ng-model="sq.apply_to" id="" ng-change="apply_to()" class="form-control">
                         <option value="">Select Apply to</option>
                         <option value="Tender">Tender</option>
                         <option value="Requestion">Requestion</option>
                     </select>
                 </div>
             </div><br/>
-            <div class="row" ng-if="pq.apply_to">
+            <div class="row" ng-if="sq.apply_to">
                 <div class="col text-center">
-                    <label for="applied_entity">Search Your <% pq.apply_to %></label>
+                    <label for="applied_entity">Search Your <% sq.apply_to %></label>
                     <div class="input-group">
-                        <input type="search" ng-model="pq.applied_entity" class="form-control" placeholder="Search Your <% pq.apply_to %>">
+                        <input type="search" ng-model="sq.applied_entity" class="form-control" placeholder="Search Your <% sq.apply_to %>">
                         <div class="input-group-append">
-                            <button type="button" ng-click="getAppliedTo(pq.applied_entity, pq.apply_to);" class="btn btn-md btn-success">
+                            <button type="button" ng-click="getAppliedTo(sq.applied_entity, sq.apply_to);" class="btn btn-md btn-success">
                                 <i class="fa fa-search"></i>
                             </button>
-                            <a ng-if="pq.apply_to == 'Tender'" href="<?php echo env('APP_URL') ?>tender/tender-information" class="btn btn-md btn-primary">
+                            <a ng-if="sq.apply_to == 'Tender'" href="<?php echo env('APP_URL') ?>tender/tender-information" class="btn btn-md btn-primary">
                                 <i class="fa fa-plus"></i>
                             </a>
-                            <a ng-if="pq.apply_to == 'Requestion'" href="<?php echo env('APP_URL') ?>tender/requestion" class="btn btn-md btn-primary">
+                            <a ng-if="sq.apply_to == 'Requestion'" href="<?php echo env('APP_URL') ?>tender/requestion" class="btn btn-md btn-primary">
                                 <i class="fa fa-plus"></i>
                             </a>
                         </div>
                     </div>
-                    <ul class="list-group" ng-if="pq.apply_to == 'Tender'">
+                    <ul class="list-group" ng-if="sq.apply_to == 'Tender'">
                         <li ng-repeat="tender in tenders" style="cursor: pointer" class="list-group-item text-left" ng-click="fillTender(tender)" ng-bind="tender.tender_no"></li>
                     </ul>
-                    <ul class="list-group" ng-if="pq.apply_to == 'Requestion'">
+                    <ul class="list-group" ng-if="sq.apply_to == 'Requestion'">
                         <li ng-repeat="req in requestions" style="cursor: pointer" class="list-group-item text-left" ng-click="fillRequestion(req)" ng-bind="req.requestion_no"></li>
                     </ul>
                 </div>
@@ -77,9 +77,9 @@
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <label for="vendor">Search Customer</label>
                     <div class="input-group">
-                        <input type="search" ng-model="pq.organization_name" class="form-control" placeholder="Search Your Quotation">
+                        <input type="search" ng-model="sq.customer_name" class="form-control" placeholder="Search Your Customers">
                         <div class="input-group-append">
-                            <button type="button" ng-click="searchVendor(pq.organization_name);" class="btn btn-md btn-success">
+                            <button type="button" ng-click="searchCustomer(sq.customer_name);" class="btn btn-md btn-success">
                                 <i class="fa fa-search"></i>
                             </button>
                             <a href="<?php echo env('APP_URL') ?>vendor/vendor-information" class="btn btn-md btn-primary">
@@ -87,16 +87,16 @@
                             </a>
                         </div>
                     </div>
-                    <ul class="list-group" ng-if="vendorinfo">
-                        <li class="list-group-item" ng-click="selectVendor(vend)" style="cursor:pointer" ng-repeat="vend in vendorinfo" ng-bind="vend.organization_name"></li>
+                    <ul class="list-group" ng-if="customerinfo">
+                        <li class="list-group-item" ng-click="selectCustomer(cust)" style="cursor:pointer" ng-repeat="cust in customerinfo" ng-bind="cust.customer_name"></li>
                     </ul>
-                    <i class="text-danger" ng-show="!po.vendor_id && showError"><small>Please select vendor</small></i>
+                    <i class="text-danger" ng-show="!sq.customer_id && showError"><small>Please select customer</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="quotation_till">Quotation Valid Till</label>
                     <div class="form-group">
                         <div class="input-group date" id="quotation_till" data-target-input="nearest">
-                            <input type="text" placeholder="Quotation Valid Till" ng-model="pq.quotation_till" class="form-control datetimepicker-input" data-target="#quotation_till"/>
+                            <input type="text" placeholder="Quotation Valid Till" ng-model="sq.quotation_till" class="form-control datetimepicker-input" data-target="#quotation_till"/>
                             <div class="input-group-append" data-target="#quotation_till" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -107,7 +107,7 @@
                     <label for="delivery_date">Delivery Date</label>
                     <div class="form-group">
                         <div class="input-group date" id="delivery_date" data-target-input="nearest">
-                            <input type="text" placeholder="Delivery Date" ng-model="pq.delivery_date" class="form-control datetimepicker-input" data-target="#delivery_date"/>
+                            <input type="text" placeholder="Delivery Date" ng-model="sq.delivery_date" class="form-control datetimepicker-input" data-target="#delivery_date"/>
                             <div class="input-group-append" data-target="#delivery_date" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -237,11 +237,11 @@
             <!-- <div class="row">
                 <div class="col-6">
                     <label for="">Delivery Address</label>
-                    <input type="text" ng-model="pq.delivery_address" id="" class="form-control">
+                    <input type="text" ng-model="sq.delivery_address" id="" class="form-control">
                 </div>
                 <div class="col-6">
                     <label for="">Shipment Status</label>
-                    <select ng-model="pq.shipment_status" id="" class="form-control">
+                    <select ng-model="sq.shipment_status" id="" class="form-control">
                         <option value="">Pending</option>
                         <option value="">Shipped</option>
                         <option value="">Droped</option>
@@ -260,9 +260,9 @@
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="product_item">Search Product/Item</label>
                     <div class="input-group">
-                        <input type="search" ng-model="pq.product_name" class="form-control" placeholder="Search Your Quotation">
+                        <input type="search" ng-model="sq.product_name" class="form-control" placeholder="Search Your Quotation">
                         <div class="input-group-append">
-                            <button type="button" ng-click="getInventory(pq.product_name);" class="btn btn-md btn-success">
+                            <button type="button" ng-click="getInventory(sq.product_name);" class="btn btn-md btn-success">
                                 <i class="fa fa-search"></i>
                             </button>
                             <a href="<?php echo env('APP_URL') ?>add-inventory" class="btn btn-md btn-primary">
@@ -277,27 +277,27 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="unit_price">Unit Price</label>
-                    <input type="text" ng-model="pq.unit_price" ng-blur="grossPrice();" id="unit_price" placeholder="Unit Price" class="form-control">
+                    <input type="text" ng-model="sq.unit_price" ng-blur="grossPrice();" id="unit_price" placeholder="Unit Price" class="form-control">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="qty">Quantity</label>
-                    <input type="text" ng-model="pq.quantity" ng-blur="grossPrice();" placeholder="Quantity" id="qty" class="form-control">
+                    <input type="text" ng-model="sq.quantity" ng-blur="grossPrice();" placeholder="Quantity" id="qty" class="form-control">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="gross_price">Gross Price</label>
-                    <input type="text" ng-model="pq.gross_price" ng-click="grossPrice()" readonly placeholder="Gross Price" id="gross_price" class="form-control">
+                    <input type="text" ng-model="sq.gross_price" ng-click="grossPrice()" readonly placeholder="Gross Price" id="gross_price" class="form-control">
                 </div>
             </div><br>
             <!-- <div class="row">
                 <div class="col-6">
                     <label for="">Cahrt Of Account Debit</label>
-                    <select ng-model="pq.account_debit" id="" class="form-control">
+                    <select ng-model="sq.account_debit" id="" class="form-control">
                         <option value="">Chart of Account Debit</option>
                     </select>
                 </div>
                 <div class="col-6">
                     <label for="">Chart Of Account Credit</label>
-                    <select ng-model="pq.account_credit" id="" class="form-control">
+                    <select ng-model="sq.account_credit" id="" class="form-control">
                         <option value="">Chart Of Account Credit</option>
                     </select>
                 </div>
@@ -435,7 +435,7 @@
                             </tr>
                             <tr>
                                 <th>Total Charges</th>
-                                <td ng-bind="pq.total_delivery_charges"></t>
+                                <td ng-bind="sq.total_delivery_charges"></t>
                             </tr>
                         </tbody>
                     </table>
@@ -444,15 +444,15 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Discount Name</label>
-                    <input type="text" ng-model="pq.discount_name" id="discount_name" placeholder='Discount Name' class="form-control">
+                    <input type="text" ng-model="sq.discount_name" id="discount_name" placeholder='Discount Name' class="form-control">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Discount Amount</label>
-                    <input type="text" ng-model="pq.discount_amount" ng-blur="lessDiscount()" id="discount_amount" placeholder='Discount Amount' class="form-control discount_amount">
+                    <input type="text" ng-model="sq.discount_amount" ng-blur="lessDiscount()" id="discount_amount" placeholder='Discount Amount' class="form-control discount_amount">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Net Amount</label>
-                    <input type="text" ng-model="pq.net_amount" id="net_amount" placeholder='Net Amount' class="form-control net_amount">
+                    <input type="text" ng-model="sq.net_amount" id="net_amount" placeholder='Net Amount' class="form-control net_amount">
                 </div>
             </div><br>
         </div>
@@ -465,19 +465,19 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Advance Percentage</label>
-                    <input type="text" ng-model="pq.advance_percentage" id="" placeholder='Advance Percentage' class="form-control">
+                    <input type="text" ng-model="sq.advance_percentage" id="" placeholder='Advance Percentage' class="form-control">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Time Of Advance</label>
-                    <select ng-model="pq.time_advance" id="" class="form-control">
+                    <select ng-model="sq.time_advance" id="" class="form-control">
                         <option value="">Select Time of Advance</option>
-                        <option value="PO Time">PO Time</option>
+                        <option value="SO Time">SO Time</option>
                         <option value="Delivery Time">Delivery Time</option>
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">Payment Type</label>
-                    <select ng-model="pq.payment_type" id="" class="form-control">
+                    <select ng-model="sq.payment_type" id="" class="form-control">
                         <option value="">Select Payment Type</option>
                         <option value="Cash">Cash</option>
                         <option value="Credit Card">Credit Card</option>
@@ -497,7 +497,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-12">
-                    <textarea ng-model="pq.description" id="" class="form-control"></textarea>
+                    <textarea ng-model="sq.description" id="" class="form-control"></textarea>
                 </div>
             </div><br/>
             <div class="btn-group float-right">
@@ -547,126 +547,11 @@
             </div>
         </div>
     </div>
-    <!-- <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Add Taxes</h2>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-6">
-                    <label for="">Name Of Taxe</label>
-                    <select ng-model="pq.tax" id="" class="form-control">
-                        <option value="">Select Name Of Taxe</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Payment Details</h2>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-6">
-                    <label for="">Payment Method</label>
-                    <select ng-model="pq.payment_method" id="" class="form-control">
-                        <option value="">COD</option>
-                        <option value="">Credit card</option>
-                        <option value="">Debit card</option>
-                        <option value="">Cash Sales</option>
-                        <option value="">Credit Sales</option>
-                    </select>
-                </div>
-                <div class="col-6">
-                    <label for="">Percentage of Advance</label>
-                    <input type="text" ng-model="pq.percentage" id="" class="form-control">
-                </div>
-            </div><br>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Shipment Details</h2>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-6">
-                    <label for="">Delivery Date</label>
-                    <input type="text" ng-model="pq.delivery_date" id="" class="form-control">
-                </div>
-                <div class="col-6">
-                    <label for="">Ship Via</label>
-                    <select ng-model="pq.ship_via" id="" class="form-control">
-                        <option value="">By Hand</option>
-                        <option value="">By Courier</option>
-                        <option value="">By Seaport</option>
-                        <option value="">By Airport</option>
-                    </select>
-                </div>
-            </div><br>
-            <div class="row">
-                <div class="col-6">
-                    <label for="">Port of Loading</label>
-                    <input type="text" ng-model="pq.port_loading" id="" class="form-control">
-                </div>
-                <div class="col-6">
-                    <label for="">Port of Unloading</label>
-                    <input type="text" ng-model="pq.port_unloading" id="" class="form-control">
-                </div>
-            </div><br>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Attachment</h2>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-6">
-                    <label for="">Item Picture</label>
-                    <input type="file" id="" class="form-control">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Required For</h2>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-4">
-                    <label for="">Project</label>
-                    <select ng-model="pq.project" id="" class="form-control">
-                        <option value="">Select Project</option>
-                    </select>
-                </div>
-                <div class="col-4">
-                <label for="">Activity</label>
-                    <sel ect ng-model="pq.activity" id="" class="form-control">
-                        <option value="">Select Activity</option>
-                    </select>
-                </div>
-                <div class="col-4">
-                <label for="">Phase</label>
-                    <select ng-model="pq.phase" id="" class="form-control">
-                        <option value="">Select Phase</option>
-                    </select>
-                </div>
-            </div><br>
-            <div class="row">
-                <div class="col">
-                    <button class="btn-success">Save</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <input type="hidden" id="appurl" value="<?php echo env('APP_URL'); ?>">
     <input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
 </div>
 @endsection
 
 @section('internaljs')
-<script src="{{asset('ng_controllers/task_purchase/quotation_purchases.js')}}"></script>
+<script src="{{asset('ng_controllers/sales/quotation_sales.js')}}"></script>
 @endsection

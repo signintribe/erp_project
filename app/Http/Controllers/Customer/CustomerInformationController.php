@@ -8,7 +8,6 @@ use Auth;
 use DB;
 use File;
 use App\Models\CustomerModels\erp_customer_information;
-use App\Models\CustomerModels\erp_customer_detail;
 use App\Models\tbladdress;
 use App\Models\tblcontact;
 use App\Models\tblsocialmedias;

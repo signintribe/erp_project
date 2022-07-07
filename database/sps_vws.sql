@@ -1506,6 +1506,36 @@ BEGIN
 END$$
 DELIMITER ;
 
+DROP PROCEDURE `sp_getsalequotations`;
+DELIMITER $$
+CREATE PROCEDURE `sp_getsalequotations`(IN `quotationid` INT(11))
+BEGIN
+  SET @appliedId = (SELECT applied_id FROM erp_quotation_sales WHERE id = quotationid);
+  SET @appliedTo = (SELECT apply_to FROM erp_quotation_sales WHERE id = quotationid);
+  IF @appliedTo = 'Tender' THEN
+    SELECT quot.*, tender.tender_no AS applied_entity, customer.customer_name, product.product_name FROM (
+      SELECT * FROM erp_quotation_sales
+    ) AS quot JOIN (
+      SELECT id, tender_no FROM erp_tenders
+    ) AS tender ON tender.id = quot.applied_id JOIN (
+      SELECT id, customer_name FROM erp_customer_informations
+    ) AS customer ON customer.id = quot.customer_id JOIN(
+      SELECT id, product_name FROM tblproduct_informations
+    ) AS product ON product.id = quot.product_id;
+  ELSE
+    SELECT quot.*, req.requestion_no AS applied_entity, customer.customer_name, product.product_name FROM (
+      SELECT * FROM erp_quotation_sales
+    ) AS quot JOIN (
+      SELECT id, requestion_no FROM erp_requestions
+    ) AS req ON req.id = quot.applied_id JOIN (
+      SELECT id, customer_name FROM erp_customer_informations
+    ) AS customer ON customer.id = quot.customer JOIN(
+      SELECT id, product_name FROM tblproduct_informations
+    ) AS product ON product.id = quot.product_id;
+  END IF;
+END$$
+DELIMITER ;
+
 
 
 SELECT vendor.organization_name, contactperson.id, contactperson.contact_id, contactperson.social_id, contactperson.title, contactperson.first_name, contact_person.last_name, contactperson.picture, con.email, soc.website, soc.facebook, con.mobile_number, address.address_line_1, address.city, address.country, address.state FROM(

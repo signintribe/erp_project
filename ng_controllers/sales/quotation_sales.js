@@ -1,5 +1,5 @@
-TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
-    $scope.pq = {};
+TaskTierApp.controller('QuotationSalesController', function ($scope, $http) {
+    $scope.sq = {};
     $('#quotation_date').datetimepicker({
         format: 'YYYY-MM-DD'
     });
@@ -10,7 +10,7 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
         format: 'YYYY-MM-DD'
     });
     $scope.appurl = $("#appurl").val();
-    $scope.pq.net_amount = 0;
+    $scope.sq.net_amount = 0;
     $scope.getAppliedTo = function(applied_entity, apply_to){
         if(apply_to == "Tender"){
             $http.get($scope.appurl + 'tender/get-tenders-for-quotation/' + applied_entity).then(function (response) {
@@ -42,24 +42,24 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
            $scope.checkList.splice(index, 1);
        }
        console.log($scope.checkList);
-       $scope.pq.checklist = JSON.stringify($scope.checkList);
+       $scope.sq.checklist = JSON.stringify($scope.checkList);
 
    };
 
    $scope.apply_to = function(){
-        $scope.pq.applied_entity= '';
-        $scope.pq.applied_id = '';
+        $scope.sq.applied_entity= '';
+        $scope.sq.applied_id = '';
    };
 
    $scope.fillTender = function(tender){
-        $scope.pq.applied_entity = tender.tender_no;
-        $scope.pq.applied_id = tender.id;
+        $scope.sq.applied_entity = tender.tender_no;
+        $scope.sq.applied_id = tender.id;
         $scope.tenders = {};
    };
 
    $scope.fillRequestion = function(req){
-        $scope.pq.applied_entity = req.requestion_no;
-        $scope.pq.applied_id = req.id;
+        $scope.sq.applied_entity = req.requestion_no;
+        $scope.sq.applied_id = req.id;
         $scope.requestions = {};
    };
    
@@ -92,22 +92,22 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
     };
 
     $scope.selectProduct = function(product){
-        $scope.pq.product_name = product.product_name;
-        $scope.pq.product_id = product.id;
+        $scope.sq.product_name = product.product_name;
+        $scope.sq.product_id = product.id;
         $scope.allinventories = {};
     };
 
     /**
      * Add gross price with quantity
      */
-     $scope.pq.quantity = 0;
+     $scope.sq.quantity = 0;
     $scope.grossPrice = function(){
-        if($scope.pq.quantity == 0){
-            $scope.pq.gross_price = parseInt($scope.pq.unit_price);
+        if($scope.sq.quantity == 0){
+            $scope.sq.gross_price = parseInt($scope.sq.unit_price);
         }else{
-            $scope.pq.gross_price = parseInt($scope.pq.unit_price) * parseInt($scope.pq.quantity);
+            $scope.sq.gross_price = parseInt($scope.sq.unit_price) * parseInt($scope.sq.quantity);
         }
-        $scope.pq.net_amount = $scope.pq.gross_price;
+        $scope.sq.net_amount = $scope.sq.gross_price;
         $("#TaxRow").show();
     };
 
@@ -120,12 +120,12 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
     $scope.totalTaxes = 0;
     $scope.selectedTax = function(tax){
         $scope.AddTaxes.push(tax);
-        $scope.pq.tax_details = JSON.stringify($scope.AddTaxes);
+        $scope.sq.tax_details = JSON.stringify($scope.AddTaxes);
         $("#addtax"+tax.id).hide();
         $scope.totalTaxes += parseFloat(tax.tax_percentage);
         $scope.totalTaxes = parseFloat($scope.totalTaxes.toFixed(2));
-        $scope.pq.net_amount = parseFloat($scope.pq.gross_price) + parseFloat($scope.totalTaxes); 
-        $scope.pq.discount_amount = 0;
+        $scope.sq.net_amount = parseFloat($scope.sq.gross_price) + parseFloat($scope.totalTaxes); 
+        $scope.sq.discount_amount = 0;
         $("#LogisticRow").show();
     };
 
@@ -135,13 +135,13 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
 
     $scope.cancelTax = function(){
         $scope.AddTaxes = [];
-        $scope.pq.tax_details = "";
-        $scope.pq.net_amount -= $scope.totalTaxes;
+        $scope.sq.tax_details = "";
+        $scope.sq.net_amount -= $scope.totalTaxes;
         $scope.totalTaxes = 0;
         $("#LogisticRow").hide();
         $scope.logisticscharges = [];
-        $scope.pq.net_amount -= $scope.pq.total_delivery_charges;
-        $scope.pq.total_delivery_charges = 0;
+        $scope.sq.net_amount -= $scope.sq.total_delivery_charges;
+        $scope.sq.total_delivery_charges = 0;
         $scope.getLogisticInfo();
     };
 
@@ -157,43 +157,43 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
         });
     };
 
-    $scope.pq.total_delivery_charges = 0;
+    $scope.sq.total_delivery_charges = 0;
     $scope.logisticscharges = [];
     $scope.addDeliveryCharges = function(charges, logistic){
         $scope.logisticscharges.push(logistic);
-        $scope.pq.logistics = JSON.stringify($scope.logisticscharges);
-        $scope.pq.total_delivery_charges += parseInt(charges);
-        //$scope.pq.logistic_type = charges;
-        $scope.pq.net_amount += charges;
+        $scope.sq.logistics = JSON.stringify($scope.logisticscharges);
+        $scope.sq.total_delivery_charges += parseInt(charges);
+        //$scope.sq.logistic_type = charges;
+        $scope.sq.net_amount += charges;
         $("#addCharges" + logistic.id).hide();
     };
 
     $scope.cancelDeliveryCharges = function(){
         $scope.logisticscharges = [];
-        $scope.pq.net_amount -= $scope.pq.total_delivery_charges;
-        $scope.pq.total_delivery_charges = 0;
+        $scope.sq.net_amount -= $scope.sq.total_delivery_charges;
+        $scope.sq.total_delivery_charges = 0;
     };
 
     /**
      * Less the discount
      */
     $scope.lessDiscount = function(){
-        $scope.pq.net_amount-= parseFloat($scope.pq.discount_amount);
-        $scope.pq.net_amount = parseFloat($scope.pq.net_amount.toFixed(2));
+        $scope.sq.net_amount-= parseFloat($scope.sq.discount_amount);
+        $scope.sq.net_amount = parseFloat($scope.sq.net_amount.toFixed(2));
     };
 
-    $scope.searchVendor = function (vendor) {
-        $scope.vendorinfo = {};
-        $http.get('search-vendor/' + vendor).then(function (response) {
+    $scope.searchCustomer = function (customer) {
+        $scope.customerinfo = {};
+        $http.get($scope.appurl + 'customer/search-customer/' + customer).then(function (response) {
             if (response.data.length > 0) {
-                $scope.vendorinfo = response.data;
+                $scope.customerinfo = response.data;
             }
         });
     };
 
     $scope.getQuotation = function (quotation_id) {
-        $http.get('manage-purchase-quotations/' + quotation_id + '/edit').then(function (response) {
-            $scope.pq = response.data.quotation;
+        $http.get('quotation-sale/' + quotation_id + '/edit').then(function (response) {
+            $scope.sq = response.data.quotation;
             $("#checklist").hide();
             $("#getchecklist").show();
             $scope.getselectedchecklist = response.data.checklist;
@@ -202,19 +202,19 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
             $scope.totalTaxes = response.data.totalTax;
             $("#LogisticRow").show();
             $scope.logisticscharges = response.data.delivery;
-            $scope.pq.total_delivery_charges = response.data.total_delivery_charges;
-            $scope.pq.net_amount = parseFloat(response.data.quotation.net_amount);
+            $scope.sq.total_delivery_charges = response.data.total_delivery_charges;
+            $scope.sq.net_amount = parseFloat(response.data.quotation.net_amount);
             $("#quotation_status").show();
         });
     };
 
     $scope.cancekQuotation = function(){
-        $scope.pq = {};
+        $scope.sq = {};
         $("#checklist").show();
         $("#getchecklist").hide();
         $("#TaxRow").hide();
         $("#LogisticRow").hide();
-        $scope.pq.total_delivery_charges = 0;
+        $scope.sq.total_delivery_charges = 0;
         $scope.totalTaxes = 0;
         $scope.totalTaxes = {};
         $scope.logisticscharges = {};
@@ -225,14 +225,14 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
         $("#getchecklist").hide();
     };
 
-    $scope.selectVendor = function(vendor){
-        $scope.pq.vendor_id = vendor.id;
-        $scope.pq.organization_name = vendor.organization_name;
-        $scope.vendorinfo = {};
+    $scope.selectCustomer = function(customer){
+        $scope.sq.customer_id = customer.id;
+        $scope.sq.customer_name = customer.customer_name;
+        $scope.customerinfo = {};
     };
 
     $scope.saveQuotation = function(){
-        if (!$scope.pq.vendor_id || !$scope.pq.applied_id || !$scope.pq.product_id || !$scope.pq.quotation_number) {
+        if (!$scope.sq.customer_id || !$scope.sq.applied_id || !$scope.sq.product_id || !$scope.sq.quotation_number) {
             $scope.showError = true;
             jQuery("input.required").filter(function () {
                 return !this.value;
@@ -240,10 +240,10 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
         } else {
             $("#loader").removeClass("fa-save").addClass('fa-spinner fa-pulse fa-sw');
             var Data = new FormData();
-            angular.forEach($scope.pq, function (v, k) {
+            angular.forEach($scope.sq, function (v, k) {
                 Data.append(k, v);
             });
-            $http.post('manage-purchase-quotations', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+            $http.post('quotation-sale', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                 if(res.data.status == true){
                     swal({
                         title: "Save!",
@@ -251,21 +251,21 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
                         type: "success"
                     });
                     $scope.getQuotationInfo();
-                    $scope.pq = {};
+                    $scope.sq = {};
                     $('input:checkbox').removeAttr('checked');
                     $scope.logisticscharges = [];
-                    $scope.pq.net_amount -= $scope.pq.total_delivery_charges;
-                    $scope.pq.total_delivery_charges = 0;
+                    $scope.sq.net_amount -= $scope.sq.total_delivery_charges;
+                    $scope.sq.total_delivery_charges = 0;
 
                     $scope.AddTaxes = [];
-                    $scope.pq.tax_details = "";
-                    $scope.pq.net_amount -= $scope.totalTaxes;
+                    $scope.sq.tax_details = "";
+                    $scope.sq.net_amount -= $scope.totalTaxes;
                     $scope.totalTaxes = 0;
                     $("#LogisticRow").hide();
                     $("#TaxRow").hide();
                     $scope.logisticscharges = [];
-                    $scope.pq.net_amount -= $scope.pq.total_delivery_charges;
-                    $scope.pq.total_delivery_charges = 0;
+                    $scope.sq.net_amount -= $scope.sq.total_delivery_charges;
+                    $scope.sq.total_delivery_charges = 0;
                     $scope.getLogisticInfo();
                     $("#loader").removeClass("fa-spinner fa-pulse fa-sw").addClass('fa-save');
                 }
@@ -282,7 +282,7 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
             'company_id' : $("#company_id").val()
         };
         $scope.array = JSON.stringify($scope.array);
-        var POInfo = $http.get('manage-purchase-quotations/' + $scope.array);
+        var POInfo = $http.get('quotation-sale/' + $scope.array);
         POInfo.then(function (r) {
             if(r.data.data.length > 0){
                 $scope.QuotationInfo = r.data.data;
@@ -301,7 +301,7 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
             'company_id' : $("#company_id").val()
         };
         $scope.array = JSON.stringify($scope.array);
-        var POInfo = $http.get('manage-purchase-quotations/' + $scope.array);
+        var POInfo = $http.get('quotation-sale/' + $scope.array);
         POInfo.then(function (r) {
             if(r.data.data.length > 0){
                 $scope.QuotationInfo.concat(r.data.data);

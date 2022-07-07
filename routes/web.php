@@ -149,6 +149,7 @@ Route::group(['prefix'=>'customer'], function () {
   //Route::resource('maintain-customer-contactperson', 'Customer\CustomerContactPersonController');
   Route::get('get-customer/{cus_id}', 'Customer\CustomerInformationController@getCustomer');
   Route::get('customer-bank-detail', 'CustomerController@customerBankDetail');
+  Route::get('search-customer/{customer_name}', 'CustomerController@search_customer');
 });
 /**
  * Inventory Center
@@ -192,8 +193,6 @@ Route::group(['prefix'=>'purchases'], function () {
   Route::get('quotation-purchases', 'Purchases\PurchaseQuotationController@index');
   Route::get('get-quotations/{applied_to}', 'Purchases\PurchaseQuotationController@get_quotations');
   Route::get('get-quotation/{quotation_id}', 'Purchases\PurchaseQuotationController@get_single_quotation');
-  Route::get('get-tenders-for-quotation/{tender_name}', 'Tender\TenderController@get_tenders_for_quotations');
-  Route::get('get-requestion-for-quotation/{requestion}', 'RequestionController@get_requestion_for_quotation');
   Route::resource('manage-purchase-quotations', 'Purchases\PurchaseQuotationController');
   Route::get('search-vendor/{vendor}', 'Admin\VendorInformationController@searchVendors');
   Route::resource('recieve-inventory', 'Purchases\ReceiveInventoryController');
@@ -224,9 +223,7 @@ Route::group(['prefix'=>'sales'], function(){
     return view('sales/receipt-voucher');
   })->name('Receipt Voucher Form');
 
-  Route::get('quotation-sale', function(){
-    return view('sales/quotation-sale');
-  })->name('Quotation For Sale');
+  Route::resource('quotation-sale', 'Sales\SaleQuotationController');
 
   Route::get('sales-invoice',function(){
     return view('sales/sales-invoice');
@@ -463,6 +460,9 @@ Route::group(['prefix'=>'tender'], function(){
 
   Route::get('requestion', 'Tender\RequestionController@index')->name('Requestion');
   Route::resource('maintain-requestion', 'Tender\RequestionController');
+
+  Route::get('get-tenders-for-quotation/{tender_name}', 'Tender\TenderController@get_tenders_for_quotations');
+  Route::get('get-requestion-for-quotation/{requestion}', 'RequestionController@get_requestion_for_quotation');
 });
 
 /**
