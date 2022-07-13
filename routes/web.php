@@ -224,10 +224,13 @@ Route::group(['prefix'=>'sales'], function(){
   })->name('Receipt Voucher Form');
 
   Route::resource('quotation-sale', 'Sales\SaleQuotationController');
-
-  Route::get('sales-invoice',function(){
-    return view('sales/sales-invoice');
-  })->name('Sales Invoice');
+  Route::resource('maintain-sale-order', 'Sales\SaleOrderController');
+  Route::get('get-sale-order/{pending_so}/{status}', 'Sales\SaleOrderController@get_sale_order');
+  Route::get('get-quotation-sale/{applied_to}', 'Sales\SaleQuotationController@get_quotation_sale');
+  Route::get('get-checklist/{so_id}', 'Sales\SaleOrderController@get_checklist');
+  Route::get('get-taxes/{so_id}', 'Sales\SaleOrderController@get_taxes');
+  Route::get('get-logistics/{so_id}', 'Sales\SaleOrderController@get_logistics');
+  Route::resource('sales-invoice', 'Sales\DespatchInventoryController');
 });
 
 

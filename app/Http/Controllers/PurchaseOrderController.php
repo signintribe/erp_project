@@ -10,7 +10,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\erp_purchase_order;
-use App\Models\erp_po_inventory;
 use App\Models\Purchases\ErpChecklist;
 use App\Models\Purchases\ErpPoDeliverycharge;
 use App\Models\Purchases\ErpPoTax;

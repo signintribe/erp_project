@@ -135,7 +135,7 @@
                         <p ng-bind="po.quantity" class="form-control"></p>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3" id="received" style="display: none;">
-                        <label for="received_qty">Received Qty <% po.quantity %>, <% po.received_qty %></label>
+                        <label for="received_qty">Received Qty</label>
                         <div ng-if="(po.quantity - po.received_qty) > 0">
                             <input type="text" ng-model="ri.received_qty" ng-keyup="lessQuantity(ri.received_qty)" id="received_qty" placeholder="Received Qty" class="form-control">
                             <i class="text-danger" ng-show="!ri.received_qty && showError"><small>Please type received quantity</small></i>

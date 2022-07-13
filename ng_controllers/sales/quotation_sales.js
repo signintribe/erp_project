@@ -324,7 +324,7 @@ TaskTierApp.controller('QuotationSalesController', function ($scope, $http) {
             closeOnConfirm: false
         },
         function(){
-            $http.delete('manage-purchase-quotations/' + id).then(function (response) {
+            $http.delete('quotation-sale/' + id).then(function (response) {
                 if(response.data.status == true){
                     $scope.getQuotationInfo();
                     swal("Deleted!", response.data.message, "success");

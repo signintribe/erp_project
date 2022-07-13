@@ -82,7 +82,7 @@
                             <button type="button" ng-click="searchCustomer(sq.customer_name);" class="btn btn-md btn-success">
                                 <i class="fa fa-search"></i>
                             </button>
-                            <a href="<?php echo env('APP_URL') ?>vendor/vendor-information" class="btn btn-md btn-primary">
+                            <a href="<?php echo env('APP_URL') ?>customer/customer-information" class="btn btn-md btn-primary">
                                 <i class="fa fa-plus"></i>
                             </a>
                         </div>
@@ -234,21 +234,6 @@
                     </ul>
                 </div>
             </div>
-            <!-- <div class="row">
-                <div class="col-6">
-                    <label for="">Delivery Address</label>
-                    <input type="text" ng-model="sq.delivery_address" id="" class="form-control">
-                </div>
-                <div class="col-6">
-                    <label for="">Shipment Status</label>
-                    <select ng-model="sq.shipment_status" id="" class="form-control">
-                        <option value="">Pending</option>
-                        <option value="">Shipped</option>
-                        <option value="">Droped</option>
-                        <option value="">Delivered</option>
-                    </select>
-                </div>
-            </div><br> -->
         </div>
     </div>
     <div class="card">

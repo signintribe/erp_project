@@ -192,6 +192,18 @@ class SaleQuotationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        ErpQuotationSaleTax::where('parent_id', $id)->delete();
+        ErpQuotationSaleChecklist::where('parent_id', $id)->delete();
+        ErpQuotationSaleDeliverycharge::where('parent_id', $id)->delete();
+        ErpQuotationSale::where('id', $id)->delete();
+        return response()->json([
+            'status' => true,
+            'message' => "Quotation Delete Permanently"
+        ]);
+    }
+
+    public function get_quotation_sale($applied_to)
+    {
+        return ErpQuotationSale::where('quotation_number', $applied_to)->get();
     }
 }

@@ -4,7 +4,7 @@
 @section('breadcrumb', 'Despatch Inventory')
 @section('content')
 
-<div ng-controller="ReceiveInventoryController">
+<div ng-controller="DespetchInventoryController">
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Inventory Detail</h3>
@@ -13,26 +13,26 @@
             <div class="row">
                 <div class="col">
                     <label for="invoice_number">Invoice Number</label>
-                    <input type="text" ng-model="ri.invoice_number" id="invoice_number" placeholder="Invoice Number" class="form-control">
-                    <i class="text-danger" ng-show="!ri.invoice_number && showError"><small>Please type invoice number</small></i>
+                    <input type="text" ng-model="di.invoice_number" id="invoice_number" placeholder="Invoice Number" class="form-control">
+                    <i class="text-danger" ng-show="!di.invoice_number && showError"><small>Please type invoice number</small></i>
                 </div>
                 <div class="col">
-                    <label for="pending_po">Apply to pending sales Order</label>
+                    <label for="pending_so">Apply to pending sales Order</label>
                     <div class="input-group">
-                        <input type="search" ng-model="ri.pending_po" id="pending_po" placeholder="Apply to pending sales Order" class="form-control">
+                        <input type="search" ng-model="di.pending_so" id="pending_so" placeholder="Apply to pending sales Order" class="form-control">
                         <div class="input-group-append">
-                            <button type="button" ng-click="searchPendingPo(ri.pending_po, 0);" class="btn btn-md btn-success">
+                            <button type="button" ng-click="searchPendingSo(di.pending_so, 0);" class="btn btn-md btn-success">
                                 <i class="fa fa-search"></i>
                             </button>
-                            <a href="<?php echo env('APP_URL') ?>purchases/add-purchase-order" class="btn btn-md btn-primary">
+                            <a href="<?php echo env('APP_URL') ?>sale/add-sales-order" class="btn btn-md btn-primary">
                                 <i class="fa fa-plus"></i>
                             </a>
                         </div>
                     </div>
                     <ul class="list-group">
-                        <li class="list-group-item" ng-repeat="po in pendingPo" style="cursor:pointer" ng-click="selectPo(po)" ng-bind="po.po_number"></li>
+                        <li class="list-group-item" ng-repeat="so in pendingSo" style="cursor:pointer" ng-click="selectSo(so)" ng-bind="so.so_number"></li>
                     </ul>
-                    <i class="text-danger" ng-show="!ri.po_id && showError"><small>Please select sales order</small></i>
+                    <i class="text-danger" ng-show="di.so_id && showError"><small>Please select sales order</small></i>
                 </div>
             </div>
         </div>
@@ -40,21 +40,21 @@
     <div id="po_details" style="display: none;">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Purchase Order Detail</h3>
+                <h3 class="card-title">Sale Order Detail</h3>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3">
-                        <label for="po_number">SO Number</label>
-                        <p ng-bind="po.po_number" class="form-control">
+                        <label for="so_number">SO Number</label>
+                        <p ng-bind="so.so_number" class="form-control">
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
-                        <label for="po_date">PO Date</label>
-                        <p class="form-control" ng-bind="po.po_date"></p>
+                        <label for="so_date">SO Date</label>
+                        <p class="form-control" ng-bind="so.so_date"></p>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
-                        <label for="apply_to">Apply To Quotation</label>
-                        <p class="form-control" ng-bind="po.quotation_number"></p>
+                        <label for="apply_to">Quotation Information</label>
+                        <p class="form-control" ng-bind="so.quotation_number"></p>
                     </div>
                 </div><br/>
             </div>
@@ -67,15 +67,15 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <label for="vendor">Search Customer</label>
-                        <p class="form-control" ng-bind="po.organization_name"></p>
+                        <p class="form-control" ng-bind="so.customer_name"></p>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <label for="quotation_till">Quotation Valid Till</label>
-                        <p class="form-control" ng-bind="po.quotation_till"></p>
+                        <p class="form-control" ng-bind="so.quotation_till"></p>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <label for="delivery_date">Delivery Date</label>
-                        <p class="form-control" ng-bind="po.delivery_date"></p>
+                        <p class="form-control" ng-bind="so.delivery_date"></p>
                     </div>
                 </div><br>
                 <div class="row" id="checklist" style="display: none;">
@@ -124,39 +124,39 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <label for="product_item">Search Product/Item</label>
-                        <p class="form-control" ng-bind="po.product_name"></p>
+                        <p class="form-control" ng-bind="so.product_name"></p>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <label for="unit_price">Unit Price</label>
-                        <p ng-bind="po.unit_price" class="form-control"></p>
+                        <p ng-bind="so.unit_price" class="form-control"></p>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <label for="qty">Due Quantity</label>
-                        <p ng-bind="po.quantity" class="form-control"></p>
+                        <p ng-bind="so.quantity" class="form-control"></p>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3" id="received" style="display: none;">
-                        <label for="received_qty">Received Qty <% po.quantity %>, <% po.received_qty %></label>
-                        <div ng-if="(po.quantity - po.received_qty) > 0">
-                            <input type="text" ng-model="ri.received_qty" ng-keyup="lessQuantity(ri.received_qty)" id="received_qty" placeholder="Received Qty" class="form-control">
-                            <i class="text-danger" ng-show="!ri.received_qty && showError"><small>Please type received quantity</small></i>
+                        <label for="despatch_qty">Despatch Qty</label>
+                        <div ng-if="(so.quantity - so.despatch_qty) > 0">
+                            <input type="text" ng-model="di.despatch_qty" ng-keyup="lessQuantity(di.despatch_qty)" id="despatch_qty" placeholder="Despatch Qty" class="form-control">
+                            <i class="text-danger" ng-show="di.despatch_qty && showError"><small>Please type despatch quantity</small></i>
                         </div>
-                        <p ng-if="(po.quantity - po.received_qty) == 0" ng-bind="received_all"></p>
+                        <p ng-if="(so.quantity - so.despatch_qty) == 0" ng-bind="despatch_all"></p>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3" id="receivedforedit" style="display: none;">
-                        <label for="received_qty">Received Qty</label>
+                        <label for="despatch_qty">Despatch Qty</label>
                         <div>
-                            <input type="text" ng-model="ri.received_qty" id="received_qty" ng-keyup="netAmount()" placeholder="Received Qty" class="form-control">
-                            <i class="text-danger" ng-show="!ri.received_qty && showError"><small>Please type received quantity</small></i>
+                            <input type="text" ng-model="di.despatch_qty" id="despatch_qty" ng-keyup="netAmount()" placeholder="Received Qty" class="form-control">
+                            <i class="text-danger" ng-show="di.despatch_qty && showError"><small>Please type despatch quantity</small></i>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3" id="remaining" style="display:none;">
                         <label for="remaining_qty">Remaining Qty</label>
-                        <input type="text" ng-model="ri.remaining_quantity" readonly id="remaining_qty" placeholder="Remaining Qty" class="form-control">
-                        <i class="text-danger" id="remain" ng-show="!ri.remaining_quantity && showError"><small>Remaining quantity is not calculate Due - Received</small></i>
+                        <input type="text" ng-model="di.remaining_quantity" readonly id="remaining_qty" placeholder="Remaining Qty" class="form-control">
+                        <i class="text-danger" id="remain" ng-show="di.remaining_quantity && showError"><small>Remaining quantity is not calculate Due - Received</small></i>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <label for="gross_price">Gross Price</label>
-                        <p ng-bind="po.gross_price" class="form-control"></p>
+                        <p ng-bind="so.gross_price" class="form-control"></p>
                     </div>
                 </div><br>
                 <div class="row" id="TaxRow" style="display: none;">
@@ -203,7 +203,7 @@
                                 </tr>
                                 <tr>
                                     <th>Total Charges</th>
-                                    <td ng-bind="po.total_delivery_charges"></t>
+                                    <td ng-bind="so.total_delivery_charges"></t>
                                 </tr>
                             </tbody>
                         </table>
@@ -212,15 +212,15 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <label for="">Discount Name</label>
-                        <p ng-bind="po.discount_name" class="form-control"></p>
+                        <p ng-bind="so.discount_name" class="form-control"></p>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <label for="">Discount Amount</label>
-                        <p ng-bind="po.discount_amount" class="form-control discount_amount"></p>
+                        <p ng-bind="so.discount_amount" class="form-control discount_amount"></p>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <label for="">Net Amount</label>
-                        <p ng-bind="po.net_amount" class="form-control net_amount"></p>
+                        <p ng-bind="so.net_amount" class="form-control net_amount"></p>
                     </div>
                 </div><br>
                 <!-- <button class="btn btn-sm btn-primary" style="display: none;" id="showcalc" ng-click="netAmount()">Calculate</button> -->
@@ -234,15 +234,15 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <label for="">Advance Percentage</label>
-                        <p ng-bind="po.advance_percentage" class="form-control"></p>
+                        <p ng-bind="so.advance_percentage" class="form-control"></p>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <label for="">Time Of Advance</label>
-                        <p ng-bind="po.time_advance" class="form-control"></p>
+                        <p ng-bind="so.time_advance" class="form-control"></p>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <label for="">Payment Type</label>
-                        <p ng-bind="po.payment_type" class="form-control"></p>
+                        <p ng-bind="so.payment_type" class="form-control"></p>
                     </div>
                 </div><br>
             </div>
@@ -254,10 +254,10 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <p ng-bind="po.description" class="form-control"></p>
+                        <p ng-bind="so.description" class="form-control"></p>
                     </div>
                 </div><br/>
-                <button class="btn btn-sm float-right btn-success" ng-click="saveReceiveInventory()"> <i class="fa fa-save" id="loader"></i> Submit</button>
+                <button class="btn btn-sm float-right btn-success" ng-click="saveDespatchInventory()"> <i class="fa fa-save" id="loader"></i> Submit</button>
             </div>
         </div>
     </div>
@@ -279,18 +279,18 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody ng-init="getReceiveInventroy()">
-                    <tr ng-repeat="ri in ris">
-                        <td ng-bind="ri.po_number"></td>
-                        <td ng-bind="ri.invoice_number"></td>
-                        <td ng-bind="ri.due_quantity"></td>
-                        <td ng-bind="ri.received_qty"></td>
-                        <td ng-bind="ri.new_gross_price"></td>
-                        <td ng-bind="ri.new_net_amount"></td>
+                <tbody ng-init="getDespatchInventroy()">
+                    <tr ng-repeat="des in dis">
+                        <td ng-bind="des.so_number"></td>
+                        <td ng-bind="des.invoice_number"></td>
+                        <td ng-bind="des.due_quantity"></td>
+                        <td ng-bind="des.despatch_qty"></td>
+                        <td ng-bind="des.new_gross_price"></td>
+                        <td ng-bind="des.new_net_amount"></td>
                         <td>
                             <div class="btn-group">
                                 <!-- <button class="btn btn-info btn-xs"ng_click="editRI(ri.id)">Edit</button> -->
-                                <button class="btn btn-danger btn-xs" ng-click="deleteRI(ri.id)">Delete</button>
+                                <button class="btn btn-danger btn-xs" ng-click="deleteDI(des.id)">Delete</button>
                             </div>
                         </td>
                     </tr>
