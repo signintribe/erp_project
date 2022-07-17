@@ -58,7 +58,7 @@ class FinanceController extends Controller {
             $category->updated_by = Auth::user()->id;
             $category->save();
             $this->CreateAssociation($category->id, $r->ParentcategoryId);
-            DB::statement("call define_productline()");
+            //DB::statement("call define_productline()");
             $gle = $r->except(['AccountId', 'AccountDescription', 'CategoryName', 'ParentcategoryId']);
             if(!empty($gle)){
                 $gle['account_Id'] = $category->id;
@@ -95,7 +95,7 @@ class FinanceController extends Controller {
         $id = $category->id;
         $this->CreateAssociation($category->id, $r->ParentcategoryId);
         if ($this->UpdateParentChild($id)) {
-            DB::statement("call define_productline()");
+            //DB::statement("call define_productline()");
             return 'Update Successfuly';
         }
     }
