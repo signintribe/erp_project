@@ -188,7 +188,7 @@ discount to cash 10000-->
             val.product_category = parseInt(val.product_category);
         };
         $scope.delete_category = function (id) {
-            var delete_category = $http.get('delete-account-category/' + id);
+            var delete_category = $http.get($("#app_url").val() + 'delete-account-category/' + id);
             delete_category.then(function (result) {
                 var button = $compile(angular.element('<button class="btn btn-success btn-xs pull-right" ng-click="save_category()"><i class="fa fa-save"></i> Save</button>'))($scope);
                 $("#Save-button").html(button);
