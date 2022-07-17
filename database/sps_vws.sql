@@ -1536,6 +1536,23 @@ BEGIN
 END$$
 DELIMITER ;
 
+DROP PROCEDURE `get_account_categories`;
+DELIMITER $$
+CREATE PROCEDURE get_account_categories (IN ParentcategoryId INT)
+BEGIN
+  SELECT id,AccountId,CategoryName,AccountDescription,product_category
+  FROM
+  tblaccountcategories where id in
+  (
+    select CategoryChildId from 
+    tblaccountparentchildassociations 
+    where CategoryParentId = ParentcategoryId
+  ) ORDER by CategoryName asc;  
+END$$
+DELIMITER ;
+
+
+
 
 
 SELECT vendor.organization_name, contactperson.id, contactperson.contact_id, contactperson.social_id, contactperson.title, contactperson.first_name, contact_person.last_name, contactperson.picture, con.email, soc.website, soc.facebook, con.mobile_number, address.address_line_1, address.city, address.country, address.state FROM(
