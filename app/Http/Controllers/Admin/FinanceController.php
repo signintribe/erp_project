@@ -14,6 +14,8 @@ use App\Models\tblaccountparentchildassociations;
 use App\Models\tblgeneralentries;
 use Illuminate\Http\Request;
 use App\Models\tbldepartments;
+use App\Models\Finance\ErpGlDetail;
+use App\Models\Finance\ErpGlprojectSystem;
 use DB;
 use App\Http\Controllers\Controller;
 
@@ -37,8 +39,8 @@ class FinanceController extends Controller {
         return view('Finance.views.defineaccount');
     }
 
-    public function generalJournalEntry() {
-        return view('Finance.views.addGeneralJournalEntries');
+    public function generalJournalEntry($payment_type) {
+        return view('Finance.views.addGeneralJournalEntries', compact('payment_type'));
     }
 
     // save category in database
@@ -188,29 +190,46 @@ class FinanceController extends Controller {
     }
 
     function SaveGeneralEntries(Request $r) {
-        $date = $r->date;
-        $refrance = $r->refrance;
-//        return json_decode($r->Data);
-        foreach ($r->Data as $collection):
-            if (count($collection) > 2) {
-                $collection['created_by'] = Auth::user()->id;
-                $collection['refrance'] = $refrance;
-                $collection['date'] = $date;
-                $GeneralEntries = tblgeneralentries::create($collection);
-//                $G_id = $GeneralEntries->id;
-//                \App\LMSModels\tblstudentfeeintoaccount::where('gj_id', $G_id)->delete();
-//                $saveuser = new \App\LMSModels\tblstudentfeeintoaccount();
-//                if ($r->student_id != '') {
-//                    $saveuser->user_id = $r->student_id;
-//                    $saveuser->gj_id = $G_id;
-//                    $saveuser->save();
-//                }
+        if(!empty($GeneralEntries = tblgeneralentries::where('invoice_number', $r->invoice_number)->first())){
+            return response()->json([
+                'status'=>false,
+                'message'=>"Invoice number already in used, It should be unique invoice number"
+            ]);
+        }else{
+            $date = $r->date;
+            $invoice_number = $r->invoice_number;
+            $refrance = $r->refrance;
+            $GL = json_decode($r->Data,false);
+            foreach ($GL as $collection):
+                if (count($collection) > 2) {
+                    unset($collection['$$hashKey']);
+                    $collection['created_by'] = Auth::user()->id;
+                    $collection['refrance'] = $refrance;
+                    $collection['date'] = $date;
+                    $collection['invoice_number'] = $invoice_number;
+                    $GeneralEntries = tblgeneralentries::create($collection);
+                }
+            endforeach;
+            $detail = $r->except(['Data', 'date', 'project_systems', 'deposit_slip']);
+            if ($r->hasFile('deposit_slip')) {
+                $current = date('ymd') . rand(1, 999999) . time();
+                $file = $r->file('deposit_slip');
+                $imgname = $current . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('/deposit_slip'), $imgname);
+                $detail['deposit_slip'] = $imgname;
             }
-        endforeach;
-        return response()->json([
-            'status'=>true,
-            'message'=>"Entry Save Successfully"
-        ]);
+            $detail['invoice_number'] = $invoice_number;
+            ErpGlDetail::create($detail);
+            $project_systems = json_decode($r->project_systems,true);
+            if(!empty($project_systems)){
+                $project_systems['invoice_number'] = $invoice_number;
+                ErpGlprojectSystem::create($project_systems);
+            }
+            return response()->json([
+                'status'=>true,
+                'message'=>"Entry Save Successfully"
+            ]);
+        }
     }
 
     public function defineUserAccount()
