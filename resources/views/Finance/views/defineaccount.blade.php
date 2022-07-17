@@ -58,6 +58,7 @@
     </div>
 </div>
 <!-- /.content-wrapper -->
+<input type="hidden" value="<?php echo env("APP_URL"); ?>" id="app_url">
 <script src="{{ asset('public/js/angular.min.js')}}" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.2/angular-sanitize.min.js">
 </script>
@@ -87,6 +88,7 @@ discount to cash 10000-->
         $("#banking-finance").addClass('menu-open');
         $("#banking-finance a[href='#']").addClass('active');
         $("#chart-account").addClass('active');
+
         $scope.resetscope = function () {
             $scope.Category = {};
             $scope.C = {};
@@ -112,7 +114,7 @@ discount to cash 10000-->
                     $scope.Category.ParentcategoryId = 1;
                 }
                 $("#CategoryName").removeClass('has-error');
-                $http.post('save-account', $scope.Category)
+                $http.post($("#app_url").val() + 'save-account', $scope.Category)
                         .then(function (res) {
                             var button = $compile(angular.element('<button class="btn btn-success btn-xs" ng-click="save_category()"><i class="fa fa-save"></i> Save</button>'))($scope);
                             $("#Save-button").html(button);
