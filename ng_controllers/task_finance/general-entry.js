@@ -61,7 +61,13 @@ TaskTierApp.controller('CategoryController', function ($scope, $http, $compile, 
             }).addClass("has-error");
         } else {
             $scope.Entries.project_systems = JSON.stringify($scope.ps);
-            $scope.Entries.Data = JSON.stringify($scope.Entries.Data);
+            $scope.Entries.Data = JSON.stringify($scope.Entries.Data,  function( key, value ) {
+                if( key === "$$hashKey" ) {
+                    return undefined;
+                }
+                return value;
+            });
+
             var Data = new FormData();
             angular.forEach($scope.Entries, function (v, k) {
                 Data.append(k, v);

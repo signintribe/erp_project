@@ -199,17 +199,22 @@ class FinanceController extends Controller {
             $date = $r->date;
             $invoice_number = $r->invoice_number;
             $refrance = $r->refrance;
-            $GL = json_decode($r->Data,false);
-            foreach ($GL as $collection):
-                if (count($collection) > 2) {
-                    unset($collection['$$hashKey']);
+            $GL= json_decode($r->Data,true);
+            /* foreach($GL as $key => $value){
+                $value['created_by'] = Auth::user()->id;
+                return $value;
+            }exit(); */
+            if (count($GL) >= 2) {
+                foreach ($GL as $key => $collection){
+                    //return $collection;
+                    //unset($collection['$$hashKey']);
                     $collection['created_by'] = Auth::user()->id;
                     $collection['refrance'] = $refrance;
                     $collection['date'] = $date;
                     $collection['invoice_number'] = $invoice_number;
                     $GeneralEntries = tblgeneralentries::create($collection);
                 }
-            endforeach;
+            }
             $detail = $r->except(['Data', 'date', 'project_systems', 'deposit_slip']);
             if ($r->hasFile('deposit_slip')) {
                 $current = date('ymd') . rand(1, 999999) . time();
@@ -218,7 +223,7 @@ class FinanceController extends Controller {
                 $file->move(public_path('/deposit_slip'), $imgname);
                 $detail['deposit_slip'] = $imgname;
             }
-            $detail['invoice_number'] = $invoice_number;
+            //$detail['invoice_number'] = $invoice_number;
             ErpGlDetail::create($detail);
             $project_systems = json_decode($r->project_systems,true);
             if(!empty($project_systems)){
