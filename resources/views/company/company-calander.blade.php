@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="row" ng-init="getoffice(0)">
+            <div class="row" ng-init="getoffice()">
                 <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="company" ng-init="all_companies();">Select Company</label>
                     <select ng-model="calander.company_id" ng-change="getoffice(calander.company_id)" ng-options="c.id as c.company_name for c in companies" id="company" class="form-control">
@@ -170,6 +170,7 @@
 </div>
 <input type="hidden" value="<?php echo env('APP_URL'); ?>" id="appurl">
 <input type="hidden" value="<?php echo Auth::user()->id; ?>" id="user_id">
+<input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
 @endsection
 @section('internaljs')
 <script src="{{asset('ng_controllers/creation_company/company-calander.js')}}"></script>

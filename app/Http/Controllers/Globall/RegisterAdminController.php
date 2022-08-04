@@ -55,8 +55,8 @@ class RegisterAdminController extends Controller
             tblcompanydetail::where('user_id', $request->id)->update($company);
             //sidebar menus
             if(!empty($forms)){
-                ErpUserMenu::where('user_id', $request->id)->delete();
                 for($i = 0; $i<count($forms); $i++){
+                    ErpUserMenu::where('user_id', $request->id)->where('sidebar_menu_id', $forms[$i])->delete();
                     $data['sidebar_menu_id'] = $forms[$i];
                     $data['user_id'] = $request->id;
                     ErpUserMenu::create($data);
@@ -80,7 +80,7 @@ class RegisterAdminController extends Controller
                 }
             }
         }
-        return response()->json(['status'=> 200,'success' => 'Successfully Create']);
+        return response()->json(['status'=> true,'success' => 'Successfully Create']);
     }
 
     /**

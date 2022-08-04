@@ -21,6 +21,7 @@ use App\User;
 use App\Models\tblcontact;
 use App\Models\tblsocialmedias;
 use App\Models\employeeCenter\tblemployeeinformation;
+use App\Models\employeeCenter\ErpEmployeeAction;
 use App\Models\VendorModels\tblcompanydetail;
 use Auth;
 
@@ -127,7 +128,7 @@ class UsersController extends Controller {
     } */
 
     public function SaveUsers(Request $request){
-        //return $request->all();
+        //$request->all();
         $upusers = User::where('id', $request->user_id)->first();
         if(empty($upusers)){
             $CheckUser = User::where('name', $request->name)->orWhere('email', $request->email)->first();
@@ -140,16 +141,26 @@ class UsersController extends Controller {
                     'password' => bcrypt($request->password),
                 ]);
                 $company = tblcompanydetail::where('user_id', Auth::user()->id)->first();
-                $info = $request->except('is_admin', 'phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest');
-                $contact = $request->except('website','twitter','instagram','facebook','linkedin','pinterest','company_id','employee_id','address_id', 'is_admin','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
-                $social = $request->except('phone_number','mobile_number','fax_number','whatsapp','email','company_id','employee_id','address_id', 'is_admin','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
+                $info = $request->except('is_admin', 'role_action', 'phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest');
+                $contact = $request->except('website', 'role_action', 'office_id', 'department_id', 'twitter','instagram','facebook','linkedin','pinterest','company_id','employee_id','address_id', 'is_admin','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
+                $social = $request->except('phone_number', 'role_action', 'office_id', 'department_id', 'mobile_number','fax_number','whatsapp','email','company_id','employee_id','address_id', 'is_admin','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
                 $contacts = tblcontact::create($contact);                
                 $socials = tblsocialmedias::create($social);
                 $info['company_id'] = $company->id;
                 $info['contact_id'] = $contacts->id;
                 $info['social_id'] = $socials->id;
                 $info['user_id'] = $user->id;
-                tblemployeeinformation::create($info);                
+                $info['role'] = $request->role;
+                $employee = tblemployeeinformation::create($info);
+                $role_action = json_decode($request->role_action, true); 
+                if(!empty($role_action)){
+                    $action = array();
+                    foreach ($role_action as $key => $value) {
+                        $action['action'] = $value;
+                        $action['employee_id'] = $employee->id;
+                        ErpEmployeeAction::create($action);
+                    }    
+                }
                 return 'User Created';
             }else{
                 return 'Not Save, User Name or Email Address Already Exist';
@@ -159,18 +170,33 @@ class UsersController extends Controller {
             $upusers->is_admin = $request->is_admin;
             $upusers->email = $request->email;
             $upusers->save();
-            $info = $request->except('is_admin', 'id','password','user_id','instgram', 'phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest');
-            $contact = $request->except('id','user_id','password','instgram', 'website','twitter','instagram','facebook','linkedin','pinterest','company_id','employee_id','address_id', 'is_admin','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
-            $social = $request->except('id','user_id','password','instgram', 'phone_number','mobile_number','fax_number','whatsapp','email','company_id','employee_id','address_id', 'is_admin','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
+            $info = $request->except('is_admin', 'id', 'role_action', 'password','user_id','instgram', 'phone_number','mobile_number','fax_number','whatsapp','email','website','twitter','instagram','facebook','linkedin','pinterest');
+            $contact = $request->except('id','user_id', 'role', 'role_action', 'office_id', 'department_id', 'password','instgram', 'website','twitter','instagram','facebook','linkedin','pinterest','company_id','employee_id','address_id', 'is_admin','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
+            $social = $request->except('id','user_id', 'role', 'role_action', 'office_id', 'department_id', 'password','instgram', 'phone_number','mobile_number','fax_number','whatsapp','email','company_id','employee_id','address_id', 'is_admin','contact_id','social_id','user_id','first_name', 'middle_name', 'last_name','father_name', 'religion', 'sect','next_of_kin','dob', 'nationality','marital_status','domicile','proficiency_languages', 'gender', 'cnic');
             tblcontact::where('id', $request->contact_id)->update($contact);
             tblsocialmedias::where('id', $request->social_id)->update($social);
             tblemployeeinformation::where('id', $request->id)->update($info);
+            $role_action = json_decode($request->role_action, true); 
+            if(!empty($role_action)){
+                $action = array();
+                ErpEmployeeAction::where('employee_id', $request->id)->delete();
+                foreach ($role_action as $key => $value) {
+                    $action['action'] = $value;
+                    $action['employee_id'] = $request->id;
+                    ErpEmployeeAction::create($action);
+                } 
+            }
         }
         return 'Update';
     }
 
     public function editEmployeeInfo($id){
-        return DB::select('SELECT employee.*, user.is_admin FROM (SELECT * FROM tblemployeeinformations WHERE id = '.$id.') AS employee JOIN(SELECT id, is_admin FROM users) AS user ON user.id = employee.user_id');
+        $employee = DB::select('SELECT employee.*, user.is_admin FROM (SELECT * FROM tblemployeeinformations WHERE id = '.$id.') AS employee JOIN(SELECT id, is_admin FROM users) AS user ON user.id = employee.user_id');
+        $actions = ErpEmployeeAction::where('employee_id', $employee[0]->id)->get();
+        return response()->json([
+            'employee' => $employee,
+            'action' => $actions
+        ]);
     }
 
     public function editContact($con_id){

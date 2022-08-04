@@ -39,13 +39,13 @@
             <div class="row" ng-init="getoffice(0)">
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <label for="office">Select Office</label>
-                    <select ng-model="designation.office_id" ng-change="getDepartments(group.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
+                    <select ng-model="designation.office_id" ng-change="getDepartments(designation.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
                         <option value="">Select Office</option>
                     </select><br/>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <label for="department">Select Department</label>
-                    <select ng-model="designation.department_id" ng-change="get_groups(group.department_id)" id="department" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
+                    <select ng-model="designation.department_id" ng-change="get_groups(designation.department_id)" id="department" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
                     <i class="text-danger" ng-show="!group.department_id && showError"><small>Please Select Department</small></i><br/>

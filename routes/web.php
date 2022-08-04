@@ -74,6 +74,9 @@ Route::group(['prefix'=>'hr'], function () {
   Route::get('employee-contact-person', 'EmployeeController@employeeContactPerson');
 });
 
+Route::group(['prefix'=>'workflow'], function () {
+  Route::resource('add-work-flow', 'workflow\WorkFlowController');
+});
 
 Route::group(['prefix'=>'bank'], function () {
   Route::get('bank-contact-person', 'CompanyProfileController@bankContactPerson');
@@ -422,6 +425,9 @@ Route::group(['prefix'=>'company'], function () {
   Route::post('regiter-subuser', 'Globall\RegisterAdminController@regiter_subuser');
   Route::post('remove-subuser-menu', 'Globall\RegisterAdminController@remove_subuser_menu');
   Route::get('get-subuser-sidebar-menus/{user_id}/{menu}', 'Globall\RegisterAdminController@getUserSidebarMenus');
+  Route::resource('employee-roles', 'company\EmployeeRolesController');
+  Route::get('get-employee-roles/{dept_id}', 'company\EmployeeRolesController@get_employee_roles');
+  Route::get('get-role-actions/{role_id}', 'company\EmployeeRolesController@get_role_actions');
 });
 
 

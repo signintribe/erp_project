@@ -137,6 +137,47 @@
                                 <input type="text" ng-model="user.cnic" class="form-control" placeholder="CNIC"/>
                             </div>
                         </div>
+                    </div><br/>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getoffice();">
+                            <label for="office">Select Office</label>
+                            <select ng-model="user.office_id" ng-change="getDepartments(user.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
+                                <option value="">Select Office</option>
+                            </select>
+                            <i class="text-danger" ng-show="!user.office_id && showError"><small>Please Select Office</small></i>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                        <label for="dpartment">Select Department</label>
+                            <select ng-model="user.department_id" id="department" ng-change="getRoles(user.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
+                                <option value="">Select Department</option>
+                            </select>
+                            <i class="text-danger" ng-show="!user.department_id && showError"><small>Please Select Department</small></i>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <label for="role">Select Employee Role</label>
+                            <select ng-model="user.role" ng-options="rol.id as rol.role_name for rol in allroles" ng-change="getActions(user.role);" class="form-control" id="role">
+                                <option value="">Select Employee Role</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3"></div>
+                    </div><br/>
+                    <div class="row">
+                        <div class="col">
+                            <div ng-if="actions">
+                                <h3 class="card-title">Selected Actions</h3><br/><br/>
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2" ng-repeat="act in actions">
+                                        <strong ng-bind="act.action"></strong>
+                                    </div>
+                                </div>
+                            </div><br/>
+                            <div ng-if="allactions">
+                                <h3 class="card-title">Select New Actions</h3><br/><br/>
+                                <p ng-repeat="act in allactions">
+                                    <input type="checkbox" ng-click="getCheckList(act.action)" id="<% act.action %>"> <label for="<% act.action %>" ng-bind="act.action"></label>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div><br/>
@@ -278,6 +319,8 @@
         </div>
     </div><br/>
 </div>
+<input type="hidden" value="<?php echo session('company_id'); ?>" id="company_id">
+<input type="hidden" id="appurl" value="<?php echo env('APP_URL'); ?>">
 @endsection
 @section('internaljs')
 <script src="{{asset('ng_controllers/creation_hr/add-employee.js')}}"></script>

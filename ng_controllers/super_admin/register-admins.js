@@ -80,7 +80,7 @@ RegisterAdmin.controller('RegisterAdminController', function ($scope, $http) {
                 Data.append(k, v);
             });
             $http.post('regiter-admin', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
-                if(res.data.status == 201){
+                if(res.data.status == true){
                     swal({
                         title: "Save!",
                         text: res.data.success,

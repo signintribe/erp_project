@@ -53,11 +53,13 @@ CreateTierApp.controller('UsersController', function ($scope, $http) {
     $scope.editEmployeeInfo = function(id){
         $http.get('editEmployee/'+ id).then(function (response) {
             $("#onEdit").hide();
-            $scope.user = response.data[0];
+            $scope.user = response.data.employee[0];
             $scope.user.password = "OnEdit";
             $scope.user.is_admin = String($scope.user.is_admin);
             $scope.editContactInfo($scope.user.contact_id);
             $scope.editSocialInfo($scope.user.social_id);
+            $scope.actions = response.data.action;
+            console.log($scope.actions);
             $("#ShowPrint").show();
         });
     };
@@ -96,6 +98,53 @@ CreateTierApp.controller('UsersController', function ($scope, $http) {
                 $scope.getEmployees();
                 swal("Deleted!", response.data, "success");
             });
+        });
+    };
+    $scope.checkList = [];
+    $scope.getCheckList = function(list){
+        let index = $scope.checkList.indexOf(list);
+        if(index == -1){
+            $scope.checkList.push(list);
+        }else{
+            $scope.checkList.splice(index, 1);
+        }
+        $scope.user.role_action = JSON.stringify($scope.checkList);
+        console.log($scope.user.role_action);
+    };
+
+    $scope.getoffice = function () {
+        $scope.offices = {};
+        $http.get($("#appurl").val() + 'company/getoffice/'+  $("#company_id").val()).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.offices = response.data;
+            }
+        });
+    };
+    
+    $scope.getDepartments = function (office_id) {
+        $scope.departments = {};
+        $http.get($("#appurl").val() + 'company/get-departments/'+office_id).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.departments = response.data;
+            }
+        });
+    };
+
+    $scope.getRoles = function (dept_id) {
+        $scope.allroles = {};
+        $http.get($("#appurl").val() + 'company/get-employee-roles/'+ dept_id).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.allroles = response.data;
+            }
+        });
+    };
+
+    $scope.getActions = function (role_id) {
+        $scope.allactions = {};
+        $http.get($("#appurl").val() + 'company/get-role-actions/'+ role_id).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.allactions = response.data;
+            }
         });
     };
 

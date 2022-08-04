@@ -50,14 +50,24 @@
                         <option value="Sick Leave">Sick Leave</option>
                         <option value="Short Leave">Short Leave</option>
                         <option value="Casual Leave">Casual Leave</option>
+                        <option value="Maternity">Maternity</option>
+                        <option value="Maternity Leave">Maternity Leave</option>
+                        <option value="Marriage Leave">Marriage Leave</option>
+                        <option value="Earnd Leave">Earnd Leave</option>
+                        <option value="Study Leave">Study Leave</option>
+                        <option value="Foreign Leave">Foreign Leave</option>
                     </select>
                     <i class="text-danger" ng-show="!yl.leave_type && showError"><small>Please Type Leave Type</small></i>
                 </div>
             </div><br>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="month-leave">Leave in Month</label>
+                    <input type="text" ng-model="yl.month_leave" id="month-leave" ng-blur="yl.total_leave=yl.month_leave*12" placeholder="Leave in Month" class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="total_leave">Total Leave</label>
-                    <input type="text" class="form-control" id="total_leave" ng-model="yl.total_leave" placeholder="Total Leave">
+                    <input type="text" class="form-control" readonly id="total_leave" ng-model="yl.total_leave" placeholder="Total Leave">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="leave_rules">Leave Rules</label>
@@ -71,12 +81,12 @@
                         <option value="Non-deductible form pay">Non-deductible form pay</option>
                     </select>
                 </div>
+            </div><br>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="leave_rate">Leave Rate</label>
                     <input type="text" class="form-control" id="leave_rate" ng-model="yl.leave_rate" datepicker placeholder="Leave Rate">
                 </div>
-            </div><br>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="lapsed">Does Leave Lapsed/C.F</label>
                     <select class="form-control" id="lapsed" ng-model="yl.lapsed">

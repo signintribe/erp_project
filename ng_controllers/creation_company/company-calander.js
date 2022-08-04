@@ -13,6 +13,8 @@ CreateTierApp.controller('CalanderController', function ($scope, $http) {
     $("#company-calendar").addClass('active');
     $scope.calander = {};
     $scope.app_url = $("#appurl").val();
+    $scope.company_id = $("#company_id").val();
+    
     $scope.all_companies = function () {
         $http.get('getcompanyinfo').then(function (response) {
             if (response.data.length > 0) {
@@ -21,18 +23,9 @@ CreateTierApp.controller('CalanderController', function ($scope, $http) {
         });
     };
 
-    $scope.getoffice = function (company_id) {
+    $scope.getoffice = function () {
         $scope.offices = {};
-        $http.get('getoffice/'+company_id).then(function (response) {
-            if (response.data.length > 0) {
-                $scope.offices = response.data;
-            }
-        });
-    };
-
-    $scope.getoffice = function (company_id) {
-        $scope.offices = {};
-        $http.get('getoffice/'+company_id).then(function (response) {
+        $http.get('getoffice/'+$scope.company_id).then(function (response) {
             if (response.data.length > 0) {
                 $scope.offices = response.data;
             }
