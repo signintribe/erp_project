@@ -3,6 +3,12 @@ CreateTierApp.controller('YearlyLeaveController', function ($scope, $http) {
     $("#company a[href='#']").addClass('active');
     $("#yearly-leave").addClass('active');
     $scope.yl = {};
+    $('#leave_start').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+    $('#leave_end').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
     $scope.app_url = $("#appurl").val();
     $scope.all_companies = function () {
         $http.get('getcompanyinfo').then(function (response) {
@@ -50,11 +56,14 @@ CreateTierApp.controller('YearlyLeaveController', function ($scope, $http) {
 
     $scope.editLeaves = function(id){
         $http.get('maintain-leaves/'+ id + '/edit').then(function (response) {
-            $scope.yl = response.data[0];
+            $scope.yl = response.data.leave[0];
+            $scope.penalities = response.data.penality; 
             $scope.yl.company_id = parseInt($scope.yl.company_id);
             $scope.yl.office_id = parseInt($scope.yl.office_id);
             $scope.yl.department_id = parseInt($scope.yl.department_id);
             $scope.yl.group_id = parseInt($scope.yl.group_id);
+            $scope.yl.carry_forword = $scope.yl.carry_forword == 1 ? true : false;
+            $scope.yl.encash = $scope.yl.encash == 1 ? true : false;
             $("#ShowPrint").show();
         });
     }
@@ -112,5 +121,28 @@ CreateTierApp.controller('YearlyLeaveController', function ($scope, $http) {
             });
         };
         reader.readAsDataURL(element.files[0]);
+    };
+
+    $scope.checkList = [];
+    /**
+     * 
+     * @param {*} list 
+     * Add check list into array pass to controller
+     */
+    $scope.getCheckList = function(list){
+        let index = $scope.checkList.indexOf(list);
+        if(index == -1){
+            $scope.checkList.push(list);
+        }else{
+            $scope.checkList.splice(index, 1);
+        }
+        $scope.yl.checklist = JSON.stringify($scope.checkList);
+    };
+
+    $scope.getAccounts = function () {
+        var Accounts = $http.get($scope.app_url + 'AllchartofAccount');
+        Accounts.then(function (r) {
+            $scope.Accounts = r.data;
+        });
     };
 });

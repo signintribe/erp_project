@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\CreationTire\Company;
 
 use Illuminate\Database\Eloquent\Model;
 
-class erp_maintain_leave extends Model
+class ErpLeavePenality extends Model
 {
     protected $guarded = [];
     

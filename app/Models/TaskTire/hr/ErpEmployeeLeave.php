@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\TaskTire\hr;
 
 use Illuminate\Database\Eloquent\Model;
 
-class erp_maintain_leave extends Model
+class ErpEmployeeLeave extends Model
 {
     protected $guarded = [];
-    
+
     protected $hidden = [
         'created_at',
         'updated_at'

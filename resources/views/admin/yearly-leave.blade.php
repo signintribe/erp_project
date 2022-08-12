@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="row" ng-init="getoffice(0)">
+            <div class="row" ng-init="getoffice(0); getAccounts()">
                 <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="company" ng-init="all_companies();">Select Company</label>
                     <select ng-model="yl.company_id" ng-change="getoffice(yl.company_id)" ng-options="c.id as c.company_name for c in companies" id="company" class="form-control">
@@ -70,6 +70,123 @@
                     <input type="text" class="form-control" readonly id="total_leave" ng-model="yl.total_leave" placeholder="Total Leave">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="leave-start">Leave Start Period</label>
+                    <div class="form-group">
+                        <div class="input-group date" id="leave_start" data-target-input="nearest">
+                            <input type="text" placeholder="Leave Start Period" ng-model="yl.leave_start" class="form-control datetimepicker-input" data-target="#leave_start"/>
+                            <div class="input-group-append" data-target="#leave_start" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="leave-end">Leave End Period</label>
+                    <div class="form-group">
+                        <div class="input-group date" id="leave_end" data-target-input="nearest">
+                            <input type="text" placeholder="Leave End Period" ng-model="yl.leave_end" class="form-control datetimepicker-input" data-target="#leave_end"/>
+                            <div class="input-group-append" data-target="#leave_end" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <duv class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label for="carry_forword">Does leave carry forward at the end of year</label><br/>
+                    <input type="checkbox" ng-model="yl.carry_forword" ng-value="carry_forword" id="carry"> <label for="carry">Does leave carry forword</label>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <label for="encash-leave">Can employee encash leave</label><br/>
+                    <input type="checkbox" ng-model="yl.encash" ng-value="encash" id="encash"> <label for="encash">Can employee encash leave</label>
+                </div>
+            </duv><br/>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="encashmonths">Month leave can be encash</label>
+                    <input type="text" ng-model="yl.encashmonth" id="encashmonths" placeholder="Month leave can be encash" class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="leave_proof">Leave required any proof</label>
+                    <select ng-model="yl.leave_proof" id="leave_proof" class="form-control">
+                        <option value="">Leave Proof</option>
+                        <option value="Telephonic Message">Telephonic Message</option>
+                        <option value="Application of Leave">Application of Leave</option>
+                        <option value="Medical Proof">Medical Proof</option>
+                        <option value="Marriage Proof">Marriage Proof</option>
+                        <option value="Visa">Visa</option>
+                        <option value="Attacthment">Attacthment</option>
+                        <option value="Any Other">Any Other</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="leave_on_deduction">Deduction on leave</label>
+                    <select ng-model="yl.leave_on_deduction" ng-options="Account.id as Account.CategoryName for Account in Accounts" id="leave_on_deduction" class="form-control">
+                        <option value="">Deduction on leave</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="initiation_action">Initiation of Action</label>
+                    <input type="text" ng-model="yl.initiation_action" id="initiation_action" placeholder="Initiation of Action" class="form-control">
+                </div>
+            </div><br/>
+            <div class="row">
+                <div class="col">
+                    <h3 class="card-title">Leave Penalities</h3><br/><hr/>
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="card-title">Select Leave Penalities</h3><br/><hr/>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <input type="checkbox" id="ad_note" ng-click="getCheckList('Advisory Note')">
+                                    <label for="ad_note">Advisory Note</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="explaination" ng-click="getCheckList('Explaination')">
+                                    <label for="explaination">Explaination</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="show_case" ng-click="getCheckList('Show Case')">
+                                    <label for="show_case">Show Case</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="stopage_salary" ng-click="getCheckList('Stopage of Salary')">
+                                    <label for="stopage_salary">Stopage of Salary</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="stopage_promotion" ng-click="getCheckList('Stopage of Promotion')">
+                                    <label for="stopage_promotion">Stopage of Promotion</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="stopage_increment" ng-click="getCheckList('Stopage of Increment')">
+                                    <label for="stopage_increment">Stopage of Increment</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="step_down" ng-click="getCheckList('Step Down')">
+                                    <label for="step_down">Step Down</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="suspend" ng-click="getCheckList('Suspend')">
+                                    <label for="suspend">Suspend</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="terminate" ng-click="getCheckList('Terminate')">
+                                    <label for="terminate">Terminate</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col" ng-if="penalities">
+                            <h3 class="card-title">Selected Penalities</h3><br/><hr/>
+                            <ul class="list-unstyled" ng-repeat="pen in penalities">
+                                <li ng-bind="pen.penality"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><br/>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="leave_rules">Leave Rules</label>
                     <input type="text" class="form-control" id="leave_rules" ng-model="yl.leave_rules" placeholder="Leave Rules">
                 </div>
@@ -81,8 +198,6 @@
                         <option value="Non-deductible form pay">Non-deductible form pay</option>
                     </select>
                 </div>
-            </div><br>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="leave_rate">Leave Rate</label>
                     <input type="text" class="form-control" id="leave_rate" ng-model="yl.leave_rate" datepicker placeholder="Leave Rate">

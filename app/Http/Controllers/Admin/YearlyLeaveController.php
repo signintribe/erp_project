@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use Auth;
 use App\Models\erp_maintain_leave;
+use App\Models\CreationTire\Company\ErpLeavePenality;
 class YearlyLeaveController extends Controller
 {
     /**
@@ -50,14 +51,38 @@ class YearlyLeaveController extends Controller
      */
     public function store(Request $request)
     {
+        //return $request->all();
         if($request->id){
-            $data = $request->except(['id','jdDoc', 'company_id','group_name', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);
+            $data = $request->except(['id','jdDoc', 'checklist', 'company_id','group_name', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);
+            $data['carry_forword'] = $request->carry_forword == true ? 1 : 0;
+            $data['encash'] = $request->encash == true ? 1 : 0;
             erp_maintain_leave::where('id', $request->id)->update($data);
+            $penalities = json_decode($request->checklist);
+            if(!empty($penalities)){
+                ErpLeavePenality::where('leave_id', $request->id)->delete();
+                foreach ($penalities as $key => $value) {
+                    ErpLeavePenality::create([
+                        'leave_id'=>$request->id,
+                        'penality' => $value
+                    ]);
+                }
+            }
             return "Employee Yearly Leaves Update";
         }else{
-            $data = $request->except(['company_id', 'office_id']);
-            erp_maintain_leave::create($data);
-            return "Employee Yearly Leaves Save";
+            $data = $request->except(['company_id', 'office_id', 'checklist']);
+            $data['carry_forword'] = $request->carry_forword == true ? 1 : 0;
+            $data['encash'] = $request->encash == true ? 1 : 0;
+            $leave = erp_maintain_leave::create($data);
+            $penalities = json_decode($request->checklist);
+            if(!empty($penalities)){
+                foreach ($penalities as $key => $value) {
+                    ErpLeavePenality::create([
+                        'leave_id'=>$leave->id,
+                        'penality' => $value
+                    ]);
+                }
+                return "Employee Yearly Leaves Save";
+            }
         }
     }
 
@@ -80,7 +105,12 @@ class YearlyLeaveController extends Controller
      */
     public function edit($id)
     {
-        return DB::select('call sp_getAllYearlyLeaves('.Auth::user()->id.', '.$id.');');
+        $leave = DB::select('call sp_getAllYearlyLeaves('.Auth::user()->id.', '.$id.');');
+        $penality = ErpLeavePenality::where('leave_id', $leave[0]->id)->get();
+        return response()->json([
+            'leave' => $leave,
+            'penality' => $penality
+        ]);
     }
 
     /**
@@ -103,6 +133,7 @@ class YearlyLeaveController extends Controller
      */
     public function destroy($id)
     {
+        ErpLeavePenality::where('leave_id', $id)->delete();
         erp_maintain_leave::where('id', $id)->delete();
         return 'Yearly Leave Info Deleted';
     }

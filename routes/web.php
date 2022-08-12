@@ -37,12 +37,15 @@ Route::view('user-rights-privileges', 'admin.user-rights-privileges');
 Route::get('employee-leave', 'EmployeeController@employee_leave')->name('employee-leave');
 Route::view('open-existing-company','auth.open-company')->name('open-company');
 Route::group(['prefix'=>'hr'], function () {
+  /**
+   * Creation Tier Forms
+   */
   Route::get('pay-allowance-deduction', 'Admin\PayAllowanceDeductionController@pay_allownce');
   Route::view('employee-trainings', 'employee_center.employee-trainings');
   Route::get('employee-payscale', 'Admin\PayScaleController@employee_payscale');
   Route::get('timing-info', 'HrViewsController@timing_info');
   Route::get('employee-jd', 'Admin\EmployeeJDController@employee_jd');
-  Route::get('getEmployees/{company_id}', 'Admin\UsersController@getEmployees')->middleware('is_admin');
+  Route::get('getEmployees/{company_id}', 'Admin\UsersController@getEmployees');
   Route::get('employee-personal-information', 'Admin\UsersController@index')->name('users')->middleware('is_admin');
   Route::get('employees-registration', 'Admin\UsersController@employeesRegistration');
   Route::post('SaveUsers', 'Admin\UsersController@SaveUsers')->middleware('is_admin');
@@ -72,6 +75,14 @@ Route::group(['prefix'=>'hr'], function () {
   Route::resource('maintain-emp-tasks', 'Admin\EmployeeTaskController');
   Route::get('get-task-assigned-details/{assigned_id}', 'Admin\EmployeeTaskController@taskAssignedDetail');
   Route::get('employee-contact-person', 'EmployeeController@employeeContactPerson');
+
+  /**
+   * Task Tier Forms
+   */
+
+  Route::resource('apply-leave-form', 'hr\ApplyLeaveController');
+  Route::get('get-leaves-for-apply', 'hr\ApplyLeaveController@get_leaves_for_apply');
+  Route::get('prev-employee-leave-balance/{company_id}/{leave_id}', 'hr\ApplyLeaveController@prev_employee_leave_balance');
 });
 
 Route::group(['prefix'=>'workflow'], function () {
@@ -565,7 +576,3 @@ Route::get('destination-form', function(){
 Route::get('quotation-for-purchases', function(){
   return view('quotation-for-purchases');
 })->name('Quotation For Purchases');
-
-Route::get('apply-leave-form', function(){
-  return view('apply-leave-form');
-})->name('Apply Leave Form');
