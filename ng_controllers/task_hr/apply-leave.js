@@ -19,8 +19,10 @@ TaskTierApp.controller('ApplyleaveController', function ($scope, $http) {
 
     $scope.get_leaves = function(){
         $http.get('get-leaves-for-apply').then(function (response) {
-            if(response.data.length > 0){
-                $scope.leaves = response.data;
+            if(response.data.status == true){
+                $scope.leaves = response.data.data;
+            }else if(response.data.status == false){
+                $scope.servermessage = response.data.message;
             }
         });
     }

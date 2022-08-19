@@ -7,7 +7,7 @@
 <div ng-controller='ApplyleaveController'>
     <div class="card">
         <div class="card-header">
-            <h2 class="card-title">Leave Application Form</h2>
+            <h2 class="card-title">Leave Application Form <small><i class="text-danger" ng-if="servermessage" ng-bind="servermessage"></i></small></h2>
         </div>
         <div class="card-body">
             <div class="row">

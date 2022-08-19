@@ -5,6 +5,36 @@ TaskTierApp.controller('WorkflowController', function ($scope, $http) {
     });
     $scope.appurl = $("#appurl").val();
     $scope.company_id = $("#company_id").val();
+    
+    $scope.changeSearchType = function(){
+        if($scope.workflow.searchfor == 'Leave'){
+            $("#leavetype").show();
+            $("#searchbox").hide();
+            $scope.get_leaves();
+        }else{
+            $("#searchbox").show();
+            $("#leavetype").hide();
+        }
+    };
+
+    $scope.getPendingLeaves = function(leave_id){
+        $http.get('get-pending-leaves/' + leave_id).then(function (response) {
+            if(response.data.status == true){
+                $scope.pending_leaves = response.data.data;
+            }
+        });
+    }
+
+    $scope.get_leaves = function(){
+        $http.get($scope.appurl + 'hr/get-leaves-for-apply').then(function (response) {
+            if(response.data.status == true){
+                $scope.leaves = response.data.data;
+            }else if(response.data.status == false){
+                $scope.servermessage = response.data.message;
+            }
+        });
+    };
+
     $scope.getResult = function(search){
         switch($scope.workflow.searchfor){
             case 'Leave':

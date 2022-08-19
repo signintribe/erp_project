@@ -5,7 +5,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html lang="en">
     <head>
-        <meta charset="utf-8">
+    <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>APP - @yield('title')</title>
 
@@ -32,7 +32,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <link rel="stylesheet" href="{{asset('public/plugins/dropzone/min/dropzone.min.css')}}">
         <!-- Theme style -->
         <link rel="stylesheet" href="{{asset('public/dist/css/adminlte.min.css')}}">
-        <link href="{{ asset('public/css/sweetalert.css')}}" rel="stylesheet">
         <style>
             .nav-sidebar a{
                 font-size: 14px;
@@ -51,23 +50,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <ul class="navbar-nav" ng-init="getTiers(1)">
                     <li class="nav-item">
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                    </li>
-                    <li class="nav-item d-none d-sm-inline-block"  ng-repeat="tier in Tiers">
-                        <a href="{{url('<% tier.tier_link %>')}}" class="nav-link" ng-bind="tier.tier_name"></a>
-                    </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="#" class="nav-link">My Profile</a>
-                    </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a class="nav-link" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
-                            <i class="mdi mdi-logout text-primary"></i>
-                            {{ __('Logout') }}
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
                     </li>
                 </ul>
 
@@ -92,6 +74,61 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            Tiers <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <a href="{{url('<% tier.tier_link %>')}}" class="dropdown-item" ng-repeat="tier in Tiers">
+                                <span ng-bind="tier.tier_name"></span>
+                            </a>
+                        </div>
+                    </li>
+                    <!-- Notifications Dropdown Menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="far fa-bell"></i>
+                            <span class="badge badge-warning navbar-badge">15</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <span class="dropdown-item dropdown-header">15 Notifications</span>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-envelope mr-2"></i> 4 new messages
+                                <span class="float-right text-muted text-sm">3 mins</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-users mr-2"></i> 8 friend requests
+                                <span class="float-right text-muted text-sm">12 hours</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-file mr-2"></i> 3 new reports
+                                <span class="float-right text-muted text-sm">2 days</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="far fa-user"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <a href="{{url('adminhome')}}" class="dropdown-item">Dashboard</a>
+                            <a class="nav-link" href="{{ route('logout') }}" class="dropdown-item"
+                                onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                                <i class="mdi mdi-logout text-primary"></i>
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            <a href="#" class="dropdown-item">My Profile</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -579,7 +616,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- jQuery -->
         <script src="{{asset('public/plugins/jquery/jquery.min.js')}}"></script>
         <!-- Bootstrap 4 -->
-        <script src="{{asset('public/public/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{asset('public/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
         <!-- jQuery -->
         <!-- Select2 -->
@@ -605,7 +642,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{asset('public/dist/js/demo.js')}}"></script>
         <!-- AdminLTE App -->
         <script src="{{asset('public/dist/js/adminlte.min.js')}}"></script>
-        <script src="{{ asset('public/js/sweetalert.min.js')}}"></script>
         <script src="{{ asset('public/js/angular.min.js')}}"></script>
         <input type="hidden" id="user_id" value="<?php echo Auth::user()->id; ?>">
         <input type="hidden" id="baseurl" value="<?php echo env('APP_URL'); ?>">

@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\hr;
+namespace App\Http\Controllers\TaskTier\hr;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
-use App\Models\TaskTire\hr\ErpEmployeeLeave;
 class ApplyLeaveController extends Controller
 {
     /**
@@ -25,7 +24,7 @@ class ApplyLeaveController extends Controller
      */
     public function index()
     {
-        return view('hr.apply-leave-form');
+        return view('TaskTier.hr.apply-leave-form');
     }
 
     /**
@@ -113,7 +112,27 @@ class ApplyLeaveController extends Controller
 
     public function get_leaves_for_apply()
     {
-        return DB::select('SELECT * FROM erp_maintain_leaves WHERE department_id IN(SELECT department_id FROM tblemployeeinformations WHERE user_id = '.Auth::user()->id.')');
+        $empinfo = DB::select('SELECT department_id FROM tblemployeeinformations WHERE user_id = '.Auth::user()->id.''); 
+        if(!empty($empinfo)){
+            $info = DB::select('SELECT * FROM erp_maintain_leaves WHERE department_id IN(SELECT department_id FROM tblemployeeinformations WHERE user_id = '.Auth::user()->id.')');
+            if(!empty($info)){
+                return response()->json([
+                    'status' => true,
+                    'data' => $info,
+                    'message' => 'Success Message'
+                ]);
+            }else{
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Leave is not assign'
+                ]);    
+            }
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'Your Employeement Information is incomplete'
+            ]);
+        }
     }
 
     /**
@@ -122,5 +141,15 @@ class ApplyLeaveController extends Controller
     public function prev_employee_leave_balance($company_id, $leave_id)
     {
         return $balace = ErpEmployeeLeave::where('company_id', $company_id)->where('user_id', Auth::user()->id)->where('leave_id', $leave_id)->first();
+    }
+
+    public function get_pending_leaves($leave_id)
+    {
+        $alleave = DB::select('SELECT lv.*, lookafter.first_name, leaves.leave_type FROM (SELECT * FROM erp_employee_leaves WHERE company_id = '.session('company_id').' AND user_id = '.Auth::user()->id.' AND leave_id = '.$leave_id.' AND leave_status = 0) AS lv JOIN(SELECT id, first_name FROM tblemployeeinformations) AS lookafter ON lookafter.id = lv.look_after JOIN(SELECT id, leave_type FROM erp_maintain_leaves) AS leaves ON leaves.id = lv.leave_id');
+        return response()->json([
+            'status' => true,
+            'message' => 'Success',
+            'data' => $alleave
+        ]);
     }
 }

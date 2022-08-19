@@ -80,13 +80,18 @@ Route::group(['prefix'=>'hr'], function () {
    * Task Tier Forms
    */
 
-  Route::resource('apply-leave-form', 'hr\ApplyLeaveController');
-  Route::get('get-leaves-for-apply', 'hr\ApplyLeaveController@get_leaves_for_apply');
-  Route::get('prev-employee-leave-balance/{company_id}/{leave_id}', 'hr\ApplyLeaveController@prev_employee_leave_balance');
+  Route::resource('apply-leave-form', 'TaskTier\hr\ApplyLeaveController');
+  Route::get('get-leaves-for-apply', 'TaskTier\hr\ApplyLeaveController@get_leaves_for_apply');
+  Route::get('prev-employee-leave-balance/{company_id}/{leave_id}', 'TaskTier\hr\ApplyLeaveController@prev_employee_leave_balance');
 });
 
 Route::group(['prefix'=>'workflow'], function () {
-  Route::resource('add-work-flow', 'workflow\WorkFlowController');
+  Route::resource('add-work-flow', 'TaskTier\workflow\WorkFlowController');
+  Route::get('view-workflow', 'TaskTier\workflow\WorkFlowController@view_workflow');
+  Route::get('get-pending-leaves/{leave_id}', 'TaskTier\hr\ApplyLeaveController@get_pending_leaves');
+  Route::get('get-workflow-notification/{workflowfor}', 'TaskTier\workflow\WorkFlowController@get_workflow_notification');
+  Route::get('get-workflow/{id}/{searchfor}', 'TaskTier\workflow\WorkFlowController@get_workflow');
+  Route::get('change-workflow-status/{id}/{searchfor}/{workflowfor}/{status}/{avail_leave}', 'TaskTier\workflow\WorkFlowController@change_workflow_status');
 });
 
 Route::group(['prefix'=>'bank'], function () {
@@ -415,7 +420,7 @@ Route::group(['prefix'=>'company'], function () {
   Route::get('get-calendar/{dept_id}', 'company\CompanyCalenderController@get_calendar')->middleware('is_admin');
   Route::get('edit-calendar/{dept_id}', 'company\CompanyCalenderController@edit_calendar');
   Route::resource('maintain-calender', 'company\CompanyCalenderController')->middleware('is_admin');
-  Route::get('get-departments/{office_id}', 'company\CompanyCalenderController@get_departments')->middleware('is_admin');
+  Route::get('get-departments/{office_id}', 'company\CompanyCalenderController@get_departments');
   
   Route::get('company-shift', 'Admin\CompanyShiftController@company_shift')->middleware('is_admin');
   Route::get('get-shift/{dept_id}', 'Admin\CompanyShiftController@get_shift')->middleware('is_admin');

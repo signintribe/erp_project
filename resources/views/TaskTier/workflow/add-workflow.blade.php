@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="workflow-for">* Workflow For</label>
-                    <select ng-model="workflow.searchfor" id="workflow-for" class="form-control">
+                    <select ng-model="workflow.searchfor" ng-change="changeSearchType()" id="workflow-for" class="form-control">
                         <option value="">Workflow For</option>
                         <option value="Leave">Leave</option>
                         <option value="Purchase_Quotation">Quotation for purchase</option>
@@ -38,7 +38,13 @@
                     </select>
                     <i class="text-danger" ng-show="!workflow.searchfor && showError"><small>Please Select Workflow For</small></i>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="col-lg-3 col-md-3 col-sm-3" id="leavetype" style="display: none;">
+                    <label for="leave_type">Select Leave Type</label>
+                    <select ng-model="leave_id" id="" class="form-control" ng-change="getPendingLeaves(leave_id)" ng-options="lvs.id as lvs.leave_type for lvs in leaves">
+                        <option value="">Select Leave Type</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3" id="searchbox">
                     <label for="search">* Search</label>
                     <input type="text" ng-model="workflow.search" ng-blur="getResult(workflow.search)" placeholder="Search" id="search" class="form-control">
                     <div id="search-box">
@@ -82,13 +88,39 @@
                     <i class="text-danger" ng-show="!workflow.office_id && showError"><small>Please Select Office</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="forword-to">* Forword to</label>
+                    <label for="forword-to">* Forword to (Dept)</label>
                     <select ng-model="workflow.forword_to" ng-change="getRoles(workflow.forword_to)" ng-options="dept.id as dept.department_name for dept in departments" id="forword-to" class="form-control">
                         <option value="">Forword To</option>
                     </select>
                     <i class="text-danger" ng-show="!workflow.forword_to && showError"><small>Please Select Forworded To</small></i>
                 </div>
             </div><br>
+            <div class="row" ng-if="pending_leaves">
+                <div class="col">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Leave Type</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Leave Avail</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="plv in pending_leaves">
+                                <td ng-bind="plv.leave_type"></td>
+                                <td ng-bind="plv.fromdate"></td>
+                                <td ng-bind="plv.todate"></td>
+                                <td ng-bind="plv.avail_leave"></td>
+                                <td>
+                                    <input type="radio" ng-model="workflow.workflowfor" ng-value="plv.id" id="wrkfr<% plv.id %>"> <label for="wrkfr<% plv.id %>">Forward</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="assign-to">* Assign To</label>
