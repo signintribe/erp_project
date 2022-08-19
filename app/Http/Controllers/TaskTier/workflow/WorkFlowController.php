@@ -148,6 +148,20 @@ class WorkFlowController extends Controller
         ]);
     }
 
+    public function get_all_workflows()
+    {
+        if(Auth::user()->is_admin == 1){
+            $workflow = ErpWorkflow::where('company_id', session('company_id'))->get();
+        }else{
+            $roleId = tblemployeeinformation::select('role')->where('user_id', Auth::user()->id)->first();
+            $workflow = ErpWorkflow::where('company_id', session('company_id'))->where('assign_to', $roleId->role)->get();
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $workflow
+        ]);
+    }
+
     /**
      * Get specific workflow
      * @param int $id
@@ -169,7 +183,8 @@ class WorkFlowController extends Controller
     public function change_workflow_status($id, $searchfor, $workflowfor, $status)
     {
         ErpWorkflow::where('id', $id)->update([
-            'status' => $status
+            'status' => $status,
+            'view_status' => 1
         ]);
         if($searchfor== 'Leave'){
             $lv = ErpEmployeeLeave::where('id', $workflowfor)->first();

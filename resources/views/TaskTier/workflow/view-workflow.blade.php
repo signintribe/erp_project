@@ -4,9 +4,10 @@
 @section('breadcrumb', 'View Workflow')
 @section('content')
 <style>
-    .textdanger{
-        color: red;
+    .unread{
+        color: black;
         font-weight: bold;
+        background-color: #f4f0f0;
     }
 </style>
 <div ng-controller="WorkflowController" ng-cloak>
@@ -14,7 +15,7 @@
         <div class="card-header">
             <h3 class="card-title">View All Workflow</h3>
         </div>
-        <div class="card-body">
+        <div class="card-body" ng-init="getAllWorkFlows()">
             <label for="">Please Select Workflow For Search</label>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
@@ -33,19 +34,39 @@
             <table class="table" ng-if="workflows">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Search For</th>
                         <th>Forworded Date</th>
                         <th>Description</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="wf in workflows" ng-class="{textdanger: wf.view_status == 0}">
-                        <td ng-bind="wf.searchfor"></td>
+                    <tr ng-repeat="wf in workflows" ng-class="{unread: wf.view_status == 0}">
+                        <td>
+                            <i ng-if="wf.view_status == 0" class="fa fa-circle" style="font-size: 11px;"></i>
+                            <i ng-if="wf.view_status == 1" class="fa fa-circle" style="color: #ddd; font-size: 11px;"></i>
+                        </td>
+                        <td>
+                            <span ng-if="">Select Search For</span>
+                            <span ng-if="wf.searchfor == 'Leave'">Leave</span>
+                            <span ng-if="wf.searchfor == 'Purchase_Quotation'">Quotation for purchase</span>
+                            <span ng-if="wf.searchfor == 'Sale_Quotation'">Quotation for sale</span>
+                            <span ng-if="wf.searchfor == 'Requestion'">Requestion</span>
+                            <span ng-if="wf.searchfor == 'Sale_Order'">Sale Order</span>
+                            <span ng-if="wf.searchfor == 'Task'">Task</span>
+                            <span ng-if="wf.searchfor == 'Tender'">Tender</span>
+                        </td>
                         <td ng-bind="wf.forworded_date"></td>
                         <td ng-bind="wf.description"></td>
                         <td>
-                            <div class="btn-group">
+                            <span ng-if="wf.status == 2">Reject</span>
+                            <span ng-if="wf.status == 1">Approved</span>
+                            <span ng-if="wf.status == 0">Pending</span>
+                        </td>
+                        <td>
+                            <div class="btn-group" ng-if="wf.status == 0">
                                 <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#spcWorkFlow" ng-click="getWorkFlow(wf.id, wf.searchfor)">View</button>
                                 <button class="btn btn-xs btn-danger" ng-click="deleteWorkflow(wf.id, wf.searchfor)">Delete</button>
                             </div>

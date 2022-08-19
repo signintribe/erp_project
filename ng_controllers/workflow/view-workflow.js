@@ -2,8 +2,18 @@ TaskTierApp.controller('WorkflowController', function ($scope, $http) {
     $scope.workflow = {};
 
     $scope.getWorkFlowNotification = function(notificationFor){
-        var getModuleForms = $http.get('get-workflow-notification/' + notificationFor);
-        getModuleForms.then(function(response){
+        var getSpecWorkFlow = $http.get('get-workflow-notification/' + notificationFor);
+        getSpecWorkFlow.then(function(response){
+            if(response.data.status == true){
+                $scope.workflows = response.data.data;
+            }
+            console.log($scope.workflows);
+        });
+    };
+
+    $scope.getAllWorkFlows = function(){
+        var getWorkFlows = $http.get('get-all-workflows');
+        getWorkFlows.then(function(response){
             if(response.data.status == true){
                 $scope.workflows = response.data.data;
             }
@@ -12,8 +22,8 @@ TaskTierApp.controller('WorkflowController', function ($scope, $http) {
     };
 
     $scope.getWorkFlow = function(wfid, searchfor){
-        var getModuleForms = $http.get('get-workflow/' + wfid + '/' + searchfor);
-        getModuleForms.then(function(response){
+        var getOneWorkFlow = $http.get('get-workflow/' + wfid + '/' + searchfor);
+        getOneWorkFlow.then(function(response){
             if(response.data.status == true){
                 $scope.specwf = response.data.data[0];
             }
