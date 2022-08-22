@@ -45,7 +45,7 @@
                 <tbody>
                     <tr ng-repeat="wf in workflows" ng-class="{unread: wf.view_status == 0}">
                         <td>
-                            <i ng-if="wf.view_status == 0" class="fa fa-circle" style="font-size: 11px;"></i>
+                            <i ng-if="wf.view_status == 0" class="fa fa-circle" style="color: blue; font-size: 11px;"></i>
                             <i ng-if="wf.view_status == 1" class="fa fa-circle" style="color: #ddd; font-size: 11px;"></i>
                         </td>
                         <td>

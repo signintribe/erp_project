@@ -137,10 +137,10 @@ class WorkFlowController extends Controller
     public function get_workflow_notification($workflowfor)
     {
         if(Auth::user()->is_admin == 1){
-            $workflow = ErpWorkflow::where('searchfor', $workflowfor)->where('company_id', session('company_id'))->get();
+            $workflow = ErpWorkflow::where('company_id', session('company_id'))->get();
         }else{
             $roleId = tblemployeeinformation::select('role')->where('user_id', Auth::user()->id)->first();
-            $workflow = ErpWorkflow::where('searchfor', $workflowfor)->where('company_id', session('company_id'))->where('assign_to', $roleId->role)->get();
+            $workflow = ErpWorkflow::where('company_id', session('company_id'))->where('assign_to', $roleId->role)->get();
         }
         return response()->json([
             'status' => true,
