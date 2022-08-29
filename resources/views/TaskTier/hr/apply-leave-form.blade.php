@@ -3,8 +3,26 @@
 @section('pagetitle', 'Leave Application Form')
 @section('breadcrumb', 'Leave Application Form')
 @section('content')
+<style>
+    .unread{
+        color: black;
+        font-weight: bold;
+        background-color: #f4f0f0;
+    }
 
-<div ng-controller='ApplyleaveController'>
+    .reject{
+        color: red;
+        font-weight: normal;
+        background-color: #f4f0f0;
+    }
+
+    .approve{
+        color: green;
+        font-weight: normal;
+        background-color: #f4f0f0;
+    }
+</style>
+<div ng-controller='ApplyleaveController' ng-cloak>
     <div class="card">
         <div class="card-header">
             <h2 class="card-title">Leave Application Form <small><i class="text-danger" ng-if="servermessage" ng-bind="servermessage"></i></small></h2>
@@ -114,7 +132,7 @@
                         </tr>
                     </thead>
                     <tbody ng-init="getLeaves();">
-                        <tr ng-repeat="lvs in Leaves">
+                        <tr ng-repeat="lvs in Leaves" ng-class="{unread: lvs.leave_status == 0, reject: lvs.leave_status == 2,  approve: lvs.leave_status == 1}">
                             <td ng-bind="lvs.leave_type"></td>
                             <td ng-bind="lvs.fromdate"></td>
                             <td ng-bind="lvs.todate"></td>
@@ -122,6 +140,9 @@
                             <td ng-bind="lvs.avail_leave"></td>
                             <td ng-bind="lvs.first_name"></td>
                             <td>
+                                <span ng-if="lvs.leave_status == 0" class="text-info">Pending</span>
+                                <span ng-if="lvs.leave_status == 1" class="text-success">Approve</span>
+                                <span ng-if="lvs.leave_status == 2" class="text-danger">Reject</span>
                                 <!-- <div class="btn-group">
                                     <button class="btn btn-xs btn-info">Edit</button>
                                     <button class="btn btn-xs btn-danger">Delete</button>

@@ -49,7 +49,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Navbar -->
             <nav class="main-header navbar navbar-expand navbar-white navbar-light" ng-controller="MenuController">
                 <!-- Left navbar links -->
-                <ul class="navbar-nav" ng-init="getTiers(1); getModulesForms(1);getWorkFlowNotification('Leave');">
+                <ul class="navbar-nav" ng-init="getTiers(1); getModulesForms(1);getWorkFlowNotification('menu');">
                     <li class="nav-item">
                         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                     </li>
@@ -91,13 +91,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="far fa-bell"></i>
-                            <span class="badge badge-warning navbar-badge" ng-bind="workflows.length"></span>
+                            <span class="badge badge-warning navbar-badge" ng-bind="workflowslength"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                            <span class="dropdown-item dropdown-header"><b ng-bind="workflows.length"></b> Notifications</span>
+                            <span class="dropdown-item dropdown-header"><b ng-bind="workflowslength"></b> Notifications</span>
                             <div class="dropdown-divider"></div>
                             <a href="{{url('workflow/view-workflow')}}" class="dropdown-item">
-                                <i class="fas fa-envelope mr-2"></i> <span ng-bind="workflows.length"></span> Workflow(s)
+                                <i class="fas fa-envelope mr-2"></i> <span ng-bind="workflowslength"></span> Workflow(s)
                                 <!-- <span class="float-right text-muted text-sm">3 mins</span> -->
                             </a>
                             <div class="dropdown-divider"></div>
@@ -309,11 +309,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 };
                 $scope.getModulesForms(1);
 
-                $scope.getWorkFlowNotification = function(notificationFor){
-                    var getModuleForms = $http.get($('#baseurl').val() + 'workflow/get-workflow-notification/' + notificationFor);
+                $scope.getWorkFlowNotification = function(location){
+                    var allrec = 'All';
+                    var getModuleForms = $http.get($('#baseurl').val() + 'workflow/get-all-workflows/' + allrec + '/' + location);
                     getModuleForms.then(function(response){
                         if(response.data.status == true){
-                            $scope.workflows = response.data.data;
+                            $scope.workflowslength = response.data.data;
                         }
                     });
                 };

@@ -46,16 +46,19 @@
                             </div>
                             <label for="actions">Actions</label><br/><br/>
                             <p>
-                                <input type="checkbox" ng-click="getCheckList('approval')" id="approval"> <label for="approval">Approval</label>
+                                <input type="checkbox" ng-click="getCheckList('Approval')" id="approval"> <label for="approval">Approval</label>
                             </p>
                             <p>
-                                <input type="checkbox" ng-click="getCheckList('decline')" id="decline"> <label for="decline">Decline</label>
+                                <input type="checkbox" ng-click="getCheckList('Decline')" id="decline"> <label for="decline">Decline</label>
                             </p>
                             <p>
-                                <input type="checkbox" ng-click="getCheckList('discus')" id="discus"> <label for="discus">Discus</label>
+                                <input type="checkbox" ng-click="getCheckList('Discus')" id="discus"> <label for="discus">Discus</label>
                             </p>
                             <p>
-                                <input type="checkbox" ng-click="getCheckList('other')" id="other"> <label for="other">Other</label>
+                                <input type="checkbox" ng-click="getCheckList('Recommendation')" id="recommendation"> <label for="recommendation">Recommendation</label>
+                            </p>
+                            <p>
+                                <input type="checkbox" ng-click="getCheckList('Other')" id="other"> <label for="other">Other</label>
                             </p>
                         </div>
                     </div><br/>

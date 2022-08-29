@@ -9,13 +9,16 @@
         font-weight: bold;
         background-color: #f4f0f0;
     }
+    .table-sm{
+        font-size: 14px;
+    }
 </style>
 <div ng-controller="WorkflowController" ng-cloak>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">View All Workflow</h3>
         </div>
-        <div class="card-body" ng-init="getAllWorkFlows()">
+        <div class="card-body" ng-init="getAllWorkFlows('inbox')">
             <label for="">Please Select Workflow For Search</label>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
@@ -30,8 +33,13 @@
                         <option value="Tender">Tender</option>
                     </select>
                 </div>
-            </div>
-            <table class="table" ng-if="workflows">
+                <div class="col-lg-3 col-md-3 col-sm-3"></div>
+                <div class="col-lg-3 col-md-3 col-sm-3"></div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <button class="btn btn-sm btn-primary float-right" ng-click="getAllWorkFlows('inbox')"> <i class="fa fa-refresh"></i> </button>
+                </div>
+            </div><hr/>
+            <table class="table table-sm" ng-if="workflows">
                 <thead>
                     <tr>
                         <th></th>
@@ -68,12 +76,16 @@
                         <td>
                             <div class="btn-group" ng-if="wf.status == 0">
                                 <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#spcWorkFlow" ng-click="getWorkFlow(wf.id, wf.searchfor)">View</button>
-                                <button class="btn btn-xs btn-danger" ng-click="deleteWorkflow(wf.id, wf.searchfor)">Delete</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteWorkflow(wf.id)">Delete</button>
                             </div>
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table><br/>
+            <div class="text-center">
+                <button class="btn btn-sm btn-primary" ng-if="workflows.length > 19" ng-click="loadMore('inbox')" id="btn-loadmore"><i class="fa fa-spinner" id="load-more"></i> Load More</button>
+                <p ng-if="nomore" ng-bind="nomore"></p>
+            </div>
             <!-- Modal -->
             <div id="spcWorkFlow" class="modal fade" role="dialog">
                 <div class="modal-dialog modal-lg">
@@ -85,6 +97,9 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
+                            <div class="text-center">
+                                <i class="fa" id="view-loader"></i>
+                            </div>
                             <div ng-if="specwf.searchfor == 'Leave'">
                                 <h3 class="card-title">
                                     Leave Applied For : <span ng-bind="specwf.leave_type"></span>
@@ -122,7 +137,7 @@
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3">
                                         <label for="">Attachment</label>
-                                        <a href="{{asset('public/leave_proof/<% specwf.attachment_file %>')}}" class="form-control">Proof Attachment</a>
+                                        <a href="{{asset('public/leave_proof/<% specwf.attachment_file %>')}}" class="btn btn-block btn-primary">Proof Attachment</a>
                                     </div>
                                 </div><br/>
                                 <div class="row">
@@ -130,13 +145,64 @@
                                         <label for="">Description</label>
                                         <p class="form-control" ng-bind="specwf.description"></p>
                                     </div>
+                                </div><hr/>
+                                <div class="row">
+                                    <div class="col">
+                                        <h5>Forward To</h5>
+                                    </div>
+                                </div><hr>
+                                <table class="table table-bordered table-sm">
+                                    <tr>
+                                        <th>Office Name</th>
+                                        <th>Forward To</th>
+                                        <th>Assign To</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    <tr ng-repeat="fwo in wfforwards">
+                                        <td ng-bind="fwo.office_name"></td>
+                                        <td ng-bind="fwo.forword_to"></td>
+                                        <td ng-bind="fwo.role_name"></td>
+                                        <td ng-bind="fwo.action"></td>
+                                    </tr>
+                                </table>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getoffice()">
+                                        <label for="office">* Select Office</label>
+                                        <select ng-model="workflow.office_id" ng-change="getDepartments(workflow.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
+                                            <option value="">Select Office</option>
+                                        </select>
+                                        <i class="text-danger" ng-show="!workflow.office_id && showError"><small>Please Select Office</small></i>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="forword-to">* Forword to (Dept)</label>
+                                        <select ng-model="workflow.forword_to" ng-change="getRoles(workflow.forword_to)" ng-options="dept.id as dept.department_name for dept in departments" id="forword-to" class="form-control">
+                                            <option value="">Forword To</option>
+                                        </select>
+                                        <i class="text-danger" ng-show="!workflow.forword_to && showError"><small>Please Select Forworded To</small></i>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="assign-to">* Assign To</label>
+                                        <select ng-model="workflow.assign_to" ng-change="getActions(workflow.assign_to)" id="assign-to" ng-options="rol.id as rol.role_name for rol in allroles" class="form-control" id="role">
+                                            <option value="">Select Assign To</option>
+                                        </select>
+                                        <i class="text-danger" ng-show="!workflow.assign_to && showError"><small>Please Select Assign To</small></i>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="forward_for">Fowrord for</label>
+                                        <select ng-model="workflow.action_id" id="forward_for" ng-options="act.id as act.action for act in allactions" class="form-control">
+                                            <option value="">Select Action</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" ng-if="specwf.status == 0" class="btn btn-danger" ng-click="changeStatus(specwf.id, specwf.searchfor, specwf.workflowfor, 2, specwf.avail_leave)">Reject</button>
-                            <button type="button" ng-if="specwf.status == 0" class="btn btn-success" ng-click="changeStatus(specwf.id, specwf.searchfor, specwf.workflowfor, 1, 0)">Approve</button>
+                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                            <div class="btn-group" ng-if="specwf.searchfor == 'Leave'">
+                                <button type="button" ng-if="specwf.status == 0" class="btn btn-danger btn-sm" ng-click="changeStatus(specwf.id, specwf.searchfor, specwf.workflowfor, 2, specwf.avail_leave)">Reject</button>
+                                <button type="button" ng-if="specwf.status == 0" class="btn btn-success btn-sm" ng-click="changeStatus(specwf.id, specwf.searchfor, specwf.workflowfor, 1, 0)">Approve</button>
+                            </div>
+                            <button class="btn btn-primary btn-sm" ng-click="forwardTo(specwf.id)"> <i class="fa fa-send" id="loader"></i> Forward</button>
                         </div>
                     </div>
 

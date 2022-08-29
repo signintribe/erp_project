@@ -16,6 +16,14 @@
         padding: 10px;
         display: none;
     }
+    .unread{
+        color: black;
+        font-weight: bold;
+        background-color: #f4f0f0;
+    }
+    .table-sm{
+        font-size: 14px;
+    }
 </style>
 <div ng-controller="WorkflowController" ng-cloak>
     <div class="card">
@@ -38,13 +46,13 @@
                     </select>
                     <i class="text-danger" ng-show="!workflow.searchfor && showError"><small>Please Select Workflow For</small></i>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3" id="leavetype" style="display: none;">
+                <div class="col-lg-9 col-md-9 col-sm-9" id="leavetype" style="display: none;">
                     <label for="leave_type">Select Leave Type</label>
                     <select ng-model="leave_id" id="" class="form-control" ng-change="getPendingLeaves(leave_id)" ng-options="lvs.id as lvs.leave_type for lvs in leaves">
                         <option value="">Select Leave Type</option>
                     </select>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3" id="searchbox">
+                <div class="col-lg-9 col-md-9 col-sm-9" id="searchbox">
                     <label for="search">* Search</label>
                     <input type="text" ng-model="workflow.search" ng-blur="getResult(workflow.search)" placeholder="Search" id="search" class="form-control">
                     <div id="search-box">
@@ -80,6 +88,8 @@
                         <i class="text-danger" ng-show="!workflow.workflowfor && showError"><small>Please Search Workflow For</small></i>
                     </div>
                 </div>
+            </div><br/>
+            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getoffice()">
                     <label for="office">* Select Office</label>
                     <select ng-model="workflow.office_id" ng-change="getDepartments(workflow.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
@@ -93,6 +103,22 @@
                         <option value="">Forword To</option>
                     </select>
                     <i class="text-danger" ng-show="!workflow.forword_to && showError"><small>Please Select Forworded To</small></i>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="assign-to">* Assign To</label>
+                    <select ng-model="workflow.assign_to" ng-change="getActions(workflow.assign_to)" id="assign-to" ng-options="rol.id as rol.role_name for rol in allroles" class="form-control" id="role">
+                        <option value="">Select Assign To</option>
+                    </select>
+                    <i class="text-danger" ng-show="!workflow.assign_to && showError"><small>Please Select Assign To</small></i>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="forword-for">Fowrord for</label>
+                    <select ng-model="workflow.action_id" id="forword-for" ng-options="act.id as act.action for act in allactions" class="form-control">
+                        <option value="">Select Action</option>
+                    </select>
+                    <!-- <p ng-repeat="act in allactions">
+                        <input type="checkbox" ng-click="getCheckList(act.action)" id="<% act.action %>"> <label for="<% act.action %>" ng-bind="act.action"></label>
+                    </p> -->
                 </div>
             </div><br>
             <div class="row" ng-if="pending_leaves">
@@ -123,13 +149,6 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="assign-to">* Assign To</label>
-                    <select ng-model="workflow.assign_to" ng-change="getActions(workflow.assign_to)" id="assign-to" ng-options="rol.id as rol.role_name for rol in allroles" class="form-control" id="role">
-                        <option value="">Select Assign To</option>
-                    </select>
-                    <i class="text-danger" ng-show="!workflow.assign_to && showError"><small>Please Select Assign To</small></i>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="forworded_date">Forworded Date</label>
                     <div class="form-group">
                         <div class="input-group date" id="forworded_date" data-target-input="nearest">
@@ -144,14 +163,6 @@
                     <label for="attachment">Attechment</label>
                     <input type="file" onchange="angular.element(this).scope().readUrl(this);" id="attachment" class="form-control">
                 </div>
-            </div><br/>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3" ng-if="allactions">
-                    <label for="forword-for">Fowrord for</label>
-                    <p ng-repeat="act in allactions">
-                        <input type="checkbox" ng-click="getCheckList(act.action)" id="<% act.action %>"> <label for="<% act.action %>" ng-bind="act.action"></label>
-                    </p>
-                </div>
                 <div class="col-lg-3 col-md-3 col-sm-3"></div>
                 <div class="col-lg-3 col-md-3 col-sm-3"></div>
             </div><br/>
@@ -165,6 +176,58 @@
                 <div class="col">
                     <button class="btn btn-success btn-sm float-right" ng-click="saveWorkflow()"> <i id="loader" class="fa fa-save"></i> Save</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">My Workflows</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Search For</th>
+                        <th>Forworded Date</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody ng-init="getMyWorkFlows()">
+                    <tr ng-repeat="wf in myworkflows" ng-class="{unread: wf.view_status == 0}">
+                        <td>
+                            <i ng-if="wf.view_status == 0" class="fa fa-circle" style="color: blue; font-size: 11px;"></i>
+                            <i ng-if="wf.view_status == 1" class="fa fa-circle" style="color: #ddd; font-size: 11px;"></i>
+                        </td>
+                        <td>
+                            <span ng-if="wf.searchfor == 'Leave'">Leave</span>
+                            <span ng-if="wf.searchfor == 'Purchase_Quotation'">Quotation for purchase</span>
+                            <span ng-if="wf.searchfor == 'Sale_Quotation'">Quotation for sale</span>
+                            <span ng-if="wf.searchfor == 'Requestion'">Requestion</span>
+                            <span ng-if="wf.searchfor == 'Sale_Order'">Sale Order</span>
+                            <span ng-if="wf.searchfor == 'Task'">Task</span>
+                            <span ng-if="wf.searchfor == 'Tender'">Tender</span>
+                        </td>
+                        <td ng-bind="wf.forworded_date"></td>
+                        <td ng-bind="wf.description"></td>
+                        <td>
+                            <span ng-if="wf.status == 2">Reject</span>
+                            <span ng-if="wf.status == 1">Approved</span>
+                            <span ng-if="wf.status == 0">Pending</span>
+                        </td>
+                        <td>
+                            <div class="btn-group" ng-if="wf.status == 0">
+                                <button class="btn btn-xs btn-danger" ng-click="deleteWorkflow(wf.id, wf.searchfor)">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table><br/>
+            <div class="text-center">
+                <button class="btn btn-sm btn-primary" ng-if="myworkflows.length > 19" ng-click="loadMore()" id="btn-loadmore"><i class="fa fa-spinner" id="load-more"></i> Load More</button>
+                <p ng-if="nomore" ng-bind="nomore"></p>
             </div>
         </div>
     </div>

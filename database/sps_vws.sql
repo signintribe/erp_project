@@ -3166,3 +3166,15 @@ select dc.debitTotal, dc.CreditTotal, ac.CategoryName from (
     select id, CategoryName 
     from tblaccountcategories
 ) as ac on ac.id = dc.account_id
+
+
+/**
+  Quotation for purchase dataset
+**/
+SELECT workflow.*, 
+qp.quotation_number, qp.quotation_date, qp.quotation_status, qp.apply_to, qp.applied_id, qp.quotation_till, qp.delivery_date, qp.unit_price, qp.quantity, qp.gross_price, qp.discount_name, qp.discount_amount, qp.net_amount, qp.payment_type, qp.advance_percentage, qp.time_advance, qp.description 
+FROM(
+  SELECT * FROM erp_workflows WHERE id = 1 
+) AS workflow JOIN (
+  SELECT * FROM erp_quotation_purchases
+) AS qp ON qp.quotation_number = workflow.workflowfor;

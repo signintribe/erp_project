@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use App\Models\TaskTire\WorkFlow\ErpWorkflow;
-use App\Models\TaskTire\WorkFlow\ErpWorkflowAction;
+use App\Models\TaskTire\WorkFlow\ErpWorkflowForward;
 use App\Models\employeeCenter\tblemployeeinformation;
 use App\Models\TaskTire\hr\ErpEmployeeLeave;
 class WorkFlowController extends Controller
@@ -54,27 +54,36 @@ class WorkFlowController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request->all();
-        $data = $request->except(['attach_file', 'role_action', 'search']);
-        $imgname = "";
-        if ($request->hasFile('attach_file')) {
-            $current = date('ymd') . rand(1, 999999) . time();
-            $file = $request->file('attach_file');
-            $imgname = $current . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('/workflows'), $imgname);
-            if($request->id){
-                $this->deleteOldImage($request->attachment_file);
+        if($request->flow_id){
+            $data = $request->all();
+            ErpWorkflowForward::create($data);
+        }else{
+            return "Save Workflow";
+            $data = $request->except(['attach_file', 'search', 'action_id']);
+            $imgname = "";
+            if ($request->hasFile('attach_file')) {
+                $current = date('ymd') . rand(1, 999999) . time();
+                $file = $request->file('attach_file');
+                $imgname = $current . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('/workflows'), $imgname);
+                if($request->id){
+                    $this->deleteOldImage($request->attachment_file);
+                }
             }
-        }
-        $data['attachment_file'] = $imgname;
-        $data['company_id'] = session('company_id');
-        $wf = ErpWorkflow::create($data);
-        $actions = json_decode($request->role_action);
-        foreach ($actions as $key => $value) {
-            ErpWorkflowAction::create([
-                'flow_id' => $wf->id,
-                'action' => $value
-            ]);
+            $data['attachment_file'] = $imgname;
+            $data['company_id'] = session('company_id');
+            $data['user_id'] = Auth::user()->id;
+            $wf = ErpWorkflow::create($data);
+            $action = $request->except(['attach_file', 'search', 'description', 'forworded_date', 'searchfor', 'workflowfor']);
+            $action['flow_id'] = $wf->id;
+            ErpWorkflowForward::create($action);
+            /* $actions = json_decode($request->role_action);
+            foreach ($actions as $key => $value) {
+                ErpWorkflowAction::create([
+                    'flow_id' => $wf->id,
+                    'action' => $value
+                ]);
+            } */
         }
         return response()->json([
             'status' => true,
@@ -88,9 +97,10 @@ class WorkFlowController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($array)
     {
-        //
+        $ar = json_decode($array, 'false');
+        return ErpWorkflow::where('company_id', $ar['company_id'])->where('user_id', Auth::user()->id)->skip($ar['offset'])->take($ar['limit'])->get();
     }
 
     /**
@@ -137,10 +147,10 @@ class WorkFlowController extends Controller
     public function get_workflow_notification($workflowfor)
     {
         if(Auth::user()->is_admin == 1){
-            $workflow = ErpWorkflow::where('company_id', session('company_id'))->get();
+            $workflow = ErpWorkflow::where('searchfor', $workflowfor)->where('company_id', session('company_id'))->get();
         }else{
             $roleId = tblemployeeinformation::select('role')->where('user_id', Auth::user()->id)->first();
-            $workflow = ErpWorkflow::where('company_id', session('company_id'))->where('assign_to', $roleId->role)->get();
+            $workflow = ErpWorkflow::where('searchfor', $workflowfor)->where('company_id', session('company_id'))->where('assign_to', $roleId->role)->get();
         }
         return response()->json([
             'status' => true,
@@ -148,13 +158,24 @@ class WorkFlowController extends Controller
         ]);
     }
 
-    public function get_all_workflows()
+    public function get_all_workflows($paginate, $location)
     {
-        if(Auth::user()->is_admin == 1){
-            $workflow = ErpWorkflow::where('company_id', session('company_id'))->get();
-        }else{
-            $roleId = tblemployeeinformation::select('role')->where('user_id', Auth::user()->id)->first();
-            $workflow = ErpWorkflow::where('company_id', session('company_id'))->where('assign_to', $roleId->role)->get();
+        if($location == 'menu'){
+            if(Auth::user()->is_admin == 1){
+                $workflow = DB::select('SELECT wf.* FROM (SELECT * FROM erp_workflow_forwards) AS wff JOIN(SELECT * FROM erp_workflows) AS wf ON wf.id = wff.flow_id');
+            }else{
+                $roleId = tblemployeeinformation::select('role')->where('user_id', Auth::user()->id)->first();
+                $workflow = DB::select('SELECT wf.* FROM (SELECT * FROM erp_workflow_forwards WHERE assign_to = '.$roleId->role.') AS wff JOIN(SELECT * FROM erp_workflows) AS wf ON wf.id = wff.flow_id');
+            }
+            $workflow = count($workflow);
+        }else if($location == 'inbox'){
+            $page = json_decode($paginate, 'false');
+            if(Auth::user()->is_admin == 1){
+                $workflow = DB::select('SELECT wf.* FROM (SELECT * FROM erp_workflow_forwards) AS wff JOIN(SELECT * FROM erp_workflows) AS wf ON wf.id = wff.flow_id LIMIT '.$page['offset'].', '.$page['limit'].'');
+            }else{
+                $roleId = tblemployeeinformation::select('role')->where('user_id', Auth::user()->id)->first();
+                $workflow = DB::select('SELECT wf.* FROM (SELECT * FROM erp_workflow_forwards WHERE assign_to = '.$roleId->role.') AS wff JOIN(SELECT * FROM erp_workflows) AS wf ON wf.id = wff.flow_id LIMIT '.$page['offset'].', '.$page['limit'].'');
+            }
         }
         return response()->json([
             'status' => true,
@@ -170,13 +191,37 @@ class WorkFlowController extends Controller
      */
     public function get_workflow($id, $searchfor)
     {
-        if($searchfor == 'Leave'){
-            $workflow = DB::select('SELECT wf.*, lv.fromdate, lv.todate, lv.avail_leave, lv.available_balance, lv.look_after, lv.total_leave, lv.description, lv.leave_status, yl.leave_type, user.name AS applied_name, emp.first_name AS lookafter_name FROM (SELECT * FROM erp_workflows WHERE id = '.$id.' AND searchfor = "'.$searchfor.'") AS wf JOIN(SELECT * FROM erp_employee_leaves) AS lv ON lv.id = wf.workflowfor JOIN(SELECT id, leave_type FROM erp_maintain_leaves) AS yl ON yl.id = lv.leave_id JOIN(SELECT id, name FROM users) AS user ON user.id = lv.user_id JOIN(SELECT id, first_name FROM tblemployeeinformations) AS emp on emp.id = lv.look_after;');
+        switch($searchfor){
+            case 'Leave':
+                $workflow = DB::select('SELECT wf.*, lv.fromdate, lv.todate, lv.avail_leave, lv.available_balance, lv.look_after, lv.total_leave, lv.description, lv.leave_status, yl.leave_type, user.name AS applied_name, emp.first_name AS lookafter_name FROM (SELECT * FROM erp_workflows WHERE id = '.$id.' AND searchfor = "'.$searchfor.'") AS wf JOIN(SELECT * FROM erp_employee_leaves) AS lv ON lv.id = wf.workflowfor JOIN(SELECT id, leave_type FROM erp_maintain_leaves) AS yl ON yl.id = lv.leave_id JOIN(SELECT id, name FROM users) AS user ON user.id = lv.user_id JOIN(SELECT id, first_name FROM tblemployeeinformations) AS emp on emp.id = lv.look_after');
+                $forwards = DB::select('SELECT fw.flow_id, office.office_name, dept.department_name AS forword_to, act.action, role.role_name FROM (SELECT * FROM erp_workflow_forwards WHERE flow_id = '.$id.') AS fw JOIN (SELECT id, office_name FROM tblmaintain_offices) AS office ON office.id = fw.office_id JOIN(SELECT id, department_name FROM tbldepartmens) AS dept ON dept.id = fw.forword_to JOIN(SELECT id, action FROM erp_role_actions) AS act ON act.id = fw.action_id JOIN(SELECT id, role_name FROM erp_employee_roles) AS role ON role.id = fw.assign_to');
+                break;
+            case 'Purchase_Quotation':
+                return $searchfor;
+                break;
+            case 'Tender':
+                return $searchfor;
+                break;
+            case 'Requestion':
+                return $searchfor;
+                break;
+            case 'Sale_Order':
+                return $searchfor;
+                break;
+            case 'Sale_Quotation':
+                return $searchfor;
+                break;
+            case 'Task':
+                return $searchfor;
+                break;
+            default:
+                return 'Wrong input';
         }
 
         return response()->json([
             'status' => true,
-            'data' => $workflow
+            'data' => $workflow,
+            'forwards' => $forwards
         ]);
     }
 

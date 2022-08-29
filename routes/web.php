@@ -92,7 +92,7 @@ Route::group(['prefix'=>'workflow'], function () {
   Route::get('get-workflow-notification/{workflowfor}', 'TaskTier\workflow\WorkFlowController@get_workflow_notification');
   Route::get('get-workflow/{id}/{searchfor}', 'TaskTier\workflow\WorkFlowController@get_workflow');
   Route::get('change-workflow-status/{id}/{searchfor}/{workflowfor}/{status}/{avail_leave}', 'TaskTier\workflow\WorkFlowController@change_workflow_status');
-  Route::get('get-all-workflows', 'TaskTier\workflow\WorkFlowController@get_all_workflows');
+  Route::get('get-all-workflows/{paginate}/{location}', 'TaskTier\workflow\WorkFlowController@get_all_workflows');
 });
 
 Route::group(['prefix'=>'bank'], function () {

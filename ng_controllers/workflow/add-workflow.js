@@ -163,6 +163,7 @@ TaskTierApp.controller('WorkflowController', function ($scope, $http) {
                         type: "success"
                     });
                     $scope.workflow = {};
+                    $scope.getMyWorkFlows();
                     $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 }else{
                     swal({
@@ -170,6 +171,7 @@ TaskTierApp.controller('WorkflowController', function ($scope, $http) {
                         text: res.data.message,
                         type: "warning"
                     });
+                    $scope.getMyWorkFlows();
                     $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 }
             });
@@ -185,5 +187,60 @@ TaskTierApp.controller('WorkflowController', function ($scope, $http) {
             });
         };
         reader.readAsDataURL(element.files[0]);
+    };
+    $scope.paginate = {};
+    $scope.getMyWorkFlows = function(){
+        $scope.myworkflows = {};
+        $scope.offset = 0;
+        $scope.limit = 20;
+        $scope.paginate = {
+            'limit' : $scope.limit,
+            'offset' : $scope.offset,
+            'company_id' : $("#company_id").val()
+        };
+        $http.get('add-work-flow/' + JSON.stringify($scope.paginate)).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.myworkflows = response.data;
+                $scope.offset += $scope.limit;
+            }
+        });
+    };
+
+    $scope.loadMore = function(){
+        //$scope.myworkflows = {};
+        $scope.paginate = {
+            'limit' : $scope.limit,
+            'offset' : $scope.offset,
+            'company_id' : $("#company_id").val()
+        };
+        $("#load-more").addClass('fa-sw fa-pulse');
+        $http.get('add-work-flow/'+ JSON.stringify($scope.paginate)).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.myworkflows = $scope.myworkflows.concat(response.data);
+                $scope.offset += $scope.limit;
+                $("#load-more").removeClass('fa-sw fa-pulse');
+            }else{
+                $scope.nomore = "There is no more records";
+                $("#btn-loadmore").hide();
+            }
+        });
+    };
+
+    $scope.deleteWorkflow = function(id){
+        swal({
+            title: "Are you sure?",
+            text: "Your will not be able to recover this record!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-primary",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        },
+        function(){
+            $http.delete('add-work-flow/'+id).then(function (response) {
+                $scope.getMyWorkFlows();
+                swal("Deleted!", response.data, "success");
+            });
+        });
     };
 });
