@@ -6,6 +6,74 @@
 <div ng-controller="JDController" ng-cloak>
     <div class="card">
         <div class="card-header">
+            <h4 class="card-title">Add Employee JD's</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-3">
+                    <label for="">Name of task</label>
+                    <input type="text" name="name-task" id="" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="">SOP for task</label>
+                    <input type="text" name="sop-task" id="" class="form-control">
+                </div>
+                <div class="col-3">
+                    <label for="">Dose Repeat</label>
+                    <p class="form-control">
+                        <input type="radio" name="yes" id="yes">  Yes
+                        <input type="radio" name="no" id="no">  No
+                    </p>
+                </div>
+                <div class="col-3">
+                    <label for="">JD Attachment</label>
+                    <input type="file" name="jd-attacment" id="jd-attacment" class="form-control">
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-4">
+                    <label for="">Frequency of Repeat</label><br>
+                    <input type="radio" name="daily" id="daily">  Daily <br>
+                    <input type="radio" name="weekly" id="weekly">  Weekly <br>
+                    <input type="radio" name="monthly" id="monthly">  Monthly
+                </div>
+            </div><br>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-10"></div>
+                <div class="col-2">
+                    <button type="button" id="more_fields" onclick="add_fields();" class="btn btn-secondary">Add More</button>
+                </div>
+            </div>
+            <div id="fileds">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="">Description</label>
+                        <textarea name="description" id="description" class="form-control"></textarea>
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-3">
+                        <label for="">Pay Allowance</label>
+                        <select name="pay-allowance" id="pay-allowance" class="form-control">
+                            <option value="">select pay allowance</option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div><br>
+            </div>
+            <div class="row">
+                <div class="col" align="right">
+                    <button class="btn-success">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="card">
+        <div class="card-header">
             <div class="row">
                 <div class="col">
                     <h3 class="card-title">Add Employee JD's</h3>
@@ -23,7 +91,7 @@
                         <option value="">Select Company</option>
                     </select>
                 </div> -->
-                <div class="col-lg-3 col-md-3 col-sm-3">
+                <!--<div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="office">Select Office</label>
                     <select ng-model="jds.office_id" ng-change="getDepartments(jds.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
                         <option value="">Select Office</option>
@@ -76,7 +144,7 @@
                 </div>
             </div>        
         </div>
-    </div><br>
+    </div><br>-->
     <div class="card d-print-none">
         <div class="card-header">
             <h3 class="card-title">Get All Payscale</h3>
@@ -114,6 +182,18 @@
         </div>
     </div>
 </div>
+<script>
+function add_fields() {
+    var objTo = document.getElementById('fileds')
+    var divtest = document.createElement("div");
+    divtest.innerHTML = '<div class="row"><div class="col-12"><label for="">Description</label>'+
+        '<textarea name="description" id="description" class="form-control"></textarea>'+
+    '</div></div><br><div class="row"><div class="col-3"><label for="">Pay Allowance</label>'+
+    '<select name="pay-allowance" id="pay-allowance" class="form-control"><option value="">select pay allowance</option></select></div></div><br>';
+
+    objTo.appendChild(divtest)
+}
+</script>
 @endsection
 @section('internaljs')
 <script src="{{asset('ng_controllers/creation_hr/employee-jd.js')}}"></script>
