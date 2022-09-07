@@ -93,7 +93,8 @@
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Workflow Detail</h4>
+                            <h4 class="modal-title" ng-if="specwf.searchfor == 'Purchase_Quotation'">Workflow Detail Quotation For Purchase</h4>
+                            <h4 class="modal-title" ng-if="specwf.searchfor == 'Leave'">Workflow Detail Leave</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
@@ -101,6 +102,7 @@
                                 <i class="fa" id="view-loader"></i>
                             </div>
                             <div ng-if="specwf.searchfor == 'Leave'">
+                                <h5>Workflow of Leave</h5><hr>
                                 <h3 class="card-title">
                                     Leave Applied For : <span ng-bind="specwf.leave_type"></span>
                                 </h3><br/><br/>
@@ -193,6 +195,56 @@
                                             <option value="">Select Action</option>
                                         </select>
                                     </div>
+                                </div>
+                            </div>
+                            <div ng-if="specwf.searchfor == 'Purchase_Quotation'">
+                                <h3 class="card-title">
+                                    Product Name: <span ng-bind="specwf.product_name"></span>
+                                </h3><br><br/>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="quotation_number">Quotation Number</label>
+                                        <p class="form-control" ng-bind="specwf.quotation_number"></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="quotation_date">Quotation Date</label>
+                                        <p class="form-control" ng-bind="specwf.quotation_date"></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="applyfor">Apply for</label>
+                                        <p class="form-control" ng-bind="specwf.apply_to"></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="till_date">Quotation Till Date</label>
+                                        <p class="form-control" ng-bind="specwf.quotation_till"></p>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="delivery_date">Delivery Date</label>
+                                        <p class="form-control" ng-bind="specwf.delivery_date"></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="product_name">Product Name</label>
+                                        <p class="form-control" ng-bind="specwf.product_name"></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="unit_price">Unit Price</label>
+                                        <p class="form-control" ng-bind="specwf.unit_price"></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="quantity">Quantity</label>
+                                        <p class="form-control" ng-bind="specwf.quantity"></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="gross_price">Gross Price</label>
+                                        <p class="form-control" ng-bind="specwf.gross_price"></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    
                                 </div>
                             </div>
                         </div>

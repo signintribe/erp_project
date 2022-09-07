@@ -194,11 +194,17 @@ class WorkFlowController extends Controller
         switch($searchfor){
             case 'Leave':
                 $workflow = DB::select('SELECT wf.*, lv.fromdate, lv.todate, lv.avail_leave, lv.available_balance, lv.look_after, lv.total_leave, lv.description, lv.leave_status, yl.leave_type, user.name AS applied_name, emp.first_name AS lookafter_name FROM (SELECT * FROM erp_workflows WHERE id = '.$id.' AND searchfor = "'.$searchfor.'") AS wf JOIN(SELECT * FROM erp_employee_leaves) AS lv ON lv.id = wf.workflowfor JOIN(SELECT id, leave_type FROM erp_maintain_leaves) AS yl ON yl.id = lv.leave_id JOIN(SELECT id, name FROM users) AS user ON user.id = lv.user_id JOIN(SELECT id, first_name FROM tblemployeeinformations) AS emp on emp.id = lv.look_after');
-                $forwards = DB::select('SELECT fw.flow_id, office.office_name, dept.department_name AS forword_to, act.action, role.role_name FROM (SELECT * FROM erp_workflow_forwards WHERE flow_id = '.$id.') AS fw JOIN (SELECT id, office_name FROM tblmaintain_offices) AS office ON office.id = fw.office_id JOIN(SELECT id, department_name FROM tbldepartmens) AS dept ON dept.id = fw.forword_to JOIN(SELECT id, action FROM erp_role_actions) AS act ON act.id = fw.action_id JOIN(SELECT id, role_name FROM erp_employee_roles) AS role ON role.id = fw.assign_to');
                 break;
             case 'Purchase_Quotation':
-                return $searchfor;
+                $workflow = DB::select('SELECT wf.*, q.quotation_number, q.quotation_date, q.quotation_status, q.apply_to, q.applied_id, q.quotation_till, q.delivery_date, q.product_id, q.unit_price, q.quantity, q.gross_price, q.discount_name, q.discount_amount, q.net_amount, q.payment_type, q.advance_percentage, q.time_advance, prod.product_name FROM(
+                                            SELECT * FROM erp_workflows WHERE id = '.$id.' AND searchfor = "'.$searchfor.'"
+                                        ) AS wf JOIN(
+                                            SELECT * FROM erp_quotation_purchases 
+                                        ) AS q ON q.quotation_number = wf.workflowfor JOIN(
+                                            SELECT id, product_name FROM tblproduct_informations) AS prod ON prod.id = q.product_id'
+                                        );
                 break;
+
             case 'Tender':
                 return $searchfor;
                 break;
@@ -217,7 +223,7 @@ class WorkFlowController extends Controller
             default:
                 return 'Wrong input';
         }
-
+        $forwards = DB::select('SELECT fw.flow_id, office.office_name, dept.department_name AS forword_to, act.action, role.role_name FROM (SELECT * FROM erp_workflow_forwards WHERE flow_id = '.$id.') AS fw JOIN (SELECT id, office_name FROM tblmaintain_offices) AS office ON office.id = fw.office_id JOIN(SELECT id, department_name FROM tbldepartmens) AS dept ON dept.id = fw.forword_to JOIN(SELECT id, action FROM erp_role_actions) AS act ON act.id = fw.action_id JOIN(SELECT id, role_name FROM erp_employee_roles) AS role ON role.id = fw.assign_to');
         return response()->json([
             'status' => true,
             'data' => $workflow,
