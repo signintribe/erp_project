@@ -53,3 +53,5 @@ Route::group(['prefix'=>'purchases'], function () {
 /**
  * Add Category Attributes
  */
+
+ Route::post('jd-save', 'Admin\EmployeeJDController@create');

@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class erp_employee_jd extends Model
 {
     protected $fillable = [
-        'department_id',
-        'group_id',
-        'jd_name',
-        'description',
+        'id',
+        'task_name',
+        'task_sop',
+        'dose_repeat',
         'attachment',
+        'frequency_repeat',
         'created_at',
         'updated_at'
     ];

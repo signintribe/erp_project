@@ -22,20 +22,24 @@
                     <label for="">Dose Repeat</label>
                     <p class="form-control">
                         <input type="radio" ng-model="jd.dose_repeat" value="yes" id="yes">  Yes
+<<<<<<< HEAD
                         <input type="radio"  value="no" id="no">  No
+=======
+                        <input type="radio" ng-model="jd.dose_repeat" value="no" id="no">  No
+>>>>>>> ac29009ad3e8240843a72fe7884ddf0e39f955d8
                     </p>
                 </div>
                 <div class="col-3">
                     <label for="">JD Attachment</label>
-                    <input type="file" name="jd-attacment" id="jd-attacment" class="form-control">
+                    <input type="file" ng-model="jd.attachment" id="jd-attachment" class="form-control">
                 </div>
             </div><br>
             <div class="row">
                 <div class="col-4">
                     <label for="">Frequency of Repeat</label><br>
-                    <input type="radio" name="daily" id="daily">  Daily <br>
-                    <input type="radio" name="weekly" id="weekly">  Weekly <br>
-                    <input type="radio" name="monthly" id="monthly">  Monthly
+                    <input type="radio" ng-model="jd.frequency_repeat" value="daily" id="daily">  Daily <br>
+                    <input type="radio" ng-model="jd.frequency_repeat" value="weekly" id="weekly">  Weekly <br>
+                    <input type="radio" ng-model="jd.frequency_repeat" value="monthly" id="monthly">  Monthly
                 </div>
             </div><br>
         </div>
