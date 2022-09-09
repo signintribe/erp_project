@@ -28,6 +28,7 @@ class ApiController extends Controller {
      * Get categories for parent id
      */
     public function get_categories($category_id) {
+        return $category_id;
         return DB::select('call sp_getchildcategoriesforcustomer("' . $category_id . '")');
     }
 

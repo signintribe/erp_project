@@ -64,6 +64,9 @@ TaskTierApp.controller('WorkflowController', function ($scope, $http) {
             if(response.data.status == true){
                 $scope.specwf = response.data.data[0];
                 $scope.wfforwards = response.data.forwards;
+                $scope.getselectedchecklist = response.data.checklist;
+                $scope.taxes = response.data.taxes;
+                $scope.deliverycharges = response.data.deliverycharges;
                 $("#view-loader").removeClass('fa-spinner fa-sw fa-3x fa-pulse');
             }
             console.log($scope.workflows);

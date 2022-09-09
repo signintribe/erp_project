@@ -12,17 +12,17 @@
             <div class="row">
                 <div class="col-3">
                     <label for="">Name of task</label>
-                    <input type="text" name="name-task" id="" class="form-control">
+                    <input type="text" ng-model="jd.task_name" id="" class="form-control">
                 </div>
                 <div class="col-3">
                     <label for="">SOP for task</label>
-                    <input type="text" name="sop-task" id="" class="form-control">
+                    <input type="text" ng-model="jd.task_sop" id="" class="form-control">
                 </div>
                 <div class="col-3">
                     <label for="">Dose Repeat</label>
                     <p class="form-control">
-                        <input type="radio" name="yes" id="yes">  Yes
-                        <input type="radio" name="no" id="no">  No
+                        <input type="radio" ng-model="jd.dose_repeat" value="yes" id="yes">  Yes
+                        <input type="radio"  value="no" id="no">  No
                     </p>
                 </div>
                 <div class="col-3">

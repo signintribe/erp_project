@@ -191,6 +191,9 @@ class WorkFlowController extends Controller
      */
     public function get_workflow($id, $searchfor)
     {
+        $checkList = array();
+        $taxes = array();
+        $deliverycharges = array();
         switch($searchfor){
             case 'Leave':
                 $workflow = DB::select('SELECT wf.*, lv.fromdate, lv.todate, lv.avail_leave, lv.available_balance, lv.look_after, lv.total_leave, lv.description, lv.leave_status, yl.leave_type, user.name AS applied_name, emp.first_name AS lookafter_name FROM (SELECT * FROM erp_workflows WHERE id = '.$id.' AND searchfor = "'.$searchfor.'") AS wf JOIN(SELECT * FROM erp_employee_leaves) AS lv ON lv.id = wf.workflowfor JOIN(SELECT id, leave_type FROM erp_maintain_leaves) AS yl ON yl.id = lv.leave_id JOIN(SELECT id, name FROM users) AS user ON user.id = lv.user_id JOIN(SELECT id, first_name FROM tblemployeeinformations) AS emp on emp.id = lv.look_after');
@@ -203,6 +206,9 @@ class WorkFlowController extends Controller
                                         ) AS q ON q.quotation_number = wf.workflowfor JOIN(
                                             SELECT id, product_name FROM tblproduct_informations) AS prod ON prod.id = q.product_id'
                                         );
+                $checkList = DB::select('SELECT * FROM erp_quotation_checklists WHERE parent_id IN(SELECT id FROM erp_workflows WHERE workflowfor = '.$workflow[0]->quotation_number.')');
+                $taxes = DB::select('SELECT * FROM erp_quotation_taxes WHERE parent_id IN(SELECT id FROM erp_workflows WHERE workflowfor = '.$workflow[0]->quotation_number.')');
+                $deliverycharges = DB::select('SELECT * FROM erp_quotation_deliverycharges WHERE parent_id IN(SELECT id FROM erp_workflows WHERE workflowfor = '.$workflow[0]->quotation_number.')');
                 break;
 
             case 'Tender':
@@ -227,6 +233,9 @@ class WorkFlowController extends Controller
         return response()->json([
             'status' => true,
             'data' => $workflow,
+            'checklist' => $checkList,
+            'taxes' => $taxes,
+            'deliverycharges' => $deliverycharges,
             'forwards' => $forwards
         ]);
     }

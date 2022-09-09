@@ -199,13 +199,9 @@
                             </div>
                             <div ng-if="specwf.searchfor == 'Purchase_Quotation'">
                                 <h3 class="card-title">
-                                    Product Name: <span ng-bind="specwf.product_name"></span>
+                                    Quotation Number: <span ng-bind="specwf.quotation_number"></span>
                                 </h3><br><br/>
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3">
-                                        <label for="quotation_number">Quotation Number</label>
-                                        <p class="form-control" ng-bind="specwf.quotation_number"></p>
-                                    </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3">
                                         <label for="quotation_date">Quotation Date</label>
                                         <p class="form-control" ng-bind="specwf.quotation_date"></p>
@@ -218,11 +214,47 @@
                                         <label for="till_date">Quotation Till Date</label>
                                         <p class="form-control" ng-bind="specwf.quotation_till"></p>
                                     </div>
-                                </div><br>
-                                <div class="row">
                                     <div class="col-lg-3 col-md-3 col-sm-3">
                                         <label for="delivery_date">Delivery Date</label>
                                         <p class="form-control" ng-bind="specwf.delivery_date"></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Check List</label>
+                                        <div class="row" id="getchecklist">
+                                            <div class="col">
+                                                <ul class="list-unstyled" ng-repeat="chklst in getselectedchecklist">
+                                                    <li ng-if="chklst.checklist == 'principal_performa'">
+                                                        Principal performa invoce with sign & stamp on company letter head
+                                                    </li>
+                                                    <li ng-if="chklst.checklist == 'agency_agreement'">
+                                                        Agency agreement with sign & stamp on company letter head
+                                                    </li>
+                                                    <li ng-if="chklst.checklist == 'oem_certificate'">
+                                                        OEM Certificate
+                                                    </li>
+                                                    <li ng-if="chklst.checklist == 'atp'">
+                                                        ATP
+                                                    </li>
+                                                    <li ng-if="chklst.checklist == 'compliance_sheet'">
+                                                        Compliance Sheet
+                                                    </li>
+                                                    <li ng-if="chklst.checklist == 'company_profile'">
+                                                        Company Profile/Certificate
+                                                    </li>
+                                                    <li ng-if="chklst.checklist == 'warrenty'">
+                                                        Warrenty / Guarantee acceptence as per IT
+                                                    </li>
+                                                    <li ng-if="chklst.checklist == 'technical_offer'">
+                                                        Complete Technical Offer
+                                                    </li>
+                                                    <li ng-if="chklst.checklist == 'trade_link'">
+                                                        Complete Trade Link
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -244,7 +276,55 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    
+                                    <div class="col">
+                                        <label for="">Taxes</label>
+                                        <table class="table table-bordered table-sm">
+                                            <tr>
+                                                <th>Sr#</th>
+                                                <th>Tax Name</th>
+                                                <th>Tax Percentage</th>
+                                            </tr>
+                                            <tr ng-repeat="tx in taxes">
+                                                <td ng-bind="$index + 1"></td>
+                                                <td ng-bind="tx.tax_name"></td>
+                                                <td ng-bind="tx.tax_percentage"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="">Delivery Charges</label>
+                                        <table class="table table-bordered table-sm">
+                                            <tr>
+                                                <th>Sr#</th>
+                                                <th>Logistic Type</th>
+                                                <th>Charges</th>
+                                            </tr>
+                                            <tr ng-repeat="chrg in deliverycharges">
+                                                <td ng-bind="$index + 1"></td>
+                                                <td ng-bind="chrg.logistic_type"></td>
+                                                <td ng-bind="chrg.delivery_charges"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="discount_name">Discount Name</label>
+                                        <p class="form-control" ng-bind="specwf.discount_name"></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="discount_amount">Discount Amount</label>
+                                        <p class="form-control" ng-bind="specwf.discount_amount"></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for="net_amount">Net Amount</label>
+                                        <p class="form-control" ng-bind="specwf.net_amount"></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label for=""></label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
