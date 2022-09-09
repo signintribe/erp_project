@@ -22,11 +22,8 @@
                     <label for="">Dose Repeat</label>
                     <p class="form-control">
                         <input type="radio" ng-model="jd.dose_repeat" value="yes" id="yes">  Yes
-<<<<<<< HEAD
                         <input type="radio"  value="no" id="no">  No
-=======
                         <input type="radio" ng-model="jd.dose_repeat" value="no" id="no">  No
->>>>>>> ac29009ad3e8240843a72fe7884ddf0e39f955d8
                     </p>
                 </div>
                 <div class="col-3">
