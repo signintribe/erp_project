@@ -37,9 +37,30 @@ class EmployeeJDController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $r)
     {
-        //
+        return $r->all();
+        $jd = new erp_employee_jd();
+        $jd->task_name = $r->task_name;
+        $jd->task_sop = $r->task_sop;
+        $jd->dose_repeat = $r->dose_repeat;
+        $jd->attachment = $r->attachment;
+        $jd->frequency_repeat =$r->frequency_repeat;
+        $result = $js->save();
+        if($result)
+        {
+            return response()->json([
+                'message'=>'JDs successfully save',
+                'status' => 'true'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'message'=>'Jds not save',
+                'status' => 'false'
+            ]);
+        }
     }
 
     /**

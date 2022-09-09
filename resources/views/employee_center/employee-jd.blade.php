@@ -12,30 +12,30 @@
             <div class="row">
                 <div class="col-3">
                     <label for="">Name of task</label>
-                    <input type="text" name="name-task" id="" class="form-control">
+                    <input type="text" ng-model="jd.task_name" id="" class="form-control">
                 </div>
                 <div class="col-3">
                     <label for="">SOP for task</label>
-                    <input type="text" name="sop-task" id="" class="form-control">
+                    <input type="text" ng-model="jd.task_sop" id="" class="form-control">
                 </div>
                 <div class="col-3">
                     <label for="">Dose Repeat</label>
                     <p class="form-control">
-                        <input type="radio" name="yes" id="yes">  Yes
-                        <input type="radio" name="no" id="no">  No
+                        <input type="radio" ng-model="jd.dose_repeat" value="yes" id="yes">  Yes
+                        <input type="radio" ng-model="jd.dose_repeat" value="no" id="no">  No
                     </p>
                 </div>
                 <div class="col-3">
                     <label for="">JD Attachment</label>
-                    <input type="file" name="jd-attacment" id="jd-attacment" class="form-control">
+                    <input type="file" ng-model="jd.attachment" id="jd-attachment" class="form-control">
                 </div>
             </div><br>
             <div class="row">
                 <div class="col-4">
                     <label for="">Frequency of Repeat</label><br>
-                    <input type="radio" name="daily" id="daily">  Daily <br>
-                    <input type="radio" name="weekly" id="weekly">  Weekly <br>
-                    <input type="radio" name="monthly" id="monthly">  Monthly
+                    <input type="radio" ng-model="jd.frequency_repeat" value="daily" id="daily">  Daily <br>
+                    <input type="radio" ng-model="jd.frequency_repeat" value="weekly" id="weekly">  Weekly <br>
+                    <input type="radio" ng-model="jd.frequency_repeat" value="monthly" id="monthly">  Monthly
                 </div>
             </div><br>
         </div>
