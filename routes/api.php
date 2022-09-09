@@ -26,6 +26,7 @@ Route::post('customer_query', 'ApiController@customer_query');
 Route::post('save_rated', 'ApiController@save_rated');
 Route::get('get-company-information/{company_id}', 'ApiController@get_complete_compnay_information');
 Route::get('get-company-rateing/{company_id}', 'ApiController@get_company_rateing');
+Route::resource('maintain-jd', 'Admin\EmployeeJDController');
 
 
 Route::group(['prefix'=>'purchases'], function () {
@@ -53,5 +54,3 @@ Route::group(['prefix'=>'purchases'], function () {
 /**
  * Add Category Attributes
  */
-
- Route::post('jd-save', 'Admin\EmployeeJDController@create');

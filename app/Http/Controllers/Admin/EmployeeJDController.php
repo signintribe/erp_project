@@ -14,9 +14,9 @@ class EmployeeJDController extends Controller
      *
      * @return void
      */
-    public function __construct() {
+    /* public function __construct() {
         $this->middleware('auth');
-    }
+    } */
     
     /**
      * Display a listing of the resource.
@@ -71,6 +71,7 @@ class EmployeeJDController extends Controller
      */
     public function store(Request $request)
     {
+        return $request->all();
         $imgname = "";
         if ($request->hasFile('jdDoc')) {
             $current = date('ymd') . rand(1, 999999) . time();
