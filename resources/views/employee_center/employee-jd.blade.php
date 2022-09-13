@@ -22,7 +22,6 @@
                     <label for="">Dose Repeat</label>
                     <p class="form-control">
                         <input type="radio" ng-model="jd.dose_repeat" value="yes" id="yes">  Yes
-                        <input type="radio"  value="no" id="no">  No
                         <input type="radio" ng-model="jd.dose_repeat" value="no" id="no">  No
                     </p>
                 </div>
@@ -42,13 +41,13 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-10"></div>
-                <div class="col-2">
-                    <button type="button" id="more_fields" onclick="add_fields();" class="btn btn-secondary">Add More</button>
-                </div>
+        <div class="card-header">
+            <h3 class="card-title">JD Description</h3>
+            <div class="card-tools">
+                <button type="button" id="more_fields" onclick="add_fields();" class="btn btn-secondary">Add More</button>
             </div>
+        </div>
+        <div class="card-body">
             <div id="fileds">
                 <div class="row">
                     <div class="col-12">
@@ -68,7 +67,7 @@
             </div>
             <div class="row">
                 <div class="col" align="right">
-                    <button class="btn-success">Save</button>
+                    <button class="btn btn-success"> <i class="fa fa-save"></i> Save</button>
                 </div>
             </div>
         </div>

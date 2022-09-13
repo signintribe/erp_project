@@ -58,7 +58,6 @@ class WorkFlowController extends Controller
             $data = $request->all();
             ErpWorkflowForward::create($data);
         }else{
-            return "Save Workflow";
             $data = $request->except(['attach_file', 'search', 'action_id']);
             $imgname = "";
             if ($request->hasFile('attach_file')) {
@@ -215,13 +214,34 @@ class WorkFlowController extends Controller
                 return $searchfor;
                 break;
             case 'Requestion':
-                return $searchfor;
+                $workflow = DB::select('SELECT wf.*, request.requestion_date, request.require_date, request.require_till, product.product_name, emp.first_name FROM (
+                    SELECT * FROM erp_workflows WHERE id = '.$id.' AND searchfor = "'.$searchfor.'"
+                  ) AS wf JOIN(
+                      SELECT * FROM erp_requestions
+                  ) AS request ON request.requestion_no = wf.workflowfor JOIN(
+                      SELECT id, product_name FROM tblproduct_informations
+                  ) AS product ON product.id = request.product_id JOIN(
+                      SELECT id, first_name FROM tblemployeeinformations
+                  ) AS emp ON emp.id = request.resource_id;');
                 break;
             case 'Sale_Order':
                 return $searchfor;
                 break;
             case 'Sale_Quotation':
-                return $searchfor;
+                $workflow = DB::select('SELECT wf.*, q.quotation_number, q.quotation_date, 
+                    q.quotation_status, q.apply_to, q.applied_id, q.quotation_till, q.delivery_date, 
+                    q.product_id, q.unit_price, q.quantity, q.gross_price, q.discount_name, 
+                    q.discount_amount, q.net_amount, q.payment_type, q.advance_percentage, q.time_advance, 
+                    prod.product_name FROM(
+                    SELECT * FROM erp_workflows WHERE id = '.$id.' AND searchfor = "'.$searchfor.'"
+                    ) AS wf JOIN(
+                        SELECT * FROM erp_quotation_sales 
+                    ) AS q ON q.quotation_number = wf.workflowfor JOIN(
+                        SELECT id, product_name FROM tblproduct_informations) AS prod ON prod.id = q.product_id'
+                    );
+                $checkList = DB::select('SELECT * FROM erp_quotation_checklists WHERE parent_id IN(SELECT id FROM erp_workflows WHERE workflowfor = '.$workflow[0]->quotation_number.')');
+                $taxes = DB::select('SELECT * FROM erp_quotation_taxes WHERE parent_id IN(SELECT id FROM erp_workflows WHERE workflowfor = '.$workflow[0]->quotation_number.')');
+                $deliverycharges = DB::select('SELECT * FROM erp_quotation_deliverycharges WHERE parent_id IN(SELECT id FROM erp_workflows WHERE workflowfor = '.$workflow[0]->quotation_number.')');
                 break;
             case 'Task':
                 return $searchfor;
@@ -240,7 +260,7 @@ class WorkFlowController extends Controller
         ]);
     }
 
-    public function change_workflow_status($id, $searchfor, $workflowfor, $status)
+    public function change_workflow_status($id, $searchfor, $workflowfor, $status, $avail_leave)
     {
         ErpWorkflow::where('id', $id)->update([
             'status' => $status,
