@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\erp_employee_jd;
+use App\Models\employeeCenter\erp_employee_job_description;
 use DB;
 use Auth;
 class EmployeeJDController extends Controller
@@ -71,7 +72,6 @@ class EmployeeJDController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
         $imgname = "";
         if ($request->hasFile('jdDoc')) {
             $current = date('ymd') . rand(1, 999999) . time();
@@ -79,15 +79,31 @@ class EmployeeJDController extends Controller
             $imgname = $current . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('/employeeJD'), $imgname);
         }
+        if ($request->hasFile('sop')) {
+            $current = date('ymd') . rand(1, 999999) . time();
+            $file = $request->file('sop');
+            $image = $current . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('/employeeJD'), $image);
+        }
         if($request->id){
-            $data = $request->except(['id', 'department_id', 'jdDoc','group_name' ,'company_id', 'office_id','office_name','company_name', 'department_name', 'created_at', 'updated_at']);        
+            $data = $request->except(['id', 'task_name', 'task_sop','dose_repeat' ,'frequency_repeat','created_at', 'updated_at']);        
             $data['attachment'] = $imgname == "" ? $request->attachment : $imgname;
             erp_employee_jd::where('id', $request->id)->update($data);
             return "Employee Job Description Update Successfully";
         }else{
-            $data = $request->except(['company_id', 'office_id', 'department_id']); 
+            $data = $request->except([]); 
             $data['attachment'] = $imgname; 
-            erp_employee_jd::create($data);
+            $data['task_sop'] = $image; 
+            $jd = erp_employee_jd::create($data);
+            return $jd->id;
+            $descriptions = $request->description;
+            for($i = 0; $i<count($descriptions); $i++){
+                $ds = new erp_employee_job_description();
+                $ds->jd_id = $jd->id;
+                $ds->description = $descriptions[$i]['des'];
+                $ds->payallowance = $descriptions[$i]['payallowance'];
+                $ds->save();
+            }
             return "Employee Job Description Save Successfully";
         }
     }

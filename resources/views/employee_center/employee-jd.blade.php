@@ -16,13 +16,12 @@
                 </div>
                 <div class="col-3">
                     <label for="">SOP for task</label>
-                    <input type="text" ng-model="jd.task_sop" id="" class="form-control">
+                    <input type="file" ng-model="jd.task_sop" id="" class="form-control">
                 </div>
                 <div class="col-3">
                     <label for="">Dose Repeat</label>
                     <p class="form-control">
                         <input type="radio" ng-model="jd.dose_repeat" value="yes" id="yes">  Yes
-                        <input type="radio"  value="no" id="no">  No
                         <input type="radio" ng-model="jd.dose_repeat" value="no" id="no">  No
                     </p>
                 </div>
@@ -46,7 +45,7 @@
             <div class="row">
                 <div class="col-10"></div>
                 <div class="col-2">
-                    <button type="button" id="more_fields" onclick="add_fields();" class="btn btn-secondary">Add More</button>
+                    <button type="button" id="more_fields" onclick="add_fields();" class="btn btn-primary">Add More</button>
                 </div>
             </div>
             <div id="fileds">
