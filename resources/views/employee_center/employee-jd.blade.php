@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-3">
                     <label for="">SOP for task</label>
-                    <input type="text" ng-model="jd.task_sop" id="" class="form-control">
+                    <input type="file" ng-model="jd.task_sop" id="" class="form-control">
                 </div>
                 <div class="col-3">
                     <label for="">Dose Repeat</label>
@@ -41,10 +41,19 @@
         </div>
     </div>
     <div class="card">
+<<<<<<< HEAD
         <div class="card-header">
             <h3 class="card-title">JD Description</h3>
             <div class="card-tools">
                 <button type="button" id="more_fields" onclick="add_fields();" class="btn btn-secondary">Add More</button>
+=======
+        <div class="card-body">
+            <div class="row">
+                <div class="col-10"></div>
+                <div class="col-2">
+                    <button type="button" id="more_fields" onclick="add_fields();" class="btn btn-primary">Add More</button>
+                </div>
+>>>>>>> dfccbde47710096a24f84d83b5a5fa0c7f0ce295
             </div>
         </div>
         <div class="card-body">

@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class erp_employee_job_description extends Model
 {
     protected $fillable = [
-        'employee_id',
-        'user_id',
-        'daily_task',
-        'weekly_task',
-        'monthly_task',
+        'id',
+        'task_id',
+        'description',
+        'pay_allowance',
         'created_at',
         'updated_at'
     ];

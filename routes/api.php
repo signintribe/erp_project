@@ -27,6 +27,7 @@ Route::post('save_rated', 'ApiController@save_rated');
 Route::get('get-company-information/{company_id}', 'ApiController@get_complete_compnay_information');
 Route::get('get-company-rateing/{company_id}', 'ApiController@get_company_rateing');
 Route::resource('maintain-jd', 'Admin\EmployeeJDController');
+Route::resource('jd-description', 'Admin\EmployeeJobDescriptionController');
 
 
 Route::group(['prefix'=>'purchases'], function () {
