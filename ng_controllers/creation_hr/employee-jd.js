@@ -4,6 +4,8 @@ CreateTierApp.controller('JDController', function ($scope, $http) {
     $("#employee-jd").addClass('active');
     $scope.jds = {};
     $scope.app_url = $("#appurl").val();
+    var vm = $scope;
+    vm.descriptionList = [{description: "", payallowance: ""}];
     $scope.all_companies = function () {
         $http.get($scope.app_url + 'company/getcompanyinfo').then(function (response) {
             if (response.data.length > 0) {
@@ -41,34 +43,58 @@ CreateTierApp.controller('JDController', function ($scope, $http) {
     };
 
     $scope.get_jds = function(){
-        $http.get($scope.app_url + 'company/maintain-jds').then(function (response) {
+        $scope.limit = 20;
+        $scope.offset = 0;
+        var data = {
+            "limit" : $scope.limit,
+            "offset" : $scope.offset,
+            "company_id" : $("#company_id").val()
+        };
+        console.log(data);
+        $http.get($scope.app_url + 'company/maintain-jds/' + JSON.stringify(data)).then(function (response) {
             if(response.data.length > 0){
                 $scope.alljds = response.data;
+                $scope.offset += $scope.limit;
             }
         });
-    }
+    };
+
+    $scope.loadMore = function(){
+        var data = {
+            "limit" : $scope.limit,
+            "offset" : $scope.offset,
+            "company_id" : $("#company_id").val()
+        };
+        console.log(data);
+        $http.get($scope.app_url + 'company/maintain-jds/' + JSON.stringify(data)).then(function (response) {
+            if(response.data.length > 0){
+                $scope.alljds = $scope.alljds.concat(response.data);
+                $scope.offset += $scope.limit;
+            }
+        });
+    };
 
     $scope.editJD = function(id){
         $http.get($scope.app_url + 'company/maintain-jds/'+ id + '/edit').then(function (response) {
-            $scope.jds = response.data[0];
-            $scope.jds.company_id = parseInt($scope.jds.company_id);
-            $scope.jds.office_id = parseInt($scope.jds.office_id);
-            $scope.jds.department_id = parseInt($scope.jds.department_id);
-            $scope.jds.group_id = parseInt($scope.jds.group_id);
-            //$scope.jdDoc = $scope.appurl + "public/employeeJD/" + $scope.jds.attachment;
-            $("#ShowPrint").show();
+            if(response.data.status == true){
+                $scope.jds = response.data.jds;
+                vm.descriptionList = response.data.description;
+                $scope.jdDoc = $scope.appurl + "public/employeeJD/" + $scope.jds.attachment;
+                $("#ShowPrint").show();
+            }
         });
     };
 
 
     $scope.save_jds = function () {
-        if (!$scope.jds.department_id || !$scope.jds.jd_name) {
+        if (!$scope.jds.jd_name) {
             $scope.showError = true;
             jQuery("input.required").filter(function () {
                 return !this.value;
             }).addClass("has-error");
         } else {
             $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
+            $scope.jds.description = JSON.stringify(vm.descriptionList);
             var Data = new FormData();
             angular.forEach($scope.jds, function (v, k) {
                 Data.append(k, v);
@@ -81,6 +107,7 @@ CreateTierApp.controller('JDController', function ($scope, $http) {
                     type: "success"
                 });
                 $scope.jds = {};
+                vm.descriptionList = [{description: "", payallowance: ""}];
                 $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
             });
         }
@@ -104,7 +131,18 @@ CreateTierApp.controller('JDController', function ($scope, $http) {
         });
     };
 
-    $scope.readUrl = function (element) {
+    $scope.readSOPUrl = function (element) {
+        var reader = new FileReader();//rightbennerimage
+        reader.onload = function (event) {
+            $scope.sop = event.target.result;
+            $scope.$apply(function ($scope) {
+                $scope.jds.sop = element.files[0];
+            });
+        };
+        reader.readAsDataURL(element.files[0]);
+    };
+
+    $scope.readJDUrl = function (element) {
         var reader = new FileReader();//rightbennerimage
         reader.onload = function (event) {
             $scope.jdDoc = event.target.result;
@@ -113,5 +151,9 @@ CreateTierApp.controller('JDController', function ($scope, $http) {
             });
         };
         reader.readAsDataURL(element.files[0]);
+    };
+
+    vm.addRow = function() {
+        vm.descriptionList.push({});
     };
 });

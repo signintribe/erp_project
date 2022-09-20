@@ -10,73 +10,72 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-3">
-                    <label for="">Name of task</label>
-                    <input type="text" ng-model="jd.task_name" id="" class="form-control">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="jd_name">Name of JD</label>
+                    <input type="text" ng-model="jds.jd_name" id="jd_name" placeholder="Name of Job Description" class="form-control">
                 </div>
-                <div class="col-3">
-                    <label for="">SOP for task</label>
-                    <input type="file" ng-model="jd.task_sop" id="" class="form-control">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="">SOP for JD</label>
+                    <input type="file" id="" class="form-control" onchange="angular.element(this).scope().readSOPUrl(this);">
                 </div>
-                <div class="col-3">
-                    <label for="">Dose Repeat</label>
-                    <p class="form-control">
-                        <input type="radio" ng-model="jd.dose_repeat" value="yes" id="yes">  Yes
-                        <input type="radio" ng-model="jd.dose_repeat" value="no" id="no">  No
-                    </p>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="dose_repeat">Dose Repeat</label>
+                    <select ng-model="jds.dose_repeat" id="dose_repeat" class="form-control">
+                        <option value="">Dose Repeat</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
                 </div>
-                <div class="col-3">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="">JD Attachment</label>
-                    <input type="file" ng-model="jd.attachment" id="jd-attachment" class="form-control">
+                    <input type="file" id="jd-attachment" class="form-control" onchange="angular.element(this).scope().readJDUrl(this);">
                 </div>
             </div><br>
             <div class="row">
-                <div class="col-4">
-                    <label for="">Frequency of Repeat</label><br>
-                    <input type="radio" ng-model="jd.frequency_repeat" value="daily" id="daily">  Daily <br>
-                    <input type="radio" ng-model="jd.frequency_repeat" value="weekly" id="weekly">  Weekly <br>
-                    <input type="radio" ng-model="jd.frequency_repeat" value="monthly" id="monthly">  Monthly
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="frequency_repeat">Frequency of Repeat</label>
+                    <select ng-model="jds.frequency_repeat" id="frequency_repeat" class="form-control">
+                        <option value="">Frequency of Repeate</option>
+                        <option value="Daily">Daily</option>
+                        <option value="Weekly">Weekly</option>
+                        <option value="Monthly">Monthly</option>
+                    </select>
+                    
                 </div>
             </div><br>
         </div>
     </div>
     <div class="card">
-<<<<<<< HEAD
         <div class="card-header">
             <h3 class="card-title">JD Description</h3>
             <div class="card-tools">
-                <button type="button" id="more_fields" onclick="add_fields();" class="btn btn-secondary">Add More</button>
-=======
-        <div class="card-body">
-            <div class="row">
-                <div class="col-10"></div>
-                <div class="col-2">
-                    <button type="button" id="more_fields" onclick="add_fields();" class="btn btn-primary">Add More</button>
-                </div>
->>>>>>> dfccbde47710096a24f84d83b5a5fa0c7f0ce295
+                <button type="button" id="more_fields" ng-click="addRow()" class="btn btn-secondary">Add More</button>
             </div>
         </div>
         <div class="card-body">
-            <div id="fileds">
+            <div ng-repeat="row in descriptionList">
                 <div class="row">
                     <div class="col-12">
                         <label for="">Description</label>
-                        <textarea name="description" id="description" class="form-control"></textarea>
+                        <textarea ng-model="row.description" id="description" class="form-control"></textarea>
                     </div>
                 </div><br>
                 <div class="row">
                     <div class="col-3">
                         <label for="">Pay Allowance</label>
-                        <select name="pay-allowance" id="pay-allowance" class="form-control">
+                        <select ng-model="row.payallowance" id="pay-allowance" class="form-control">
                             <option value="">select pay allowance</option>
-                            <option value=""></option>
+                            <option value="1000">1000</option>
+                            <option value="2000">2000</option>
+                            <option value="3000">3000</option>
+                            <option value="4000">4000</option>
                         </select>
                     </div>
                 </div><br>
             </div>
             <div class="row">
                 <div class="col" align="right">
-                    <button class="btn btn-success"> <i class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-success" ng-click="save_jds()"> <i class="fa fa-save"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -96,33 +95,33 @@
             <div class="row" ng-init="getoffice(0)">
                 <!-- <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="company" ng-init="all_companies();">Select Company</label>
-                    <select ng-model="jds.company_id" ng-change="getoffice(jds.company_id)" ng-options="c.id as c.company_name for c in companies" id="company" class="form-control">
+                    <select ng-model="jdss.company_id" ng-change="getoffice(jds.company_id)" ng-options="c.id as c.company_name for c in companies" id="company" class="form-control">
                         <option value="">Select Company</option>
                     </select>
                 </div> -->
                 <!--<div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="office">Select Office</label>
-                    <select ng-model="jds.office_id" ng-change="getDepartments(jds.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
+                    <select ng-model="jdss.office_id" ng-change="getDepartments(jds.office_id)" ng-options="office.id as office.office_name for office in offices" id="office" class="form-control">
                         <option value="">Select Office</option>
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="department">* Select Department</label>
-                    <select ng-model="jds.department_id" id="department" ng-change="getGroups(jds.department_id)"  ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
+                    <select ng-model="jdss.department_id" id="department" ng-change="getGroups(jds.department_id)"  ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
                     <i class="text-danger" ng-show="!jds.department_id && showError"><small>Please Select Department</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="department">* Select Employee Group</label>
-                    <select ng-model="jds.group_id" id="employee-group" ng-options="group.id as group.group_name for group in groups" class="form-control">
+                    <select ng-model="jdss.group_id" id="employee-group" ng-options="group.id as group.group_name for group in groups" class="form-control">
                         <option value="">Select Employee Group</option>
                     </select>
                     <i class="text-danger" ng-show="!jds.group_id && showError"><small>Please Select Employee Group</small></i>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="jd_name">* JD Name</label>
-                    <input type="text" ng-model="jds.jd_name" id="jd_name" class="form-control" placeholder="JD Name">
+                    <input type="text" ng-model="jdss.jd_name" id="jd_name" class="form-control" placeholder="JD Name">
                     <i class="text-danger" ng-show="!jds.jd_name && showError"><small>Please Type JD Name</small></i>
                 </div>
             </div><br>            
@@ -134,7 +133,7 @@
                 </div>
                 <div class="col">
                     <label for="description">Description</label>
-                    <textarea ng-model="jds.description" id="description" class="form-control" cols="30" rows="10" placeholder="Add Description"></textarea>
+                    <textarea ng-model="jdss.description" id="description" class="form-control" cols="30" rows="10" placeholder="Add Description"></textarea>
                 </div>
             </div><br>
             <div class="row">
@@ -163,11 +162,9 @@
                 <thead>
                     <tr>
                         <th>Sr#</th>
-                        <th>Company Name</th>
-                        <th>Office Name</th>
-                        <th>Department Name</th>
-                        <th>Group Name</th>
                         <th>JD Name</th>
+                        <th>Dose Repeat</th>
+                        <th>Repeat Frequency</th>
                         <th>Attachment</th>
                         <th>Action</th>
                     </tr>
@@ -175,15 +172,15 @@
                 <tbody ng-init="get_jds();">
                     <tr ng-repeat="j in alljds">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="j.company_name"></td>
-                        <td ng-bind="j.office_name"></td>
-                        <td ng-bind="j.department_name"></td>
-                        <td ng-bind="j.group_name"></td>
                         <td ng-bind="j.jd_name"></td>
+                        <td ng-bind="j.dose_repeat"></td>
+                        <td ng-bind="j.frequency_repeat"></td>
                         <td><a href="{{asset('public/employeeJD/<% j.attachment %>')}}" target="_blank" ng-bind="j.attachment"></a></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(j.company_id); getDepartments(j.office_id);  getGroups(j.department_id); editJD(j.id);">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deleteJobDescription(j.id)">Delete</button>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info" ng-click="editJD(j.id);">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deleteJobDescription(j.id)">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -191,18 +188,8 @@
         </div>
     </div>
 </div>
-<script>
-function add_fields() {
-    var objTo = document.getElementById('fileds')
-    var divtest = document.createElement("div");
-    divtest.innerHTML = '<div class="row"><div class="col-12"><label for="">Description</label>'+
-        '<textarea name="description" id="description" class="form-control"></textarea>'+
-    '</div></div><br><div class="row"><div class="col-3"><label for="">Pay Allowance</label>'+
-    '<select name="pay-allowance" id="pay-allowance" class="form-control"><option value="">select pay allowance</option></select></div></div><br>';
-
-    objTo.appendChild(divtest)
-}
-</script>
+<!-- getoffice(j.company_id); getDepartments(j.office_id);  getGroups(j.department_id);  -->
+<input type="hidden" id="company_id" value="<?php echo session('company_id') ?>" class="form-control">
 @endsection
 @section('internaljs')
 <script src="{{asset('ng_controllers/creation_hr/employee-jd.js')}}"></script>
