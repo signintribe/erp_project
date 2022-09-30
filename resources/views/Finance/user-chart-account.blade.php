@@ -28,7 +28,14 @@
                                 <i class="text-danger" ng-show="!Category.CategoryName && showError"><small>Please type account name</small></i>
                             </div>
                         </div>
-                    </div>
+                    </div><br/>
+                    <div class="row">
+                        <div class="col">
+                            <p class="form-control">
+                                <input type="checkbox" ng-model="Category.EmpAcc" id="EmpAcc"> <label for="EmpAcc">Account for Employee</label>
+                            </p>
+                        </div>
+                    </div><br/>
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
@@ -133,6 +140,7 @@
                                     <th>Account Name</th>
                                     <th>Parent Account</th>
                                     <th>Account Created</th>
+                                    <th>Type of Account</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -143,6 +151,10 @@
                                     <td ng-bind="acc.CategoryName"></td>
                                     <td ng-bind="acc.ParentCategory"></td>
                                     <td ng-bind="acc.created_at"></td>
+                                    <td>
+                                        <span ng-if="acc.emp_acc == 0">Company</span>
+                                        <span ng-if="acc.emp_acc == 1" class="text-success">Employee</span>
+                                    </td>
                                     <td>
                                         <div class="btn-group">
                                             <button class="btn btn-info btn-xs" ng-click="editAccount(acc)">Edit</button>

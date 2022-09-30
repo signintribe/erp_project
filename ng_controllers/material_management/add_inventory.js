@@ -4,7 +4,7 @@ CreateTierApp.controller('InventoryController', function ($scope, $http) {
     $("#add-inventory").addClass('active');
     $scope.appurl = $("#appurl").val();
     $scope.getAccounts = function () {
-        var Accounts = $http.get($scope.appurl + 'AllchartofAccount');
+        var Accounts = $http.get($scope.appurl + 'AllchartofAccount/Company');
         Accounts.then(function (r) {
             $scope.Accounts = r.data;
         });

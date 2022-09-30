@@ -539,7 +539,7 @@ Route::get('get-account-categories', 'Globall\CategoriesController@get_account_c
 Route::post('save-account', 'Admin\FinanceController@save_category');
 Route::get('delete-account-category/{id}','Admin\FinanceController@delete_category');
 Route::get('Add-general-Journal-Entry/{payment_type}', 'Admin\FinanceController@generalJournalEntry');
-Route::get('AllchartofAccount', 'Admin\FinanceController@AllchartofAccount');
+Route::get('AllchartofAccount/{accfor}', 'Admin\FinanceController@AllchartofAccount');
 Route::post('Save-General-Entries', 'Admin\FinanceController@SaveGeneralEntries');
 
 Route::get('finance-report', 'Admin\FinanceReportController@finance_report');

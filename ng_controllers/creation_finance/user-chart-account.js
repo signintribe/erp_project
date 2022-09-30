@@ -84,7 +84,8 @@ CreateTierApp.controller('CategoryController', function ($scope, $http, $compile
 
     $scope.editAccount = function(account){
         $scope.Category = account;
-        $("#openingBalance").hide();
+        //$("#openingBalance").hide();
+        $scope.Category.EmpAcc = account.emp_acc == 1 ? true : false;
     };
 
     $scope.getchield = function (id, objid) {

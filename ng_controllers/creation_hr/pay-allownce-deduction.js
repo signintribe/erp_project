@@ -12,6 +12,57 @@ CreateTierApp.controller('PayAllowanceController', function ($scope, $http) {
         });
     };
 
+    $scope.getAccounts = function (accfor) {
+        var Accounts = $http.get($scope.app_url + 'AllchartofAccount/' + accfor);
+        Accounts.then(function (r) {
+            if(accfor == 'Employee'){
+                $scope.EmpAccounts = r.data;
+            }else if(accfor == 'Company'){
+                $scope.ComAccounts = r.data;
+            }
+        });
+    };
+
+    $scope.pays = [{pay_type: "", pay_emp_account: "", pay_amount: "", pay_com_account: ""}];
+    $scope.addPayMore = function(){
+        $scope.pays.push({});
+    };
+
+    $scope.allowances = [{allowance_type: "", allow_emp_account: "", allow_amount: "", allow_com_account: ""}];
+    $scope.addAllowanceMore = function(){
+        $scope.allowances.push({});
+    };
+
+    $scope.deductions = [{deduct_type: "", deduct_emp_account: "", deduct_amount: "", deduct_com_account: ""}];
+    $scope.addDeductionMore = function(){
+        $scope.deductions.push({});
+    };
+    
+    $scope.libilities = [{libility_type: "", libility_emp_account: "", libility_amount: "", libility_com_account: ""}];
+    $scope.addLibilityMore = function(){
+        $scope.libilities.push({});
+    };
+
+    $scope.pay_allowance = {};
+    $scope.savePayAllowance = function(){
+        $scope.pay_allowance.pays =  JSON.stringify($scope.pays); 
+        $scope.pay_allowance.allowances = JSON.stringify($scope.allowances);
+        $scope.pay_allowance.deductions =  JSON.stringify($scope.deductions);
+        $scope.pay_allowance.libilities = JSON.stringify($scope.libilities);
+        $("#loader").removeClass('fa-save').addClass('fa-spinner fa-sw fa-pulse');
+        var Data = new FormData();
+        angular.forEach($scope.pay_allowance, function (v, k) {
+            Data.append(k, v);
+        });
+        $http.post($scope.app_url + 'company/maintain-allowance-deducation', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+            swal({
+                title: "Save!",
+                text: res.data,
+                type: "success"
+            });
+            $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
+        });
+    }
 
     $scope.getoffice = function (company_id) {
         $scope.offices = {};
@@ -59,13 +110,13 @@ CreateTierApp.controller('PayAllowanceController', function ($scope, $http) {
         });
     }; */
 
-    $scope.get_payallowance = function(){
+    /* $scope.get_payallowance = function(){
         $http.get($scope.app_url + 'company/maintain-allowance-deducation').then(function (response) {
             if(response.data.length > 0){
                 $scope.pays = response.data;
             }
         });
-    };
+    }; */
 
     $scope.get_calendars = function(dept_id){
         $http.get($scope.app_url + 'company/get-calendar/' + dept_id).then(function (response) {

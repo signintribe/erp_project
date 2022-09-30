@@ -49,7 +49,7 @@
         <div class="card-header">
             <h3 class="card-title">JD Description</h3>
             <div class="card-tools">
-                <button type="button" id="more_fields" ng-click="addRow()" class="btn btn-secondary">Add More</button>
+                <button type="button" id="more_fields" ng-click="addRow()" class="btn btn-xs btn-secondary">Add More</button>
             </div>
         </div>
         <div class="card-body">

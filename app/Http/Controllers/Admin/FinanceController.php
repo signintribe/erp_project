@@ -24,28 +24,35 @@ use App\Http\Controllers\Controller;
  *
  * @author Attique
  */
-class FinanceController extends Controller {
-
+class FinanceController extends Controller
+{
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
-    public function defineAccount() {
+    public function defineAccount()
+    {
         return view('Finance.views.defineaccount');
     }
 
-    public function generalJournalEntry($payment_type) {
+    public function generalJournalEntry($payment_type)
+    {
         return view('Finance.views.addGeneralJournalEntries', compact('payment_type'));
     }
 
     // save category in database
-    public function save_category(Request $r) {
+    public function save_category(Request $r)
+    {
         //return $r->all();
+        if ($r->EmpAcc == false) {
+            $r->EmpAcc = 0;
+        }
         if ($r->id) {
             return $this->update_category($r);
         } else {
@@ -56,11 +63,12 @@ class FinanceController extends Controller {
             $category->AccountDescription = $r->AccountDescription;
             $category->added_by = Auth::user()->id;
             $category->updated_by = Auth::user()->id;
+            $category->emp_acc = $r->EmpAcc;
             $category->save();
             $this->CreateAssociation($category->id, $r->ParentcategoryId);
             //DB::statement("call define_productline()");
             $gle = $r->except(['AccountId', 'AccountDescription', 'CategoryName', 'ParentcategoryId']);
-            if(!empty($gle)){
+            if (!empty($gle)) {
                 $gle['account_Id'] = $category->id;
                 $gle['description'] = $r->AccountDescription;
                 $gle['created_by'] = Auth::user()->id;
@@ -68,13 +76,13 @@ class FinanceController extends Controller {
             }
             return 'Saved successfully';
         }
-
     }
 
-    public function CreateAssociation($id, $ParentcategoryId) {
+    public function CreateAssociation($id, $ParentcategoryId)
+    {
         $parent = tblaccountparentchildassociations::where('CategoryChildId', $id)->first();
         if (empty($parent)) {
-            $parent = new tblaccountparentchildassociations;
+            $parent = new tblaccountparentchildassociations();
         }
         $parent->CategoryChildId = $id;
         $parent->CategoryParentId = $ParentcategoryId;
@@ -85,12 +93,14 @@ class FinanceController extends Controller {
         return true;
     }
 
-    public function update_category($r) {
+    public function update_category($r)
+    {
         $category = tblaccountcategories::find($r->id);
         $category->AccountId = $r->AccountId;
         $category->CategoryName = $r->CategoryName;
         $category->AccountDescription = $r->AccountDescription;
         $category->updated_by = Auth::user()->id;
+        $category->emp_acc = $r->EmpAcc;
         $category->save();
         $id = $category->id;
         $this->CreateAssociation($category->id, $r->ParentcategoryId);
@@ -100,11 +110,12 @@ class FinanceController extends Controller {
         }
     }
 
-    public function UpdateParentChild($id) {
+    public function UpdateParentChild($id)
+    {
         $find = tblaccountparentchildassociations::where('CategoryChildId', $id)->get();
         $ok = count($find);
         if ($ok === 0) {
-            $parent = new tblaccountparentchildassociations;
+            $parent = new tblaccountparentchildassociations();
             $parent->CategoryChildId = $id;
             $parent->CategoryParentId = 1;
             $parent->save();
@@ -122,7 +133,8 @@ class FinanceController extends Controller {
         return true;
     }
 
-    public function delete_category($id) {
+    public function delete_category($id)
+    {
 //        $products = tblproductcategoriesassociation::where('category_id',$id)->get()->count();
         $categoryParent = tblaccountparentchildassociations::where('CategoryParentId', $id)->get()->count();
 //        if($products > 0){
@@ -145,7 +157,8 @@ class FinanceController extends Controller {
         }
     }
 
-    public function checkupdateproductcategories($category) {
+    public function checkupdateproductcategories($category)
+    {
         if (count($category)) {
             foreach ($category as $cat) {
                 $parents = tblaccountparentchildassociations::where('CategoryParentId', $cat->CategoryParentId)->get();
@@ -158,17 +171,26 @@ class FinanceController extends Controller {
         }
     }
 
-    function allaccountsTypes() {
+    public function allaccountsTypes()
+    {
         return DB::select("select id,CategoryName from tblaccountcategories where id in (select CategoryChildId from tblaccountparentchildassociations where CategoryParentId in(1,2))");
     }
 
-    function subAccount($id) {
+    public function subAccount($id)
+    {
         return DB::select("select id,CategoryName from tblaccountcategories where id in (select CategoryChildId from tblaccountparentchildassociations where CategoryParentId = '$id')");
     }
 
-    function AllchartofAccount() {
+    public function AllchartofAccount($accfor)
+    {
 //        return DB::select("call getAccounts()");
-        $Accounts = DB::select('call getGLAccount()');
+        if ($accfor == 'Company') {
+            $Accounts = DB::select('call getGLAccount()');
+        } else if ($accfor == 'Employee') {
+            $Accounts = DB::select('call getGLAccountForEmployee()');
+        }else{
+            return "Please Send Right Option";
+        }
         $cat = DB::select('SELECT * FROM tblaccountcategories WHERE id IN (SELECT CategoryChildId FROM tblaccountparentchildassociations WHERE CategoryParentId IN(2,3))');
         $arr = array();
         $NewAccounts = array();
@@ -178,9 +200,9 @@ class FinanceController extends Controller {
                 $arr[] = $value->id;
             }
         }
-        
+
         foreach ($Accounts as $key => $value) {
-            if(!in_array($value->id, $arr)){
+            if (!in_array($value->id, $arr)) {
                 $value->id = (int)$value->id;
                 $value->AccountId = (int)$value->AccountId;
                 $NewAccounts[] = $value;
@@ -189,23 +211,24 @@ class FinanceController extends Controller {
         return $NewAccounts;
     }
 
-    function SaveGeneralEntries(Request $r) {
-        if(!empty($GeneralEntries = tblgeneralentries::where('invoice_number', $r->invoice_number)->first())){
+    public function SaveGeneralEntries(Request $r)
+    {
+        if (!empty($GeneralEntries = tblgeneralentries::where('invoice_number', $r->invoice_number)->first())) {
             return response()->json([
                 'status'=>false,
                 'message'=>"Invoice number already in used, It should be unique invoice number"
             ]);
-        }else{
+        } else {
             $date = $r->date;
             $invoice_number = $r->invoice_number;
             $refrance = $r->refrance;
-            $GL= json_decode($r->Data,true);
+            $GL= json_decode($r->Data, true);
             /* foreach($GL as $key => $value){
                 $value['created_by'] = Auth::user()->id;
                 return $value;
             }exit(); */
             if (count($GL) >= 2) {
-                foreach ($GL as $key => $collection){
+                foreach ($GL as $key => $collection) {
                     //return $collection;
                     //unset($collection['$$hashKey']);
                     $collection['created_by'] = Auth::user()->id;
@@ -225,8 +248,8 @@ class FinanceController extends Controller {
             }
             //$detail['invoice_number'] = $invoice_number;
             ErpGlDetail::create($detail);
-            $project_systems = json_decode($r->project_systems,true);
-            if(!empty($project_systems)){
+            $project_systems = json_decode($r->project_systems, true);
+            if (!empty($project_systems)) {
                 $project_systems['invoice_number'] = $invoice_number;
                 ErpGlprojectSystem::create($project_systems);
             }
@@ -241,5 +264,4 @@ class FinanceController extends Controller {
     {
         return view('Finance.user-chart-account');
     }
-
 }

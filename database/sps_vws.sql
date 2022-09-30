@@ -2038,11 +2038,29 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE `getGLAccount`()
 BEGIN  
-    SELECT category.id, category.AccountId, category.CategoryName, 
+    SELECT category.id, category.AccountId, category.CategoryName, category.emp_acc,
      category.created_at, parent.ParentCategory 
     FROM (
-        SELECT id, AccountId, CategoryName, created_at 
-        FROM tblaccountcategories WHERE product_category = 1
+        SELECT id, AccountId, CategoryName, emp_acc, created_at 
+        FROM tblaccountcategories WHERE product_category = 1 AND emp_acc = 0
+    ) AS category JOIN (
+        SELECT id, CategoryParentId, CategoryChildId 
+        FROM tblaccountparentchildassociations
+    ) AS asso ON asso.CategoryChildId = category.id JOIN (
+        SELECT id, CategoryName as ParentCategory FROM tblaccountcategories
+    ) AS parent on parent.id = asso.CategoryParentId;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE `getGLAccountForEmployee`()
+BEGIN  
+    SELECT category.id, category.AccountId, category.CategoryName, category.emp_acc,
+     category.created_at, parent.ParentCategory 
+    FROM (
+        SELECT id, AccountId, CategoryName, emp_acc, created_at 
+        FROM tblaccountcategories WHERE product_category = 1 AND emp_acc = 1
     ) AS category JOIN (
         SELECT id, CategoryParentId, CategoryChildId 
         FROM tblaccountparentchildassociations
