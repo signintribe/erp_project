@@ -4,9 +4,6 @@
 @section('breadcrumb', 'Employee Pay and Allowance')
 @section('content')
 <div ng-controller="PayAllowanceController" ng-cloak>
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6"></div>
-    </div>
     <div class="row" ng-init="getAccounts('Company');getAccounts('Employee');">
         <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="card">
@@ -151,6 +148,22 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
+                    <div class="row" ng-init="getoffice()">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label for="select_office">Select Office</label>
+                            <select ng-model="pay_allowance.office_id" ng-change="getDepartments(pay_allowance.office_id)" ng-options="office.id as office.office_name for office in offices" class="form-control" id="select_office">
+                                <option value="">Select Office</option>
+                            </select>
+                            <i class="text-danger" ng-show="!pay_allowance.office_id && showError"><small>Please Select Office</small></i>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label for="select_department">Select Department</label>
+                            <select ng-model="pay_allowance.department_id" ng-options="dept.id as dept.department_name for dept in departments" class="form-control" id="select_department">
+                                <option value="">Select Department</option>
+                            </select>
+                            <i class="text-danger" ng-show="!pay_allowance.department_id && showError"><small>Please Select Department</small></i>
+                        </div>
+                    </div><br/>
                     <button class="btn btn-success btn-sm float-right" ng-click="savePayAllowance()"> <i id="loader" class="fa fa-save"></i> Save</button>
                 </div>
             </div>
@@ -165,32 +178,34 @@
                 <thead>
                     <tr>
                         <th>Sr#</th>
-                        <th>Company Name</th>
                         <th>Office Name</th>
                         <th>Department Name</th>
-                        <th>Group Name</th>
-                        <th>Allowance</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody ng-init="get_payallowance();">
-                    <tr ng-repeat="p in pays">
+                    <tr ng-repeat="p in allallowances">
                         <td ng-bind="$index+1"></td>
-                        <td ng-bind="p.company_name"></td>
                         <td ng-bind="p.office_name"></td>
                         <td ng-bind="p.department_name"></td>
-                        <td ng-bind="p.group_name"></td>
-                        <td ng-bind="p.allowance"></td>
                         <td>
-                            <button class="btn btn-xs btn-info" ng-click="getoffice(p.company_id); getDepartments(p.office_id); get_calendars(p.department_id); get_shifts(p.department_id); editpayallowance(p.id); getGroups(p.department_id);">Edit</button>
-                            <button class="btn btn-xs btn-danger" ng-click="deletePayAllowance(p.id)">Delete</button>
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info" ng-click="getoffice(p.company_id); getDepartments(p.office_id);editpayallowance(p.id);">Edit</button>
+                                <button class="btn btn-xs btn-danger" ng-click="deletePayAllowance(p.id)">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table><br/>
+            <div class="text-center">
+                <i id='rec-loader'></i><br/>
+                <button class="btn btn-md btn-primary loader-btn" ng-click="loadMore()"> <i id='loadmore' class="fa fa-spinner"></i> Load More</button>
+                <p ng-if="norecord" ng-bind="norecord"></p>
+            </div>
         </div>
     </div>
 </div>
+<input type="hidden" value="<?php echo session('company_id') ?>" id="company_id">
 @endsection
 @section('internaljs')
 <script src="{{asset('ng_controllers/creation_hr/pay-allownce-deduction.js')}}"></script>

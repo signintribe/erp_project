@@ -154,12 +154,17 @@
                             <i class="text-danger" ng-show="!user.department_id && showError"><small>Please Select Department</small></i>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
+                            <label for="group_id">Select Group</label>
+                            <select ng-model="user.group_id" id="group_id" ng-options="group.id as group.group_name for group in allgroups" class="form-control">
+                                <option value="">Select Group</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="role">Select Employee Role</label>
                             <select ng-model="user.role" ng-options="rol.id as rol.role_name for rol in allroles" ng-change="getActions(user.role);" class="form-control" id="role">
                                 <option value="">Select Employee Role</option>
                             </select>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3"></div>
                     </div><br/>
                     <div class="row">
                         <div class="col">

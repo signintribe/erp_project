@@ -292,8 +292,8 @@ class ComposerStaticInitb9d48c6fd529a0b770fc8ec8f00386e6
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -548,6 +548,7 @@ class ComposerStaticInitb9d48c6fd529a0b770fc8ec8f00386e6
         'App\\Http\\Controllers\\SocialController' => __DIR__ . '/../..' . '/app/Http/Controllers/SocialController.php',
         'App\\Http\\Controllers\\SupplierController' => __DIR__ . '/../..' . '/app/Http/Controllers/SupplierController.php',
         'App\\Http\\Controllers\\TaskTier\\hr\\ApplyLeaveController' => __DIR__ . '/../..' . '/app/Http/Controllers/TaskTier/hr/ApplyLeaveController.php',
+        'App\\Http\\Controllers\\TaskTier\\hr\\PayRollController' => __DIR__ . '/../..' . '/app/Http/Controllers/TaskTier/hr/PayRollController.php',
         'App\\Http\\Controllers\\TaskTier\\workflow\\WorkFlowController' => __DIR__ . '/../..' . '/app/Http/Controllers/TaskTier/workflow/WorkFlowController.php',
         'App\\Http\\Controllers\\Tender\\RequestionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Tender/RequestionController.php',
         'App\\Http\\Controllers\\Tender\\TenderController' => __DIR__ . '/../..' . '/app/Http/Controllers/Tender/TenderController.php',
@@ -581,6 +582,11 @@ class ComposerStaticInitb9d48c6fd529a0b770fc8ec8f00386e6
         'App\\Models\\CreationTire\\ErpSidebarMenu' => __DIR__ . '/../..' . '/app/Models/CreationTire/ErpSidebarMenu.php',
         'App\\Models\\CreationTire\\ErpTenderContactPerson' => __DIR__ . '/../..' . '/app/Models/CreationTire/ErpTenderContactPerson.php',
         'App\\Models\\CreationTire\\ErpTenderOrgContact' => __DIR__ . '/../..' . '/app/Models/CreationTire/ErpTenderOrgContact.php',
+        'App\\Models\\CreationTire\\HumanResources\\ErpAllowance' => __DIR__ . '/../..' . '/app/Models/CreationTire/HumanResources/ErpAllowance.php',
+        'App\\Models\\CreationTire\\HumanResources\\ErpDeduction' => __DIR__ . '/../..' . '/app/Models/CreationTire/HumanResources/ErpDeduction.php',
+        'App\\Models\\CreationTire\\HumanResources\\ErpLibility' => __DIR__ . '/../..' . '/app/Models/CreationTire/HumanResources/ErpLibility.php',
+        'App\\Models\\CreationTire\\HumanResources\\ErpPay' => __DIR__ . '/../..' . '/app/Models/CreationTire/HumanResources/ErpPay.php',
+        'App\\Models\\CreationTire\\HumanResources\\ErpPayAllowance' => __DIR__ . '/../..' . '/app/Models/CreationTire/HumanResources/ErpPayAllowance.php',
         'App\\Models\\CustomerModels\\erp_customer_address' => __DIR__ . '/../..' . '/app/Models/CustomerModels/erp_customer_address.php',
         'App\\Models\\CustomerModels\\erp_customer_contactpersons' => __DIR__ . '/../..' . '/app/Models/CustomerModels/erp_customer_contactpersons.php',
         'App\\Models\\CustomerModels\\erp_customer_contacts' => __DIR__ . '/../..' . '/app/Models/CustomerModels/erp_customer_contacts.php',
@@ -620,6 +626,11 @@ class ComposerStaticInitb9d48c6fd529a0b770fc8ec8f00386e6
         'App\\Models\\TaskTire\\WorkFlow\\ErpWorkflowAction' => __DIR__ . '/../..' . '/app/Models/TaskTire/WorkFlow/ErpWorkflowAction.php',
         'App\\Models\\TaskTire\\WorkFlow\\ErpWorkflowForward' => __DIR__ . '/../..' . '/app/Models/TaskTire/WorkFlow/ErpWorkflowForward.php',
         'App\\Models\\TaskTire\\hr\\ErpEmployeeLeave' => __DIR__ . '/../..' . '/app/Models/TaskTire/hr/ErpEmployeeLeave.php',
+        'App\\Models\\TaskTire\\hr\\ErpPayrolls' => __DIR__ . '/../..' . '/app/Models/TaskTire/hr/ErpPayrolls.php',
+        'App\\Models\\TaskTire\\hr\\PayrollAllowance' => __DIR__ . '/../..' . '/app/Models/TaskTire/hr/PayrollAllowance.php',
+        'App\\Models\\TaskTire\\hr\\PayrollDeduction' => __DIR__ . '/../..' . '/app/Models/TaskTire/hr/PayrollDeduction.php',
+        'App\\Models\\TaskTire\\hr\\PayrollLibility' => __DIR__ . '/../..' . '/app/Models/TaskTire/hr/PayrollLibility.php',
+        'App\\Models\\TaskTire\\hr\\PayrollPay' => __DIR__ . '/../..' . '/app/Models/TaskTire/hr/PayrollPay.php',
         'App\\Models\\Tender\\ErpTender' => __DIR__ . '/../..' . '/app/Models/Tender/ErpTender.php',
         'App\\Models\\Tender\\ErpTenderContactPerson' => __DIR__ . '/../..' . '/app/Models/Tender/ErpTenderContactPerson.php',
         'App\\Models\\Tender\\ErpTenderOrgContact' => __DIR__ . '/../..' . '/app/Models/Tender/ErpTenderOrgContact.php',

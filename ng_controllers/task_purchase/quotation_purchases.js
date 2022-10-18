@@ -43,7 +43,6 @@ TaskTierApp.controller('QuotationPurchaseController', function ($scope, $http) {
        }
        console.log($scope.checkList);
        $scope.pq.checklist = JSON.stringify($scope.checkList);
-
    };
 
    $scope.apply_to = function(){

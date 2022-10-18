@@ -135,6 +135,16 @@ CreateTierApp.controller('UsersController', function ($scope, $http) {
         $http.get($("#appurl").val() + 'company/get-employee-roles/'+ dept_id).then(function (response) {
             if (response.data.length > 0) {
                 $scope.allroles = response.data;
+                $scope.getGroup(dept_id);
+            }
+        });
+    };
+
+    $scope.getGroup = function (dept_id) {
+        $scope.allgroups = {};
+        $http.get($("#appurl").val() + 'company/get-employee-group/'+ dept_id).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.allgroups = response.data;
             }
         });
     };

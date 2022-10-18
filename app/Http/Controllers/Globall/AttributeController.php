@@ -15,11 +15,11 @@ use Auth;
 use DB;
 use Illuminate\Support\Facades\Input;
 
-class AttributeController extends Controller {
-
-    public function __construct() {
-	$this->middleware('auth');
-        
+class AttributeController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
 
     /**
@@ -27,45 +27,47 @@ class AttributeController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    
+
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-	//
+    public function create()
+    {
+    //
     }
 
-    
-    /** 
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
-	$attribute = new tblattribute;
-	$attribute->AttributeName = $request->AttributeName;
-	$attribute->created_by = Auth::user()->id;
-	$attribute->Active = 1;
-	$attribute->save();
-	$association = new tblattributecategoryassociation;
-	$association->AttributeId = $attribute->id;
-	$association->CategoryId = $request->assosiated;
-	$association->save();
-	$counter = 0;
-	$limt = count($request->values);
-	for ($counter; $counter < $limt; $counter++) {
-	    $val = new tblattributevalue;
-	    $val->AttirbuteValueName = $request->values[$counter]['value'];
-	    $val->association_id = $association->id;
-	    $val->created_by = Auth::user()->id;
-	    $val->Active = 1;
-	    $val->save();
-	}
-	return 'successfully Save';
+    public function store(Request $request)
+    {
+        $attribute = new tblattribute();
+        $attribute->AttributeName = $request->AttributeName;
+        $attribute->created_by = Auth::user()->id;
+        $attribute->Active = 1;
+        $attribute->save();
+        $association = new tblattributecategoryassociation();
+        $association->AttributeId = $attribute->id;
+        $association->CategoryId = $request->assosiated;
+        $association->save();
+        $counter = 0;
+        $limt = count($request->values);
+        for ($counter; $counter < $limt; $counter++) {
+            $val = new tblattributevalue();
+            $val->AttirbuteValueName = $request->values[$counter]['value'];
+            $val->association_id = $association->id;
+            $val->created_by = Auth::user()->id;
+            $val->Active = 1;
+            $val->save();
+        }
+        return 'successfully Save';
     }
 
     /**
@@ -74,8 +76,9 @@ class AttributeController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
-	return $data = tblattributecategoryassociation::with('tblattribute')->where('CategoryId', $id)->get();
+    public function show($id)
+    {
+        return $data = tblattributecategoryassociation::with('tblattribute')->where('CategoryId', $id)->get();
     }
 
     /**
@@ -84,8 +87,8 @@ class AttributeController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
-	
+    public function edit($id)
+    {
     }
 
     /**
@@ -95,83 +98,86 @@ class AttributeController extends Controller {
 
     /**
      * Update the specified resource in storage.
-     * 
+     *
      **/
-    public function AttributeValuesUpdate(Request $request) {
-
-	$attribute = tblattribute::find($request->data[0]['AttributeId']);
-	if (!empty($request->AttributeName)) {
-	    $attribute->AttributeName = $request->AttributeName;
-	    $attribute->save();
+    public function AttributeValuesUpdate(Request $request)
+    {
+        $attribute = tblattribute::find($request->data[0]['AttributeId']);
+        if (!empty($request->AttributeName)) {
+            $attribute->AttributeName = $request->AttributeName;
+            $attribute->save();
             $n = 0;
             foreach ($request->data as $r) {
-		$val = tblattributevalue::find($r['id']);
-		if (!empty($val)) {
-		  $k =  $this->UpdateValue($val, $r);
-                  $n = !$k ? $n++:$n;
-		} else {
-		    $this->CreatValue($r);
-		}
-	    }
-                if($n){
-                    $res = 'can\'t updated these values'; 
-                }else{
-                    $res = 'success';
+                $val = tblattributevalue::find($r['id']);
+                if (!empty($val)) {
+                    $k =  $this->UpdateValue($val, $r);
+                    $n = !$k ? $n++ : $n;
+                } else {
+                    $this->CreatValue($r);
                 }
-               
-	} else {
-	    $this->deleteAttribute($attribute, $request->data);
-                    $res = 'Deleted Success';
-	}
+            }
+            if ($n) {
+                $res = 'can\'t updated these values';
+            } else {
+                $res = 'success';
+            }
+        } else {
+            $this->deleteAttribute($attribute, $request->data);
+            $res = 'Deleted Success';
+        }
         return $res;
     }
 
-    public function UpdateValue($val, $r) {
-	if (!empty($r['AttirbuteValueName'])) {
-	    $val->AttirbuteValueName = $r['AttirbuteValueName'];
-	    $val->updated_by = Auth::user()->id;
-	    $val->save();
+    public function UpdateValue($val, $r)
+    {
+        if (!empty($r['AttirbuteValueName'])) {
+            $val->AttirbuteValueName = $r['AttirbuteValueName'];
+            $val->updated_by = Auth::user()->id;
+            $val->save();
             return true;
-	} else {
+        } else {
             $v = tblproductattributevalueassociations::where('value_id', $r['id'])->get();
-           if(count($v) > 0){
-               return false;
-           }else{
-	    $val->delete();
-               return true;
-           }
-	}
+            if (count($v) > 0) {
+                return false;
+            } else {
+                $val->delete();
+                return true;
+            }
+        }
     }
 
-    public function CreatValue($data) {
-	if (!empty($data['AttirbuteValueName'])) {
-	    $val = new tblattributevalue;
-	    $val->AttirbuteValueName = $data['AttirbuteValueName'];
-	    $val->association_id = $data['association_id'];
-	    $val->created_by = Auth::user()->id;
-	    $val->Active = 1;
-	    $val->save();
-	}
+    public function CreatValue($data)
+    {
+        if (!empty($data['AttirbuteValueName'])) {
+            $val = new tblattributevalue();
+            $val->AttirbuteValueName = $data['AttirbuteValueName'];
+            $val->association_id = $data['association_id'];
+            $val->created_by = Auth::user()->id;
+            $val->Active = 1;
+            $val->save();
+        }
     }
 
-    public function deleteAttribute($att, $data) {
-	foreach ($data as $r) {
+    public function deleteAttribute($att, $data)
+    {
+        foreach ($data as $r) {
             tblproductattributevalueassociations::where('value_id', $r['id'])->delete();
-	    $val = tblattributevalue::find($r['id']);
-	    if (!empty($val)) {
-		$val->delete();
-	    }
-	} 
-	$association = tblattributecategoryassociation::find($data[0]['association_id']);
-	    if (!empty($association)) {
-		$association->delete();
-	    }
-	$att->delete();
-	return true;
+            $val = tblattributevalue::find($r['id']);
+            if (!empty($val)) {
+                $val->delete();
+            }
+        }
+        $association = tblattributecategoryassociation::find($data[0]['association_id']);
+        if (!empty($association)) {
+            $association->delete();
+        }
+        $att->delete();
+        return true;
     }
 
-    
-    public static function GetAttributes($id) {
+
+    public static function GetAttributes($id)
+    {
         $data = tblattributecategoryassociation::where('CategoryId', $id)->get();
         $i = 0;
         $attribute = array();
@@ -182,15 +188,16 @@ class AttributeController extends Controller {
         }
         return $attribute;
     }
-    
-    public function AttributeValues($id) {
-        return vwCategoriesAttributesValues::where('AttributeId',$id)->get();
-    }
-    
-    
-    public function AttributeVaslueslog($type) {
 
-       if ($type === 'created') {
+    public function AttributeValues($id)
+    {
+        return vwCategoriesAttributesValues::where('AttributeId', $id)->get();
+    }
+
+
+    public function AttributeVaslueslog($type)
+    {
+        if ($type === 'created') {
             return vwattributevaluesindex::orderBy('id', 'DSEC')->paginate(25);
         } elseif ($type === 'updated') {
             return vwattributevaluesindex::where('updated_by_id', '!=', '')->orderBy('id', 'DSEC')->paginate(25);
@@ -204,59 +211,69 @@ class AttributeController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
-	//
+    public function destroy($id)
+    {
+    //
     }
-    
-    public function savedesignation($name) {
-        $designation = new tbldesignation;
+
+    public function savedesignation($name)
+    {
+        $designation = new tbldesignation();
         $designation->name = $name;
         $designation->added_by = Auth::user()->id;
         $designation->sort = 0;
         $designation->save();
         return $designation;
     }
-    
-    public function updatedesignation(Request $r) {
+
+    public function updatedesignation(Request $r)
+    {
         $designation = tbldesignation::find($r->id);
         $designation->name = $r->name;
         $designation->sort = $r->sort;
         $designation->save();
         return $designation;
     }
-    public function updatedepartment(Request $r) {
+    public function updatedepartment(Request $r)
+    {
         $department = department::find($r->id);
         $department->name = $r->name;
         $department->save();
         return $department;
     }
-    public function designationstatus($name) {
-        $designation = tbldesignation::where('name',$name)->get();
+    public function designationstatus($name)
+    {
+        $designation = tbldesignation::where('name', $name)->get();
         return count($designation);
     }
-    
-    public function savedepartment($name) {
-        $department = new department;
+
+    public function savedepartment($name)
+    {
+        $department = new department();
         $department->name = $name;
         $department->added_by = Auth::user()->id;
         $department->save();
         return $department;
     }
-    public function departmentstatus($name) {
-        $department = department::where('name',$name)->get();
+    public function departmentstatus($name)
+    {
+        $department = department::where('name', $name)->get();
         return count($department);
     }
-    
-    public function deletedesignation($id){
+
+    public function deletedesignation($id)
+    {
         tbldesignation::find($id)->delete();
         return 0;
     }
-    
-    public function deletedepartment($id){
+
+    public function deletedepartment($id)
+    {
         department::find($id)->delete();
         return 0;
     }
-    public function ItemsClass(){
+    public function ItemsClass()
+    {
         return tblitemclass::get(['id','name']);
     }
 }

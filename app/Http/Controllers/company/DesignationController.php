@@ -121,6 +121,7 @@ class DesignationController extends Controller
 
     public function get_employee_group($dept_id)
     {
+        
         return erp_employee_group::where('department_id', $dept_id)->get();;
     }
 }

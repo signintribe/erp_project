@@ -36,11 +36,13 @@ Route::view('user-rights-privileges', 'admin.user-rights-privileges');
 
 Route::get('employee-leave', 'EmployeeController@employee_leave')->name('employee-leave');
 Route::view('open-existing-company','auth.open-company')->name('open-company');
+
 Route::group(['prefix'=>'hr'], function () {
   /**
    * Creation Tier Forms
    */
   Route::get('pay-allowance-deduction', 'Admin\PayAllowanceDeductionController@pay_allownce');
+  Route::get('get-all-payallowance/{dept_id}', 'Admin\PayAllowanceDeductionController@get_all_payallowance');
   Route::view('employee-trainings', 'employee_center.employee-trainings');
   Route::get('employee-payscale', 'Admin\PayScaleController@employee_payscale');
   Route::get('timing-info', 'HrViewsController@timing_info');
@@ -81,6 +83,7 @@ Route::group(['prefix'=>'hr'], function () {
    */
 
   Route::resource('apply-leave-form', 'TaskTier\hr\ApplyLeaveController');
+  Route::resource('assign-pay-roll', 'TaskTier\hr\PayRollController');
   Route::get('get-leaves-for-apply', 'TaskTier\hr\ApplyLeaveController@get_leaves_for_apply');
   Route::get('prev-employee-leave-balance/{company_id}/{leave_id}', 'TaskTier\hr\ApplyLeaveController@prev_employee_leave_balance');
 });
@@ -445,6 +448,7 @@ Route::group(['prefix'=>'company'], function () {
   Route::resource('employee-roles', 'company\EmployeeRolesController');
   Route::get('get-employee-roles/{dept_id}', 'company\EmployeeRolesController@get_employee_roles');
   Route::get('get-role-actions/{role_id}', 'company\EmployeeRolesController@get_role_actions');
+  Route::get('get-employees/{group_id}', 'Admin\UsersController@get_employees');
 });
 
 

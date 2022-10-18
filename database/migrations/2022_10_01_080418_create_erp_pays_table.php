@@ -15,15 +15,17 @@ class CreateErpPaysTable extends Migration
     {
         Schema::create('erp_pays', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('company_id');
+            $table->integer('parent_id')->unsigned();
             $table->string('pay_type');
-            $table->string('pay_emp_account');
-            $table->string('pay_amount');
-            $table->string('pay_com_account');
+            $table->integer('pay_emp_account');
+            $table->integer('pay_amount');
+            $table->integer('pay_com_account');
             $table->timestamps();
 
             //FOREIGN KEY CONSTRAINTS
-            $table->foreign('company_id')->references('id')->on('tblcompanydetails')->onDelete('cascade');
+            $table->foreign('pay_emp_account')->references('id')->on('tblaccountcategories')->onDelete('cascade');
+            $table->foreign('pay_com_account')->references('id')->on('tblaccountcategories')->onDelete('cascade');
+            $table->foreign('parent_id')->references('id')->on('erp_pay_allowances')->onDelete('cascade');
         });
     }
 
