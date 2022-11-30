@@ -63,10 +63,13 @@ class PayAllowanceDeductionController extends Controller
         if ($request->id) {
             return $this->update($request->except(['company_id', 'user_id']));
         } else {
-            $chk = ErpPayAllowance::where('department_id', $request->department_id)->get();
             try{
+                $chk = ErpPayAllowance::where('department_id', $request->department_id)->get();
                 if (count($chk) > 0) {
-                    throw new Exception("Value must be 1 or below");
+                    return response()->json([
+                        'status'=>false,
+                        'message'=>'Pay and Allowance is already define for this department'
+                    ]);
                 } else {
                     $payallowance =  $request->except(['allowances', 'deductions', 'libilities', 'pays']);
                     $payallowance['user_id'] = Auth::user()->id;
@@ -109,7 +112,7 @@ class PayAllowanceDeductionController extends Controller
                     } */
                 }
                 $status = true; $message = 'Pay and Allownance Save Successfully';
-            }catch (\Exception $e) {
+            }catch (\Illuminate\Database\QueryException $e) {
                 $status = false; $message = $e->errorInfo[2];
             }
             return response()->json([

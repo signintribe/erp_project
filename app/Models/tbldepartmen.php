@@ -31,4 +31,9 @@ class tbldepartmen extends Model { /**
         'updated_by'
     ];
 
+    public function payroll()
+    {
+        return $this->hasOne(ErpPayrolls::class);
+    }
+
 }

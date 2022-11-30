@@ -603,6 +603,7 @@ class ComposerStaticInitb9d48c6fd529a0b770fc8ec8f00386e6
         'App\\Models\\ProjectSystem\\ErpActivity' => __DIR__ . '/../..' . '/app/Models/ProjectSystem/ErpActivity.php',
         'App\\Models\\ProjectSystem\\ErpPhase' => __DIR__ . '/../..' . '/app/Models/ProjectSystem/ErpPhase.php',
         'App\\Models\\ProjectSystem\\ErpProject' => __DIR__ . '/../..' . '/app/Models/ProjectSystem/ErpProject.php',
+        'App\\Models\\ProjectSystem\\ErpProjectBudget' => __DIR__ . '/../..' . '/app/Models/ProjectSystem/ErpProjectBudget.php',
         'App\\Models\\ProjectSystem\\ErpTask' => __DIR__ . '/../..' . '/app/Models/ProjectSystem/ErpTask.php',
         'App\\Models\\ProjectSystem\\ErpTasksAssignedDetail' => __DIR__ . '/../..' . '/app/Models/ProjectSystem/ErpTasksAssignedDetail.php',
         'App\\Models\\Purchases\\ErpChecklist' => __DIR__ . '/../..' . '/app/Models/Purchases/ErpChecklist.php',

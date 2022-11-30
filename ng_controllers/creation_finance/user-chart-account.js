@@ -22,7 +22,7 @@ CreateTierApp.controller('CategoryController', function ($scope, $http, $compile
     };
 
     $scope.getAccounts = function () {
-        var Accounts = $http.get('AllchartofAccount');
+        var Accounts = $http.get('AllchartofAccount/Company');
         Accounts.then(function (r) {
             $scope.Accounts = r.data;
         });

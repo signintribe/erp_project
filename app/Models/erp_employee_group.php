@@ -14,4 +14,9 @@ class erp_employee_group extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function payroll()
+    {
+        return $this->hasOne(ErpPayrolls::class);
+    }
 }

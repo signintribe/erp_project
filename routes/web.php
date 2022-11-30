@@ -457,12 +457,13 @@ Route::group(['prefix'=>'project-system'], function(){
   Route::resource('create-phases', 'ProjectSystem\CreatePhasesController');
   Route::resource('create-tasks', 'ProjectSystem\CreateTasksController');
   Route::resource('create-activities', 'ProjectSystem\CreateActivitiesControllerr');
-  Route::resource('assign-task', 'ProjectSystem\AssignTasksController');
-  Route::get('view-assigned-task', 'ProjectSystem\AssignTasksController@view_assigned_tasks');
+  Route::resource('assign-project', 'ProjectSystem\AssignTasksController');
+  Route::get('view-assigned-projects', 'ProjectSystem\AssignTasksController@view_assigned_tasks');
   Route::get('get-department-office/{group_id}', 'ProjectSystem\AssignTasksController@get_department_office');
   Route::get('get-project-activities/{project_id}/{company_id}', 'ProjectSystem\CreateActivitiesControllerr@get_project_activities');
   Route::get('get-activity-phases/{activity_id}/{company_id}', 'ProjectSystem\CreatePhasesController@get_activity_phases');
   Route::get('get-phases-tasks/{task_id}/{company_id}', 'ProjectSystem\CreateTasksController@get_phases_tasks');
+  Route::get('search-budget-detail/{search}', 'company\CompanyBudgetController@searchBudgetDetail');
 });
 
 /**

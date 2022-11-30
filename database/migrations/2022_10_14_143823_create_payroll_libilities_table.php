@@ -15,15 +15,15 @@ class CreatePayrollLibilitiesTable extends Migration
     {
         Schema::create('payroll_libilities', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('erp_payroll_id')->unsigned();
+            $table->integer('erp_payrolls_id')->unsigned();
             $table->integer('tblemployeeinformation_id');
-            $table->integer('erp_libility_id')->unsigned();
+            $table->integer('erp_libilities_id')->unsigned();
             $table->timestamps();
 
             //FOREIGN KEY CONSTRAINTS
             $table->foreign('tblemployeeinformation_id')->references('id')->on('tblemployeeinformations')->onDelete('cascade');
-            $table->foreign('erp_libility_id')->references('id')->on('erp_libilities')->onDelete('cascade');
-            $table->foreign('erp_payroll_id')->references('id')->on('erp_payrolls')->onDelete('cascade');
+            $table->foreign('erp_libilities_id')->references('id')->on('erp_libilities')->onDelete('cascade');
+            $table->foreign('erp_payrolls_id')->references('id')->on('erp_payrolls')->onDelete('cascade');
         });
     }
 

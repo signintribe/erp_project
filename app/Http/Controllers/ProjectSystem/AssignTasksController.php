@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ProjectSystem;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProjectSystem\ErpTasksAssignedDetail;
+use App\Models\ProjectSystem\ErpProjectBudget;
 use DB;
 class AssignTasksController extends Controller
 {
@@ -47,8 +48,16 @@ class AssignTasksController extends Controller
             $data = $request->except(['$$hashKey', 'activity_name', 'assign_emp_name', 'created_at', 'id', 'phase_name', 'project_name', 'reported_emp_name', 'supervisor_name', 'task_name', 'updated_at', 'phase_id', 'activity_id', 'project_id', 'office_id', 'department_id']);
             ErpTasksAssignedDetail::where('id', $request->id)->update($data);
         }else{
-            $data = $request->except(['phase_id', 'activity_id', 'project_id', 'office_id', 'department_id']);
-            ErpTasksAssignedDetail::create($data);
+            //return $request->all();
+            $data = $request->except(['coa']);
+            $project = ErpTasksAssignedDetail::create($data);
+            $coa = explode(',', $request->coa);
+            foreach($coa as $v){
+                $b = new ErpProjectBudget();
+                $b->erp_company_budget_id = $v;
+                $b->erp_tasks_assigned_detail_id = $project->id;
+                $b->save();
+            }
         }
         return response()->json([
             'status' => true,

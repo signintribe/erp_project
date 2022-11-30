@@ -21,15 +21,79 @@ TaskTierApp.controller('PayRollController', function ($scope, $http) {
                         text: res.data.message,
                         type: "success"
                     });
-                    //$scope.payroll = {};
+                    $scope.payroll = {};
+                    $scope.getallpayroll();
                     $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 }else{
-
+                    swal({
+                        title: "Warning!",
+                        text: res.data.message,
+                        type: "warning"
+                    });
+                    $("#loader").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 }
             });
         }
     };
 
+
+    $scope.get_allpayroll = function () {
+        $scope.getallpayroll = {};
+        $scope.limit = 30;
+        $scope.offset = 0;
+        $scope.array = {
+            'limit':$scope.limit,
+            'offset':$scope.offset,
+            'company_id': $("#company_id").val()
+        };
+        $http.get('assign-pay-roll/' + JSON.stringify($scope.array)).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.getallpayroll = response.data;
+                $scope.offset += $scope.limit;
+                $("#btn-loadmore").show();
+            }else{
+                $scope.nomore = "No records found";
+                $("#loadmore-spinner").removeClass('fa-pulse fa-sw');
+                $(".btn-loadmore").hide();
+            }
+        });
+    };
+    $scope.get_allpayroll();
+
+    $scope.getOnePayroll = function(payroll_id, payroll_type){
+        $scope.payrolltype = payroll_type;
+        $http.get('assign-pay-roll/' + payroll_id + '/edit').then(function (response) {
+            if (response.data.status == true) {
+                $scope.onePayroll = response.data.data;
+                $scope.payrollpays = response.data.payrollpay;
+                $scope.payrollallowance = response.data.payrollallowance;
+                $scope.payrolllibility = response.data.payrolllibility;
+                $scope.payrollded = response.data.payrollded;
+                //$scope.getRunPayAllowance($scope.onePayroll.department_id);
+            }
+        });
+    };
+
+    $scope.loadMore = function(){
+        $("#loadmore-spinner").addClass('fa-pulse fa-sw');
+        $scope.array = {
+            'limit':$scope.limit,
+            'offset':$scope.offset,
+            'company_id': $("#company_id").val()
+        };
+        $http.get('assign-pay-roll/' + JSON.stringify($scope.array)).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.getallpayroll = $scope.getallpayroll.concat(response.data);
+                $scope.offset += $scope.limit;
+                $("#loadmore-spinner").removeClass('fa-pulse fa-sw');
+                $("#btn-loadmore").show();
+            }else{
+                $scope.nomore = "No more records found";
+                $("#loadmore-spinner").removeClass('fa-pulse fa-sw');
+                $(".btn-loadmore").hide();
+            }
+        });
+    };
 
     $scope.getoffice = function () {
         $scope.offices = {};
@@ -84,6 +148,21 @@ TaskTierApp.controller('PayRollController', function ($scope, $http) {
             }
         });
     };
+
+    /* $scope.getRunPayAllowance = function(dept_id){
+        //$scope.allAllowances = {};
+        $http.get($scope.app_url + 'hr/get-all-payallowance/'+ dept_id).then(function (response) {
+            if (response.data.status == true) {
+                $scope.rpayallowance = response.data.data;
+                $scope.rpays = response.data.data.pays;
+                $scope.rallowances = response.data.data.allowances;
+                $scope.rdeductions = response.data.data.deductions;
+                $scope.rlibilities = response.data.data.libilities;
+            }else{
+                $scope.norecods = $scope.data.message;
+            }
+        });
+    }; */
 
     $scope.prpays = [];
    /**

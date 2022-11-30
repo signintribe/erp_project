@@ -23,7 +23,7 @@ TaskTierApp.controller('AssignTaskController', function ($scope, $http) {
     };
 
     $scope.getEmployees = function () {
-        $http.get($("#app_url").val() + 'hr/getEmployees').then(function (response) {
+        $http.get($("#app_url").val() + 'hr/getEmployees/'+$("#company_id").val()).then(function (response) {
             if (response.data.length > 0) {
                 $scope.Users = response.data;
             }
@@ -35,6 +35,14 @@ TaskTierApp.controller('AssignTaskController', function ($scope, $http) {
     };
 
     $scope.editTask = function(task){
+        if(parseInt(task.group_id) != 0){
+            $scope.getDeptAndOffice(parseInt(task.group_id));
+        }
+        $scope.getActivities(parseInt(task.project_id));
+        $scope.getActivityPhases(parseInt(task.activity_id));
+        if(parseInt(task.phase_id) != 0){
+            $scope.getPhasesTasks(parseInt(task.phase_id));
+        }
         $scope.task = task;
         $scope.task.group_id = parseInt(task.group_id);
         $scope.task.department_id = parseInt(task.department_id);
@@ -42,10 +50,6 @@ TaskTierApp.controller('AssignTaskController', function ($scope, $http) {
         $scope.task.assign_employee_id = parseInt(task.assign_employee_id);
         $scope.task.reported_employee_id = parseInt(task.reported_employee_id);
         $scope.task.supervise_employee_id = parseInt(task.supervise_employee_id);
-        $scope.getDeptAndOffice($scope.task.group_id);
-        $scope.getActivities(task.project_id);
-        $scope.getActivityPhases(task.activity_id);
-        $scope.getPhasesTasks(task.phase_id);
     };
 
     $scope.getActivities = function(project_id){
@@ -149,7 +153,7 @@ TaskTierApp.controller('AssignTaskController', function ($scope, $http) {
             'limit':$scope.limit,
             'company_id': $("#company_id").val()
         };
-        $http.get('assign-task/'+ JSON.stringify(arr)).then(function (response) {
+        $http.get('assign-project/'+ JSON.stringify(arr)).then(function (response) {
             if (response.data.data.length > 0) {
                 $scope.allTasks = response.data.data;
                 $scope.offset += $scope.limit;
@@ -170,7 +174,7 @@ TaskTierApp.controller('AssignTaskController', function ($scope, $http) {
             'limit':$scope.limit,
             'company_id': $("#company_id").val()
         };
-        $http.get('assign-task/'+ JSON.stringify(arr)).then(function (response) {
+        $http.get('assign-project/'+ JSON.stringify(arr)).then(function (response) {
             if (response.data.data.length > 0) {
                 $scope.allTasks = $scope.allTasks.concat(response.data.data);
                 $scope.offset += $scope.limit;
@@ -195,7 +199,7 @@ TaskTierApp.controller('AssignTaskController', function ($scope, $http) {
             closeOnConfirm: false
         },
         function(){
-            $http.delete('assign-task/' + task_id).then(function (response) {
+            $http.delete('assign-project/' + task_id).then(function (response) {
                 if(response.data.status == true){
                     swal("Deleted!", response.data.message, "success");
                     $scope.resetscope();
@@ -221,7 +225,7 @@ TaskTierApp.controller('AssignTaskController', function ($scope, $http) {
             angular.forEach($scope.task, function (v, k) {
                 Data.append(k, v);
             });
-            $http.post('assign-task', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+            $http.post('assign-project', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                 if(res.data.status == true){
                     swal({
                         title: "Save!",

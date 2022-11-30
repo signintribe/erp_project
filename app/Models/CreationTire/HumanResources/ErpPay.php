@@ -3,7 +3,7 @@
 namespace App\Models\CreationTire\HumanResources;
 
 use Illuminate\Database\Eloquent\Model;
-
+//use App\Models\TaskTire\hr\PayrollPay;
 class ErpPay extends Model
 {
     protected $guarded = [];
@@ -12,5 +12,10 @@ class ErpPay extends Model
     public function pay_allowance()
     {
         return $this->belongsTo(ErpPayAllowance::class);
+    }
+
+    public function pays()
+    {
+        return $this->hasMany(PayrollPay::class);
     }
 }

@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Models\tbldepartments;
 use App\Models\Finance\ErpGlDetail;
 use App\Models\Finance\ErpGlprojectSystem;
+use App\Models\ErpCompanyBudgets;
 use DB;
 use App\Http\Controllers\Controller;
 
@@ -186,9 +187,9 @@ class FinanceController extends Controller
 //        return DB::select("call getAccounts()");
         if ($accfor == 'Company') {
             $Accounts = DB::select('call getGLAccount()');
-        } else if ($accfor == 'Employee') {
+        } elseif ($accfor == 'Employee') {
             $Accounts = DB::select('call getGLAccountForEmployee()');
-        }else{
+        } else {
             return "Please Send Right Option";
         }
         $cat = DB::select('SELECT * FROM tblaccountcategories WHERE id IN (SELECT CategoryChildId FROM tblaccountparentchildassociations WHERE CategoryParentId IN(2,3))');
@@ -213,51 +214,80 @@ class FinanceController extends Controller
 
     public function SaveGeneralEntries(Request $r)
     {
-        if (!empty($GeneralEntries = tblgeneralentries::where('invoice_number', $r->invoice_number)->first())) {
+        //return $r->all();
+        /* if (!empty($GeneralEntries = tblgeneralentries::where('invoice_number', $r->invoice_number)->first())) {
             return response()->json([
                 'status'=>false,
                 'message'=>"Invoice number already in used, It should be unique invoice number"
             ]);
-        } else {
-            $date = $r->date;
-            $invoice_number = $r->invoice_number;
-            $refrance = $r->refrance;
-            $GL= json_decode($r->Data, true);
-            /* foreach($GL as $key => $value){
-                $value['created_by'] = Auth::user()->id;
-                return $value;
-            }exit(); */
-            if (count($GL) >= 2) {
-                foreach ($GL as $key => $collection) {
-                    //return $collection;
-                    //unset($collection['$$hashKey']);
-                    $collection['created_by'] = Auth::user()->id;
-                    $collection['refrance'] = $refrance;
-                    $collection['date'] = $date;
-                    $collection['invoice_number'] = $invoice_number;
+        } else { */
+        $date = $r->date;
+        $time=strtotime($date);
+        $month=strtolower(date("F", $time));
+        $year=strtolower(date("Y", $time));
+        //$invoice_number = $r->invoice_number;
+        //$refrance = $r->refrance;
+        $GL= json_decode($r->Data, true);
+        /* foreach($GL as $key => $value){
+            $value['created_by'] = Auth::user()->id;
+            return $value;
+        }exit(); */
+        if (count($GL) >= 2) {
+            foreach ($GL as $key => $collection) {
+                $budget = ErpCompanyBudgets::where('account_id', $collection['account_Id'])->where('year', $year)->first();
+                if(empty($budget)){
+                    return response()->json([
+                        'status'=>false,
+                        'message'=>"Please define budget first against debit entry"
+                    ]);
+                }
+                //return $collection['debit'];
+                //unset($collection['$$hashKey']);
+                $collection['created_by'] = Auth::user()->id;
+                //$collection['refrance'] = $refrance;
+                $collection['date'] = $date;
+                //$collection['invoice_number'] = $invoice_number;
+                if (isset($collection['debit'])) {
+                    if ($collection['debit'] < $budget->$month) {
+                        $GeneralEntries = tblgeneralentries::create($collection);
+
+                        $budget->$month = $budget->$month - $collection['debit'];
+                        $budget->save();
+                    } else {
+                        return response()->json([
+                            'status'=>false,
+                            'message'=>"Amount Greater Than Budget Please Add Budget"
+                        ]);
+                    }
+                } elseif (isset($collection['credit'])) {
                     $GeneralEntries = tblgeneralentries::create($collection);
+                    return response()->json([
+                        'status'=>true,
+                        'message'=>"Entry Save Successfully"
+                    ]);
                 }
             }
-            $detail = $r->except(['Data', 'date', 'project_systems', 'deposit_slip']);
-            if ($r->hasFile('deposit_slip')) {
-                $current = date('ymd') . rand(1, 999999) . time();
-                $file = $r->file('deposit_slip');
-                $imgname = $current . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('/deposit_slip'), $imgname);
-                $detail['deposit_slip'] = $imgname;
-            }
-            //$detail['invoice_number'] = $invoice_number;
-            ErpGlDetail::create($detail);
-            $project_systems = json_decode($r->project_systems, true);
-            if (!empty($project_systems)) {
-                $project_systems['invoice_number'] = $invoice_number;
-                ErpGlprojectSystem::create($project_systems);
-            }
-            return response()->json([
-                'status'=>true,
-                'message'=>"Entry Save Successfully"
-            ]);
         }
+        /*  $detail = $r->except(['Data', 'date', 'project_systems', 'deposit_slip']);
+         if ($r->hasFile('deposit_slip')) {
+             $current = date('ymd') . rand(1, 999999) . time();
+             $file = $r->file('deposit_slip');
+             $imgname = $current . '.' . $file->getClientOriginalExtension();
+             $file->move(public_path('/deposit_slip'), $imgname);
+             $detail['deposit_slip'] = $imgname;
+         }
+         //$detail['invoice_number'] = $invoice_number;
+         ErpGlDetail::create($detail);
+        $project_systems = json_decode($r->project_systems, true);
+         if (!empty($project_systems)) {
+             $project_systems['invoice_number'] = $invoice_number;
+             ErpGlprojectSystem::create($project_systems);
+         } */
+        /* return response()->json([
+            'status'=>true,
+            'message'=>"Entry Save Successfully"
+        ]); */
+        //}
     }
 
     public function defineUserAccount()

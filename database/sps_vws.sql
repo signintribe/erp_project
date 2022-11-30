@@ -683,23 +683,23 @@ DELIMITER $$
 CREATE PROCEDURE `getAssignedTasks`(in companyid int(11), in ofst int(11), in lmt int(11))
 BEGIN  
     SELECT asstasks.*, assign_emp.first_name AS assign_emp_name, supervisor_emp.first_name AS supervisor_name,
-    reported_emp.first_name AS reported_emp_name, tasks.task_name, phase.id AS phase_id, phase.phase_name, 
-    activity.id AS activity_id, activity.activity_name, project.id AS project_id, project.project_name 
+    reported_emp.first_name AS reported_emp_name, tasks.task_name, phase.phase_name, 
+    activity.activity_name, project.project_name 
     FROM (
       SELECT * FROM erp_tasks_assigned_details WHERE company_id = companyid
-    )AS asstasks JOIN(
+    )AS asstasks LEFT JOIN(
       SELECT id, phase_id, task_name FROM erp_tasks
-    ) AS tasks ON tasks.id = asstasks.task_id JOIN(
+    ) AS tasks ON tasks.id = asstasks.task_id LEFT JOIN(
       SELECT id, phase_name, activity_id FROM erp_phases
-    ) AS phase ON phase.id = tasks.phase_id JOIN(
+    ) AS phase ON phase.id = asstasks.phase_id LEFT JOIN(
       SELECT id, activity_name, project_id FROM erp_activities
-    )AS activity ON activity.id = phase.activity_id JOIN(
+    )AS activity ON activity.id = asstasks.activity_id LEFT JOIN(
       SELECT id, project_name FROM erp_projects
-    )AS project ON project.id = activity.project_id JOIN(
+    )AS project ON project.id = asstasks.project_id LEFT JOIN(
       SELECT id, first_name FROM tblemployeeinformations
-    )AS reported_emp ON reported_emp.id = asstasks.reported_employee_id JOIN(
+    )AS reported_emp ON reported_emp.id = asstasks.reported_employee_id LEFT JOIN(
       SELECT id, first_name FROM tblemployeeinformations
-    )AS supervisor_emp ON supervisor_emp.id = asstasks.supervise_employee_id JOIN(
+    )AS supervisor_emp ON supervisor_emp.id = asstasks.supervise_employee_id LEFT JOIN(
       SELECT id, first_name FROM tblemployeeinformations
     )AS assign_emp ON assign_emp.id = asstasks.assign_employee_id limit ofst, lmt;
 END$$

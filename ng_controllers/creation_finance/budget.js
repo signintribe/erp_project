@@ -23,6 +23,24 @@ CreateTierApp.controller('BankController', function ($scope, $http) {
         });
     };
 
+    $scope.getoffice = function () {
+        $scope.offices = {};
+        $http.get($("#appurl").val() + 'company/getoffice/'+$("#company_id").val()).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.offices = response.data;
+            }
+        });
+    };
+    
+    $scope.getDepartments = function (office_id) {
+        $scope.departments = {};
+        $http.get($("#appurl").val() + 'company/get-departments/'+office_id).then(function (response) {
+            if (response.data.length > 0) {
+                $scope.departments = response.data;
+            }
+        });
+    };
+
     $scope.addBudget = function(acc_id){
         $scope.budget.account_id = acc_id;
         $scope.budget.company_id = $("#company_id").val();

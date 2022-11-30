@@ -1,12 +1,12 @@
 @extends('layouts.admin.taskTier')
-@section('title', 'Assigned Tasks')
-@section('pagetitle', 'Assigned Tasks')
-@section('breadcrumb', 'Assigned Tasks')
+@section('title', 'Assigned Projects')
+@section('pagetitle', 'Assigned Projects')
+@section('breadcrumb', 'Assigned Projects')
 @section('content')
 <div ng-controller="AssignTaskController">
     <div class="card" ng-init="resetscope()">
         <div class="card-header">
-            <h3 class="card-title">View Project, Activity, Phase and Task</h3>
+            <h3 class="card-title">View Projects</h3>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -14,22 +14,28 @@
                     <thead>
                         <tr>
                             <th>Sr#</th>
-                            <th>Assigned To</th>
-                            <th>Supervisor Name</th>
+                            <!-- <th>Office Name</th>
                             <th>Reported To</th>
+                            <th>Assigned To</th> -->
+                            <th>Assign Date</th>
                             <th>Task Name</th>
                             <th>Phase Name</th>
+                            <th>Activity Name</th>
+                            <th>Project Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="tasks in allTasks">
                             <td ng-bind="$index+1"></td>
-                            <td ng-bind="tasks.assign_emp_name"></td>
-                            <td ng-bind="tasks.supervisor_name"></td>
+                            <!-- <td ng-bind="tasks.office_name"></td>
                             <td ng-bind="tasks.reported_emp_name"></td>
+                            <td ng-bind="tasks.assign_emp_name"></td> -->
+                            <td ng-bind="tasks.assignment_date"></td>
                             <td ng-bind="tasks.task_name"></td>
                             <td ng-bind="tasks.phase_name"></td>
+                            <td ng-bind="tasks.activity_name"></td>
+                            <td ng-bind="tasks.project_name"></td>
                             <td>
                                 <div class="btn-group">
                                     <button class="btn btn-xs btn-info" data-toggle="modal" data-target="#editTask" ng-click="editTask(tasks)">Edit</button>
@@ -56,7 +62,7 @@
                             <div class="modal-body">
                                 <div class="card" ng-init="resetscope()">
                                     <div class="card-header">
-                                        <h3 class="card-title">Add Project, Activity, Phase and Task</h3>
+                                        <h3 class="card-title">Add Projects</h3>
                                     </div>
                                     <div class="card-body">
                                         <div class="row">

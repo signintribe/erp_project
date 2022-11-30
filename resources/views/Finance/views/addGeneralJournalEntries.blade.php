@@ -25,12 +25,12 @@
 <div ng-controller="CategoryController" ng-init="resetscope()">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="card">
+            <!-- <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Detail</h3>
+                    <h3 class="card-title">Details</h3>
                 </div>
                 <div class="card-body">
-                    <!--  <button class="btn btn-info btn-xs" ng-click="(Entries.Data.push({}))"><i class="fa fa-plus"></i> Add Other</button><br/><br/> -->
+                    <button class="btn btn-info btn-xs" ng-click="(Entries.Data.push({}))"><i class="fa fa-plus"></i> Add Other</button><br/><br/>
                     <div class="row" ng-if="saveMessage">
                         <div class="col">
                             <div class="alert alert-success">
@@ -70,7 +70,6 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="deposit-slip">Deposit slip</label>
                             <input type="file" onchange="angular.element(this).scope().readUrl(this);" id="deposit-slip" class="form-control">
-                           <!--  <img ng-if="comLogo" src="<% comLogo %>" alt=""> -->
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <label for="depostie_date">Depostie date</label>
@@ -109,8 +108,8 @@
                         </div>
                     </div><br/>
                 </div>
-            </div>
-            <div class="card">
+            </div> -->
+            <!-- <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Project System</h3>
                 </div>
@@ -184,12 +183,28 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Genral Entry</h3>
                 </div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>* Date</label>
+                                <div class="form-group">
+                                    <div class="input-group date" id="entry_date" data-target-input="nearest">
+                                        <input type="text" placeholder="Date" class="form-control datetimepicker-input" data-target="#entry_date"/>
+                                        <div class="input-group-append" data-target="#entry_date" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i class="text-danger" ng-show="!Entries.date && showError"><small>Please type date</small></i>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped">
                             <thead>

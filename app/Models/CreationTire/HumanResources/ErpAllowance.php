@@ -13,4 +13,9 @@ class ErpAllowance extends Model
     {
         return $this->belongsTo(ErpPayAllowance::class);
     }
+
+    public function payrollallowance()
+    {
+        $this->hasMany(PayrollAllowance::class);
+    }
 }

@@ -19,6 +19,30 @@
            </div>
        </div>
        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3" ng-init="getoffice()">
+                    <label for="office_id">Select Office</label>
+                    <select ng-model="budget.office_id" ng-change="getDepartments(budget.office_id)" ng-options="off.id as off.office_name for off in offices" id="" class="form-control">
+                        <option value="">Select Office</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="department_id">Select Department</label>
+                    <select ng-model="budget.department_id" ng-options="dept.id as dept.department_name for dept in departments" id="" class="form-control">
+                        <option value="">Select Department</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label for="year">Select Year</label>
+                    <select ng-model="budget.year" id="" class="form-control">
+                        <option value="">Select Year</option>
+                        <?php for($i=2000; $i<=date('Y'); $i++){ ?>
+                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3"></div>
+            </div><br/>
             <div class="table-responsive" ng-init="getAccounts()">
                 <table class="table table-sm" style="font-size: 14px;" ng-if="Accounts">
                     <thead>

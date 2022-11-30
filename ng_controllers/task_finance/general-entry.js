@@ -22,7 +22,7 @@ TaskTierApp.controller('CategoryController', function ($scope, $http, $compile, 
         $scope.getProjects();
     };
     $scope.getAccounts = function () {
-        var Accounts = $http.get($("#appurl").val() + 'AllchartofAccount');
+        var Accounts = $http.get($("#appurl").val() + 'AllchartofAccount/Company');
         Accounts.then(function (r) {
             $scope.Accounts = r.data;
         });
@@ -54,13 +54,14 @@ TaskTierApp.controller('CategoryController', function ($scope, $http, $compile, 
     $scope.SaveEntries = function () {
         $scope.Entries.date = $("#entry_date input").val();
         console.log($scope.Entries);
-        if (!$scope.Entries.invoice_number || !$scope.Entries.date) {
+        /* if (!$scope.Entries.invoice_number || !$scope.Entries.date) { */
+        if (!$scope.Entries.date) {
             $scope.showError = true;
             jQuery("input.required").filter(function () {
                 return !this.value;
             }).addClass("has-error");
         } else {
-            $scope.Entries.project_systems = JSON.stringify($scope.ps);
+            //$scope.Entries.project_systems = JSON.stringify($scope.ps);
             $scope.Entries.Data = JSON.stringify($scope.Entries.Data,  function( key, value ) {
                 if( key === "$$hashKey" ) {
                     return undefined;
@@ -76,7 +77,7 @@ TaskTierApp.controller('CategoryController', function ($scope, $http, $compile, 
                 if(res.data.status == true){
                     $scope.Entries = {};
                     $scope.Entries.Data = [{}, {}];
-                    $scope.ps = {};
+                    //$scope.ps = {};
                     swal('Success', res.data.message, 'success');
                 }else if(res.data.status == false){
                     swal('Warning', res.data.message, 'warning');

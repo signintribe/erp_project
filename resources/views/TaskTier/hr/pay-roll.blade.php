@@ -4,6 +4,11 @@
 @section('breadcrumb', 'Assign Pay Roll')
 @section('content')
 <div ng-controller="PayRollController" ng-cloak>
+    <style>
+        #exampleModal p{
+            border-bottom: solid 1px;
+        }
+    </style>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Assign Pay Roll</h3>
@@ -50,6 +55,7 @@
             </div><br/>
         </div>
     </div>
+    <!-- Add Form All Pay and Allowance -->
     <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-9" ng-if="payallowance">
             <div class="card">
@@ -136,11 +142,172 @@
             </div>
         </div>
     </div>
+    <!-- /. Add Form All Pay and Allowance -->
     <div class="row">
         <div class="col">
-            <button class="btn btn-success float-right" ng-click="assign_payroll()"><i class="fa fa-save" id="loader"></i> Assign Payroll</button>
+            <button class="btn btn-success btn-sm float-right" ng-click="assign_payroll()"><i class="fa fa-save" id="loader"></i> Assign Payroll</button>
         </div>
     </div><br/>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">All Pay Rolls</h3>
+                    <div class="card-tools">
+                        <button class="btn btn-xs btn-warning" ng-click="get_allpayroll();">Refresh</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Sr#</th>
+                                <th>Payroll type</th>
+                                <th>Payment type</th>
+                                <th>Office name</th>
+                                <th>Dept name</th>
+                                <th>Group name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="pr in getallpayroll">
+                                <td ng-bind="$index+1"></td>
+                                <td ng-bind="pr.payroll_type"></td>
+                                <td ng-bind="pr.payment_type"></td>
+                                <td ng-bind="pr.office_name"></td>
+                                <td ng-bind="pr.department_name"></td>
+                                <td ng-bind="pr.group_name"></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs btn-info" ng-click="getOnePayroll(pr.id, pr.payroll_type)" data-toggle="modal" data-target="#exampleModal" ng-click="getPayroll(pr.id)">Run Payroll</button>
+                                        <button class="btn btn-xs btn-danger">Delete</button>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Run Payroll of <span ng-if="payrolltype" ng-bind="payrolltype"></span></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                                            <div class="row">
+                                                                <div class="col-lg-3">
+                                                                    <label for="payrolltype">Payroll Type</label>
+                                                                    <p ng-bind="onePayroll.payroll_type"></p>
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <label for="payment_type">Payment Type</label>
+                                                                    <p ng-bind="onePayroll.payment_type"></p>
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <label for="office_name">Office Name</label>
+                                                                    <p ng-bind="onePayroll.office.office_name"></p>
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <label for="department_name">Department Name</label>
+                                                                    <p ng-bind="onePayroll.department.department_name"></p>
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <label for="group_name">Group Name</label>
+                                                                    <p ng-bind="onePayroll.group.group_name"></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><br/>
+                                                    <h4>Pays to Employee</h4>
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th>Employee</th>
+                                                            <th>Pay Type</th>
+                                                            <th>Pay Amount</th>
+                                                        </tr>
+                                                        <tr ng-repeat="spay in payrollpays">
+                                                            <td>
+                                                                <span ng-bind="spay.first_name"></span>
+                                                                <span ng-bind="spay.middle_name"></span>
+                                                                <span ng-bind="spay.last_name"></span>
+                                                            </td>
+                                                            <td ng-bind="spay.pay_type"></td>
+                                                            <td ng-bind="spay.pay_amount"></td>
+                                                        </tr>
+                                                    </table><br/>
+                                                    <h4>Allowance to Employee</h4>
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th>Employee</th>
+                                                            <th>Allownace Type</th>
+                                                            <th>Allowanec Amount</th>
+                                                        </tr>
+                                                        <tr ng-repeat="sallow in payrollallowance">
+                                                            <td>
+                                                                <span ng-bind="sallow.first_name"></span>
+                                                                <span ng-bind="sallow.middle_name"></span>
+                                                                <span ng-bind="sallow.last_name"></span>
+                                                            </td>
+                                                            <td ng-bind="sallow.allowance_type"></td>
+                                                            <td ng-bind="sallow.allow_amount"></td>
+                                                        </tr>
+                                                    </table><br>
+                                                    <h4>Libilities to Employee</h4>
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th>Employee</th>
+                                                            <th>Libility Type</th>
+                                                            <th>Libility Amount</th>
+                                                        </tr>
+                                                        <tr ng-repeat="slib in payrolllibility">
+                                                            <td>
+                                                                <span ng-bind="slib.first_name"></span>
+                                                                <span ng-bind="slib.middle_name"></span>
+                                                                <span ng-bind="slib.last_name"></span>
+                                                            </td>
+                                                            <td ng-bind="slib.libility_type"></td>
+                                                            <td ng-bind="slib.libility_amount"></td>
+                                                        </tr>
+                                                    </table>
+                                                    <h4>Deduction to Employee</h4>
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th>Employee</th>
+                                                            <th>Libility Type</th>
+                                                            <th>Libility Amount</th>
+                                                        </tr>
+                                                        <tr ng-repeat="sded in payrollded">
+                                                            <td>
+                                                                <span ng-bind="sded.first_name"></span>
+                                                                <span ng-bind="sded.middle_name"></span>
+                                                                <span ng-bind="sded.last_name"></span>
+                                                            </td>
+                                                            <td ng-bind="sded.deduct_type"></td>
+                                                            <td ng-bind="sded.deduct_amount"></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table><br/>
+                    <div class="text-center">
+                        <p ng-if="nomore" ng-bind="nomore"></p>
+                        <button class="btn btn-primary btn-sm btn-loadmore" ng-click="loadMore()"> <i class="fa fa-spinner" id="loadmore-spinner"></i> Load More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <input type="hidden" id="company_id" value="<?php echo session('company_id') ?>">
 <input type="hidden" id="appurl" value="<?php echo env('APP_URL') ?>">

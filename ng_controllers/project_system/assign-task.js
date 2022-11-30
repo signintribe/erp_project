@@ -84,7 +84,7 @@ TaskTierApp.controller('AssignTaskController', function ($scope, $http) {
     };
 
     $scope.getEmployees = function () {
-        $http.get($("#app_url").val() + 'hr/getEmployees').then(function (response) {
+        $http.get($("#app_url").val() + 'hr/getEmployees/'+$("#company_id").val()).then(function (response) {
             if (response.data.length > 0) {
                 $scope.Users = response.data;
             }
@@ -128,7 +128,8 @@ TaskTierApp.controller('AssignTaskController', function ($scope, $http) {
     };
 
     $scope.assignTask = function(){
-        if(!$scope.task.office_id || !$scope.task.department_id || !$scope.task.department_id || !$scope.task.assign_employee_id || !$scope.task.group_id || !$scope.task.project_id || !$scope.task.task_id){
+        /* if(!$scope.task.office_id || !$scope.task.department_id || !$scope.task.department_id || !$scope.task.assign_employee_id || !$scope.task.group_id || !$scope.task.project_id || !$scope.task.task_id){ */
+        if(!$scope.task.project_id){
             $scope.showError = true;
             jQuery("input.required").filter(function () {
                 return !this.value;
@@ -138,11 +139,12 @@ TaskTierApp.controller('AssignTaskController', function ($scope, $http) {
             $scope.task.assignment_date = $("#assignmentdate input").val();
             $scope.task.company_id = $("#company_id").val();
             $scope.appurl = $("#appurl").val();
+            $scope.task.coa = $scope.coa;
             var Data = new FormData();
             angular.forEach($scope.task, function (v, k) {
                 Data.append(k, v);
             });
-            $http.post('assign-task', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
+            $http.post('assign-project', Data, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (res) {
                 if(res.data.status == true){
                     swal({
                         title: "Save!",
@@ -157,6 +159,24 @@ TaskTierApp.controller('AssignTaskController', function ($scope, $http) {
                     $(".btn-success i").removeClass('fa-spinner fa-sw fa-pulse').addClass('fa-save');
                 }
             });
+        }
+    };
+
+    $scope.searchBudget = function(search){
+        $http.get('search-budget-detail/'+search).then(function (response) {
+            if (response.data.data.length > 0) {
+                $scope.budgetDetail = response.data.data;
+            }
+        });
+    };
+
+    $scope.coa = [];
+    $scope.getCOA = function(attr_id){
+        let index = $scope.coa.indexOf(attr_id);
+        if(index == -1){
+            $scope.coa.push(attr_id);
+        }else{
+            $scope.coa.splice(index, 1);
         }
     };
 });

@@ -1,44 +1,44 @@
 @extends('layouts.admin.taskTier')
-@section('title', 'Assign Tasks')
-@section('pagetitle', 'Assign Tasks')
-@section('breadcrumb', 'Assign Tasks')
+@section('title', 'Assign Projects')
+@section('pagetitle', 'Assign Projects')
+@section('breadcrumb', 'Assign Projects')
 @section('content')
 <div ng-controller="AssignTaskController">
     <div class="card" ng-init="resetscope()">
         <div class="card-header">
-            <h3 class="card-title">Add Project, Activity, Phase and Task</h3>
+            <h3 class="card-title">Add Projects</h3>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="office_id">* Select Office</label>
+                    <label for="office_id">Select Office</label>
                     <select ng-model="task.office_id" ng-change="getDepartments(task.office_id)" ng-options="office.id as office.office_name for office in offices" id="office_id" class="form-control">
                         <option value="">Select Office</option>
                     </select>
-                    <i class="text-danger" ng-show="!task.office_id && showError"><small>Please Select Office</small></i><br/>
+                    <!-- <i class="text-danger" ng-show="!task.office_id && showError"><small>Please Select Office</small></i><br/> -->
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="department_id">* Select Department</label>
+                    <label for="department_id">Select Department</label>
                     <select ng-model="task.department_id" id="department_id" ng-change="getGroups(task.department_id)" ng-options="dept.id as dept.department_name for dept in departments" class="form-control">
                         <option value="">Select Department</option>
                     </select>
-                    <i class="text-danger" ng-show="!task.department_id && showError"><small>Please Select Department</small></i><br/>
+                    <!-- <i class="text-danger" ng-show="!task.department_id && showError"><small>Please Select Department</small></i><br/> -->
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="group_id">* Select Employee Group</label>
+                    <label for="group_id">Select Employee Group</label>
                     <select ng-model="task.group_id" id="group_id" ng-options="group.id as group.group_name for group in groups" class="form-control">
                         <option value="">Select Employee Group</option>
                     </select>
-                    <i class="text-danger" ng-show="!task.group_id && showError"><small>Please Select Employee Group</small></i><br/>
+                    <!-- <i class="text-danger" ng-show="!task.group_id && showError"><small>Please Select Employee Group</small></i><br/> -->
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label for="assign_employee_id">* Assign to Employee Name</label>
+                    <label for="assign_employee_id">Assign to Employee Name</label>
                     <select class="form-control" ng-options="user.id as user.first_name for user in Users" ng-model="task.assign_employee_id">
                         <option value="">Select Employee</option>
                     </select>
-                    <i class="text-danger" ng-show="!task.assign_employee_id && showError"><small>Please Select Employee</small></i><br/>
+                    <!-- <i class="text-danger" ng-show="!task.assign_employee_id && showError"><small>Please Select Employee</small></i><br/> -->
                 </div>
-            </div>
+            </div><br/>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="supervise_employee_id">Supervis by</label>
@@ -63,7 +63,61 @@
                         </div>
                     </div>
                 </div>
-            </div><br/>
+            </div><hr/>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <label for="search_budget">Search Budget</label>
+                            <input type="text" ng-model="search_budget" ng-keyup="searchBudget(search_budget)" placeholder="Search Budget" id="search_budget" class="form-control">
+                        </div>
+                    </div><br/>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered" ng-if="budgetDetail">
+                                <thead>
+                                    <tr>
+                                        <th>Action</th>
+                                        <th>Account</th>
+                                        <th>Jul</th>
+                                        <th>Aug</th>
+                                        <th>Sep</th>
+                                        <th>Oct</th>
+                                        <th>Nov</th>
+                                        <th>Dec</th>
+                                        <th>Jan</th>
+                                        <th>Feb</th>
+                                        <th>Mar</th>
+                                        <th>Apr</th>
+                                        <th>May</th>
+                                        <th>Jun</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="b in budgetDetail">
+                                        <td>
+                                            <div class="text-center">
+                                                <input type="checkbox" ng-click="getCOA(b.id)" id="">
+                                            </div>
+                                        </td>
+                                        <td ng-bind="b.CategoryName"></td>
+                                        <td ng-bind="b.july"></td>
+                                        <td ng-bind="b.august"></td>
+                                        <td ng-bind="b.september"></td>
+                                        <td ng-bind="b.october"></td>
+                                        <td ng-bind="b.november"></td>
+                                        <td ng-bind="b.december"></td>
+                                        <td ng-bind="b.january"></td>
+                                        <td ng-bind="b.february"></td>
+                                        <td ng-bind="b.march"></td>
+                                        <td ng-bind="b.april"></td>
+                                        <td ng-bind="b.may"></td>
+                                        <td ng-bind="b.june"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">

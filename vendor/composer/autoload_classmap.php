@@ -154,6 +154,7 @@ return array(
     'App\\Models\\ProjectSystem\\ErpActivity' => $baseDir . '/app/Models/ProjectSystem/ErpActivity.php',
     'App\\Models\\ProjectSystem\\ErpPhase' => $baseDir . '/app/Models/ProjectSystem/ErpPhase.php',
     'App\\Models\\ProjectSystem\\ErpProject' => $baseDir . '/app/Models/ProjectSystem/ErpProject.php',
+    'App\\Models\\ProjectSystem\\ErpProjectBudget' => $baseDir . '/app/Models/ProjectSystem/ErpProjectBudget.php',
     'App\\Models\\ProjectSystem\\ErpTask' => $baseDir . '/app/Models/ProjectSystem/ErpTask.php',
     'App\\Models\\ProjectSystem\\ErpTasksAssignedDetail' => $baseDir . '/app/Models/ProjectSystem/ErpTasksAssignedDetail.php',
     'App\\Models\\Purchases\\ErpChecklist' => $baseDir . '/app/Models/Purchases/ErpChecklist.php',
