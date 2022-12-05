@@ -86,6 +86,13 @@ Route::group(['prefix'=>'hr'], function () {
   Route::resource('assign-pay-roll', 'TaskTier\hr\PayRollController');
   Route::get('get-leaves-for-apply', 'TaskTier\hr\ApplyLeaveController@get_leaves_for_apply');
   Route::get('prev-employee-leave-balance/{company_id}/{leave_id}', 'TaskTier\hr\ApplyLeaveController@prev_employee_leave_balance');
+  
+  /**
+   * Report Tier Forms
+   */
+  Route::resource('hr-report', 'ReportTier\hr\HRReportController@get_leaves_for_apply');
+
+
 });
 
 Route::group(['prefix'=>'workflow'], function () {

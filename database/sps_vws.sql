@@ -8,7 +8,7 @@
  * Created: Mar 11, 2020
  */
 
-DROP PROCEDURE `sp_categories`;
+/*DROP PROCEDURE `sp_categories`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_categories`(in categoryid int)
 BEGIN
@@ -51,7 +51,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_users`;
+/*DROP PROCEDURE `sp_users`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_users`()
 BEGIN
@@ -72,7 +72,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_companyquery`;
+/*DROP PROCEDURE `sp_companyquery`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_companyquery`(in userid int(11))
 BEGIN
@@ -145,7 +145,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_searchcompanyquery`;
+/*DROP PROCEDURE `sp_searchcompanyquery`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_searchcompanyquery`(in qstatus varchar(20), in todate varchar(20), in fromdate varchar(20))
 BEGIN
@@ -281,7 +281,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_companyfeedback`;
+/*DROP PROCEDURE `sp_companyfeedback`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_companyfeedback`(in companyid int(11))
 BEGIN
@@ -305,7 +305,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_getchildcategories`;
+/*DROP PROCEDURE `sp_getchildcategories`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getchildcategories`(in parentid int(11))
 BEGIN
@@ -325,7 +325,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_getcompanycomplaints`;
+/*DROP PROCEDURE `sp_getcompanycomplaints`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getcompanycomplaints`()
 BEGIN
@@ -346,7 +346,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_getcompanyrevenue`;
+/*DROP PROCEDURE `sp_getcompanyrevenue`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getcompanyrevenue`(in userid int(11))
 BEGIN
@@ -364,7 +364,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_getcompanyselectedcategories`;
+/*DROP PROCEDURE `sp_getcompanyselectedcategories`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getcompanyselectedcategories`(in companyid int(11))
 BEGIN
@@ -378,7 +378,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_getcompaniesofcategories`;
+/*DROP PROCEDURE `sp_getcompaniesofcategories`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getcompaniesofcategories`(in categoryid varchar(30))
 BEGIN
@@ -401,7 +401,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_getchildcategoriesforcustomer`;
+/*DROP PROCEDURE `sp_getchildcategoriesforcustomer`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getchildcategoriesforcustomer`(in parentid int(11))
 BEGIN
@@ -424,7 +424,7 @@ END$$
 DELIMITER ;
 
 
-DROP PROCEDURE `sp_getcompanyallinformations`;
+/*DROP PROCEDURE `sp_getcompanyallinformations`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getcompanyallinformations`(in companyid int(11))
 BEGIN
@@ -444,7 +444,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_getcompanyrating`;
+/*DROP PROCEDURE `sp_getcompanyrating`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getcompanyrating`(in companyid int(11))
 BEGIN
@@ -460,7 +460,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE getAccounts;
+/*DROP PROCEDURE getAccounts;*/
 DELIMITER $$
 CREATE PROCEDURE `getAccounts`()
 BEGIN  
@@ -479,7 +479,7 @@ END$$
 DELIMITER ;
 
 
-DROP PROCEDURE getGLAccount;
+/*DROP PROCEDURE getGLAccount;*/
 DELIMITER $$
 CREATE PROCEDURE `getGLAccount`()
 BEGIN  
@@ -498,7 +498,7 @@ END$$
 DELIMITER ;
 
 
-DROP PROCEDURE getAlldepartment;
+/*DROP PROCEDURE getAlldepartment;*/
 DELIMITER $$
 CREATE PROCEDURE `getAlldepartment`(in userid int(11), in deptid int(11))
 BEGIN  
@@ -665,7 +665,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE getAllregistration;
+/*DROP PROCEDURE getAllregistration;*/
 DELIMITER $$
 CREATE PROCEDURE `getAllregistration`(in userid int(11))
 BEGIN  
@@ -678,7 +678,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE getAssignedTasks;
+/*DROP PROCEDURE getAssignedTasks;*/
 DELIMITER $$
 CREATE PROCEDURE `getAssignedTasks`(in companyid int(11), in ofst int(11), in lmt int(11))
 BEGIN  
@@ -705,7 +705,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE sp_getAlloffices;
+/*DROP PROCEDURE sp_getAlloffices;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getAlloffices`(in userid int(11))
 BEGIN  
@@ -719,7 +719,7 @@ END$$
 DELIMITER ;
 
 
-DROP PROCEDURE sp_getAllcompanyCalendar;
+/*DROP PROCEDURE sp_getAllcompanyCalendar;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getAllcompanyCalendar`(in userid int(11),in calendar_id int(11))
 BEGIN  
@@ -756,7 +756,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE sp_getAllcompanyShift;
+/*DROP PROCEDURE sp_getAllcompanyShift;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getAllcompanyShift`(in userid int(11),in shift_id int(11))
 BEGIN  
@@ -797,7 +797,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE sp_getAllEmployeeGroup;
+/*DROP PROCEDURE sp_getAllEmployeeGroup;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getAllEmployeeGroup`(in companyid int(11),in group_id int(11))
 BEGIN  
@@ -838,7 +838,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE sp_getAllEmployeeDesignation;
+/*DROP PROCEDURE sp_getAllEmployeeDesignation;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getAllEmployeeDesignation`(in companyid int(11),in designation_id int(11))
 BEGIN  
@@ -886,7 +886,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE sp_getAllEmployeePayscale;
+/*DROP PROCEDURE sp_getAllEmployeePayscale;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getAllEmployeePayscale`(in userid int(11),in payscale_id int(11))
 BEGIN  
@@ -932,7 +932,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE sp_getAllEmployeeJDS;
+/*DROP PROCEDURE sp_getAllEmployeeJDS;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getAllEmployeeJDS`(in userid int(11),in jd_id int(11))
 BEGIN  
@@ -977,7 +977,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE sp_getAllGazzetedHoliday;
+/*DROP PROCEDURE sp_getAllGazzetedHoliday;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getAllGazzetedHoliday`(in userid int(11),in holiday_id int(11))
 BEGIN  
@@ -1018,7 +1018,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE sp_getAllYearlyLeaves;
+/*DROP PROCEDURE sp_getAllYearlyLeaves;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getAllYearlyLeaves`(in userid int(11),in leave_id int(11))
 BEGIN  
@@ -1059,7 +1059,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE sp_getPayAllowance;
+/*DROP PROCEDURE sp_getPayAllowance;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getPayAllowance`(in userid int(11),in pay_id int(11))
 BEGIN  
@@ -1104,7 +1104,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE sp_getEmploeeAddress;
+/*DROP PROCEDURE sp_getEmploeeAddress;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getEmploeeAddress`(in addressid int(11), in cid int(11))
 BEGIN  
@@ -1138,7 +1138,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE sp_getEmploeeSpouse;
+/*DROP PROCEDURE sp_getEmploeeSpouse;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getEmploeeSpouse`(IN `spouseid` INT(11), in cid INT(11))
     NO SQL
@@ -1169,7 +1169,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-Drop PROCEDURE sp_getEmployeeEducation;
+/*Drop PROCEDURE sp_getEmployeeEducation;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getEmployeeEducation`(IN `educationid` INT(11), in cid INT(11))
     NO SQL
@@ -1194,7 +1194,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-Drop PROCEDURE sp_getEmployeeCertification;
+/*Drop PROCEDURE sp_getEmployeeCertification;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getEmployeeCertification`(IN `certificationid` INT(11), in cid INT(11))
     NO SQL
@@ -1219,7 +1219,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-Drop PROCEDURE sp_getEmployeeExperience;
+/*Drop PROCEDURE sp_getEmployeeExperience;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getEmployeeExperience`(IN `expid` INT(11), in cid INT(11))
     NO SQL
@@ -1244,7 +1244,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-Drop PROCEDURE sp_getEmployeeOrgAssignment;
+/*Drop PROCEDURE sp_getEmployeeOrgAssignment;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getEmployeeOrgAssignment`(IN `orgid` INT(11), in cid INT(11))
     NO SQL
@@ -1283,7 +1283,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-Drop PROCEDURE sp_getEmployeePayEmolument;
+/*Drop PROCEDURE sp_getEmployeePayEmolument;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getEmployeePayEmolument`(IN `payid` INT(11), in cid INT(11))
     NO SQL
@@ -1308,7 +1308,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-Drop PROCEDURE sp_getEmployeeBankDetail;
+/*Drop PROCEDURE sp_getEmployeeBankDetail;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getEmployeeBankDetail`(IN `bankid` INT(11), in cid INT(11))
     NO SQL
@@ -1333,7 +1333,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-Drop PROCEDURE sp_getEmployeeJobDescription;
+/*Drop PROCEDURE sp_getEmployeeJobDescription;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getEmployeeJobDescription`(IN `jobid` INT(11), in cid INT(11))
     NO SQL
@@ -1358,7 +1358,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-Drop PROCEDURE sp_getEmployeeTasks;
+/*Drop PROCEDURE sp_getEmployeeTasks;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getEmployeeTasks`(IN `taskid` INT(11), in cid INT(11))
     NO SQL
@@ -1383,7 +1383,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE sp_getVendorContact;
+/*DROP PROCEDURE sp_getVendorContact;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getVendorContact`(in userid int(11))
 BEGIN  
@@ -1401,7 +1401,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_getinventoryinfo`;
+/*DROP PROCEDURE `sp_getinventoryinfo`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getinventoryinfo`(IN `userid` INT(11))
 BEGIN
@@ -1421,7 +1421,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_getusermenus`;
+/*DROP PROCEDURE `sp_getusermenus`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getusermenus`(IN `userid` INT(11), IN `forms` INT(1), IN `module` INT(1), IN `tier` INT(1), `parentid` INT(11))
 BEGIN
@@ -1477,7 +1477,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_getquotations`;
+/*DROP PROCEDURE `sp_getquotations`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getquotations`(IN `quotationid` INT(11))
 BEGIN
@@ -1507,7 +1507,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `sp_getsalequotations`;
+/*DROP PROCEDURE `sp_getsalequotations`;*/
 DELIMITER $$
 CREATE PROCEDURE `sp_getsalequotations`(IN `quotationid` INT(11))
 BEGIN
@@ -1537,7 +1537,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE `get_account_categories`;
+/*DROP PROCEDURE `get_account_categories`;*/
 DELIMITER $$
 CREATE PROCEDURE get_account_categories (IN ParentcategoryId INT)
 BEGIN
