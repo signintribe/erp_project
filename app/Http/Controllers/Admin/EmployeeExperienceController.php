@@ -15,6 +15,15 @@ use App\Models\VendorModels\tblcompanydetail;
 class EmployeeExperienceController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth');
+    }
+    
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -44,18 +53,19 @@ class EmployeeExperienceController extends Controller
      */
     public function store(Request $request)
     {
+        //return $request->all();
         if($request->id){
-            $addressdata = $request->except(['created_at', 'updated_at', 'id', 'user_id', 'address_id', 'whatsapp', 'contact_id', 'phone_number','mobile_number', 'fax_number', 'email', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period','remarks_employee']);
-            $contactdata = $request->except(['created_at', 'updated_at', 'id', 'user_id', 'address_id',  'whatsapp', 'contact_id', 'address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period','remarks_employee']);
-            $expdata = $request->except(['created_at', 'updated_at', 'id', 'user_id', 'address_id',  'whatsapp', 'contact_id', 'address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number','mobile_number', 'fax_number', 'email']);
+            $addressdata = $request->except(['created_at', 'updated_at', 'id', 'user_id', 'address_id', 'whatsapp', 'contact_id', 'phone_number','mobile_number', 'fax_number', 'email', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period', 'salary', 'worked_country', 'remarks_employee']);
+            $contactdata = $request->except(['created_at', 'updated_at', 'id', 'user_id', 'address_id',  'whatsapp', 'contact_id', 'address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period', 'salary', 'worked_country', 'remarks_employee', 'wechat']);
+            $expdata = $request->except(['created_at', 'updated_at', 'id', 'user_id', 'address_id',  'whatsapp', 'contact_id', 'address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number','mobile_number', 'fax_number', 'email', 'wechat']);
             tbladdress::where('id', $request->address_id)->update($addressdata);
             tblcontact::where('id', $request->contact_id)->update($contactdata);
             erp_employee_experience::where('id', $request->id)->update($expdata);
             return "Update Employee Experience";
         }else{
-            $addressdata = $request->except(['phone_number','mobile_number', 'fax_number', 'email', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period','remarks_employee']);
-            $contactdata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period','remarks_employee']);
-            $expdata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number','mobile_number', 'fax_number', 'email']);
+            $addressdata = $request->except(['phone_number','mobile_number', 'fax_number', 'email', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period', 'salary', 'worked_country','remarks_employee']);
+            $contactdata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'employee_id','designation','organization','reference_number','worked_to','worked_from','total_period', 'salary', 'worked_country', 'remarks_employee', 'wechat']);
+            $expdata = $request->except(['address_line_1', 'address_line_2', 'address_line_3', 'street', 'sector', 'city', 'state', 'country', 'postal_code', 'zip_code', 'phone_number','mobile_number', 'fax_number', 'email', 'wechat']);
             $address = tbladdress::create($addressdata);
             $contact = tblcontact::create($contactdata);
             $expdata['address_id'] = $address->id;

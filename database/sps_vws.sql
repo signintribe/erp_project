@@ -2666,7 +2666,8 @@ DELIMITER $$
 CREATE PROCEDURE `sp_getEmploeeAddress`(in addressid int(11), in cid int(11))
 BEGIN  
     IF addressid <> 0 THEN
-      SELECT empinfo.id as employee_id, empinfo.first_name, empinfo.middle_name, empinfo.last_name,
+      SELECT empinfo.id as employee_id, empinfo.first_name, empinfo.middle_name, 
+      empinfo.last_name,
       addr.* 
       FROM (
         SELECT id, company_id, 

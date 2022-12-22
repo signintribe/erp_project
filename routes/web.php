@@ -90,7 +90,8 @@ Route::group(['prefix'=>'hr'], function () {
   /**
    * Report Tier Forms
    */
-  Route::resource('hr-report', 'ReportTier\hr\HRReportController@get_leaves_for_apply');
+  Route::resource('hr-report', 'ReportTier\hr\HRReportController');
+  Route::post('get-hr-report', 'ReportTier\hr\HRReportController@get_hr_report');
 
 
 });

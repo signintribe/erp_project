@@ -10,9 +10,51 @@ CreateTierApp.controller('ExperienceController', function ($scope, $http) {
     $("#employee a[href='#']").addClass('active');
     $("#employee-experience").addClass('active');
     $scope.experience = {};
+    $scope.totalPeriod = function(){
+        var checkBox = document.getElementById("prsnt");
+        if (checkBox.checked == true){
+            const date = new Date();
+
+            let cday = date.getDate();
+            let cmonth = date.getMonth() + 1;
+            let cyear = date.getFullYear();
+
+            let currentDate = `${cyear}-${cmonth}-${cday}`;
+            console.log(currentDate);
+            const date1 = new Date($scope.experience.worked_from);
+            const date2 = new Date(currentDate);
+            var diff = Math.floor(date2.getTime() - date1.getTime());
+            var day = 1000 * 60 * 60 * 24;
+            var days = Math.floor(diff/day);
+            var months = Math.floor(days/31);
+            var years = Math.floor(months/12);
+            var message = days + " days ";
+            message += months + " months ";
+            message += years + " years";
+            $scope.experience.total_period = message;
+            $scope.experience.worked_to = 'present';
+            alert($scope.experience.worked_to);
+        } else {
+            if($scope.experience.worked_to){
+                const date1 = new Date($scope.experience.worked_from);
+                const date2 = new Date($scope.experience.worked_to);
+                var diff = Math.floor(date2.getTime() - date1.getTime());
+                var day = 1000 * 60 * 60 * 24;
+                var days = Math.floor(diff/day);
+                var months = Math.floor(days/31);
+                var years = Math.floor(months/12);
+                var message = days + " days ";
+                message += months + " months ";
+                message += years + " years";
+                $scope.experience.total_period = message;
+            }else{
+                $scope.experience.total_period = "";
+            }
+        }
+    };
     $scope.appurl = $("#app_url").val();
     $scope.getEmployees = function () {
-        $http.get('getEmployees').then(function (response) {
+        $http.get('getEmployees/'+$("#company_id").val()).then(function (response) {
             if (response.data.length > 0) {
                 $scope.Users = response.data;
             }

@@ -148,6 +148,7 @@
         </div>
     </div><br/>
 </div>
+<input type="hidden" id="company_id" value="<?php echo session('company_id'); ?>">
 @endsection
 @section('internaljs')
 <script src="{{asset('ng_controllers/creation_hr/employee-address.js')}}"></script>

@@ -3,7 +3,7 @@ CreateTierApp.controller('AddressController', function ($scope, $http) {
     $("#employee a[href='#']").addClass('active');
     $("#employee-address").addClass('active');
     $scope.getEmployees = function () {
-        $http.get('getEmployees').then(function (response) {
+        $http.get('getEmployees/'+$("#company_id").val()).then(function (response) {
             if (response.data.length > 0) {
                 $scope.Users = response.data;
             }
@@ -13,7 +13,7 @@ CreateTierApp.controller('AddressController', function ($scope, $http) {
     $scope.getAddress = function (address_id) {
         $scope.Addresses = {};
         $("#record-loader").html('<i class="fa fa-spinner fa-sw fa-3x fa-pulse"></i>');
-        $http.get('maintain-employee-address').then(function (response) {
+        $http.get('maintain-employee-address/' + address_id).then(function (response) {
             if (response.data.length > 0) {
                 $scope.Addresses = response.data;
                 $("#record-loader").empty();

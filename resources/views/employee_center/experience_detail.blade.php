@@ -49,18 +49,34 @@
                     <label for="worked_to">Worked to</label>
                     <div class="form-group">
                         <div class="input-group date" id="worked_to" data-target-input="nearest">
-                            <input type="text" placeholder="Worked To" ng-model="experience.worked_to" class="form-control datetimepicker-input" data-target="#worked_to"/>
+                            <input type="text" placeholder="Worked To" ng-model="experience.worked_to" ng-blur="totalPeriod()" class="form-control datetimepicker-input" data-target="#worked_to"/>
                             <div class="input-group-append" data-target="#worked_to" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-3 col-sm-3 col-md-3">
+                    <label for="present">Present</label>
+                    <p class="form-control">
+                        <input type="checkbox" ng-click="totalPeriod()" id="prsnt"> <label for="prsnt">Present</label>
+                    </p>
+                </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
                     <label for="total_period">Total Period</label>
                     <input type="text" class="form-control" id="total_period" ng-model="experience.total_period" placeholder="Total Period"/>
                 </div>
             </div><br/>
+            <div class="row">
+                <div class="col-lg-3 col-sm-3 col-md-3">
+                    <label for="salary">Salary on this position</label>
+                    <input type="text" ng-model="experience.salary" id="salary" placeholder="Salary on this position" class="form-control">
+                </div>
+                <div class="col-lg-3 col-sm-3 col-md-3">
+                    <label for="country">Worked Country</label>
+                    <input type="text" ng-model="experience.worked_country" id="country" placeholder="Worked Country" class="form-control">
+                </div>
+            </div><br>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <label for="remarks_employee">Remarks of Employer</label>
@@ -225,6 +241,8 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="company_id" value="<?php echo session('company_id') ?>">
+<input type="hidden" id="app_url" value="<?php echo env('APP_URL') ?>">
 @endsection
 @section('internaljs')
 <script src="{{asset('ng_controllers/creation_hr/experience_detail.js')}}"></script>

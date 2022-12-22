@@ -21,7 +21,7 @@ class EmployeeAddressController extends Controller
      */
     public function index()
     {
-        
+        return "Hello";
     }
 
     /**
@@ -72,8 +72,8 @@ class EmployeeAddressController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        return DB::select('call sp_getEmploeeAddress(0, '.$id.')');
+    {   
+        return DB::select('call sp_getEmploeeAddress('.$id.', '.session("company_id").')');
     }
 
     /**

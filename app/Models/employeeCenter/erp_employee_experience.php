@@ -15,6 +15,8 @@ class erp_employee_experience extends Model
         'worked_to',
         'worked_from',
         'total_period',
+        'salary',
+        'worked_country',
         'remarks_employee',
         'contact_id',
         'address_id',
