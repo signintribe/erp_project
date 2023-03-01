@@ -52,6 +52,7 @@ use AuthenticatesUsers;
                 }
                 if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
                     session(['company_id' => $input['company_id']]);
+                    //return auth()->user()->is_admin;
                     if (auth()->user()->is_admin == 1) {
                         return redirect()->route('adminhome');
                     } else if (auth()->user()->is_admin == 0) {
@@ -71,8 +72,10 @@ use AuthenticatesUsers;
                 if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
                     if (auth()->user()->is_admin == 4) {
                         return redirect()->route('superadmin');
+                    }else{
+                        return view('admin.adminHome');
                     }
-                } else {
+                } else if(auth()->user()->is_admin == 0) {
                     return redirect()->route('open-company')->withInput()->withErrors(['password' => 'Email-Address Or Password Are Wrong.']);
                 }
             }
