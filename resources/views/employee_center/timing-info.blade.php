@@ -4,7 +4,7 @@
 @section('breadcrumb', 'Employees Timing Info')
 @section('content')
 <div ng-controller="AdminDashboardController">
-    
+    asf
 </div>
 @endsection
 @section('internaljs')
